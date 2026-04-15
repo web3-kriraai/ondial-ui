@@ -7,7 +7,7 @@ export const MAIN_NAV = [
   { href: "/pricing", label: "Pricing" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/login", label: "Login" },
 ] as const;
 
 export type MainNavItem = (typeof MAIN_NAV)[number];

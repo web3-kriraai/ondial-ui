@@ -119,7 +119,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
     /* Frame color comes from layout (`bg-black`); inner app uses light `bg-background` in `SiteShell`. */

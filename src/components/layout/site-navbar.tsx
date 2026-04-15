@@ -55,17 +55,18 @@ function mobileLinkClassName(active: boolean) {
 }
 
 const glassBar = cn(
-  "relative isolate overflow-hidden border border-border/55",
-  "bg-background/[0.52] shadow-[0_10px_40px_-14px_rgba(15,23,42,0.2),inset_0_1px_0_0_rgba(255,255,255,0.78)]",
-  "backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:bg-background/[0.38]",
-  "dark:border-white/12 dark:shadow-[0_12px_44px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.08)]",
-  "before:pointer-events-none before:absolute before:inset-x-2.5 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-foreground/[0.12] before:to-transparent sm:before:inset-x-3.5"
+  "relative isolate overflow-hidden border-0 md:border md:border-border/55",
+  "bg-background/88 shadow-[0_8px_28px_-12px_rgba(15,23,42,0.12)] md:bg-background/52 md:shadow-[0_10px_40px_-14px_rgba(15,23,42,0.2),inset_0_1px_0_0_rgba(255,255,255,0.78)]",
+  "max-md:[backdrop-filter:none] md:backdrop-blur-2xl md:backdrop-saturate-150 supports-backdrop-filter:md:bg-background/38",
+  "dark:md:border-white/12 dark:shadow-[0_10px_36px_-14px_rgba(0,0,0,0.45)] dark:md:shadow-[0_12px_44px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.08)]",
+  "before:pointer-events-none before:absolute before:inset-x-2.5 before:top-0 before:h-px before:bg-linear-to-r before:from-transparent before:via-foreground/12 before:to-transparent sm:before:inset-x-3.5",
+  "max-md:before:hidden"
 );
 
 /** Extra inset around links so the inner pill feels airy (not cramped to the track edge). */
 const navTrack = cn(
   "relative flex min-h-0 w-fit max-w-full shrink-0 items-center gap-1 self-stretch rounded-full p-1 sm:gap-1.5 sm:p-1.5",
-  "bg-gradient-to-b from-muted/55 to-muted/35 ring-1 ring-inset ring-foreground/[0.06]",
+  "bg-linear-to-b from-muted/55 to-muted/35 ring-1 ring-inset ring-foreground/6",
   "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)]"
 );
 
@@ -193,7 +194,7 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
   const mobileDrawer =
     mounted && mobileOpen ? (
       createPortal(
-        <div className="fixed inset-0 z-[200] md:hidden">
+        <div className="fixed inset-0 z-200 md:hidden">
           <button
             type="button"
             className={cn(
@@ -210,11 +211,11 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
             aria-modal="true"
             aria-labelledby={titleId}
             className={cn(
-              "absolute right-0 top-0 z-10 flex h-[100dvh] max-h-[100dvh] w-[min(22.5rem,calc(100vw-12px))] flex-col",
-              "border-l border-white/30 bg-gradient-to-b from-background/[0.93] via-background/[0.88] to-background/[0.94]",
+              "absolute right-0 top-0 z-10 flex h-dvh max-h-dvh w-[min(22.5rem,calc(100vw-12px))] flex-col",
+              "border-l border-white/30 bg-linear-to-b from-background/93 via-background/88 to-background/94",
               "pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] pl-5 pr-4",
-              "shadow-[-28px_0_56px_-28px_rgba(15,23,42,0.42)] backdrop-blur-2xl backdrop-saturate-150 supports-[backdrop-filter]:from-background/[0.82] supports-[backdrop-filter]:via-background/[0.78] supports-[backdrop-filter]:to-background/[0.85]",
-              "rounded-l-[1.875rem] ring-1 ring-black/[0.05] dark:border-white/12 dark:ring-white/10",
+              "shadow-[-28px_0_56px_-28px_rgba(15,23,42,0.42)] backdrop-blur-2xl backdrop-saturate-150 supports-backdrop-filter:from-background/82 supports-backdrop-filter:via-background/78 supports-backdrop-filter:to-background/85",
+              "rounded-l-[1.875rem] ring-1 ring-black/5 dark:border-white/12 dark:ring-white/10",
               "transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none motion-reduce:translate-x-0",
               drawerEntered ? "translate-x-0" : "translate-x-full"
             )}
@@ -227,7 +228,7 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
                 >
                   Navigation
                 </p>
-                <p className="mt-2 max-w-[14rem] text-pretty text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-2 max-w-56 text-pretty text-sm leading-relaxed text-muted-foreground">
                   Tap the backdrop or close to dismiss.
                 </p>
               </div>
@@ -271,8 +272,13 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
 
   return (
     <>
-      <header className={cn("sticky top-0 z-50 w-full pt-3 pb-2 md:pt-4 md:pb-3", className)}>
-        <div className="mx-auto flex w-full justify-center px-2 sm:px-3">
+      <header
+        className={cn(
+          "sticky top-0 z-60 isolate w-full bg-transparent pt-1 pb-2 md:pb-3",
+          className
+        )}
+      >
+        <div className="relative z-1 mx-auto flex w-full justify-end px-2 sm:px-3 md:justify-center">
           <div
             className={cn(
               "flex w-fit max-w-[min(100%,calc(100vw-1.25rem))] shrink-0 items-center rounded-full p-1 sm:p-1.5",
@@ -309,18 +315,27 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
               {end}
               <Button
                 type="button"
-                variant="outline"
+                variant="ghost"
                 size="icon-sm"
                 className={cn(
-                  "size-9 rounded-full border-border/60 bg-background/55 shadow-sm backdrop-blur-md md:hidden",
-                  "hover:bg-muted/65 active:scale-[0.96] motion-reduce:active:scale-100"
+                  "relative z-2 touch-manipulation md:hidden",
+                  "size-10 min-h-11 min-w-11 rounded-full border-0 ring-0",
+                  "bg-background/70 text-foreground backdrop-blur-md",
+                  "shadow-[0_1px_3px_rgba(15,23,42,0.06)] dark:bg-white/10 dark:shadow-[0_1px_3px_rgba(0,0,0,0.45)]",
+                  "hover:bg-background/92 hover:shadow-[0_4px_20px_rgba(15,23,42,0.1)] dark:hover:bg-white/15",
+                  "active:scale-[0.96] motion-reduce:active:scale-100",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 )}
                 aria-expanded={mobileOpen}
                 aria-controls={menuId}
                 aria-label={mobileOpen ? "Close menu" : "Open menu"}
                 onClick={() => setMobileOpen((o) => !o)}
               >
-                {mobileOpen ? <X className="size-4" aria-hidden /> : <Menu className="size-4" aria-hidden />}
+                {mobileOpen ? (
+                  <X className="size-5 stroke-[1.75]" aria-hidden />
+                ) : (
+                  <Menu className="size-5 stroke-[1.75]" aria-hidden />
+                )}
               </Button>
             </div>
           </div>

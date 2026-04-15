@@ -23,7 +23,13 @@ export function SiteShell({ children, header, footer }: SiteShellProps) {
 
   return (
     <div className="box-border flex min-h-0 flex-1 flex-col p-2 sm:p-3 lg:p-4">
-      <div className="flex min-h-0 min-h-full flex-1 flex-col overflow-x-clip overflow-y-visible rounded-2xl border border-border/80 bg-background text-foreground shadow-sm">
+      <div className="flex relative min-h-full flex-1 flex-col overflow-x-clip overflow-y-visible rounded-2xl bg-background text-foreground shadow-sm">
+      <div className="absolute z-50 h-22 w-52 overflow-hidden bg-black">
+        <div className="absolute right-[12.5%] top-[21.3%] z-2 h-10 w-1/6 rounded-br-[20px]  bg-black" />
+        <div className="absolute right-[12.5%] top-[21.3%] z-1 h-10 w-1/6 rounded-tl-[20px] bg-white" />
+        <div className="absolute inset-y-0 right-0 w-1/8 rounded-br-[30px] rounded-tl-[20px] bg-white" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 rounded-tl-[20px] bg-white" />
+      </div>
         {nav}
         <main id="main-content" className="relative z-0 flex min-h-0 flex-1 flex-col outline-none" tabIndex={-1}>
           {children}
