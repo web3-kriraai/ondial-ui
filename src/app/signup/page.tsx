@@ -1,34 +1,15 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-
-import { MarketingPageBody } from "@/components/layout/marketing-page-body";
-import { Button } from "@/components/ui/button";
+import { SignupForm } from "./signup-form";
 
 export const metadata: Metadata = {
-  title: "Sign up",
-  description: "Create an account.",
-  robots: { index: false, follow: true },
+  title: "Sign up | Ondial",
+  description: "Create your Ondial account to get started.",
 };
 
 export default function SignupPage() {
   return (
-    <MarketingPageBody
-      title="Sign up"
-      description="Public page shell — wire registration to your API when you are ready."
-    >
-      <div className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">
-          Replace this block with your registration fields and validation.
-        </p>
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <Button render={<Link href="/login" prefetch />} nativeButton={false}>
-            Log in
-          </Button>
-          <Button variant="outline" render={<Link href="/" prefetch />} nativeButton={false}>
-            Back home
-          </Button>
-        </div>
-      </div>
-    </MarketingPageBody>
+    <div className="flex min-h-0 flex-1 flex-col items-center justify-center bg-muted/25 px-4 pb-10 pt-42 sm:pt-38 sm:px-6">
+      <SignupForm />
+    </div>
   );
 }

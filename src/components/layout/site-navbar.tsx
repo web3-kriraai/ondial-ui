@@ -54,20 +54,23 @@ function mobileLinkClassName(active: boolean) {
   );
 }
 
+/** White pill + soft edge / shadow like the reference (light gray rim, diffused lift). */
 const glassBar = cn(
-  "relative isolate overflow-hidden border-0 md:border md:border-border/55",
-  "bg-background/88 shadow-[0_8px_28px_-12px_rgba(15,23,42,0.12)] md:bg-background/52 md:shadow-[0_10px_40px_-14px_rgba(15,23,42,0.2),inset_0_1px_0_0_rgba(255,255,255,0.78)]",
-  "max-md:[backdrop-filter:none] md:backdrop-blur-2xl md:backdrop-saturate-150 supports-backdrop-filter:md:bg-background/38",
-  "dark:md:border-white/12 dark:shadow-[0_10px_36px_-14px_rgba(0,0,0,0.45)] dark:md:shadow-[0_12px_44px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.08)]",
-  "before:pointer-events-none before:absolute before:inset-x-2.5 before:top-0 before:h-px before:bg-linear-to-r before:from-transparent before:via-foreground/12 before:to-transparent sm:before:inset-x-3.5",
+  "relative isolate overflow-hidden rounded-full border border-zinc-200/90",
+  "bg-linear-to-b from-white via-zinc-50/80 to-zinc-100/45",
+  "shadow-[0_6px_28px_-10px_rgba(15,23,42,0.12),0_2px_10px_-4px_rgba(15,23,42,0.08),inset_0_1px_0_0_rgba(255,255,255,0.95)]",
+  "dark:border-white/12 dark:from-white/12 dark:via-white/8 dark:to-white/[0.04]",
+  "dark:shadow-[0_10px_36px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.1)]",
+  "md:backdrop-blur-md md:backdrop-saturate-150 supports-backdrop-filter:md:from-white/90",
+  "before:pointer-events-none before:absolute before:inset-x-3 before:top-0 before:h-px before:bg-linear-to-r before:from-transparent before:via-zinc-300/40 before:to-transparent sm:before:inset-x-4",
   "max-md:before:hidden"
 );
 
-/** Extra inset around links so the inner pill feels airy (not cramped to the track edge). */
+/** Inner track — subtle zinc gradient so links sit in a soft inset. */
 const navTrack = cn(
   "relative flex min-h-0 w-fit max-w-full shrink-0 items-center gap-1 self-stretch rounded-full p-1 sm:gap-1.5 sm:p-1.5",
-  "bg-linear-to-b from-muted/55 to-muted/35 ring-1 ring-inset ring-foreground/6",
-  "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)]"
+  "bg-linear-to-b from-zinc-100/90 to-zinc-200/50 ring-1 ring-inset ring-zinc-300/35",
+  "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.75)] dark:from-white/8 dark:to-white/4 dark:ring-white/10"
 );
 
 export type SiteNavbarProps = {
@@ -238,7 +241,7 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
                 size="icon-sm"
                 data-nav-close
                 className={cn(
-                  "size-9 shrink-0 rounded-full border-border/60 bg-background/70 shadow-sm backdrop-blur-sm",
+                  "size-9 shrink-0 rounded-full border-border/60 bg-transparent shadow-sm backdrop-blur-sm",
                   "hover:border-border hover:bg-muted/70"
                 )}
                 aria-label="Close menu"
@@ -274,7 +277,7 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
     <>
       <header
         className={cn(
-          "sticky top-0 z-60 isolate w-full bg-transparent pt-1 pb-2 md:pb-3",
+          "sticky top-0 z-60 isolate w-full bg-transparent pt-1 pb-0",
           className
         )}
       >
@@ -320,9 +323,8 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
                 className={cn(
                   "relative z-2 touch-manipulation md:hidden",
                   "size-10 min-h-11 min-w-11 rounded-full border-0 ring-0",
-                  "bg-background/70 text-foreground backdrop-blur-md",
-                  "shadow-[0_1px_3px_rgba(15,23,42,0.06)] dark:bg-white/10 dark:shadow-[0_1px_3px_rgba(0,0,0,0.45)]",
-                  "hover:bg-background/92 hover:shadow-[0_4px_20px_rgba(15,23,42,0.1)] dark:hover:bg-white/15",
+                  "bg-transparent text-foreground backdrop-blur-md",
+                  "hover:bg-transparent hover:shadow-[0_4px_20px_rgba(15,23,42,0.1)]",
                   "active:scale-[0.96] motion-reduce:active:scale-100",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 )}

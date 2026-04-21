@@ -21,17 +21,48 @@ export function SiteShell({ children, header, footer }: SiteShellProps) {
   const nav = header === null ? null : header === undefined ? <SiteNavbar /> : header;
   const foot = footer === null ? null : footer === undefined ? <SiteFooter /> : footer;
 
+  /** Pulls main under the sticky header so page bg starts at the top; padding keeps content below the bar. */
+  const mainOverlap = "mt-[calc(-1*(env(safe-area-inset-top)+5.5rem))]";
+
   return (
-    <div className="box-border flex min-h-0 flex-1 flex-col p-2 sm:p-3 lg:p-4">
-      <div className="flex relative min-h-full flex-1 flex-col overflow-x-clip overflow-y-visible rounded-2xl bg-background text-foreground shadow-sm">
-      <div className="absolute z-50 h-22 w-52 overflow-hidden bg-black">
-        <div className="absolute right-[12.5%] top-[21.3%] z-2 h-10 w-1/6 rounded-br-[20px]  bg-black" />
-        <div className="absolute right-[12.5%] top-[21.3%] z-1 h-10 w-1/6 rounded-tl-[20px] bg-white" />
-        <div className="absolute inset-y-0 right-0 w-1/8 rounded-br-[30px] rounded-tl-[20px] bg-white" />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 rounded-tl-[20px] bg-white" />
-      </div>
-        {nav}
-        <main id="main-content" className="relative z-0 flex min-h-0 flex-1 flex-col outline-none" tabIndex={-1}>
+    <div className="box-border flex h-dvh min-h-0 flex-col bg-black p-2 sm:p-3 lg:p-4">
+      <div className="relative flex h-full min-h-0 flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-background text-foreground shadow-[0_24px_64px_-24px_rgba(0,0,0,0.45)] scroll-smooth">
+        <div className="sticky top-0 z-60 w-full shrink-0">
+          {/* Corner notch — sits above main so content can extend underneath */}
+          <svg
+            width="180"
+            height="90"
+            viewBox="240 100 180 90"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            shapeRendering="geometricPrecision"
+            className="pointer-events-none absolute  -left-px -top-px z-50"
+            aria-hidden
+          >
+            
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M400 100 Q380 100 380 120 V140 Q380 160 360 160 L260 160 Q240 160 240 180 V100 Z"
+              fill="black"
+              stroke="black"
+              strokeWidth="2"
+            />
+            <image
+              href="/white-text-logo.svg"
+              x="255"
+              y="115"
+              width="120"
+              height="33"
+            />
+          </svg>
+          {nav}
+        </div>
+        <main
+          id="main-content"
+          className={`relative z-0 flex min-h-0 flex-1 flex-col outline-none ${mainOverlap}`}
+          tabIndex={-1}
+        >
           {children}
         </main>
         {foot}

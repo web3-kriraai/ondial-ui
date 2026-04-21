@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 
 import { SiteShell } from "@/components/layout/site-shell";
 import { AppProviders } from "@/components/providers/app-providers";
@@ -14,6 +14,12 @@ const fontSans = Geist({
 const fontMono = Geist_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
+});
+
+const fontDisplay = Playfair_Display({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
 });
 
 export const metadata: Metadata = {
@@ -32,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontSans.variable} ${fontMono.variable} h-full antialiased`}
+      className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="flex min-h-dvh  flex-col">
