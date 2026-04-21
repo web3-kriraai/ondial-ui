@@ -1,7 +1,8 @@
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteNavbar } from "@/components/layout/site-navbar";
+import { cn } from "@/lib/utils";
 
 type SiteShellProps = {
   children: ReactNode;
@@ -15,18 +16,31 @@ type SiteShellProps = {
    * Pass `null` to hide.
    */
   footer?: ReactNode | null;
+  /** Merged onto `<main>` (e.g. column flex for page/auth children). */
+  mainClassName?: string;
+  /** Ref to the rounded card’s scroll container (e.g. scroll reset on client navigation). */
+  shellScrollerRef?: Ref<HTMLDivElement>;
 };
 
-export function SiteShell({ children, header, footer }: SiteShellProps) {
+export function SiteShell({ children, header, footer, mainClassName, shellScrollerRef }: SiteShellProps) {
   const nav = header === null ? null : header === undefined ? <SiteNavbar /> : header;
   const foot = footer === null ? null : footer === undefined ? <SiteFooter /> : footer;
 
   /** Pulls main under the sticky header so page bg starts at the top; padding keeps content below the bar. */
   const mainOverlap = "mt-[calc(-1*(env(safe-area-inset-top)+5.5rem))]";
+  // Outer shell: bottom padding matches sides so the black frame shows under the rounded card (same as top).
+  const shellFrame =
+    "box-border flex h-dvh min-h-0 flex-col bg-black px-2 pt-2 pb-2 sm:px-3 sm:pt-3 sm:pb-3 lg:px-4 lg:pt-4 lg:pb-4";
 
   return (
-    <div className="box-border flex h-dvh min-h-0 flex-col bg-black p-2 sm:p-3 lg:p-4">
-      <div className="relative flex h-full min-h-0 flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-background text-foreground shadow-[0_24px_64px_-24px_rgba(0,0,0,0.45)] scroll-smooth">
+    <div className={shellFrame}>
+      <div
+        ref={shellScrollerRef}
+        className={cn(
+          "relative flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-background text-foreground shadow-[0_24px_64px_-24px_rgba(0,0,0,0.45)]",
+          "scroll-auto"
+        )}
+      >
         <div className="sticky top-0 z-60 w-full shrink-0">
           {/* Corner notch — sits above main so content can extend underneath */}
           <svg
@@ -39,7 +53,6 @@ export function SiteShell({ children, header, footer }: SiteShellProps) {
             className="pointer-events-none absolute  -left-px -top-px z-50"
             aria-hidden
           >
-            
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -48,19 +61,23 @@ export function SiteShell({ children, header, footer }: SiteShellProps) {
               stroke="black"
               strokeWidth="2"
             />
-            <image
-              href="/white-text-logo.svg"
-              x="255"
-              y="115"
-              width="120"
-              height="33"
-            />
+            <image href="/white-text-logo.svg" x="255" y="115" width="120" height="33" />
           </svg>
           {nav}
         </div>
         <main
           id="main-content"
-          className={`relative z-0 flex min-h-0 flex-1 flex-col outline-none ${mainOverlap}`}
+          className={cn(
+            "relative z-0 flex min-h-0 min-w-0 flex-col bg-background outline-none",
+            /**
+             * Short page: `grow` lets `main` absorb space under the header so the footer (incl. bottom border)
+             * sits at the bottom of the shell. Tall page: footer follows content end (scroll). Bottom border
+             * lives on `SiteFooter` so it scrolls with content — not on this `h-full` scroller (would pin to viewport).
+             */
+            "grow shrink-0 basis-auto",
+            mainOverlap,
+            mainClassName
+          )}
           tabIndex={-1}
         >
           {children}

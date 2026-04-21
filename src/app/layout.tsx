@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 
-import { SiteShell } from "@/components/layout/site-shell";
+import { AppLayoutShell } from "@/components/layout/app-layout-shell";
 import { AppProviders } from "@/components/providers/app-providers";
 
 import "./globals.css";
@@ -30,6 +30,12 @@ export const metadata: Metadata = {
   description: "Next.js frontend for Ondial",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -43,7 +49,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-dvh  flex-col">
         <AppProviders>
-          <SiteShell>{children}</SiteShell>
+          <AppLayoutShell>{children}</AppLayoutShell>
         </AppProviders>
       </body>
     </html>

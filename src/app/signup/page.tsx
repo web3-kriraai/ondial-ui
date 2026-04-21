@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+import { AuthPageShell } from "@/components/auth/auth-page-shell";
+
 import { SignupForm } from "./signup-form";
 
 export const metadata: Metadata = {
@@ -8,8 +11,8 @@ export const metadata: Metadata = {
 
 export default function SignupPage() {
   return (
-    <div className="flex min-h-0 flex-1 flex-col items-center justify-center bg-muted/25 px-4 pb-10 pt-42 sm:pt-38 sm:px-6">
+    <AuthPageShell>
       <SignupForm />
-    </div>
+    </AuthPageShell>
   );
 }

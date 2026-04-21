@@ -23,7 +23,7 @@ export type SiteFooterProps = {
 };
 
 const linkClass =
-  "text-[13px] font-medium text-muted-foreground underline-offset-[3px] transition-colors hover:text-foreground hover:underline";
+  "font-medium text-muted-foreground underline-offset-[3px] transition-colors hover:text-foreground hover:underline";
 
 export function SiteFooter({
   brandLabel = APP_NAME,
@@ -38,33 +38,43 @@ export function SiteFooter({
   return (
     <footer
       className={cn(
-        "mt-auto w-full border-t border-border/60 bg-linear-to-b from-muted/25 to-muted/10",
+        /* Solid base so nothing from `main` shows through if gaps ever align oddly; stays in document flow. */
+        "relative z-0 mt-10 w-full shrink-0 rounded-b-2xl border-b border-border/30 border-t border-border/50 bg-background md:mt-6",
+        "pb-[max(0.35rem,env(safe-area-inset-bottom,0px))]",
         className,
       )}
     >
-      <div className="mx-auto w-full max-w-6xl px-4 py-5 sm:px-6 sm:py-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
-          <div className="min-w-0 flex flex-col gap-1">
-            <p className="text-[13px] font-semibold tracking-tight text-foreground">{brandLabel}</p>
+      <div className="mx-auto w-full max-w-6xl px-3 py-0.5 sm:px-6 sm:py-1">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
+          <div className="min-w-0 flex flex-col items-center gap-0 text-center sm:flex-row sm:items-baseline sm:gap-x-2 sm:gap-y-0 sm:text-left">
+            <p className="text-[11px] font-semibold tracking-tight text-foreground sm:text-[12px]">{brandLabel}</p>
             {description ? (
-              <div className="max-w-md text-[12px] leading-relaxed text-muted-foreground">{description}</div>
+              <div className="max-w-md text-[10px] leading-snug text-muted-foreground sm:text-[11px]">{description}</div>
             ) : null}
-            <p className="text-[11px] leading-relaxed tracking-wide text-muted-foreground/95">
+            <p className="text-[9px] leading-snug tracking-wide text-muted-foreground/90 sm:text-[10px]">
               © {showYear ? `${year} ` : ""}
               {brandLabel}. All rights reserved.
             </p>
           </div>
 
-          <nav aria-label="Legal" className="shrink-0">
-            <ul className="flex flex-wrap items-center gap-x-0 gap-y-2 sm:justify-end">
+          <nav aria-label="Legal" className="min-w-0 sm:shrink-0">
+            <ul className="flex flex-row flex-wrap items-center justify-center gap-y-0.5 sm:justify-end">
               {links.map((item, i) => (
                 <li key={item.href} className="flex items-center">
                   {i > 0 ? (
-                    <span className="mx-2.5 select-none text-muted-foreground/35" aria-hidden>
+                    <span className="mx-1 select-none text-muted-foreground/35 sm:mx-1.5" aria-hidden>
                       ·
                     </span>
                   ) : null}
-                  <Link href={item.href} prefetch className={linkClass}>
+                  <Link
+                    href={item.href}
+                    prefetch
+                    className={cn(
+                      linkClass,
+                      "text-[11px] sm:text-[12px]",
+                      "inline-flex min-h-8 items-center py-0 sm:min-h-0 sm:py-0",
+                    )}
+                  >
                     {item.label}
                   </Link>
                 </li>
@@ -74,7 +84,7 @@ export function SiteFooter({
         </div>
 
         {end ? (
-          <div className="mt-5 flex flex-col gap-2 border-t border-border/50 pt-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-1.5 flex flex-col gap-1.5 border-t border-border/40 pt-1.5 sm:flex-row sm:items-center sm:justify-between">
             {end}
           </div>
         ) : null}

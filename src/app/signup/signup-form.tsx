@@ -7,6 +7,8 @@ import { Eye, EyeOff, User, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { validateSignupEmail } from "@/lib/auth-form-validation";
+import { cn } from "@/lib/utils";
 
 function GoogleIcon(props: React.ComponentProps<"svg">) {
   return (
@@ -19,11 +21,19 @@ function GoogleIcon(props: React.ComponentProps<"svg">) {
   );
 }
 
-const inputClass =
-  "h-10 rounded-full border border-border/70 bg-muted/40 px-3.5 text-[14px] leading-normal shadow-none transition-[border-color,background-color,box-shadow] duration-200 " +
-  "placeholder:text-[14px] placeholder:text-muted-foreground/55 " +
+/** Match `src/app/login/page.tsx` input styling for auth consistency. */
+const inputBase =
+  "h-9 rounded-full border border-border/70 bg-muted/40 px-3 text-[13px] leading-normal shadow-none transition-[border-color,background-color,box-shadow] duration-200 " +
+  "placeholder:text-[13px] placeholder:text-muted-foreground/55 " +
   "hover:border-border hover:bg-muted/55 " +
   "focus-visible:border-foreground/25 focus-visible:bg-background focus-visible:ring-1 focus-visible:ring-foreground/15";
+
+function inputClass(invalid: boolean) {
+  return cn(
+    inputBase,
+    invalid && "border-destructive/80 focus-visible:border-destructive/50 focus-visible:ring-destructive/25"
+  );
+}
 
 export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -41,6 +51,7 @@ export function SignupForm() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formError, setFormError] = useState<string | null>(null);
 
   const validateField = (name: string, value: string) => {
     let error = "";
@@ -49,10 +60,11 @@ export function SignupForm() {
         if (!value.trim()) error = "Full name is required";
         else if (value.trim().length < 2) error = "Name must be at least 2 characters";
         break;
-      case "email":
-        if (!value.trim()) error = "Email address is required";
-        else if (!/\S+@\S+\.\S+/.test(value)) error = "Please enter a valid email address";
+      case "email": {
+        const e = validateSignupEmail(value);
+        error = e ?? "";
         break;
+      }
       case "phone":
         if (!value.trim()) error = "Phone number is required";
         else if (!/^\+?[\d\s-]{10,}$/.test(value)) error = "Please enter a valid phone number (min 10 digits)";
@@ -72,23 +84,25 @@ export function SignupForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
-    
-    // Clear error when user starts typing
-    if (errors[id]) {
-      setErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[id];
-        return newErrors;
-      });
-    }
+    setFormError(null);
+
+    setErrors((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      if (id === "password" && next.confirmPassword) delete next.confirmPassword;
+      return next;
+    });
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     const error = validateField(id, value);
-    if (error) {
-      setErrors((prev) => ({ ...prev, [id]: error }));
-    }
+    setErrors((prev) => {
+      const next = { ...prev };
+      if (error) next[id] = error;
+      else delete next[id];
+      return next;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -104,12 +118,13 @@ export function SignupForm() {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      // Scroll to first error for better UX
+      setFormError("Please fix the highlighted fields before continuing.");
       const firstErrorField = Object.keys(newErrors)[0];
       document.getElementById(firstErrorField)?.focus();
       return;
     }
 
+    setFormError(null);
     setIsSubmitting(true);
     // Simulate API call
     try {
@@ -122,132 +137,143 @@ export function SignupForm() {
   };
 
   return (
-    <div className="w-full max-w-[420px] animate-in fade-in slide-in-from-bottom-2 duration-500">
+    <div className="w-full max-w-[min(28rem,calc(100vw-1.5rem))] origin-top sm:max-w-[min(36rem,calc(100vw-2rem))] animate-in fade-in slide-in-from-bottom-2 duration-500">
       <h1
-        className="mb-1 text-center text-[28px] font-bold leading-tight tracking-tight text-foreground"
+        className="mb-0.5 text-center text-[1.35rem] font-bold leading-tight tracking-tight text-foreground sm:text-[1.65rem]"
         style={{ fontFamily: "var(--font-display)" }}
       >
         Create account
       </h1>
-      <p className="mb-4 text-center text-[13px] leading-snug text-muted-foreground/90">
+      <p className="mb-2 text-center text-[11px] leading-snug text-muted-foreground/90 sm:mb-2.5 sm:text-[12px]">
         Join us and start your journey today.
       </p>
 
-      <form className="flex flex-col gap-3" onSubmit={handleSubmit} noValidate>
+      <form className="flex flex-col gap-1.5 sm:gap-2" onSubmit={handleSubmit} noValidate>
+        {formError ? (
+          <div
+            role="alert"
+            className="rounded-xl border border-destructive/25 bg-destructive/10 px-3 py-2 text-center text-[12px] font-medium text-destructive"
+          >
+            {formError}
+          </div>
+        ) : null}
         {/* Who are you? selector */}
-        <div className="grid gap-1.5">
-          <Label className="text-[13px] font-semibold leading-none text-foreground">
+        <div className="grid gap-1">
+          <Label className="text-[12px] font-semibold leading-none text-foreground">
             Who are you?
           </Label>
-          <div className="flex p-1 bg-muted/40 rounded-full border border-border/40">
+          <div className="flex touch-manipulation rounded-full border border-border/40 bg-muted/40 p-0.5">
             <button
               type="button"
               onClick={() => setUserType("individual")}
-              className={`flex-1 flex items-center justify-center gap-2 py-1 rounded-full text-[12px] font-medium transition-all duration-200 ${
+              className={`flex min-h-9 flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-[12px] font-medium transition-all duration-200 ${
                 userType === "individual"
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <User className="size-3.5" />
+              <User className="size-4" />
               Individual
             </button>
             <button
               type="button"
               onClick={() => setUserType("organization")}
-              className={`flex-1 flex items-center justify-center gap-2 py-1 rounded-full text-[12px] font-medium transition-all duration-200 ${
+              className={`flex min-h-9 flex-1 items-center justify-center gap-1.5 rounded-full py-2 text-[12px] font-medium transition-all duration-200 ${
                 userType === "organization"
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <Building2 className="size-3.5" />
+              <Building2 className="size-4" />
               Organization
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div className="grid gap-1.5">
-            <Label htmlFor="fullname" className={`text-[13px] font-semibold leading-none transition-colors ${errors.fullname ? "text-destructive" : "text-foreground"}`}>
+        <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 sm:gap-2">
+          <div className="grid gap-1">
+            <Label htmlFor="fullname" className={`text-[12px] font-semibold leading-none transition-colors ${errors.fullname ? "text-destructive" : "text-foreground"}`}>
               Full name
             </Label>
             <Input
               id="fullname"
               placeholder="John Doe"
-              className={inputClass}
+              className={inputClass(!!errors.fullname)}
               value={formData.fullname}
               onChange={handleChange}
               onBlur={handleBlur}
               aria-invalid={!!errors.fullname}
+              aria-describedby={errors.fullname ? "fullname-error" : undefined}
             />
-            {errors.fullname && (
-              <p className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
+            {errors.fullname ? (
+              <p id="fullname-error" role="status" className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
                 {errors.fullname}
               </p>
-            )}
+            ) : null}
           </div>
 
-          <div className="grid gap-1.5">
-            <Label htmlFor="email" className={`text-[13px] font-semibold leading-none transition-colors ${errors.email ? "text-destructive" : "text-foreground"}`}>
+          <div className="grid gap-1">
+            <Label htmlFor="email" className={`text-[12px] font-semibold leading-none transition-colors ${errors.email ? "text-destructive" : "text-foreground"}`}>
               Email
             </Label>
             <Input
               id="email"
               type="email"
               placeholder="john@example.com"
-              className={inputClass}
+              className={inputClass(!!errors.email)}
               value={formData.email}
               onChange={handleChange}
               onBlur={handleBlur}
               aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "email-error" : undefined}
             />
-            {errors.email && (
-              <p className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
+            {errors.email ? (
+              <p id="email-error" role="status" className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
                 {errors.email}
               </p>
-            )}
+            ) : null}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div className="grid gap-1.5">
-            <Label htmlFor="phone" className={`text-[13px] font-semibold leading-none transition-colors ${errors.phone ? "text-destructive" : "text-foreground"}`}>
+        <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 sm:gap-2">
+          <div className="grid gap-1">
+            <Label htmlFor="phone" className={`text-[12px] font-semibold leading-none transition-colors ${errors.phone ? "text-destructive" : "text-foreground"}`}>
               Phone number
             </Label>
             <Input
               id="phone"
               type="tel"
               placeholder="+1 (555) 000-0000"
-              className={inputClass}
+              className={inputClass(!!errors.phone)}
               value={formData.phone}
               onChange={handleChange}
               onBlur={handleBlur}
               aria-invalid={!!errors.phone}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
             />
-            {errors.phone && (
-              <p className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
+            {errors.phone ? (
+              <p id="phone-error" role="status" className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
                 {errors.phone}
               </p>
-            )}
+            ) : null}
           </div>
 
-          <div className="grid gap-1.5">
-            <Label htmlFor="referral" className="text-[13px] font-semibold leading-none text-foreground">
+          <div className="grid gap-1">
+            <Label htmlFor="referral" className="text-[12px] font-semibold leading-none text-foreground">
               Referral code <span className="text-muted-foreground/60 font-normal">(optional)</span>
             </Label>
             <Input
               id="referral"
               placeholder="ABC-123"
-              className={inputClass}
+              className={inputClass(false)}
               value={formData.referral}
               onChange={handleChange}
             />
           </div>
         </div>
 
-        <div className="grid gap-1.5">
-          <Label htmlFor="password" className={`text-[13px] font-semibold leading-none transition-colors ${errors.password ? "text-destructive" : "text-foreground"}`}>
+        <div className="grid gap-1">
+          <Label htmlFor="password" className={`text-[12px] font-semibold leading-none transition-colors ${errors.password ? "text-destructive" : "text-foreground"}`}>
             Password
           </Label>
           <div className="relative">
@@ -255,29 +281,31 @@ export function SignupForm() {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Create a password"
-              className={`${inputClass} pr-11`}
+              className={cn(inputClass(!!errors.password), "pr-10")}
               value={formData.password}
               onChange={handleChange}
               onBlur={handleBlur}
               aria-invalid={!!errors.password}
+              aria-describedby={errors.password ? "password-error" : undefined}
             />
             <button
               type="button"
               onClick={() => setShowPassword((p) => !p)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors hover:text-foreground"
+              className="absolute right-1 top-1/2 flex size-9 min-h-9 min-w-9 -translate-y-1/2 touch-manipulation items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground"
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="size-4" strokeWidth={1.75} /> : <Eye className="size-4" strokeWidth={1.75} />}
             </button>
           </div>
-          {errors.password && (
-            <p className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
+          {errors.password ? (
+            <p id="password-error" role="status" className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
               {errors.password}
             </p>
-          )}
+          ) : null}
         </div>
 
-        <div className="grid gap-1.5">
-          <Label htmlFor="confirmPassword" className={`text-[13px] font-semibold leading-none transition-colors ${errors.confirmPassword ? "text-destructive" : "text-foreground"}`}>
+        <div className="grid gap-1">
+          <Label htmlFor="confirmPassword" className={`text-[12px] font-semibold leading-none transition-colors ${errors.confirmPassword ? "text-destructive" : "text-foreground"}`}>
             Confirm password
           </Label>
           <div className="relative">
@@ -285,53 +313,55 @@ export function SignupForm() {
               id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm your password"
-              className={`${inputClass} pr-11`}
+              className={cn(inputClass(!!errors.confirmPassword), "pr-10")}
               value={formData.confirmPassword}
               onChange={handleChange}
               onBlur={handleBlur}
               aria-invalid={!!errors.confirmPassword}
+              aria-describedby={errors.confirmPassword ? "confirmPassword-error" : undefined}
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword((p) => !p)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground transition-colors hover:text-foreground"
+              className="absolute right-1 top-1/2 flex size-9 min-h-9 min-w-9 -translate-y-1/2 touch-manipulation items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground"
+              aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
             >
               {showConfirmPassword ? <EyeOff className="size-4" strokeWidth={1.75} /> : <Eye className="size-4" strokeWidth={1.75} />}
             </button>
           </div>
-          {errors.confirmPassword && (
-            <p className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
+          {errors.confirmPassword ? (
+            <p id="confirmPassword-error" role="status" className="text-[11px] font-medium text-destructive animate-in fade-in slide-in-from-top-1 duration-200">
               {errors.confirmPassword}
             </p>
-          )}
+          ) : null}
         </div>
 
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="mt-0.5 h-10 w-full rounded-full bg-foreground text-[14px] font-semibold text-background shadow-none transition-all hover:opacity-90 disabled:opacity-70 disabled:cursor-not-allowed"
+          className="mt-0 h-9 w-full rounded-full bg-foreground text-[13px] font-semibold text-background shadow-none transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {isSubmitting ? "Creating account..." : "Create account"}
         </Button>
 
         <div className="relative py-0">
-          <div className="absolute inset-x-0 top-1/2 h-px bg-border/70" />
-          <div className="relative flex justify-center text-[10px] uppercase tracking-wider">
-            <span className="bg-[#fcfcff] px-3 font-medium text-muted-foreground/60">Or continue with</span>
+          <div className="absolute inset-x-0 top-1/2 h-px bg-border/80" />
+          <div className="relative flex justify-center text-[11px] uppercase tracking-wider text-muted-foreground/70">
+            <span className="bg-background px-2 font-medium">Or continue with</span>
           </div>
         </div>
 
         <Button
           type="button"
           variant="outline"
-          className="h-10 w-full rounded-full border-border/80 bg-background text-[14px] font-medium shadow-none transition-colors hover:bg-muted/20"
+          className="h-9 w-full rounded-full border-border/80 bg-background text-[13px] font-medium shadow-none transition-colors hover:bg-muted/20"
         >
-          <GoogleIcon className="mr-2 size-3.5" />
+          <GoogleIcon className="mr-2 size-4" />
           Continue with Google
         </Button>
       </form>
 
-      <p className="mt-5 text-center text-[12px] leading-relaxed text-muted-foreground">
+      <p className="mt-3 text-center text-[11px] leading-relaxed text-muted-foreground sm:mt-4 sm:text-[12px]">
         Already have an account?{" "}
         <Link href="/login" className="font-semibold text-foreground underline-offset-2 hover:underline">
           Sign in
