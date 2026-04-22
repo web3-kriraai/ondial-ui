@@ -16,6 +16,15 @@ const nextConfig: NextConfig = {
   ],
   experimental: {
     optimizePackageImports: ["lucide-react"],
+    viewTransition: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
   },
 };
 

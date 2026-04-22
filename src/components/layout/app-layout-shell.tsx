@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { SiteShell } from "@/components/layout/site-shell";
 
@@ -26,7 +27,21 @@ export function AppLayoutShell({ children }: AppLayoutShellProps) {
       /* `min-h-min` with `SiteShell` `grow shrink-0` on `main` keeps height to content (no clipping over footer). */
       mainClassName="flex min-h-min flex-col"
     >
-      {children}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{
+            duration: 0.3,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="flex flex-1 flex-col"
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
     </SiteShell>
   );
 }

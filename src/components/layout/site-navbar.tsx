@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { ChevronRight, Menu, X } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { MAIN_NAV } from "@/config/navigation";
 import { Button } from "@/components/ui/button";
@@ -22,23 +23,23 @@ function linkIsActive(pathname: string, href: string) {
 
 function desktopLinkClassName(active: boolean) {
   return cn(
-    "relative rounded-full px-3.5 py-2 text-[13px] font-medium leading-none tracking-tight transition-[color,background-color,box-shadow,transform] duration-200 ease-out sm:px-4 sm:py-2.5",
+    "relative rounded-full px-3.5 py-2 text-[13px] font-medium leading-none tracking-tight transition-[color,transform] duration-200 ease-out sm:px-4 sm:py-2.5",
     "outline-none focus-visible:ring-2 focus-visible:ring-ring/55 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     "motion-reduce:transform-none",
     active
-      ? "bg-background/90 font-semibold text-foreground shadow-[0_1px_2px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] ring-1 ring-foreground/[0.08]"
-      : "text-muted-foreground hover:bg-background/55 hover:text-foreground active:scale-[0.98]"
+      ? "font-semibold text-foreground"
+      : "text-muted-foreground hover:text-foreground active:scale-[0.98]"
   );
 }
 
 /** Same vertical metrics as `desktopLinkClassName` so both nav pills share one height. */
 function desktopCtaContactClassName(active: boolean) {
   return cn(
-    "relative rounded-full px-3.5 py-2 text-[13px] font-semibold leading-none tracking-tight transition-[color,background-color,box-shadow,transform] duration-200 ease-out sm:px-4 sm:py-2.5",
+    "relative rounded-full px-3.5 py-2 text-[13px] font-semibold leading-none tracking-tight transition-[color,transform] duration-200 ease-out sm:px-4 sm:py-2.5",
     "outline-none focus-visible:ring-2 focus-visible:ring-ring/55 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     "motion-reduce:transform-none",
     active
-      ? "bg-background/90 text-foreground shadow-[0_1px_2px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] ring-1 ring-foreground/[0.08]"
+      ? "text-foreground"
       : "border border-border/70 bg-background text-foreground shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-muted/45 active:scale-[0.98]"
   );
 }
@@ -81,8 +82,11 @@ export type SiteNavbarProps = {
   className?: string;
 };
 
+const drawerEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps) {
   const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
   const lastItem = items.length > 0 ? items[items.length - 1] : undefined;
   const splitContactIntoCtaPill =
     !end && lastItem !== undefined && lastItem.href === "/contact" && items.length >= 2;
@@ -92,46 +96,16 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
   const titleId = useId();
   const panelRef = useRef<HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  /** Keeps the portal mounted through the close transition. */
-  const [drawerPresent, setDrawerPresent] = useState(false);
-  /** Drives enter/exit CSS transitions (backdrop + panel slide). */
-  const [drawerEntered, setDrawerEntered] = useState(false);
+  /** Stays true through Framer exit so the menu control matches drawer visibility. */
+  const [menuLatchOpen, setMenuLatchOpen] = useState(false);
+  const bodyOverflowRestoreRef = useRef<string | null>(null);
 
-  const enterTimerRef = useRef<number | undefined>(undefined);
-  const closeTimerRef = useRef<number | undefined>(undefined);
   const beginCloseDrawer = useCallback(() => {
-    if (enterTimerRef.current !== undefined) {
-      window.clearTimeout(enterTimerRef.current);
-      enterTimerRef.current = undefined;
-    }
     setMobileOpen(false);
-    setDrawerEntered(false);
-    if (closeTimerRef.current !== undefined) window.clearTimeout(closeTimerRef.current);
-    closeTimerRef.current = window.setTimeout(() => {
-      closeTimerRef.current = undefined;
-      setDrawerPresent(false);
-    }, 300);
   }, []);
 
   const beginOpenDrawer = useCallback(() => {
-    if (closeTimerRef.current !== undefined) {
-      window.clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = undefined;
-    }
     setMobileOpen(true);
-    setDrawerPresent(true);
-    if (enterTimerRef.current !== undefined) window.clearTimeout(enterTimerRef.current);
-    enterTimerRef.current = window.setTimeout(() => {
-      enterTimerRef.current = undefined;
-      setDrawerEntered(true);
-    }, 20);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (enterTimerRef.current !== undefined) window.clearTimeout(enterTimerRef.current);
-      if (closeTimerRef.current !== undefined) window.clearTimeout(closeTimerRef.current);
-    };
   }, []);
 
   const prevPathnameRef = useRef(pathname);
@@ -139,35 +113,55 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
     const prev = prevPathnameRef.current;
     prevPathnameRef.current = pathname;
     if (prev === pathname) return;
-    if (mobileOpen || drawerPresent) {
+    if (mobileOpen) {
       const id = window.setTimeout(() => beginCloseDrawer(), 0);
       return () => window.clearTimeout(id);
     }
-  }, [pathname, mobileOpen, drawerPresent, beginCloseDrawer]);
+  }, [pathname, mobileOpen, beginCloseDrawer]);
 
   useEffect(() => {
-    if (!drawerPresent) return;
+    if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") beginCloseDrawer();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [drawerPresent, beginCloseDrawer]);
+  }, [mobileOpen, beginCloseDrawer]);
 
-  useEffect(() => {
-    if (!drawerPresent) return;
-    const prev = document.body.style.overflow;
+  useLayoutEffect(() => {
+    if (!mobileOpen) return;
+    if (bodyOverflowRestoreRef.current === null) {
+      bodyOverflowRestoreRef.current = document.body.style.overflow;
+    }
     document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [drawerPresent]);
+  }, [mobileOpen]);
 
   useEffect(() => {
-    if (!drawerEntered || !panelRef.current) return;
-    const node = panelRef.current.querySelector<HTMLElement>("[data-nav-close]");
-    node?.focus({ preventScroll: true });
-  }, [drawerEntered]);
+    if (!mobileOpen || !panelRef.current) return;
+    const id = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        panelRef.current?.querySelector<HTMLElement>("[data-nav-close]")?.focus({ preventScroll: true });
+      });
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [mobileOpen]);
+
+  const restoreBodyScroll = useCallback(() => {
+    if (bodyOverflowRestoreRef.current !== null) {
+      document.body.style.overflow = bodyOverflowRestoreRef.current;
+      bodyOverflowRestoreRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      restoreBodyScroll();
+    };
+  }, [restoreBodyScroll]);
+
+  useEffect(() => {
+    if (mobileOpen) setMenuLatchOpen(true);
+  }, [mobileOpen]);
 
   const renderDesktopLinks = (navItems: readonly NavItem[]) =>
     navItems.map((item) => {
@@ -180,119 +174,186 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
           className={desktopLinkClassName(active)}
           aria-current={active ? "page" : undefined}
         >
-          {item.label}
+          {active && (
+            <motion.div
+              layoutId="desktop-nav-pill"
+              className="absolute inset-0 z-0 rounded-full bg-background/90 shadow-[0_1px_2px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] ring-1 ring-foreground/[0.08]"
+              transition={{
+                type: "spring",
+                bounce: 0.18,
+                duration: 0.45,
+              }}
+            />
+          )}
+          <span className="relative z-10">{item.label}</span>
         </Link>
       );
     });
+
+  const drawerTransition = reduceMotion
+    ? { duration: 0.01 }
+    : { duration: 0.32, ease: drawerEase };
+
+  const linkListVariants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: reduceMotion ? 0 : 0.04,
+        delayChildren: reduceMotion ? 0 : 0.05,
+      },
+    },
+  };
+
+  const linkItemVariants = {
+    hidden: { opacity: 0, x: 14 },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: reduceMotion ? { duration: 0 } : { duration: 0.22, ease: drawerEase },
+    },
+  };
 
   const renderMobileLinks = () =>
     items.map((item) => {
       const active = linkIsActive(pathname, item.href);
       return (
-        <Link
-          key={item.href}
-          href={item.href}
-          prefetch
-          className={mobileLinkClassName(active)}
-          aria-current={active ? "page" : undefined}
-        >
-          <span className="min-w-0 flex-1 text-pretty">{item.label}</span>
-          <ChevronRight
-            className={cn(
-              "size-4 shrink-0 opacity-40 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:opacity-70",
-              active && "translate-x-0.5 opacity-80"
-            )}
-            aria-hidden
-          />
-        </Link>
+        <motion.div key={item.href} variants={linkItemVariants} className="min-w-0">
+          <Link
+            href={item.href}
+            prefetch
+            className={mobileLinkClassName(active)}
+            aria-current={active ? "page" : undefined}
+          >
+            <span className="min-w-0 flex-1 text-pretty">{item.label}</span>
+            <ChevronRight
+              className={cn(
+                "size-4 shrink-0 opacity-40 transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:opacity-70",
+                active && "translate-x-0.5 opacity-80"
+              )}
+              aria-hidden
+            />
+          </Link>
+        </motion.div>
       );
     });
 
-  const drawerVisualOpen = drawerEntered;
-
   const mobileDrawerContent = (
-    <div className="pointer-events-auto fixed inset-0 z-[2147483000] touch-manipulation md:hidden">
-      <button
-        type="button"
-        className={cn(
-          "absolute inset-0 z-0 cursor-default bg-black/50 backdrop-blur-md",
-          "transition-opacity duration-300 ease-out motion-reduce:transition-none",
-          drawerVisualOpen ? "opacity-100" : "opacity-0"
-        )}
-        aria-label="Close navigation"
-        onClick={beginCloseDrawer}
-      />
-      <aside
-        ref={panelRef}
-        id={menuId}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        tabIndex={-1}
-        className={cn(
-          "pointer-events-auto absolute right-0 top-0 z-10 flex h-dvh max-h-dvh w-[min(22.5rem,calc(100vw-12px))] flex-col will-change-transform",
-          "border-l border-white/30 bg-linear-to-b from-background/93 via-background/88 to-background/94",
-          "pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] pl-5 pr-4",
-          "shadow-[-28px_0_56px_-28px_rgba(15,23,42,0.42)] backdrop-blur-2xl backdrop-saturate-150 supports-backdrop-filter:from-background/82 supports-backdrop-filter:via-background/78 supports-backdrop-filter:to-background/85",
-          "rounded-l-[1.875rem] ring-1 ring-black/5 dark:border-white/12 dark:ring-white/10",
-          "transform-gpu transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
-          drawerVisualOpen ? "translate-x-0" : "translate-x-full"
-        )}
-      >
-        <div className="flex items-start justify-between gap-3 border-b border-border/50 pb-4">
-          <div className="min-w-0">
-            <p
-              id={titleId}
-              className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-muted-foreground"
-            >
-              Navigation
-            </p>
-            <p className="mt-2 max-w-56 text-pretty text-sm leading-relaxed text-muted-foreground">
-              Tap the backdrop or close to dismiss.
-            </p>
-          </div>
-          <Button
+    <AnimatePresence
+      onExitComplete={() => {
+        setMenuLatchOpen(false);
+        restoreBodyScroll();
+      }}
+    >
+      {mobileOpen ? (
+        <>
+          <motion.button
+            key="nav-backdrop"
             type="button"
-            variant="outline"
-            size="icon-sm"
-            data-nav-close
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={drawerTransition}
             className={cn(
-              "size-9 shrink-0 rounded-full border-border/60 bg-transparent shadow-sm backdrop-blur-sm",
-              "hover:border-border hover:bg-muted/70"
+              "pointer-events-auto fixed inset-0 z-[2147483000] touch-manipulation md:hidden",
+              "cursor-default bg-black/50 backdrop-blur-md motion-reduce:transition-none"
             )}
-            aria-label="Close menu"
+            aria-label="Close navigation"
             onClick={beginCloseDrawer}
+          />
+          <motion.aside
+            key="nav-panel"
+            ref={panelRef}
+            id={menuId}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            tabIndex={-1}
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={drawerTransition}
+            className={cn(
+              "pointer-events-auto fixed right-0 top-0 z-[2147483001] flex h-dvh max-h-dvh w-[min(22.5rem,calc(100vw-12px))] flex-col touch-manipulation will-change-transform md:hidden",
+              "border-l border-white/30 bg-linear-to-b from-background/93 via-background/88 to-background/94",
+              "pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))] pl-5 pr-4",
+              "shadow-[-28px_0_56px_-28px_rgba(15,23,42,0.42)] backdrop-blur-2xl backdrop-saturate-150 supports-backdrop-filter:from-background/82 supports-backdrop-filter:via-background/78 supports-backdrop-filter:to-background/85",
+              "rounded-l-[1.875rem] ring-1 ring-black/5 dark:border-white/12 dark:ring-white/10"
+            )}
           >
-            <X className="size-4" aria-hidden />
-          </Button>
-        </div>
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...drawerTransition, delay: reduceMotion ? 0 : 0.04 }}
+              className="flex items-start justify-between gap-3 border-b border-border/50 pb-4"
+            >
+              <div className="min-w-0">
+                <p
+                  id={titleId}
+                  className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-muted-foreground"
+                >
+                  Navigation
+                </p>
+                <p className="mt-2 max-w-56 text-pretty text-sm leading-relaxed text-muted-foreground">
+                  Tap the backdrop or close to dismiss.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="icon-sm"
+                data-nav-close
+                className={cn(
+                  "size-9 shrink-0 rounded-full border-border/60 bg-transparent shadow-sm backdrop-blur-sm",
+                  "hover:border-border hover:bg-muted/70"
+                )}
+                aria-label="Close menu"
+                onClick={beginCloseDrawer}
+              >
+                <X className="size-4" aria-hidden />
+              </Button>
+            </motion.div>
 
-        <nav
-          aria-label="Primary"
-          className="mt-4 flex flex-1 flex-col gap-1 overflow-y-auto overscroll-contain py-1 pr-1 [-webkit-overflow-scrolling:touch]"
-        >
-          <p className="px-1 pb-2 text-[0.65rem] font-medium uppercase tracking-wider text-muted-foreground/90">Pages</p>
-          {renderMobileLinks()}
-        </nav>
+            <motion.nav
+              aria-label="Primary"
+              initial="hidden"
+              animate="show"
+              variants={linkListVariants}
+              className="mt-4 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain py-1 pr-1 [-webkit-overflow-scrolling:touch]"
+            >
+              <motion.p
+                variants={linkItemVariants}
+                className="px-1 pb-2 text-[0.65rem] font-medium uppercase tracking-wider text-muted-foreground/90"
+              >
+                Pages
+              </motion.p>
+              {renderMobileLinks()}
+            </motion.nav>
 
-        {end ? (
-          <div className="mt-4 border-t border-border/50 pt-4">
-            <p className="mb-2 px-1 text-[0.65rem] font-medium uppercase tracking-wider text-muted-foreground/90">Actions</p>
-            <div className="rounded-2xl border border-border/40 bg-muted/25 p-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45)]">
-              {end}
-            </div>
-          </div>
-        ) : null}
-      </aside>
-    </div>
+            {end ? (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...drawerTransition, delay: reduceMotion ? 0 : 0.08 }}
+                className="mt-4 border-t border-border/50 pt-4"
+              >
+                <p className="mb-2 px-1 text-[0.65rem] font-medium uppercase tracking-wider text-muted-foreground/90">
+                  Actions
+                </p>
+                <div className="rounded-2xl border border-border/40 bg-muted/25 p-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.45)]">
+                  {end}
+                </div>
+              </motion.div>
+            ) : null}
+          </motion.aside>
+        </>
+      ) : null}
+    </AnimatePresence>
   );
 
   const mobileDrawer =
-    drawerPresent && typeof document !== "undefined"
-      ? createPortal(mobileDrawerContent, document.body)
-      : null;
+    typeof document !== "undefined" ? createPortal(mobileDrawerContent, document.body) : null;
 
-  const menuBusy = mobileOpen || drawerPresent;
+  const menuBusy = menuLatchOpen;
 
   return (
     <>
@@ -324,7 +385,18 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
                     className={desktopCtaContactClassName(linkIsActive(pathname, contactItem.href))}
                     aria-current={linkIsActive(pathname, contactItem.href) ? "page" : undefined}
                   >
-                    {contactItem.label}
+                    {linkIsActive(pathname, contactItem.href) && (
+                      <motion.div
+                        layoutId="desktop-nav-pill"
+                        className="absolute inset-0 z-0 rounded-full bg-background/90 shadow-[0_1px_2px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] ring-1 ring-foreground/[0.08]"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.18,
+                          duration: 0.45,
+                        }}
+                      />
+                    )}
+                    <span className="relative z-10">{contactItem.label}</span>
                   </Link>
                 </div>
               ) : null}
@@ -347,12 +419,12 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 )}
                 aria-expanded={menuBusy}
-                aria-controls={drawerPresent ? menuId : undefined}
+                aria-controls={menuBusy ? menuId : undefined}
                 aria-label={menuBusy ? "Close menu" : "Open menu"}
                 onClick={(e) => {
                   e.stopPropagation();
                   if (mobileOpen) beginCloseDrawer();
-                  else beginOpenDrawer();
+                  else if (!menuLatchOpen) beginOpenDrawer();
                 }}
               >
                 {menuBusy ? (

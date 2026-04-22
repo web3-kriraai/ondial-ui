@@ -1,4 +1,7 @@
 @import "tailwindcss";
+
+/* Ensures gradient utility classes used in `src/data/industries.json` are generated. */
+@source "../data/industries.json";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
