@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { SLIDER_DATA } from "@/lib/marketing-data";
 import { cn } from "@/lib/utils";
 
-const AUTO_PLAY_INTERVAL = 6000; // 6 seconds
+const AUTO_PLAY_INTERVAL = 2000; // 6 seconds
 
 export default function HeroSlider() {
   const [current, setCurrent] = useState(0);

@@ -38,7 +38,7 @@ export function SiteShell({ children, header, footer, mainClassName, shellScroll
         ref={shellScrollerRef}
         className={cn(
           "relative flex min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden rounded-2xl bg-background text-foreground shadow-[0_24px_64px_-24px_rgba(0,0,0,0.45)]",
-          "scroll-auto"
+          "scroll-auto no-scrollbar"
         )}
       >
         <div className="sticky top-0 z-60 w-full shrink-0">

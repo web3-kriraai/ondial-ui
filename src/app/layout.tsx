@@ -5,11 +5,9 @@ import { AppLayoutShell } from "@/components/layout/app-layout-shell";
 import { AppProviders } from "@/components/providers/app-providers";
 
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
-const fontSans = Geist({
-  variable: "--font-sans",
-  subsets: ["latin"],
-});
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const fontMono = Geist_Mono({
   variable: "--font-mono",
@@ -28,6 +26,9 @@ export const metadata: Metadata = {
     template: "%s · Ondial",
   },
   description: "Next.js frontend for Ondial",
+  icons: {
+    icon: "/fav.svg",
+  },
 };
 
 export const viewport: Viewport = {
@@ -44,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontSans.variable} ${fontMono.variable} ${fontDisplay.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", fontMono.variable, fontDisplay.variable, "font-sans", geist.variable)}
       suppressHydrationWarning
     >
       <body className="flex min-h-dvh  flex-col">
