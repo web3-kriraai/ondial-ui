@@ -140,3 +140,11 @@
     display: none;
   }
 }
+
+number-flow::part(suffix),
+number-flow-react::part(suffix) {
+  margin-left: 0.0625em;
+  font-weight: normal;
+  font-size: 0.75em;
+  color: var(--muted-foreground); /* Using muted-foreground for better contrast on dark */
+}

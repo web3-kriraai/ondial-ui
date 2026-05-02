@@ -109,10 +109,16 @@ function PricingCard({ title, description, price, features, index, emblaApi }: P
               whileTap={{ scale: 0.98 }}
               initial="initial"
               whileHover="hover"
+              animate={isActive ? "initial" : "initial"} // Force re-render for variants
+              whileTap="hover" // Trigger hover animation on tap for mobile
               onMouseEnter={() => lottieRef.current?.play()}
               onMouseLeave={() => {
                 lottieRef.current?.stop();
                 lottieRef.current?.goToAndStop(0, true);
+              }}
+              onClick={() => {
+                // Ensure animation plays on click for mobile
+                lottieRef.current?.play();
               }}
               className="group relative mt-auto mx-auto flex w-full max-w-[240px] cursor-pointer items-center justify-center overflow-hidden rounded-full border border-black/20 bg-white py-3 text-sm font-bold text-black transition-colors duration-300 hover:border-black hover:text-white"
             >
@@ -140,7 +146,15 @@ function PricingCard({ title, description, price, features, index, emblaApi }: P
                   />
                 </div>
                 
-                <span className="relative z-10 px-1">Get Started Now</span>
+                <motion.span 
+                  variants={{
+                    initial: { color: "#000000" },
+                    hover: { color: "#ffffff" }
+                  }}
+                  className="relative z-10 px-1"
+                >
+                  Get Started Now
+                </motion.span>
 
                 {/* Arrow Container (Right) */}
                 <div className="relative flex h-6 w-6 items-center justify-center">
