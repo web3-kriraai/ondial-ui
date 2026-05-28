@@ -27,7 +27,8 @@ export function SiteShell({ children, header, footer, mainClassName, shellScroll
   const foot = footer === null ? null : footer === undefined ? <SiteFooter /> : footer;
 
   /** Pulls main under the sticky header so page bg starts at the top; padding keeps content below the bar. */
-  const mainOverlap = "mt-[calc(-1*(env(safe-area-inset-top)+5.5rem))]";
+  const mainOverlap =
+    "mt-[calc(-1*(env(safe-area-inset-top)+4.25rem))] pt-[calc(env(safe-area-inset-top)+4.25rem)]";
   // Outer shell: bottom padding matches sides so the black frame shows under the rounded card (same as top).
   const shellFrame =
     "box-border flex h-dvh min-h-0 flex-col bg-black px-2 pt-2 pb-2 sm:px-3 sm:pt-3 sm:pb-3 lg:px-4 lg:pt-4 lg:pb-4";

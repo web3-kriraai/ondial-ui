@@ -20,14 +20,25 @@ import {
   Zap,
 } from "lucide-react";
 
-/** Card SVG fill palette — must match keys in `service-card` BG_COLOR_MAP. */
-const CARD_BG_COLORS = [
+/** Matte card fills — shared by service cards and marketing carousel. */
+export const SERVICE_MATTE_COLORS = [
+  "#5D57A3",
+  "#0057C7",
+  "#6A7036",
+  "#BA6A36",
+  "#4A4E69",
+] as const;
+
+/** Tailwind classes for service cards — must match keys in `service-card` BG_COLOR_MAP. */
+const CARD_BG_COLORS = SERVICE_MATTE_COLORS.map(
+  (hex) => `bg-[${hex}]`,
+) as [
   "bg-[#5D57A3]",
   "bg-[#0057C7]",
   "bg-[#6A7036]",
   "bg-[#BA6A36]",
   "bg-[#4A4E69]",
-] as const;
+];
 
 const PLACEHOLDER_IMAGE =
   "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2426&auto=format&fit=crop";
@@ -38,10 +49,6 @@ export type Industry = {
   slug: string;
   icon: LucideIcon;
   description: string;
-  color: string;
-  bgColor: string;
-  category: string;
-  useCases: string[];
 };
 
 export const DEFAULT_INDUSTRIES: Industry[] = [
@@ -51,16 +58,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "healthcare-and-medical-services",
     icon: Heart,
     description:
-      "Automate appointment reminders, prescription refills, follow-ups, lab results, and chronic care management. Improve patient engagement and reduce no-shows.",
-    color: "from-rose-500 via-pink-500 to-indigo-600",
-    bgColor: "from-purple-50 to-indigo-50",
-    category: "Health",
-    useCases: [
-      "Appointment Reminders",
-      "Prescription Refills",
-      "Lab Results",
-      "Chronic Care Management",
-    ],
+      "Automate appointment reminders, prescription refills, follow-ups, lab result notifications, and chronic care management. Improve patient engagement and reduce no-shows.",
   },
   {
     id: 2,
@@ -68,11 +66,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "financial-and-banking-services",
     icon: Building2,
     description:
-      "Enable fraud alerts, loan status updates, payment reminders, credit score alerts, and account notifications.",
-    color: "from-purple-600 via-indigo-600 to-indigo-700",
-    bgColor: "from-purple-50 to-indigo-50",
-    category: "Finance",
-    useCases: ["Fraud Alerts", "Payment Reminders", "Credit Score Updates", "Account Notifications"],
+      "Enable fraud alerts, loan status updates, payment reminders, credit score notifications, and account activity updates. Enhance customer security and financial communication.",
   },
   {
     id: 3,
@@ -80,11 +74,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "real-estate-services",
     icon: Building2,
     description:
-      "Handle property inquiries, schedule viewings, send market updates, lease renewals, and closing process updates.",
-    color: "from-violet-500 via-indigo-500 to-indigo-600",
-    bgColor: "from-violet-50 to-indigo-50",
-    category: "Property",
-    useCases: ["Property Inquiries", "Viewing Scheduling", "Market Updates", "Lease Renewals"],
+      "Manage property inquiries, schedule site visits, share market updates, handle lease renewals, and streamline closing process communication.",
   },
   {
     id: 4,
@@ -92,22 +82,15 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "retail-and-ecommerce-services",
     icon: ShoppingCart,
     description:
-      "Recover abandoned carts, send order updates, collect feedback, manage returns, and promote seasonal offers.",
-    color: "from-emerald-500 via-teal-500 to-cyan-600",
-    bgColor: "from-emerald-50 to-teal-50",
-    category: "Retail",
-    useCases: ["Cart Recovery", "Order Updates", "Feedback Collection", "Returns Management"],
+      "Recover abandoned carts, send order and delivery updates, collect customer feedback, manage returns, and promote seasonal offers with AI-powered outreach.",
   },
   {
     id: 5,
     name: "Insurance",
     slug: "insurance-services",
     icon: Shield,
-    description: "Automate policy renewals, claim updates, premium alerts, and risk assessments.",
-    color: "from-cyan-500 via-indigo-500 to-indigo-600",
-    bgColor: "from-cyan-50 to-indigo-50",
-    category: "Insurance",
-    useCases: ["Policy Renewals", "Claim Updates", "Premium Alerts", "Risk Assessments"],
+    description:
+      "Automate policy renewals, claim status updates, premium reminders, and risk assessment notifications. Improve customer trust and response times.",
   },
   {
     id: 6,
@@ -115,27 +98,15 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "sales-and-lead-generation-services",
     icon: TrendingUp,
     description:
-      "Qualify leads, schedule appointments, follow up with prospects, and run win-back campaigns.",
-    color: "from-orange-500 via-red-500 to-rose-600",
-    bgColor: "from-indigo-50 to-indigo-50",
-    category: "Sales",
-    useCases: [
-      "Lead Qualification",
-      "Appointment Scheduling",
-      "Prospect Follow-up",
-      "Win-back Campaigns",
-    ],
+      "Qualify leads, schedule appointments, follow up with prospects, and launch win-back campaigns. Increase conversions with automated engagement.",
   },
   {
     id: 7,
     name: "Call Centers & BPO",
     slug: "call-center-and-bpo-services",
     icon: Phone,
-    description: "Automate surveys, feedback collection, compliance notifications, and data verification.",
-    color: "from-indigo-500 via-indigo-500 to-violet-600",
-    bgColor: "from-indigo-50 to-indigo-50",
-    category: "BPO",
-    useCases: ["Surveys", "Feedback Collection", "Compliance Notifications", "Data Verification"],
+    description:
+      "Automate customer surveys, feedback collection, compliance notifications, and data verification processes. Improve operational efficiency and service quality.",
   },
   {
     id: 8,
@@ -143,11 +114,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "telecommunications-services",
     icon: Phone,
     description:
-      "Handle service activations, billing inquiries, technical support, and contract renewals.",
-    color: "from-teal-500 via-cyan-500 to-blue-600",
-    bgColor: "from-teal-50 to-cyan-50",
-    category: "Telecom",
-    useCases: ["Service Activation", "Billing Support", "Technical Support", "Contract Renewals"],
+      "Handle service activations, billing support, technical assistance, and contract renewal reminders. Deliver faster customer communication and support.",
   },
   {
     id: 9,
@@ -155,11 +122,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "automotive-services",
     icon: Car,
     description:
-      "Manage service reminders, warranty extensions, recalls, insurance updates, and financing options.",
-    color: "from-slate-600 via-gray-700 to-zinc-800",
-    bgColor: "from-slate-50 to-gray-50",
-    category: "Automotive",
-    useCases: ["Service Reminders", "Warranty Extensions", "Recalls", "Insurance Updates"],
+      "Manage service reminders, warranty extensions, recall notifications, insurance updates, and financing assistance. Keep customers informed throughout the ownership journey.",
   },
   {
     id: 10,
@@ -167,11 +130,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "education-services",
     icon: GraduationCap,
     description:
-      "Automate enrollment confirmations, tuition reminders, academic progress updates, and alumni outreach.",
-    color: "from-amber-500 via-yellow-500 to-orange-600",
-    bgColor: "from-amber-50 to-yellow-50",
-    category: "Education",
-    useCases: ["Enrollment Confirmations", "Tuition Reminders", "Progress Updates", "Alumni Outreach"],
+      "Automate enrollment confirmations, tuition reminders, academic progress updates, and alumni engagement campaigns. Improve communication across the education lifecycle.",
   },
   {
     id: 11,
@@ -179,11 +138,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "travel-and-tourism-services",
     icon: Plane,
     description:
-      "Automate booking confirmations, flight updates, check-in reminders, weather alerts, and loyalty program updates. Improve traveler satisfaction while reducing manual support.",
-    color: "from-sky-500 via-blue-500 to-indigo-600",
-    bgColor: "from-sky-50 to-blue-50",
-    category: "Travel",
-    useCases: ["Booking Confirmations", "Flight Updates", "Check-in Reminders", "Loyalty Programs"],
+      "Automate booking confirmations, flight updates, check-in reminders, weather alerts, and loyalty program notifications. Enhance traveler experience with real-time communication.",
   },
   {
     id: 12,
@@ -191,16 +146,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "hospitality-services",
     icon: Hotel,
     description:
-      "Streamline reservation confirmations, concierge services, check-in procedures, feedback collection, and loyalty benefits. Deliver a seamless guest experience.",
-    color: "from-pink-500 via-rose-500 to-red-600",
-    bgColor: "from-sky-50 to-blue-50",
-    category: "Hospitality",
-    useCases: [
-      "Reservation Confirmations",
-      "Concierge Services",
-      "Check-in Procedures",
-      "Loyalty Benefits",
-    ],
+      "Streamline reservation confirmations, concierge assistance, check-in coordination, guest feedback collection, and loyalty program communication.",
   },
   {
     id: 13,
@@ -208,16 +154,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "legal-services",
     icon: Scale,
     description:
-      "Send case updates, appointment reminders, document notifications, and compliance deadlines. Enhance client communication with timely, professional AI calls.",
-    color: "from-amber-500 via-yellow-500 to-orange-600",
-    bgColor: "from-slate-50 to-gray-50",
-    category: "Legal",
-    useCases: [
-      "Case Updates",
-      "Appointment Reminders",
-      "Document Notifications",
-      "Compliance Deadlines",
-    ],
+      "Send case progress updates, appointment reminders, document notifications, and compliance deadline alerts. Deliver secure and professional client communication.",
   },
   {
     id: 14,
@@ -225,11 +162,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "government-services",
     icon: Landmark,
     description:
-      "Manage application status updates, tax notifications, renewal reminders, compliance monitoring, and citizen surveys. Improve public service efficiency.",
-    color: "from-slate-600 via-gray-700 to-zinc-800",
-    bgColor: "from-slate-50 to-gray-50",
-    category: "Government",
-    useCases: ["Application Updates", "Tax Notifications", "Renewal Reminders", "Citizen Surveys"],
+      "Manage application status updates, tax reminders, license renewals, compliance notifications, and citizen engagement surveys. Improve public service efficiency.",
   },
   {
     id: 15,
@@ -237,11 +170,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "utilities-services",
     icon: Zap,
     description:
-      "Automate bill reminders, outage updates, meter reading appointments, and energy efficiency tips. Improve billing transparency and customer trust.",
-    color: "from-yellow-400 via-orange-500 to-red-500",
-    bgColor: "from-blue-50 to-indigo-50",
-    category: "Utilities",
-    useCases: ["Bill Reminders", "Outage Updates", "Meter Readings", "Energy Tips"],
+      "Automate bill reminders, outage notifications, meter reading appointments, and energy-saving recommendations. Improve customer trust and service transparency.",
   },
   {
     id: 16,
@@ -249,16 +178,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "non-profit-organizations-services",
     icon: Users,
     description:
-      "Run donation campaigns, volunteer recruitment, event invitations, grant notifications, and donor thank-you calls. Strengthen community relationships with AI outreach.",
-    color: "from-green-600 via-emerald-600 to-teal-700",
-    bgColor: "from-green-50 to-emerald-50",
-    category: "Non-Profit",
-    useCases: [
-      "Donation Campaigns",
-      "Volunteer Recruitment",
-      "Event Invitations",
-      "Grant Notifications",
-    ],
+      "Run donation campaigns, recruit volunteers, send event invitations, share grant updates, and automate donor appreciation calls. Strengthen community engagement.",
   },
   {
     id: 17,
@@ -266,11 +186,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "transportation-and-logistics-services",
     icon: Truck,
     description:
-      "Provide delivery updates, delay notifications, documentation requirements, rate quotes, and compliance reminders. Optimize supply chain communication.",
-    color: "from-blue-500 via-indigo-500 to-indigo-600",
-    bgColor: "from-blue-50 to-indigo-50",
-    category: "Logistics",
-    useCases: ["Delivery Updates", "Delay Notifications", "Documentation", "Rate Quotes"],
+      "Provide delivery tracking updates, delay notifications, documentation reminders, rate quotations, and compliance alerts. Optimize supply chain communication.",
   },
   {
     id: 18,
@@ -278,11 +194,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "manufacturing-services",
     icon: Factory,
     description:
-      "Automate order confirmations, quality updates, maintenance schedules, safety protocols, and supplier coordination. Ensure smooth production workflows.",
-    color: "from-gray-500 via-slate-600 to-zinc-700",
-    bgColor: "from-gray-50 to-slate-50",
-    category: "Manufacturing",
-    useCases: ["Order Confirmations", "Quality Updates", "Maintenance Schedules", "Safety Protocols"],
+      "Automate production updates, quality assurance notifications, maintenance schedules, safety alerts, and supplier coordination workflows.",
   },
   {
     id: 19,
@@ -290,11 +202,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     slug: "construction-services",
     icon: HardHat,
     description:
-      "Send project updates, permit status, material delivery schedules, safety inspections, and payment milestones. Improve communication with contractors and clients.",
-    color: "from-orange-600 via-red-600 to-rose-700",
-    bgColor: "from-green-50 to-lime-50",
-    category: "Construction",
-    useCases: ["Project Updates", "Permit Status", "Material Deliveries", "Safety Inspections"],
+      "Send project progress updates, permit notifications, material delivery schedules, safety inspection reminders, and payment milestone alerts.",
   },
   {
     id: 20,
@@ -303,10 +211,6 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
     icon: Leaf,
     description:
       "Enable crop management alerts, market updates, insurance claims, loan reminders, and equipment maintenance scheduling. Empower farmers with real-time updates.",
-    color: "from-green-500 via-lime-500 to-emerald-600",
-    bgColor: "from-green-50 to-lime-50",
-    category: "Agriculture",
-    useCases: ["Crop Management", "Market Updates", "Insurance Claims", "Equipment Maintenance"],
   },
 ];
 

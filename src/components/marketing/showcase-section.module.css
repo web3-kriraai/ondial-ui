@@ -1,0 +1,317 @@
+.section {
+  position: relative;
+  overflow-x: visible;
+  padding-block: 1.25rem 5rem;
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding-block: 1.75rem 6rem;
+  }
+}
+
+.header {
+  max-width: 42rem;
+  margin-inline: auto;
+  margin-bottom: 1rem;
+  padding-inline: 1rem;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .header {
+    margin-bottom: 1.25rem;
+    padding-inline: 1.5rem;
+  }
+}
+
+.eyebrow {
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(var(--showcase-accent-h) var(--showcase-accent-s) var(--showcase-accent-l));
+}
+
+.title {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--foreground);
+}
+
+.description {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+.ctaHost {
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .ctaHost {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+  border: 1.5px solid hsl(var(--showcase-accent-h) var(--showcase-accent-s) var(--showcase-accent-l));
+  border-radius: 9999px;
+  background: #fff;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--foreground);
+  text-decoration: none;
+  box-shadow: 0 2px 12px -4px hsl(var(--showcase-accent-h) var(--showcase-accent-s) var(--showcase-accent-l) / 0.2);
+  transition: box-shadow 0.2s ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  box-shadow: 0 4px 24px -8px hsl(var(--showcase-accent-h) var(--showcase-accent-s) var(--showcase-accent-l) / 0.35);
+  outline: none;
+}
+
+.ctaIcon {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: hsl(var(--showcase-accent-h) var(--showcase-accent-s) var(--showcase-accent-l));
+}
+
+.ctaLottieWrap {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.ctaLottie {
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: brightness(0) invert(1);
+}
+
+/* Full width of site shell — avoid 100vw (clipped by overflow-x-hidden on shell) */
+.carouselStage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 0;
+  min-height: var(--carousel-card-h, 28rem);
+  overflow: visible;
+  background: transparent;
+  user-select: none;
+  perspective: 980px;
+  perspective-origin: 50% 50%;
+}
+
+@media (min-width: 640px) {
+  .carouselStage {
+    margin-top: 0;
+  }
+}
+
+.carouselContainer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.carouselRing {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+
+.carouselCard {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--carousel-card-w, 22%);
+  height: var(--carousel-card-h, auto);
+  overflow: visible;
+  border-radius: 20px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: none;
+  will-change: transform;
+}
+
+.carouselCardInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(0.65rem, calc(var(--carousel-card-w, 200px) * 0.058), 1.5rem);
+  overflow: hidden;
+  border-radius: inherit;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.carouselCardHeader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.carouselCategory {
+  padding: 0.2em 0.65em;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.1);
+  font-size: clamp(0.625rem, 0.55rem + 0.18vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.6);
+}
+
+.carouselNum {
+  font-size: clamp(0.95rem, 0.8rem + 0.45vw, 1.25rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgb(255 255 255 / 0.3);
+}
+
+.carouselCardFooter {
+  position: relative;
+  z-index: 1;
+}
+
+.carouselTitle {
+  margin-bottom: 0.35em;
+  font-size: clamp(1rem, 0.82rem + 0.52vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: white;
+  overflow-wrap: anywhere;
+}
+
+.carouselDescription {
+  max-width: 92%;
+  font-size: clamp(0.75rem, 0.68rem + 0.22vw, 0.9rem);
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgb(255 255 255 / 0.7);
+}
+
+@media (max-width: 767px) {
+  .carouselStage {
+    perspective: 900px;
+    perspective-origin: 50% 50%;
+  }
+
+  .carouselRing {
+    top: 50%;
+  }
+
+  .carouselCategory,
+  .carouselNum,
+  .carouselDescription {
+    display: none;
+  }
+
+  .carouselCardInner {
+    justify-content: flex-end;
+  }
+
+  .carouselTitle {
+    margin-bottom: 0;
+    font-size: clamp(0.95rem, 0.78rem + 0.7vw, 1.2rem);
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .carouselStage {
+    perspective: 1100px;
+    perspective-origin: 50% 50%;
+  }
+
+  .carouselRing {
+    top: 50%;
+  }
+
+  .carouselDescription {
+    display: none;
+  }
+}
+
+/* Large screens: fixed card typography (matches 320px card width) */
+@media (min-width: 1024px) {
+  .carouselCardInner {
+    padding: 1.5rem;
+  }
+
+  .carouselCategory {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .carouselNum {
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+  }
+
+  .carouselTitle {
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+  }
+
+  .carouselDescription {
+    max-width: 16rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+}
+
+.carouselHint {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  width: max-content;
+  max-width: 90%;
+  transform: translateX(-50%);
+  font-size: 0.625rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  pointer-events: none;
+  animation: carouselHintPulse 2s ease-in-out infinite;
+}
+
+@keyframes carouselHintPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
