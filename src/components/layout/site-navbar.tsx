@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { ChevronRight, Menu, X } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 
 import { MAIN_NAV } from "@/config/navigation";
 import { Button } from "@/components/ui/button";
@@ -21,26 +21,14 @@ function linkIsActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function desktopLinkClassName(active: boolean) {
+function desktopLinkClassName(highlighted: boolean) {
   return cn(
-    "relative rounded-full px-3.5 py-2 text-[13px] font-medium leading-none tracking-tight transition-[color,transform] duration-200 ease-out sm:px-4 sm:py-2.5",
-    "outline-none focus-visible:ring-2 focus-visible:ring-ring/55 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    "relative rounded-full px-3.5 py-3 text-[13px] font-medium leading-none tracking-tight transition-[color,transform] duration-200 ease-out sm:px-4 sm:py-3.5",
+    "outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
     "motion-reduce:transform-none",
-    active
-      ? "font-semibold text-foreground"
-      : "text-muted-foreground hover:text-foreground active:scale-[0.98]"
-  );
-}
-
-/** Same vertical metrics as `desktopLinkClassName` so both nav pills share one height. */
-function desktopCtaContactClassName(active: boolean) {
-  return cn(
-    "relative rounded-full px-3.5 py-2 text-[13px] font-semibold leading-none tracking-tight transition-[color,transform] duration-200 ease-out sm:px-4 sm:py-2.5",
-    "outline-none focus-visible:ring-2 focus-visible:ring-ring/55 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-    "motion-reduce:transform-none",
-    active
-      ? "text-foreground"
-      : "border border-border/70 bg-background text-foreground shadow-[0_1px_2px_rgba(15,23,42,0.05)] hover:bg-muted/45 active:scale-[0.98]"
+    highlighted
+      ? "font-semibold text-black"
+      : "text-white/90 hover:text-white active:scale-[0.98]"
   );
 }
 
@@ -55,24 +43,216 @@ function mobileLinkClassName(active: boolean) {
   );
 }
 
-/** White pill + soft edge / shadow like the reference (light gray rim, diffused lift). */
+/** Black pill bar with subtle depth — active link sits in a white elevated pill. */
 const glassBar = cn(
-  "relative isolate overflow-hidden rounded-full border border-zinc-200/90",
-  "bg-linear-to-b from-white via-zinc-50/80 to-zinc-100/45",
-  "shadow-[0_6px_28px_-10px_rgba(15,23,42,0.12),0_2px_10px_-4px_rgba(15,23,42,0.08),inset_0_1px_0_0_rgba(255,255,255,0.95)]",
-  "dark:border-white/12 dark:from-white/12 dark:via-white/8 dark:to-white/[0.04]",
-  "dark:shadow-[0_10px_36px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.1)]",
-  "md:backdrop-blur-md md:backdrop-saturate-150 supports-backdrop-filter:md:from-white/90",
-  "before:pointer-events-none before:absolute before:inset-x-3 before:top-0 before:h-px before:bg-linear-to-r before:from-transparent before:via-zinc-300/40 before:to-transparent sm:before:inset-x-4",
+  "relative isolate overflow-hidden rounded-full border border-white/10",
+  "bg-linear-to-b from-zinc-900 via-black to-zinc-950",
+  "shadow-[0_6px_28px_-10px_rgba(0,0,0,0.45),0_2px_10px_-4px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.08)]",
+  "before:pointer-events-none before:absolute before:inset-x-3 before:top-0 before:h-px before:bg-linear-to-r before:from-transparent before:via-white/15 before:to-transparent sm:before:inset-x-4",
   "max-md:before:hidden"
 );
 
-/** Inner track — subtle zinc gradient so links sit in a soft inset. */
+/** Inner track — links sit flush inside the black bar. */
 const navTrack = cn(
-  "relative flex min-h-0 w-fit max-w-full shrink-0 items-center gap-1 self-stretch rounded-full p-1 sm:gap-1.5 sm:p-1.5",
-  "bg-linear-to-b from-zinc-100/90 to-zinc-200/50 ring-1 ring-inset ring-zinc-300/35",
-  "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.75)] dark:from-white/8 dark:to-white/4 dark:ring-white/10"
+  "relative flex min-h-0 w-fit max-w-full shrink-0 items-center gap-0.5 self-stretch rounded-full"
 );
+
+/** White elevated pill — positioned by magnetic track, not per-link inset. */
+const activeNavPill = cn(
+  "pointer-events-none absolute z-0 rounded-full bg-white",
+  "shadow-[0_2px_8px_-2px_rgba(0,0,0,0.25),0_1px_3px_rgba(0,0,0,0.12),inset_0_1px_0_0_rgba(255,255,255,0.95)]"
+);
+
+const stickyPillSpring = (reduceMotion: boolean | null) =>
+  reduceMotion
+    ? { stiffness: 1000, damping: 100, mass: 1 }
+    : { stiffness: 260, damping: 22, mass: 1.05 };
+
+const magneticPullSpring = (reduceMotion: boolean | null) =>
+  reduceMotion
+    ? { stiffness: 1000, damping: 100, mass: 1 }
+    : { stiffness: 180, damping: 14, mass: 0.12 };
+
+type DesktopMagneticNavProps = {
+  items: readonly NavItem[];
+  pathname: string;
+  reduceMotion: boolean | null;
+};
+
+function DesktopMagneticNav({ items, pathname, reduceMotion }: DesktopMagneticNavProps) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const linkRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
+
+  const activeHref = items.find((item) => linkIsActive(pathname, item.href))?.href ?? null;
+  const pillHref = hoveredHref ?? activeHref;
+
+  const pillLeft = useMotionValue(0);
+  const pillWidth = useMotionValue(0);
+  const pillTop = useMotionValue(0);
+  const pillHeight = useMotionValue(0);
+  const pillOffsetX = useMotionValue(0);
+  const pillOffsetY = useMotionValue(0);
+  const pillOpacity = useMotionValue(activeHref ? 1 : 0);
+
+  const springLeft = useSpring(pillLeft, stickyPillSpring(reduceMotion));
+  const springWidth = useSpring(pillWidth, stickyPillSpring(reduceMotion));
+  const springTop = useSpring(pillTop, stickyPillSpring(reduceMotion));
+  const springHeight = useSpring(pillHeight, stickyPillSpring(reduceMotion));
+  const springOffsetX = useSpring(pillOffsetX, magneticPullSpring(reduceMotion));
+  const springOffsetY = useSpring(pillOffsetY, magneticPullSpring(reduceMotion));
+  const springOpacity = useSpring(pillOpacity, { stiffness: 400, damping: 28 });
+
+  const syncPillToLink = useCallback(
+    (href: string | null, resetMagnetic = true) => {
+      const track = trackRef.current;
+      const link = href ? linkRefs.current.get(href) : undefined;
+      if (!track || !link) {
+        if (!href) pillOpacity.set(0);
+        return;
+      }
+
+      const trackRect = track.getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+      pillLeft.set(linkRect.left - trackRect.left);
+      pillWidth.set(linkRect.width);
+      pillTop.set(linkRect.top - trackRect.top);
+      pillHeight.set(linkRect.height);
+      pillOpacity.set(1);
+
+      if (resetMagnetic) {
+        pillOffsetX.set(0);
+        pillOffsetY.set(0);
+      }
+    },
+    [pillHeight, pillLeft, pillOffsetX, pillOffsetY, pillOpacity, pillTop, pillWidth]
+  );
+
+  const findNearestHref = useCallback((clientX: number, clientY: number) => {
+    let nearest: string | null = null;
+    let minScore = Infinity;
+
+    for (const [href, el] of linkRefs.current) {
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = clientX - centerX;
+      const dy = clientY - centerY;
+      const score = dx * dx + dy * dy * 1.4;
+
+      if (score < minScore) {
+        minScore = score;
+        nearest = href;
+      }
+    }
+
+    return nearest;
+  }, []);
+
+  useLayoutEffect(() => {
+    syncPillToLink(pillHref);
+  }, [pillHref, syncPillToLink, items]);
+
+  useEffect(() => {
+    setHoveredHref(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onResize = () => syncPillToLink(pillHref, false);
+    window.addEventListener("resize", onResize);
+
+    const track = trackRef.current;
+    if (!track) {
+      return () => window.removeEventListener("resize", onResize);
+    }
+
+    const ro = new ResizeObserver(onResize);
+    ro.observe(track);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      ro.disconnect();
+    };
+  }, [pillHref, syncPillToLink]);
+
+  const handleTrackMouseMove = useCallback(
+    (event: MouseEvent<HTMLDivElement>) => {
+      if (reduceMotion) return;
+
+      const nearest = findNearestHref(event.clientX, event.clientY);
+      if (nearest) setHoveredHref(nearest);
+
+      const link = nearest ? linkRefs.current.get(nearest) : undefined;
+      if (!link) return;
+
+      const rect = link.getBoundingClientRect();
+      const nx = (event.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+      const ny = (event.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+      const clamp = (value: number, max: number) => Math.max(-max, Math.min(max, value));
+
+      pillOffsetX.set(clamp(nx * 6, 7));
+      pillOffsetY.set(clamp(ny * 3, 4));
+    },
+    [findNearestHref, pillOffsetX, pillOffsetY, reduceMotion]
+  );
+
+  const clearHover = useCallback(() => {
+    setHoveredHref(null);
+    pillOffsetX.set(0);
+    pillOffsetY.set(0);
+  }, [pillOffsetX, pillOffsetY]);
+
+  return (
+    <div
+      ref={trackRef}
+      className={cn(navTrack, "relative")}
+      onMouseMove={handleTrackMouseMove}
+      onMouseLeave={clearHover}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+          clearHover();
+        }
+      }}
+    >
+      <motion.div
+        aria-hidden
+        className={activeNavPill}
+        style={{
+          left: springLeft,
+          width: springWidth,
+          top: springTop,
+          height: springHeight,
+          x: springOffsetX,
+          y: springOffsetY,
+          opacity: springOpacity,
+        }}
+      />
+
+      {items.map((item) => {
+        const active = linkIsActive(pathname, item.href);
+        const highlighted = pillHref === item.href;
+
+        return (
+          <Link
+            key={item.href}
+            ref={(node) => {
+              if (node) linkRefs.current.set(item.href, node);
+              else linkRefs.current.delete(item.href);
+            }}
+            href={item.href}
+            prefetch
+            className={desktopLinkClassName(highlighted)}
+            aria-current={active ? "page" : undefined}
+            onMouseEnter={() => setHoveredHref(item.href)}
+            onFocus={() => setHoveredHref(item.href)}
+          >
+            <span className="relative z-10">{item.label}</span>
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
 
 export type SiteNavbarProps = {
   /** Defaults to `MAIN_NAV` from `@/config/navigation`. */
@@ -163,32 +343,7 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
     if (mobileOpen) setMenuLatchOpen(true);
   }, [mobileOpen]);
 
-  const renderDesktopLinks = (navItems: readonly NavItem[]) =>
-    navItems.map((item) => {
-      const active = linkIsActive(pathname, item.href);
-      return (
-        <Link
-          key={item.href}
-          href={item.href}
-          prefetch
-          className={desktopLinkClassName(active)}
-          aria-current={active ? "page" : undefined}
-        >
-          {active && (
-            <motion.div
-              layoutId="desktop-nav-pill"
-              className="absolute inset-0 z-0 rounded-full bg-background/90 shadow-[0_1px_2px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] ring-1 ring-foreground/[0.08]"
-              transition={{
-                type: "spring",
-                bounce: 0.18,
-                duration: 0.45,
-              }}
-            />
-          )}
-          <span className="relative z-10">{item.label}</span>
-        </Link>
-      );
-    });
+  const allDesktopItems = contactItem ? [...desktopRowItems, contactItem] : desktopRowItems;
 
   const drawerTransition = reduceMotion
     ? { duration: 0.01 }
@@ -366,8 +521,8 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
       <div className="pointer-events-none relative z-[1] mx-auto flex w-full justify-end px-2 sm:px-3 md:justify-center">
         <div
           className={cn(
-            "pointer-events-auto relative z-[2] flex w-fit max-w-[min(100%,calc(100vw-1.25rem))] shrink-0 items-center rounded-full p-1 sm:p-1.5",
-            "gap-1 sm:gap-1.5",
+            "pointer-events-auto relative z-[2] flex w-fit max-w-[min(100%,calc(100vw-1.25rem))] shrink-0 items-center rounded-full p-0.5 sm:p-1",
+            "gap-0.5 sm:gap-1",
             end && "md:gap-2",
             glassBar
           )}
@@ -376,30 +531,11 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
               aria-label="Primary"
               className="hidden min-h-0 flex-row flex-wrap items-stretch justify-center gap-1 sm:gap-1.5 md:flex"
             >
-              <div className={navTrack}>{renderDesktopLinks(desktopRowItems)}</div>
-              {contactItem ? (
-                <div className={navTrack}>
-                  <Link
-                    href={contactItem.href}
-                    prefetch
-                    className={desktopCtaContactClassName(linkIsActive(pathname, contactItem.href))}
-                    aria-current={linkIsActive(pathname, contactItem.href) ? "page" : undefined}
-                  >
-                    {linkIsActive(pathname, contactItem.href) && (
-                      <motion.div
-                        layoutId="desktop-nav-pill"
-                        className="absolute inset-0 z-0 rounded-full bg-background/90 shadow-[0_1px_2px_rgba(15,23,42,0.06),inset_0_1px_0_0_rgba(255,255,255,0.9)] ring-1 ring-foreground/[0.08]"
-                        transition={{
-                          type: "spring",
-                          bounce: 0.18,
-                          duration: 0.45,
-                        }}
-                      />
-                    )}
-                    <span className="relative z-10">{contactItem.label}</span>
-                  </Link>
-                </div>
-              ) : null}
+              <DesktopMagneticNav
+                items={allDesktopItems}
+                pathname={pathname}
+                reduceMotion={reduceMotion}
+              />
             </nav>
 
             <div
@@ -413,10 +549,10 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
                 type="button"
                 className={cn(
                   "relative z-[100] inline-flex touch-manipulation md:hidden",
-                  "size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-0 bg-transparent text-foreground ring-0 backdrop-blur-md",
-                  "hover:bg-muted/30 hover:shadow-[0_4px_20px_rgba(15,23,42,0.1)]",
+                  "size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-0 bg-transparent text-white ring-0",
+                  "hover:bg-white/10 hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)]",
                   "active:scale-[0.96] motion-reduce:active:scale-100",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 )}
                 aria-expanded={menuBusy}
                 aria-controls={menuBusy ? menuId : undefined}

@@ -1,0 +1,182 @@
+/* Two columns: copy left, orbit visual right (desktop) */
+.integrationsSection {
+  overflow: hidden;
+  padding-block: clamp(1.75rem, 4vw, 3rem);
+}
+
+.composition {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 2rem);
+  width: 100%;
+  max-width: 100%;
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 28rem;
+  padding-inline: 0.5rem;
+  text-align: center;
+  pointer-events: auto;
+}
+
+.orbitColumn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* SSR/hydration-safe shell before client orbit mounts (no inline dimensions). */
+.orbitPlaceholder {
+  width: 100%;
+  min-height: clamp(11rem, 42vw, 17rem);
+}
+
+.semiOrbitWrap {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.semiOrbitStage {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.orbitPivot {
+  position: relative;
+  flex-shrink: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.semiOrbitGuides {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: color-mix(in oklab, var(--border) 92%, transparent);
+  overflow: visible;
+}
+
+.semiOrbitGuides image {
+  pointer-events: none;
+}
+
+/* Mobile: centered copy (top) + full-width semi-circle orbit (bottom) */
+@media (max-width: 767px) {
+  .integrationsSection {
+    overflow-x: clip;
+    overflow-y: visible;
+    padding-top: clamp(2.25rem, 6.5vw, 3rem);
+    padding-bottom: clamp(1.25rem, 4vw, 1.75rem);
+  }
+
+  .composition {
+    align-items: stretch;
+    gap: clamp(0.5rem, 2vw, 1rem);
+    width: 100%;
+  }
+
+  .copy {
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    margin-inline: auto;
+    padding-inline: clamp(0.75rem, 4vw, 1.25rem);
+    text-align: center;
+  }
+
+  /* Full-bleed orbit — quarter arc (bottom-right pivot), clipped to 90° */
+  .orbitColumn {
+    order: 2;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    width: 100vw;
+    max-width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    min-height: 0;
+    align-items: flex-end;
+    justify-content: flex-end;
+    overflow: visible;
+  }
+
+  .semiOrbitWrap {
+    width: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .semiOrbitStage {
+    width: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+    overflow: visible;
+  }
+
+  .semiOrbitWrap {
+    overflow: visible;
+  }
+
+  .orbitPivotQuarter {
+    margin-inline: 0;
+  }
+
+  .semiOrbitWrap[data-orbit-layout="quarter"] .orbitIconSlot {
+    left: 100%;
+    top: 100%;
+  }
+
+  .semiOrbitWrap[data-orbit-layout="quarter"] .semiOrbitGuides {
+    z-index: 0;
+    pointer-events: none;
+  }
+
+}
+
+/* Desktop: side-by-side grid */
+@media (min-width: 768px) {
+  .composition {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    min-height: clamp(28rem, 44vw, 40rem);
+  }
+
+  .copy {
+    max-width: 36rem;
+    padding-inline: 0;
+    text-align: left;
+  }
+
+  .orbitColumn {
+    overflow: visible;
+  }
+
+  .semiOrbitWrap,
+  .semiOrbitStage {
+    overflow: visible;
+  }
+}

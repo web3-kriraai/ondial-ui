@@ -1,6 +1,7 @@
 .section {
   position: relative;
   overflow-x: visible;
+  background: var(--background);
   padding-block: 1.25rem 5rem;
 }
 
@@ -146,25 +147,74 @@
   top: 50%;
   width: var(--carousel-card-w, 22%);
   height: var(--carousel-card-h, auto);
-  overflow: visible;
+  overflow: hidden;
   border-radius: 20px;
+  transform-style: preserve-3d;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   box-shadow: none;
   will-change: transform;
 }
 
+.carouselCardBg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: translateZ(1px);
+}
+
+.carouselCardHasImage .carouselCardInner {
+  opacity: 0;
+  pointer-events: none;
+  background: transparent;
+  transition:
+    opacity 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.carouselCardHasImage.carouselCardShowDetail .carouselCardInner {
+  opacity: 1;
+  pointer-events: auto;
+  background: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 0.55) 0%,
+    rgb(0 0 0 / 0.68) 45%,
+    rgb(0 0 0 / 0.82) 100%
+  );
+}
+
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .carouselCardHasImage.carouselCardShowDetail .carouselCardInner {
+    background: rgb(0 0 0 / 0.5);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .carouselCardHasImage .carouselCardInner {
+    opacity: 1;
+    pointer-events: auto;
+    justify-content: flex-end;
+    background: linear-gradient(180deg, transparent 30%, rgb(0 0 0 / 0.78) 100%);
+  }
+}
+
 .carouselCardInner {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(0.65rem, calc(var(--carousel-card-w, 200px) * 0.058), 1.5rem);
   overflow: hidden;
   border-radius: inherit;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  transform: translateZ(2px);
 }
 
 .carouselCardHeader {

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 import { AppLayoutShell } from "@/components/layout/app-layout-shell";
 import { AppProviders } from "@/components/providers/app-providers";
@@ -7,17 +7,11 @@ import { AppProviders } from "@/components/providers/app-providers";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const fontMono = Geist_Mono({
-  variable: "--font-mono",
+const fontSans = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-});
-
-const fontDisplay = Playfair_Display({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400", "700", "900"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -45,10 +39,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", fontMono.variable, fontDisplay.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", "font-sans", fontSans.variable)}
       suppressHydrationWarning
     >
-      <body className="flex min-h-dvh  flex-col">
+      <body className="flex min-h-dvh flex-col font-sans">
         <AppProviders>
           <AppLayoutShell>{children}</AppLayoutShell>
         </AppProviders>

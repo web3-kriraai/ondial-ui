@@ -4,7 +4,14 @@ import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteShell } from "@/components/layout/site-shell";
+
+function footerShowsCtaCard(pathname: string) {
+  if (pathname === "/login" || pathname === "/signup") return false;
+  if (pathname.startsWith("/auth/")) return false;
+  return true;
+}
 
 type AppLayoutShellProps = {
   children: ReactNode;
@@ -21,9 +28,12 @@ export function AppLayoutShell({ children }: AppLayoutShellProps) {
     el.scrollTop = 0;
   }, [pathname]);
 
+  const showFooterCta = footerShowsCtaCard(pathname);
+
   return (
     <SiteShell
       shellScrollerRef={shellScrollRef}
+      footer={<SiteFooter showCtaCard={showFooterCta} />}
       /* `min-h-min` with `SiteShell` `grow shrink-0` on `main` keeps height to content (no clipping over footer). */
       mainClassName="flex min-h-min flex-col"
     >

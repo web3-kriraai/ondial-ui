@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -14,6 +14,8 @@ export type CarouselCard = {
   title: string;
   description: string;
   color: string;
+  /** Optional full-bleed card background — falls back to solid `color` when omitted. */
+  image?: string;
 };
 
 const CARD_CONTENT: Omit<CarouselCard, "color">[] = [
@@ -79,6 +81,7 @@ const CARD_CONTENT: Omit<CarouselCard, "color">[] = [
     title: "Automotive",
     description:
       "Manage service reminders, warranty extensions, recall notifications, insurance updates, and financing assistance. Keep customers informed throughout the ownership journey.",
+    image: "/automotive.jpg",
   },
   {
     num: "10",
@@ -307,6 +310,7 @@ export function ThreeDCarousel() {
   const isDraggingRef = useRef(false);
   const isHoveredRef = useRef(false);
   const autoRotateTweenRef = useRef<gsap.core.Tween | null>(null);
+  const [detailCardNum, setDetailCardNum] = useState<string | null>(null);
 
   const pauseAutoRotate = () => {
     autoRotateTweenRef.current?.pause();
@@ -421,6 +425,16 @@ export function ThreeDCarousel() {
     window.removeEventListener("touchend", onDragEnd);
   };
 
+  const showCardDetail = (num: string) => {
+    if (!isDraggingRef.current) {
+      setDetailCardNum(num);
+    }
+  };
+
+  const hideCardDetail = () => {
+    setDetailCardNum(null);
+  };
+
   const onMouseMove = (e: globalThis.MouseEvent) => {
     drag(e.clientX);
   };
@@ -433,6 +447,7 @@ export function ThreeDCarousel() {
 
   const dragStart = (clientX: number) => {
     isDraggingRef.current = true;
+    setDetailCardNum(null);
     xPosRef.current = Math.round(clientX);
     pauseAutoRotate();
     if (stageRef.current) {
@@ -482,12 +497,30 @@ export function ThreeDCarousel() {
     >
       <div className={styles.carouselContainer}>
         <div ref={ringRef} className={styles.carouselRing}>
-          {CAROUSEL_CARDS.map((card) => (
+          {CAROUSEL_CARDS.map((card) => {
+            const showDetail = Boolean(card.image && detailCardNum === card.num);
+
+            return (
             <div
               key={card.num}
-              className={`carousel-card ${styles.carouselCard}`}
+              className={`carousel-card ${styles.carouselCard}${card.image ? ` ${styles.carouselCardHasImage}` : ""}${showDetail ? ` ${styles.carouselCardShowDetail}` : ""}`}
               style={{ backgroundColor: card.color }}
+              onMouseEnter={() => showCardDetail(card.num)}
+              onMouseLeave={hideCardDetail}
+              onFocusCapture={() => showCardDetail(card.num)}
+              onBlurCapture={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                  hideCardDetail();
+                }
+              }}
             >
+              {card.image ? (
+                <div
+                  className={styles.carouselCardBg}
+                  style={{ backgroundImage: `url(${card.image})` }}
+                  aria-hidden
+                />
+              ) : null}
               <div className={styles.carouselCardInner}>
                 <div className={styles.carouselCardHeader}>
                   <span className={styles.carouselCategory}>{card.category}</span>
@@ -500,7 +533,8 @@ export function ThreeDCarousel() {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

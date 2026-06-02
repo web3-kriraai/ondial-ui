@@ -1,0 +1,6 @@
+<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <title>LeadSquared</title>
+  <rect width="24" height="24" rx="5" fill="#F15A29"/>
+  <path fill="#fff" d="M7 7h3.8c2.4 0 3.9 1.2 3.9 3 0 1.2-.7 2.1-1.8 2.6L15.8 17H12.2l-2.5-3.7H10.2V17H7V7Zm3.2 2v2h1.3c.7 0 1.1-.35 1.1-.9s-.45-.9-1.1-.9H10.2Z"/>
+  <path fill="#fff" d="M16.5 7H19v10h-2.5V7Z"/>
+</svg>

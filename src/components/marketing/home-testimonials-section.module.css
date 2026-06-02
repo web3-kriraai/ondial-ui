@@ -1,0 +1,299 @@
+/* Full-screen testimonials hero — soft edge fades, no hard borders */
+
+.section {
+  position: relative;
+  width: 100%;
+  background: var(--background);
+  overflow: hidden;
+  border: none;
+  box-shadow: none;
+}
+
+.cardWrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: min(100dvh, 56rem);
+  overflow: hidden;
+  background: var(--background);
+  --artboard-width: 1200;
+  --artboard-height: 420;
+  --testimonial-col-gap: 0;
+}
+
+/* Grid lines removed — seamless section background */
+.cardWrap::before {
+  content: none;
+}
+
+.photoGrid {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: min(53vh, 25rem);
+  z-index: 1;
+  pointer-events: none;
+  --artboard-width: 1200;
+  --artboard-height: 420;
+  --testimonial-col-gap: 0;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 14%,
+    black 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 14%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+/* Blur on inner edges — soft fade toward center copy */
+.innerSideBlur {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.innerSideBlur::before,
+.innerSideBlur::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: min(26vw, 14rem);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.innerSideBlur::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--background) 0%,
+    color-mix(in oklab, var(--background) 55%, transparent) 70%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to right, black 0%, black 35%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 0%, black 35%, transparent 100%);
+}
+
+.innerSideBlur::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--background) 0%,
+    color-mix(in oklab, var(--background) 55%, transparent) 70%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to left, black 0%, black 35%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black 0%, black 35%, transparent 100%);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .innerSideBlur::before,
+  .innerSideBlur::after {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      color-mix(in oklab, var(--background) 75%, transparent) 50%,
+      var(--background) 100%
+    );
+  }
+
+  .innerSideBlur::after {
+    background: linear-gradient(
+      to left,
+      transparent 0%,
+      color-mix(in oklab, var(--background) 75%, transparent) 50%,
+      var(--background) 100%
+    );
+  }
+}
+
+/* Soft halo behind copy — aligned with text block, not full viewport */
+.centerBackdrop {
+  position: absolute;
+  left: 50%;
+  top: clamp(16rem, 46vh, 24rem);
+  z-index: 2;
+  width: min(88%, 32rem);
+  height: clamp(14rem, 34vh, 20rem);
+  pointer-events: none;
+  transform: translate(-50%, -12%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: radial-gradient(
+    ellipse 75% 70% at 50% 55%,
+    color-mix(in oklab, var(--background) 88%, transparent) 0%,
+    color-mix(in oklab, var(--background) 58%, transparent) 45%,
+    transparent 100%
+  );
+}
+
+.col {
+  position: absolute;
+  top: 0;
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--testimonial-col-gap);
+  width: calc(var(--col-width) / var(--artboard-width) * 100%);
+  padding-top: calc(var(--col-padding-top) / var(--artboard-height) * min(53vh, 25rem));
+  box-sizing: border-box;
+}
+
+.colLeft {
+  left: calc(var(--col-offset) / var(--artboard-width) * 100%);
+}
+
+.colRight {
+  right: calc(var(--col-offset) / var(--artboard-width) * 100%);
+}
+
+.colCenter {
+  left: calc(var(--col-offset) / var(--artboard-width) * 100%);
+  z-index: 2;
+}
+
+.spacer {
+  flex-shrink: 0;
+  width: 100%;
+  height: calc(var(--spacer) * 1px);
+}
+
+.photoCard {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 100%;
+  opacity: 0;
+  animation: riseIn 0.55s cubic-bezier(0.22, 0.68, 0, 1.2) forwards;
+}
+
+/* Show top placeholders partially clipped, like the reference */
+.topPlaceholder {
+  margin-top: var(--top-placeholder-pull, -4.25rem);
+}
+
+.photoCardInner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0.875rem;
+  background: color-mix(in oklab, var(--muted) 65%, var(--background));
+  transform: translateY(1.125rem);
+  animation: riseInY 0.55s cubic-bezier(0.22, 0.68, 0, 1.2) forwards;
+  isolation: isolate;
+}
+
+.placeholder .photoCardInner {
+  background: color-mix(in oklab, var(--muted) 80%, var(--background));
+}
+
+.photoImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.875rem;
+}
+
+.photoImageMonochrome {
+  filter: grayscale(1);
+}
+
+@keyframes riseIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes riseInY {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photoCard {
+    opacity: 1;
+    animation: none;
+  }
+
+  .photoCardInner {
+    transform: none;
+    animation: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .colShowMd {
+    display: flex;
+  }
+}
+
+@media (min-width: 1280px) {
+  .colShowLg {
+    display: flex;
+  }
+
+  .photoGrid {
+    transform: none;
+  }
+}
+
+.center {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 48rem;
+  padding: 8.5rem 1.25rem 3rem;
+  pointer-events: auto;
+}
+
+/* Mobile */
+.mobileMosaic {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  padding: 5rem 0.75rem 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+@media (min-width: 768px) {
+  .mobileMosaic {
+    display: none;
+  }
+}
+
+.mobileTile {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--muted) 75%, var(--background));
+}
+
+.mobileTileOffset {
+  margin-top: 1.25rem;
+}
+
+.mobileTileOffset2 {
+  margin-top: 2.5rem;
+}

@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { type CSSProperties } from "react";
 
+import { SERVICE_MATTE_COLORS } from "@/lib/services-data";
 import { cn } from "@/lib/utils";
 
 type ServiceCardProps = {
@@ -17,25 +17,10 @@ type ServiceCardProps = {
   className?: string;
 };
 
-/** Match ~90% browser zoom while the user is at 100% zoom (uniform scale). */
-const ZOOM_90 = 0.9;
-
-/**
- * Reference size in rem → output rem string at 90% visual scale.
- */
-function rem90(baseRem: number): string {
-  const v = Math.round(baseRem * ZOOM_90 * 1000) / 1000;
-  return `${v}rem`;
-}
-
 // Map tailwind bg colors to hex for SVG fill
-const BG_COLOR_MAP: Record<string, string> = {
-  "bg-[#5D57A3]": "#5D57A3",
-  "bg-[#0057C7]": "#0057C7",
-  "bg-[#6A7036]": "#6A7036",
-  "bg-[#BA6A36]": "#BA6A36",
-  "bg-[#4A4E69]": "#4A4E69",
-};
+const BG_COLOR_MAP = Object.fromEntries(
+  SERVICE_MATTE_COLORS.map((hex) => [`bg-[${hex}]`, hex]),
+) as Record<string, string>;
 
 type ServiceCardInnerProps = ServiceCardProps;
 
@@ -44,66 +29,46 @@ function ServiceCardInner(props: ServiceCardInnerProps) {
   void props.image;
   void props.link;
   void props.id;
-  const fillColor = BG_COLOR_MAP[bgColor] || "#5D57A3";
-
-  // Keep card text block position consistent on all devices.
-  const paddingRem = rem90(2.75);
-  const titleFontRem = rem90(2.0625);
-
-  const titleStyle: CSSProperties = {
-    fontSize: titleFontRem,
-    maxWidth: "100%",
-    lineHeight: 1.1,
-  };
-
-  const descriptionVars = {
-    ["--service-desc-fs" as string]: rem90(0.875),
-  } as CSSProperties;
+  const fillColor = BG_COLOR_MAP[bgColor] || SERVICE_MATTE_COLORS[0];
 
   return (
     <div
       className={cn(
-        "relative flex h-full min-h-0 w-full flex-col overflow-hidden font-semibold tracking-tight text-white transition-opacity duration-300",
+        "relative flex h-full w-full flex-col overflow-hidden text-white transition-opacity duration-300",
+        "px-5 pb-10 pt-6 sm:px-6 sm:pb-11 sm:pt-7 lg:px-8 lg:pb-12 lg:pt-8",
         className,
       )}
-      style={{ padding: paddingRem }}
     >
       <div className="absolute inset-0 z-0">
         <svg
-          viewBox="160 40 360 240"
-          className="h-full w-full drop-shadow-xl"
+          viewBox="0 0 360 240"
+          className="h-full w-full"
           preserveAspectRatio="none"
+          shapeRendering="geometricPrecision"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M160 120 L160 240 Q160 280 200 280 H440 Q460 280 460 260 Q460 220 500 220 Q520 220 520 200 V80 Q520 40 480 40 H200 Q160 40 160 80 Z"
+            d="M0 80 V200 C0 222 18 240 40 240 H284 C300 240 312 228 312 212 C312 190 330 176 350 176 C356 176 360 172 360 166 V40 C360 18 342 0 320 0 H40 C18 0 0 18 0 40 Z"
             fill={fillColor}
           />
         </svg>
       </div>
 
-      <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden pb-10 pr-[2.65rem] pt-0 sm:pb-11 sm:pr-[2.85rem] md:pb-12 md:pr-10 lg:pr-12">
-        <div
-          className={cn(
-            "flex w-full max-w-full min-w-0 flex-1 flex-col",
-            "gap-3 sm:gap-3.5 md:gap-4",
-            "max-md:overflow-hidden",
-            "md:min-h-0 md:overflow-y-auto md:overflow-x-hidden md:overscroll-contain md:[-webkit-overflow-scrolling:touch]",
-          )}
-        >
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col pr-10 sm:pr-11 lg:pr-12">
+        <div className="flex min-h-0 flex-1 flex-col gap-3 sm:gap-3.5 lg:gap-4">
           <h3
-            className="w-full max-w-full shrink-0 text-pretty text-inherit max-md:line-clamp-2 max-md:!text-[clamp(0.95rem,2.4vw+0.55rem,1.35rem)]"
-            style={titleStyle}
+            className={cn(
+              "w-full max-w-full shrink-0 text-pretty font-semibold tracking-tight",
+              "line-clamp-2 text-[clamp(1.05rem,1.2vw+0.9rem,1.9rem)] leading-[1.12]",
+            )}
           >
             {title}
           </h3>
           <p
             className={cn(
-              "w-full max-w-full min-w-0 text-pretty font-normal text-white/90 [overflow-wrap:anywhere] [text-wrap:pretty]",
-              "max-md:text-[clamp(0.65rem,1.15vw+0.48rem,0.8rem)] max-md:leading-[1.38] max-md:line-clamp-7 max-md:overflow-hidden",
-              "md:leading-relaxed md:line-clamp-none md:[font-size:var(--service-desc-fs)]",
+              "w-full max-w-full min-w-0 text-pretty font-normal text-white/90 wrap-anywhere",
+              "line-clamp-5 text-[clamp(0.78rem,0.32vw+0.72rem,1rem)] leading-normal sm:line-clamp-5 lg:line-clamp-6",
             )}
-            style={descriptionVars}
           >
             {description}
           </p>
@@ -118,27 +83,22 @@ export default function ServiceCard(props: ServiceCardProps) {
 }
 
 export function ServiceCardWithButton(props: ServiceCardProps) {
-  const topOffset = rem90(1.1);
-  const linkInset = rem90(0.275);
-  const hoverLiftRem = `${-(Math.round((11 / 16) * ZOOM_90 * 1000) / 1000)}rem`;
-
   return (
     <motion.div
-      whileHover={{ y: hoverLiftRem }}
+      whileHover={{ y: -8 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative aspect-[360/240] w-full"
-      style={{ paddingTop: topOffset }}
+      className="group w-full"
     >
-      <div className="absolute inset-0" style={{ top: topOffset }}>
-        <ServiceCardInner {...props} />
-      </div>
-
-      <div className="absolute bottom-0 z-20" style={{ right: linkInset }}>
+      <div className="relative aspect-3/2 w-full min-h-58 sm:min-h-0">
+        <ServiceCardInner
+          {...props}
+          className="h-full rounded-[1.35rem] sm:rounded-[1.5rem]"
+        />
         <Link
           href={props.link}
           className={cn(
-            "flex shrink-0 items-center justify-center rounded-full bg-black text-white shadow-lg transition-all hover:scale-110 active:scale-95",
-            "h-10 w-10 md:h-12 md:w-12 lg:h-[3.55rem] lg:w-[3.55rem] ",
+            "absolute bottom-2 right-2 z-20 flex shrink-0 items-center justify-center rounded-full bg-black text-white transition-all hover:scale-110 active:scale-95 sm:bottom-2.5 sm:right-2.5",
+            "h-10 w-10 md:h-12 md:w-12 lg:h-[3.55rem] lg:w-[3.55rem]",
           )}
         >
           <ArrowRight

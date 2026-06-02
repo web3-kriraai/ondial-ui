@@ -1,6 +1,6 @@
 export function HomeHero() {
   return (
-    <section className="border-b border-border/50 bg-background px-4 pb-12 pt-24 sm:px-6 sm:pb-14 sm:pt-28 lg:px-8 lg:pb-16 lg:pt-32">
+    <section className="bg-background px-4 pb-12 pt-24 sm:px-6 sm:pb-14 sm:pt-28 lg:px-8 lg:pb-16 lg:pt-32">
       <div className="mx-auto w-full min-w-0 max-w-[min(100%,80rem)]">
         <div className="max-w-3xl">
           <p className="mb-3 text-sm font-medium text-primary">Ondial</p>

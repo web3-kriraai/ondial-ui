@@ -8,6 +8,9 @@ import type { CSSProperties } from "react";
 
 import arrowRightAnimation from "@/assets/animations/arrow-right.json";
 import { ThreeDCarousel } from "@/components/marketing/three-d-carousel";
+import { marketingSectionBgClass } from "@/config/marketing-layout";
+
+import { cn } from "@/lib/utils";
 
 import styles from "./showcase-section.module.css";
 
@@ -71,7 +74,8 @@ const ctaArrowVariants = {
 export function ShowcaseSection() {
   return (
     <section
-      className={styles.section}
+      id="hero"
+      className={cn(styles.section, marketingSectionBgClass)}
       style={
         {
           "--showcase-accent-h": "262",
@@ -81,7 +85,8 @@ export function ShowcaseSection() {
       }
       aria-label="Platform showcase"
     >
-      <header className={styles.header}>
+      <header className={styles.header + " mb-10"}>
+        <p className="text-center text-black text-sm bg-purple-300 rounded-full px-2 py-1 w-fit mx-auto border border-purple-500 mb-5 mt-4">more than 1000+ companies use Ondial</p>
         <h2 className={styles.title}>Automate Your Calls with AI</h2>
         <p className={styles.description}>
           Explore how teams use AI voice for reminders, outreach, surveys, and
@@ -91,6 +96,7 @@ export function ShowcaseSection() {
       </header>
 
       <ThreeDCarousel />
+      <p className="text-center text-black/50 text-sm ">Create voice agents that have natural, flowing conversations and provide 24/7 customer support with human-like understanding.</p>
     </section>
   );
 }

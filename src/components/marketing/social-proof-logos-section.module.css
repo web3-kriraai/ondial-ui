@@ -1,0 +1,134 @@
+.section {
+  width: 100%;
+  padding-block: clamp(2.5rem, 6vw, 3.5rem);
+  background: var(--background);
+}
+
+.header {
+  margin: 0 auto clamp(1.5rem, 4vw, 2rem);
+  max-width: 40rem;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: clamp(0.8125rem, 2vw, 0.9375rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted-foreground);
+}
+
+.eyebrowStrong {
+  color: var(--foreground);
+}
+
+.marquee {
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+.viewport {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.viewport::before,
+.viewport::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: clamp(2rem, 8vw, 6rem);
+  pointer-events: none;
+}
+
+.viewport::before {
+  left: 0;
+  background: linear-gradient(to right, var(--background) 0%, transparent 100%);
+}
+
+.viewport::after {
+  right: 0;
+  background: linear-gradient(to left, var(--background) 0%, transparent 100%);
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  width: max-content;
+  padding-block: 0.5rem;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+  will-change: transform;
+  animation: social-proof-marquee 38s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    gap: 1.5rem 2.5rem;
+  }
+
+  .viewport {
+    overflow: visible;
+  }
+
+  .viewport::before,
+  .viewport::after {
+    display: none;
+  }
+}
+
+.logoItem {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding-inline: 0.25rem;
+  opacity: 0.55;
+  filter: grayscale(1);
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease;
+}
+
+.logoItem:hover,
+.logoItem:focus-within {
+  opacity: 0.9;
+  filter: grayscale(0.35);
+}
+
+.wordmark {
+  display: block;
+  height: clamp(1.25rem, 2.5vw, 1.65rem);
+  width: auto;
+  max-width: clamp(6rem, 14vw, 9rem);
+  color: var(--foreground);
+}
+
+.logoImage {
+  height: clamp(1.25rem, 2.5vw, 1.75rem);
+  width: auto;
+  max-width: clamp(5.5rem, 14vw, 8.5rem);
+  object-fit: contain;
+  object-position: center;
+}
+
+@keyframes social-proof-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

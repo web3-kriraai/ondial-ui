@@ -140,7 +140,6 @@ export function SignupForm() {
     <div className="w-full max-w-[min(28rem,calc(100vw-1.5rem))] origin-top sm:max-w-[min(36rem,calc(100vw-2rem))] animate-in fade-in slide-in-from-bottom-2 duration-500">
       <h1
         className="mb-0.5 text-center text-[1.35rem] font-bold leading-tight tracking-tight text-foreground sm:text-[1.65rem]"
-        style={{ fontFamily: "var(--font-display)" }}
       >
         Create account
       </h1>

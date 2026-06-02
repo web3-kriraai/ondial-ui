@@ -1,12 +1,11 @@
 "use client";
 
-import { type ComponentPropsWithRef, useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import type { EmblaCarouselType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 
 import { ServiceCardWithButton } from "./service-card";
 import { SERVICES_DATA } from "@/lib/services-data";
-import { cn } from "@/lib/utils";
 
 function useDotButton(emblaApi: EmblaCarouselType | undefined) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -56,7 +55,7 @@ function useDotButton(emblaApi: EmblaCarouselType | undefined) {
 
 /** Slide width as % of the track; `calc` subtracts flex `gap` share per column count. */
 const slideBasisClasses =
-  "min-w-0 shrink-0 grow-0 basis-full md:basis-[calc((100%-1rem)/2)] xl:basis-[calc((100%-3rem)/4)]";
+  "min-w-0 shrink-0 grow-0 basis-full sm:basis-[calc((100%-1rem)/2)] lg:basis-[calc((100%-2rem)/3)] 2xl:basis-[calc((100%-3rem)/4)]";
 
 export default function ServicesSlider() {
   const [viewportEl, setViewportEl] = useState<HTMLDivElement | null>(null);
@@ -143,7 +142,7 @@ export default function ServicesSlider() {
           className="overflow-x-clip overflow-y-hidden px-4 sm:px-6 lg:px-8 xl:px-12"
           ref={setViewportRef}
         >
-          <div className="flex touch-pan-y gap-3 [touch-action:pan-y_pinch-zoom] sm:gap-4 sm:[touch-action:pan-y_pinch-zoom]">
+          <div className="flex touch-pan-y gap-4 [touch-action:pan-y_pinch-zoom] lg:gap-5">
             {SERVICES_DATA.map((service) => (
               <div key={service.id} className={slideBasisClasses}>
                 <ServiceCardWithButton {...service} />
