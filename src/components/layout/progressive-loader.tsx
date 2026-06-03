@@ -1,6 +1,5 @@
 "use client";
 
-import NumberFlow, { continuous } from "@number-flow/react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
@@ -152,36 +151,23 @@ export function ProgressiveLoader() {
           variants={prefersReducedMotion ? overlayExitReduced : overlayExitVariants}
           exit="exit"
         >
-          <div className={styles.counterWrap}>
-            <NumberFlow
-              value={progress}
-              format={{ useGrouping: false, maximumFractionDigits: 0 }}
-              locales="en-US"
-              className={styles.counter}
-              plugins={[continuous]}
-              willChange
-              transformTiming={{
-                easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-                duration: prefersReducedMotion ? 0 : 480,
-              }}
-              spinTiming={{
-                easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-                duration: prefersReducedMotion ? 0 : 520,
-              }}
-            />
-          </div>
+          <div className={styles.footer}>
+            <div className={styles.bottomRow}>
+              <span className={styles.counter}>{progress}</span>
+            </div>
 
-          <div className={styles.progressTrack} aria-hidden>
-            <motion.div
-              className={styles.progressFill}
-              initial={false}
-              animate={{ scaleX: barProgress / 100 }}
-              transition={{
-                duration: prefersReducedMotion ? 0 : 0.35,
-                ease: smoothEase,
-              }}
-              style={{ transformOrigin: "left center" }}
-            />
+            <div className={styles.progressTrack} aria-hidden>
+              <motion.div
+                className={styles.progressFill}
+                initial={false}
+                animate={{ scaleX: barProgress / 100 }}
+                transition={{
+                  duration: prefersReducedMotion ? 0 : 0.35,
+                  ease: smoothEase,
+                }}
+                style={{ transformOrigin: "left center" }}
+              />
+            </div>
           </div>
         </motion.div>
       ) : null}
