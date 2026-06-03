@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { AuthCollagePanel } from "@/components/auth/auth-collage-panel";
 import { cn } from "@/lib/utils";
 
 type AuthSplitLayoutProps = {
@@ -32,7 +33,7 @@ export function AuthSplitLayout({
         className,
       )}
     >
-      <div className="flex h-full min-h-0 flex-col bg-background md:border-r md:border-border/50">
+      <div className="flex h-full min-h-0 flex-col bg-background">
         <div
           id="auth-form-scroll"
           className={cn(
@@ -51,8 +52,10 @@ export function AuthSplitLayout({
         className={cn("hidden h-full min-h-0 flex-col bg-background md:flex")}
         aria-hidden
       >
-        <div className="min-h-0 w-full flex-1 overflow-hidden  pt-5 pr-2 pb-2">
-          <div className="bg-blue-400 h-full w-full rounded-2xl"></div>
+        <div className={cn("min-h-0 w-full flex-1 overflow-visible", panelPad)}>
+          <div className="flex h-full min-h-0 w-full items-center justify-center overflow-visible rounded-2xl">
+            <AuthCollagePanel />
+          </div>
         </div>
       </div>
     </div>
