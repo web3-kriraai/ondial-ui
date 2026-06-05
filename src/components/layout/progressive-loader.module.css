@@ -1,4 +1,4 @@
-.overlay {
+.viewport {
   --loader-bg: #fafafa;
   --loader-fg: #6b7280;
   --loader-line: #000000;
@@ -9,15 +9,32 @@
   inset: 0;
   z-index: 9999;
   overflow: hidden;
-  will-change: transform;
+  pointer-events: none;
+}
+
+.clipDefs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
   background-color: var(--loader-bg);
+  will-change: transform, clip-path;
+  backface-visibility: hidden;
 }
 
 .footer {
   position: absolute;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   bottom: 0;
+  z-index: 1;
   display: flex;
   flex-direction: column;
 }
@@ -35,13 +52,14 @@
   flex-shrink: 0;
   width: 100%;
   height: var(--loader-progress-h);
-  background: color-mix(in srgb, var(--loader-line) 12%, var(--loader-bg));
+  background: color-mix(in srgb, var(--loader-line) 18%, var(--loader-bg));
 }
 
 .progressFill {
   width: 100%;
   height: 100%;
   background: var(--loader-line);
+  transform-origin: left center;
   will-change: transform;
 }
 

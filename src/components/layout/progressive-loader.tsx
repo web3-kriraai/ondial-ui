@@ -1,10 +1,16 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import gsap from "gsap";
+import { useReducedMotion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { runLoadProgress, runNavigationProgress } from "@/lib/loading-progress";
+import {
+  LOADER_CLIP_FLAT,
+  LOADER_CLIP_TRANSFORM,
+  runLoaderExitAnimation,
+} from "@/lib/loader-mask-morph";
 
 import styles from "./progressive-loader.module.css";
 
@@ -16,25 +22,7 @@ const NAV_MIN_VISIBLE_MS = 700;
 const NAV_MIN_COUNTER_RAMP_MS = 1400;
 const NAV_MAX_WAIT_MS = 10000;
 
-const EXIT_DURATION_S = 0.8;
-const COUNTER_COMPLETE_HOLD_MS = 280;
-
-const smoothEase = [0.22, 1, 0.36, 1] as const;
-
-/** No entry — panel exits upward smoothly. */
-const overlayExitVariants = {
-  exit: {
-    y: "-100%",
-    transition: { duration: EXIT_DURATION_S, ease: smoothEase },
-  },
-};
-
-const overlayExitReduced = {
-  exit: {
-    opacity: 0,
-    transition: { duration: 0.45, ease: smoothEase },
-  },
-};
+const COUNTER_COMPLETE_HOLD_MS = 320;
 
 function easeOutCubic(t: number) {
   return 1 - (1 - t) ** 3;
@@ -43,6 +31,11 @@ function easeOutCubic(t: number) {
 export function ProgressiveLoader() {
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
+  const clipId = useId().replace(/:/g, "");
+  const panelRef = useRef<HTMLDivElement>(null);
+  const clipPathRef = useRef<SVGPathElement>(null);
+  const exitTweenRef = useRef<gsap.core.Timeline | gsap.core.Tween | null>(null);
+
   const [progress, setProgress] = useState(0);
   const [barProgress, setBarProgress] = useState(0);
   const [show, setShow] = useState(true);
@@ -66,24 +59,78 @@ export function ProgressiveLoader() {
     displayRef.current = 0;
     loadProgressRef.current = 0;
 
+    if (clipPathRef.current) {
+      clipPathRef.current.setAttribute("d", LOADER_CLIP_FLAT);
+    }
+    if (panelRef.current) {
+      gsap.set(panelRef.current, { opacity: 1, y: 0, yPercent: 0, force3D: true });
+    }
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     let cancelled = false;
     let finishRequested = false;
     let counterComplete = false;
+    let exitStarted = false;
     const startedAt = performance.now();
+
+    const finishExit = () => {
+      if (cancelled) return;
+      requestAnimationFrame(() => {
+        setShow(false);
+        requestAnimationFrame(() => {
+          document.body.style.overflow = previousOverflow;
+        });
+      });
+    };
+
+    const startExit = () => {
+      if (cancelled || exitStarted) return;
+      exitStarted = true;
+
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+
+      setProgress(100);
+      setBarProgress(100);
+
+      const elapsed = performance.now() - startedAt;
+      const waitBeforeExit = Math.max(0, minVisibleMs - elapsed);
+
+      window.setTimeout(() => {
+        if (cancelled) return;
+
+        const useCurvyExit =
+          !prefersReducedMotion && clipPathRef.current !== null && panelRef.current !== null;
+
+        if (useCurvyExit) {
+          exitTweenRef.current = runLoaderExitAnimation(
+            clipPathRef.current!,
+            panelRef.current!,
+            finishExit,
+          );
+          return;
+        }
+
+        const panel = panelRef.current;
+        if (panel) {
+          exitTweenRef.current = gsap.to(panel, {
+            yPercent: -100,
+            duration: 0.75,
+            ease: "power2.inOut",
+            onComplete: finishExit,
+          });
+        } else {
+          finishExit();
+        }
+      }, waitBeforeExit);
+    };
 
     const requestHide = () => {
       if (cancelled || !counterComplete) return;
-      const elapsed = performance.now() - startedAt;
-      const waitBeforeHide = Math.max(0, minVisibleMs - elapsed);
-
-      window.setTimeout(() => {
-        if (!cancelled) {
-          setShow(false);
-        }
-      }, waitBeforeHide);
+      window.setTimeout(startExit, COUNTER_COMPLETE_HOLD_MS);
     };
 
     const tick = () => {
@@ -97,6 +144,7 @@ export function ProgressiveLoader() {
       } else {
         target = Math.min(target, 99);
       }
+
       const current = displayRef.current;
       const delta = target - current;
       let next = current;
@@ -115,10 +163,10 @@ export function ProgressiveLoader() {
 
       if (finishRequested && rounded >= 100 && !counterComplete) {
         counterComplete = true;
-        window.setTimeout(requestHide, COUNTER_COMPLETE_HOLD_MS);
+        requestHide();
       }
 
-      if (!cancelled) {
+      if (!cancelled && !exitStarted) {
         rafRef.current = requestAnimationFrame(tick);
       }
     };
@@ -142,53 +190,54 @@ export function ProgressiveLoader() {
     return () => {
       cancelled = true;
       window.clearTimeout(timeoutId);
+      exitTweenRef.current?.kill();
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
       }
       document.body.style.overflow = previousOverflow;
     };
-  }, [pathname]);
+  }, [pathname, prefersReducedMotion]);
+
+  if (!show) {
+    return null;
+  }
 
   return (
-    <AnimatePresence
-      onExitComplete={() => {
-        document.body.style.overflow = "";
-      }}
-    >
-      {show ? (
-        <motion.div
-          key={`progressive-loader-${pathname}`}
-          className={styles.overlay}
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={progress}
-          aria-busy
-          aria-label="Loading page"
-          initial={false}
-          variants={prefersReducedMotion ? overlayExitReduced : overlayExitVariants}
-          exit="exit"
-        >
-          <div className={styles.footer}>
-            <div className={styles.bottomRow}>
-              <span className={styles.counter}>{progress}</span>
-            </div>
+    <div className={styles.viewport}>
+      <svg className={styles.clipDefs} aria-hidden>
+        <defs>
+          <clipPath id={clipId} clipPathUnits="objectBoundingBox" transform={LOADER_CLIP_TRANSFORM}>
+            <path ref={clipPathRef} d={LOADER_CLIP_FLAT} />
+          </clipPath>
+        </defs>
+      </svg>
 
-            <div className={styles.progressTrack} aria-hidden>
-              <motion.div
-                className={styles.progressFill}
-                initial={false}
-                animate={{ scaleX: barProgress / 100 }}
-                transition={{
-                  duration: prefersReducedMotion ? 0 : 0.35,
-                  ease: smoothEase,
-                }}
-                style={{ transformOrigin: "left center" }}
-              />
-            </div>
+      <div
+        ref={panelRef}
+        className={styles.panel}
+        style={{
+          clipPath: `url(#${clipId})`,
+          WebkitClipPath: `url(#${clipId})`,
+        }}
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={progress}
+        aria-busy
+        aria-label="Loading page"
+      >
+        <div className={styles.footer}>
+          <div className={styles.bottomRow}>
+            <span className={styles.counter}>{progress}</span>
           </div>
-        </motion.div>
-      ) : null}
-    </AnimatePresence>
+          <div className={styles.progressTrack} aria-hidden>
+            <div
+              className={styles.progressFill}
+              style={{ transform: `scaleX(${barProgress / 100})` }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
