@@ -8,6 +8,8 @@ import {
   PhoneIncoming, CalendarDays, Filter, BellRing, FileText, UserCheck,
   MessageSquare, Clock, Plug, Languages, BarChart2, Settings, Database,
   ShieldCheck, Play,
+  Brain, Wrench, CheckCheck, UserPlus, Bell, Tag, Search,
+  Flame, Star, RotateCcw, PhoneCall, ListChecks, CalendarCheck,
 } from "lucide-react";
 import type { IndustryPageContent } from "@/data/industry-hero-content";
 import { useDemoSync } from "@/components/providers/demo-sync-context";
@@ -18,6 +20,8 @@ import { cn } from "@/lib/utils";
 const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   PhoneIncoming, CalendarDays, Filter, BellRing, FileText, UserCheck,
   MessageSquare, Clock, Plug, Languages, BarChart2, Settings, Database, ShieldCheck,
+  Brain, Wrench, CheckCheck, UserPlus, Bell, Tag, Search,
+  Flame, Star, RotateCcw, PhoneCall, ListChecks, CalendarCheck,
 };
 function Icon({ name, className }: { name: string; className?: string }) {
   const C = ICONS[name] ?? PhoneIncoming;
@@ -443,7 +447,639 @@ function DemoPlayer({ scenarios }: { scenarios: IndustryPageContent["demoScenari
         .transcript-scroll::-webkit-scrollbar-track{background:transparent}
         .transcript-scroll::-webkit-scrollbar-thumb{background:#D4D2F0;border-radius:99px}
         .transcript-scroll::-webkit-scrollbar-thumb:hover{background:#9B96E0}
+        .hiw-pipeline::-webkit-scrollbar{width:4px}
+        .hiw-pipeline::-webkit-scrollbar-track{background:transparent}
+        .hiw-pipeline::-webkit-scrollbar-thumb{background:#D4D2F0;border-radius:99px}
+        .hiw-pipeline::-webkit-scrollbar-thumb:hover{background:#9B96E0}
       `}</style>
+    </div>
+  );
+}
+
+/* ─── How it works — interactive call simulation ─────────── */
+type CallStatus  = "idle" | "ringing" | "live" | "resolved";
+type StageStatus = "idle" | "active" | "processing" | "done";
+
+interface SimTool    { label: string; icon: string }
+interface SimAction  { icon: string; label: string; val: string }
+interface SimLog     { t: string; dot: "pur" | "grn" | "amb"; text: string }
+interface SimOutcome { icon: string; label: string; val: string }
+interface SimScene {
+  caller: string; num: string; av: string;
+  callerMsg: string;
+  intents: string[];
+  tools: SimTool[];
+  aiReply: string;
+  actions: SimAction[];
+  logLines: SimLog[];
+  outcomes: SimOutcome[];
+}
+
+const RE_SCENES: SimScene[] = [
+  {
+    caller: "Ravi Shah", num: "+91 98765 43210", av: "RS",
+    callerMsg: "Hi, I saw a 3BHK listing on your site in Bandra West — is it still available, and what's the asking price?",
+    intents: ["Property inquiry", "3BHK · Bandra West", "Positive", "English", "Normal"],
+    tools: [
+      { label: "listing_search()", icon: "Database" },
+      { label: "price_lookup()",   icon: "Tag" },
+      { label: "crm_lookup()",     icon: "Search" },
+    ],
+    aiReply: "Yes, the 3BHK in Bandra West is still available! It's ₹1.2 Cr for 1,450 sq ft with parking. Would you like to schedule a viewing?",
+    actions: [
+      { icon: "Database", label: "Listing fetched",    val: "3BHK · Bandra West · ₹1.2Cr" },
+      { icon: "UserPlus", label: "Lead created",       val: "CRM · Ravi Shah" },
+      { icon: "FileText", label: "Transcript saved",   val: "Full call recorded" },
+      { icon: "Bell",     label: "Agent notified",     val: "Slack alert sent" },
+    ],
+    logLines: [
+      { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+      { t: "0:03", dot: "pur", text: "Intent detected: property inquiry" },
+      { t: "0:04", dot: "amb", text: "listing_search() called → 1 result" },
+      { t: "0:04", dot: "amb", text: "crm_lookup() → new lead" },
+      { t: "0:06", dot: "pur", text: "Response generated + spoken" },
+      { t: "0:09", dot: "grn", text: "Lead logged in CRM · agent notified" },
+    ],
+    outcomes: [
+      { icon: "PhoneCall",  label: "Call answered", val: "< 2s" },
+      { icon: "UserCheck",  label: "Lead captured",  val: "CRM updated" },
+      { icon: "Star",       label: "CSAT",           val: "4.9 / 5" },
+      { icon: "Clock",      label: "Handle time",    val: "1m 12s" },
+    ],
+  },
+  {
+    caller: "Priya Mehta", num: "+91 90000 11223", av: "PM",
+    callerMsg: "I'd like to book a viewing for the sea-facing 2BHK in Worli. Can you check Saturday morning?",
+    intents: ["Booking intent", "2BHK · Worli · Sat", "Positive", "English", "High"],
+    tools: [
+      { label: "calendar_check()", icon: "CalendarDays" },
+      { label: "slot_book()",      icon: "CalendarCheck" },
+      { label: "sms_send()",       icon: "MessageSquare" },
+    ],
+    aiReply: "Saturday 11 AM is available for the Worli 2BHK. I've booked it for you and sent a confirmation SMS with the address.",
+    actions: [
+      { icon: "CalendarCheck", label: "Slot booked",   val: "Sat · 11:00 AM · Worli" },
+      { icon: "MessageSquare", label: "SMS sent",      val: "Confirmation to Priya" },
+      { icon: "Database",      label: "CRM updated",   val: "Viewing scheduled" },
+      { icon: "UserCheck",     label: "Agent assigned",val: "Amit K. notified" },
+    ],
+    logLines: [
+      { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+      { t: "0:03", dot: "pur", text: "Intent: viewing request — Worli 2BHK" },
+      { t: "0:04", dot: "amb", text: "calendar_check() → Sat 11am free" },
+      { t: "0:05", dot: "amb", text: "slot_book() → confirmed" },
+      { t: "0:05", dot: "amb", text: "sms_send() → confirmation dispatched" },
+      { t: "0:07", dot: "grn", text: "Viewing booked · agent notified" },
+    ],
+    outcomes: [
+      { icon: "CalendarCheck", label: "Viewing booked", val: "Sat 11 AM" },
+      { icon: "MessageSquare", label: "SMS sent",       val: "Confirmed" },
+      { icon: "Star",          label: "CSAT",           val: "5.0 / 5" },
+      { icon: "Clock",         label: "Handle time",    val: "0m 58s" },
+    ],
+  },
+  {
+    caller: "Ankit Desai", num: "+91 77711 88990", av: "AD",
+    callerMsg: "I'm looking for a flat. Budget is around 60 lakhs. I want to move in within 2 months. Any options?",
+    intents: ["Lead qualification", "Budget ₹60L · 2mo", "Positive", "English", "High urgency"],
+    tools: [
+      { label: "lead_score()",    icon: "BarChart2" },
+      { label: "listing_match()", icon: "Search" },
+      { label: "crm_create()",    icon: "UserPlus" },
+      { label: "agent_alert()",   icon: "Bell" },
+    ],
+    aiReply: "Great! Based on your budget and timeline, I have 3 listings that could be a perfect fit. I've flagged your inquiry as high priority — our agent will call you within the hour.",
+    actions: [
+      { icon: "Flame",    label: "Lead scored",       val: "Hot · 94 / 100" },
+      { icon: "Search",   label: "3 listings matched", val: "₹55–62L range" },
+      { icon: "UserPlus", label: "Lead created",      val: "CRM · High priority" },
+      { icon: "Bell",     label: "Agent alerted",     val: "Immediate callback" },
+    ],
+    logLines: [
+      { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+      { t: "0:03", dot: "pur", text: "Intent: lead qualification · budget ₹60L" },
+      { t: "0:04", dot: "amb", text: "lead_score() → 94/100 hot lead" },
+      { t: "0:04", dot: "amb", text: "listing_match() → 3 results" },
+      { t: "0:05", dot: "amb", text: "crm_create() → lead saved" },
+      { t: "0:06", dot: "grn", text: "Agent alerted · callback scheduled" },
+    ],
+    outcomes: [
+      { icon: "Flame",      label: "Hot lead",          val: "Score 94/100" },
+      { icon: "ListChecks", label: "Listings matched",  val: "3 properties" },
+      { icon: "Star",       label: "CSAT",              val: "4.8 / 5" },
+      { icon: "Clock",      label: "Handle time",       val: "1m 30s" },
+    ],
+  },
+];
+
+const STAGE_DEFS = [
+  { icon: "PhoneIncoming", title: "Call received" },
+  { icon: "Brain",         title: "Speech-to-text + NLP" },
+  { icon: "Wrench",        title: "Tool routing" },
+  { icon: "MessageSquare", title: "AI response generated" },
+  { icon: "CheckCheck",    title: "Actions taken" },
+  { icon: "BarChart2",     title: "Call logged + analytics" },
+];
+
+const INTENT_LABELS = ["Intent", "Entity", "Sentiment", "Language", "Urgency"];
+
+function HowItWorks() {
+  const [sceneIdx,   setSceneIdx]   = useState(0);
+  const [running,    setRunning]    = useState(false);
+  const [callStatus, setCallStatus] = useState<CallStatus>("idle");
+  const [waveH,      setWaveH]      = useState<number[]>(Array(12).fill(4));
+
+  const [stStatus, setStStatus] = useState<StageStatus[]>(Array(6).fill("idle"));
+  const [stBadge,  setStBadge]  = useState<string[]>(Array(6).fill("Waiting"));
+  const [stOpen,   setStOpen]   = useState<boolean[]>(Array(6).fill(false));
+
+  const [intentTags, setIntentTags] = useState<{ label: string; matched: boolean }[]>(
+    INTENT_LABELS.map(l => ({ label: l, matched: false }))
+  );
+  const [toolChips, setToolChips] = useState<{ label: string; icon: string; state: "calling" | "called" }[]>([]);
+  const [tr0,       setTr0]       = useState<{ who: "ai" | "caller"; text: string }[]>([]);
+  const [tr3,       setTr3]       = useState<{ who: "ai" | "caller"; text: string }[]>([]);
+  const [actions,   setActions]   = useState<SimAction[]>([]);
+  const [logLines,  setLogLines]  = useState<SimLog[]>([]);
+  const [outcomes,  setOutcomes]  = useState<SimOutcome[]>([]);
+
+  const cancelRef   = useRef(false);
+  const waveTimer   = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pipelineRef = useRef<HTMLDivElement>(null);
+  const stageRefs   = useRef<(HTMLDivElement | null)[]>([]);
+
+  const sleep = (ms: number) =>
+    new Promise<void>(res => setTimeout(res, ms));
+
+  function stopWave() {
+    if (waveTimer.current) { clearInterval(waveTimer.current); waveTimer.current = null; }
+    setWaveH(Array(12).fill(4));
+  }
+
+  function startWave() {
+    stopWave();
+    waveTimer.current = setInterval(() => {
+      setWaveH(Array.from({ length: 12 }, () => 4 + Math.round(Math.random() * 22)));
+    }, 130);
+  }
+
+  function hardReset() {
+    stopWave();
+    setCallStatus("idle");
+    setStStatus(Array(6).fill("idle"));
+    setStBadge(Array(6).fill("Waiting"));
+    setStOpen(Array(6).fill(false));
+    setActiveStageIdx(-1);
+    setIntentTags(INTENT_LABELS.map(l => ({ label: l, matched: false })));
+    setToolChips([]);
+    setTr0([]); setTr3([]);
+    setActions([]); setLogLines([]); setOutcomes([]);
+    if (pipelineRef.current) pipelineRef.current.scrollTo({ top: 0, behavior: "smooth" });
+
+  }
+
+  const [activeStageIdx, setActiveStageIdx] = useState(-1);
+
+  function activateStage(i: number) {
+    setStStatus(s => { const n = [...s]; n[i] = "active"; return n; });
+    setStBadge(s  => { const n = [...s]; n[i] = "Processing..."; return n; });
+    setStOpen(s   => { const n = [...s]; n[i] = true; return n; });
+    setActiveStageIdx(i);
+  }
+
+  // Keep the active stage fully in view at all times.
+  // • If the header scrolls above the container → scroll up to pin it at top.
+  // • If the bottom grows below the container (log lines, outcomes being added) → follow it down.
+  // ResizeObserver fires for every pixel of growth so nothing ever gets clipped.
+  useEffect(() => {
+    if (activeStageIdx < 0) return;
+    const container = pipelineRef.current;
+    const el        = stageRefs.current[activeStageIdx];
+    if (!container || !el) return;
+
+    const doScroll = (isInitial = false) => {
+      const cRect = container.getBoundingClientRect();
+      const eRect = el.getBoundingClientRect();
+
+      const headerAboveTop  = eRect.top  < cRect.top  - 4;
+      const bottomBelowBase = eRect.bottom > cRect.bottom + 4;
+
+      if (isInitial || headerAboveTop) {
+        // Pin header to top of container
+        const top = container.scrollTop + (eRect.top - cRect.top) - 10;
+        container.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+      } else if (bottomBelowBase) {
+        // Follow new content growing at the bottom
+        const top = container.scrollTop + (eRect.bottom - cRect.bottom) + 10;
+        container.scrollTo({ top, behavior: "smooth" });
+      }
+    };
+
+    // Anchor header immediately
+    doScroll(true);
+
+    // Track all size changes for the lifetime of this active stage
+    const ro = new ResizeObserver(() => doScroll(false));
+    ro.observe(el);
+
+    return () => ro.disconnect();
+  }, [activeStageIdx]);
+  function processingStage(i: number, text: string) {
+    setStStatus(s => { const n = [...s]; n[i] = "processing"; return n; });
+    setStBadge(s  => { const n = [...s]; n[i] = text; return n; });
+  }
+  function doneStage(i: number, text: string) {
+    setStStatus(s => { const n = [...s]; n[i] = "done"; return n; });
+    setStBadge(s  => { const n = [...s]; n[i] = text; return n; });
+  }
+
+  async function startSim() {
+    if (running) return;
+    cancelRef.current = false;
+    setRunning(true);
+    hardReset();
+    const s = RE_SCENES[sceneIdx];
+
+    // ─ Ringing ─
+    setCallStatus("ringing");
+    await sleep(1300); if (cancelRef.current) return;
+
+    // ─ Live ─
+    setCallStatus("live");
+    startWave();
+
+    // Stage 0 — Call received
+    activateStage(0);
+    await sleep(600); if (cancelRef.current) return;
+    processingStage(0, "Answering...");
+    setTr0([{ who: "caller", text: s.callerMsg }]);
+    await sleep(950); if (cancelRef.current) return;
+    setTr0(t => [...t, { who: "ai", text: "Thank you for calling! Let me look into that for you right away." }]);
+    doneStage(0, "Answered");
+    await sleep(500); if (cancelRef.current) return;
+
+    // Stage 1 — NLP
+    activateStage(1);
+    await sleep(500); if (cancelRef.current) return;
+    processingStage(1, "Analysing...");
+    for (let i = 0; i < s.intents.length; i++) {
+      await sleep(260); if (cancelRef.current) return;
+      const label = s.intents[i];
+      setIntentTags(prev => {
+        const n = [...prev];
+        n[i] = { label, matched: true };
+        return n;
+      });
+    }
+    await sleep(400); if (cancelRef.current) return;
+    doneStage(1, "Intent detected");
+    await sleep(400); if (cancelRef.current) return;
+
+    // Stage 2 — Tool routing
+    activateStage(2);
+    await sleep(400); if (cancelRef.current) return;
+    processingStage(2, "Calling tools...");
+    for (let i = 0; i < s.tools.length; i++) {
+      await sleep(370); if (cancelRef.current) return;
+      setToolChips(prev => [...prev, { ...s.tools[i], state: "calling" }]);
+    }
+    await sleep(700); if (cancelRef.current) return;
+    setToolChips(prev => prev.map(c => ({ ...c, state: "called" })));
+    doneStage(2, "Tools resolved");
+    await sleep(400); if (cancelRef.current) return;
+
+    // Stage 3 — AI response
+    activateStage(3);
+    await sleep(500); if (cancelRef.current) return;
+    processingStage(3, "Generating...");
+    await sleep(850); if (cancelRef.current) return;
+    setTr3([{ who: "ai", text: s.aiReply }]);
+    doneStage(3, "Response spoken");
+    await sleep(400); if (cancelRef.current) return;
+
+    // Stage 4 — Actions
+    activateStage(4);
+    await sleep(400); if (cancelRef.current) return;
+    processingStage(4, "Executing...");
+    for (let i = 0; i < s.actions.length; i++) {
+      await sleep(370); if (cancelRef.current) return;
+      setActions(prev => [...prev, s.actions[i]]);
+    }
+    doneStage(4, "All actions done");
+    await sleep(400); if (cancelRef.current) return;
+
+    // Stage 5 — Logging
+    activateStage(5);
+    await sleep(400); if (cancelRef.current) return;
+    processingStage(5, "Logging...");
+    for (let i = 0; i < s.logLines.length; i++) {
+      await sleep(310); if (cancelRef.current) return;
+      setLogLines(prev => [...prev, s.logLines[i]]);
+    }
+    await sleep(400); if (cancelRef.current) return;
+    setOutcomes(s.outcomes);
+    doneStage(5, "Logged");
+
+    // Resolved
+    setCallStatus("resolved");
+    stopWave();
+    setRunning(false);
+  }
+
+  function resetSim() {
+    cancelRef.current = true;
+    setRunning(false);
+    hardReset();
+  }
+
+  // Cleanup on unmount
+  useEffect(() => () => { cancelRef.current = true; stopWave(); }, []);
+
+  const scene  = RE_SCENES[sceneIdx];
+  const isDone = callStatus === "resolved";
+  const isLive = callStatus === "live";
+
+  const statusLabel: Record<CallStatus, string> = {
+    idle: "Idle", ringing: "Ringing...", live: "Live call", resolved: "Resolved",
+  };
+  const statusCls: Record<CallStatus, string> = {
+    idle:     "bg-muted/60 text-muted-foreground",
+    ringing:  "bg-[#FAEEDA] text-[#633806]",
+    live:     "bg-[#E1F5EE] text-[#085041]",
+    resolved: "bg-[#EEEDFE] text-[#3C3489]",
+  };
+
+  const stageBorderCls: Record<StageStatus, string> = {
+    idle:       "border-border/50",
+    active:     "border-[#7F77DD]",
+    processing: "border-[#EF9F27]/60",
+    done:       "border-[#1D9E75]/50",
+  };
+  const stageIconCls: Record<StageStatus, string> = {
+    idle:       "bg-muted/50 text-muted-foreground",
+    active:     "bg-[#EEEDFE] text-[#534AB7]",
+    processing: "bg-[#FAEEDA] text-[#633806]",
+    done:       "bg-[#E1F5EE] text-[#085041]",
+  };
+  const stageBadgeCls: Record<StageStatus, string> = {
+    idle:       "bg-muted/60 text-muted-foreground",
+    active:     "bg-[#EEEDFE] text-[#3C3489]",
+    processing: "bg-[#FAEEDA] text-[#633806]",
+    done:       "bg-[#E1F5EE] text-[#085041]",
+  };
+
+  return (
+    <div>
+      {/* Header */}
+      <p className={cn(marketingEyebrowClass, "mb-4")}>How it works</p>
+      <h2 className="text-balance text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-3xl mb-3">
+        From ring to resolution — live
+      </h2>
+      <p className="text-base leading-relaxed text-muted-foreground mb-8 max-w-xl">
+        Watch the AI agent receive a call, understand intent, call tools, and take action in real time.
+      </p>
+
+      {/* Simulation grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-[188px_1fr] gap-3 items-start">
+
+        {/* ── Left: phone + scenario ── */}
+        <div className="flex sm:flex-col gap-3 flex-wrap" style={{ maxHeight: 520 }}>
+
+          {/* Phone frame */}
+          <div className="bg-muted/30 border border-border/60 rounded-2xl p-4 flex flex-col items-center gap-3 min-w-[160px] flex-1 sm:flex-none">
+            <div className="w-12 h-1 bg-border/60 rounded-full" />
+
+            <div className="w-12 h-12 rounded-full bg-[#EEEDFE] flex items-center justify-center text-base font-semibold text-[#3C3489]">
+              {scene.av}
+            </div>
+
+            <div className="text-center">
+              <p className="text-[13px] font-medium text-foreground">{scene.caller}</p>
+              <p className="text-[11px] text-muted-foreground">{scene.num}</p>
+            </div>
+
+            <span className={cn("text-[11px] font-medium px-3 py-0.5 rounded-full transition-colors", statusCls[callStatus])}>
+              {statusLabel[callStatus]}
+            </span>
+
+            {/* Waveform */}
+            <div className="flex items-center gap-0.5 h-7 justify-center">
+              {waveH.map((h, i) => (
+                <div key={i} className="w-[3px] rounded-sm bg-[#AFA9EC]"
+                  style={{ height: `${h}px`, transition: "height 130ms" }} />
+              ))}
+            </div>
+
+            <button
+              onClick={isDone ? resetSim : startSim}
+              disabled={running && !isDone}
+              className={cn(
+                "w-full text-[12px] font-medium rounded-xl px-3 py-1.5 transition-colors",
+                "bg-[#534AB7] text-white hover:bg-[#4338CA] disabled:opacity-50 disabled:cursor-not-allowed"
+              )}
+            >
+              {isDone ? (
+                <><RotateCcw className="inline w-3 h-3 mr-1 -mt-px" />Run again</>
+              ) : (
+                <><PhoneIncoming className="inline w-3 h-3 mr-1 -mt-px" />Simulate call</>
+              )}
+            </button>
+
+            {(running || isDone) && (
+              <button onClick={resetSim}
+                className="w-full text-[12px] text-muted-foreground border border-border/60 rounded-xl px-3 py-1.5 hover:bg-muted/40 transition-colors">
+                <RotateCcw className="inline w-3 h-3 mr-1 -mt-px" />Reset
+              </button>
+            )}
+          </div>
+
+          {/* Scenario selector */}
+          <div className="flex-1 sm:flex-none">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-muted-foreground mb-2">Scenario</p>
+            <div className="flex flex-col gap-1.5">
+              {RE_SCENES.map((sc, i) => (
+                <button key={i} onClick={() => { if (!running) { setSceneIdx(i); hardReset(); } }}
+                  disabled={running}
+                  className={cn(
+                    "text-[11px] px-3 py-1.5 rounded-full border text-left transition-all",
+                    sceneIdx === i
+                      ? "bg-[#EEEDFE] text-[#3C3489] border-[#AFA9EC] font-medium"
+                      : "bg-background text-muted-foreground border-border/50 hover:bg-muted/40 disabled:opacity-50",
+                  )}>
+                  {sc.caller === "Ravi Shah"   ? "Property inquiry" :
+                   sc.caller === "Priya Mehta" ? "Book a viewing"   : "Lead qualification"}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Right: pipeline stages ── */}
+        <div ref={pipelineRef}
+          className="hiw-pipeline flex flex-col gap-2 overflow-y-auto pr-1"
+          style={{ height: 520, scrollbarWidth: "thin", scrollbarColor: "#D4D2F0 transparent" }}>
+          {STAGE_DEFS.map((def, i) => {
+            const st = stStatus[i];
+            return (
+              <div key={i}
+                ref={el => { stageRefs.current[i] = el; }}
+                className={cn(
+                  "border rounded-xl overflow-hidden bg-background transition-colors duration-300 shrink-0",
+                  stageBorderCls[st]
+                )}>
+                {/* Stage header */}
+                <div className="flex items-center gap-2.5 px-3.5 py-2.5">
+                  <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors", stageIconCls[st])}>
+                    <Icon name={def.icon} className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-[13px] font-medium text-foreground flex-1">{def.title}</span>
+                  <span className={cn("text-[10px] font-medium px-2.5 py-0.5 rounded-full transition-colors", stageBadgeCls[st])}>
+                    {stBadge[i]}
+                  </span>
+                </div>
+
+                {/* Stage body — framer collapse */}
+                <motion.div
+                  initial={false}
+                  animate={{ height: stOpen[i] ? "auto" : 0 }}
+                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden">
+                  <div className="px-3.5 pb-3 pt-0 space-y-2">
+
+                    {/* Stage 0 & 3: transcript */}
+                    {(i === 0 || i === 3) && (
+                      <>
+                        <p className="text-[12px] text-muted-foreground leading-[1.6]">
+                          {i === 0
+                            ? "Inbound call detected on your business number. AI agent answers within 2 seconds — no hold music."
+                            : "Composes a natural, accurate reply using tool results — spoken back to the caller instantly."}
+                        </p>
+                        <div className="bg-muted/30 rounded-lg px-3 py-2.5 flex flex-col gap-2">
+                          {(i === 0 ? tr0 : tr3).map((m, mi) => (
+                            <div key={mi} className={cn("flex flex-col gap-0.5", m.who === "ai" && "items-end")}>
+                              <span className={cn("text-[10px] font-medium text-muted-foreground", m.who === "ai" && "text-right")}>
+                                {m.who === "ai" ? "AI agent" : "Caller"}
+                              </span>
+                              <div className={cn(
+                                "text-[12px] px-2.5 py-1.5 rounded-lg leading-snug max-w-[90%]",
+                                m.who === "ai"
+                                  ? "bg-[#EEEDFE] text-[#26215C]"
+                                  : "bg-background border border-border/60 text-foreground"
+                              )}>
+                                {m.text}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+
+                    {/* Stage 1: intent tags */}
+                    {i === 1 && (
+                      <>
+                        <p className="text-[12px] text-muted-foreground leading-[1.6]">
+                          Transcribes speech in real time, detects language, and extracts meaning from the conversation.
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 mt-1">
+                          {intentTags.map((tag, ti) => (
+                            <span key={ti}
+                              className={cn(
+                                "text-[11px] px-2.5 py-0.5 rounded-full border transition-all",
+                                tag.matched
+                                  ? "bg-[#EEEDFE] text-[#3C3489] border-[#AFA9EC]"
+                                  : "bg-muted/40 text-muted-foreground border-border/50"
+                              )}>
+                              {tag.label}
+                            </span>
+                          ))}
+                        </div>
+                      </>
+                    )}
+
+                    {/* Stage 2: tool chips */}
+                    {i === 2 && (
+                      <>
+                        <p className="text-[12px] text-muted-foreground leading-[1.6]">
+                          Based on detected intent, the agent selects and calls the right tools simultaneously.
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 mt-1">
+                          {toolChips.map((tc, ti) => (
+                            <span key={ti}
+                              className={cn(
+                                "text-[11px] px-2.5 py-1 rounded-full border flex items-center gap-1 transition-all",
+                                tc.state === "called"
+                                  ? "bg-[#E1F5EE] text-[#085041] border-[#1D9E75]/40"
+                                  : "bg-[#FAEEDA] text-[#633806] border-[#EF9F27]/40"
+                              )}>
+                              <Icon name={tc.icon} className="w-3 h-3" />
+                              {tc.label}
+                            </span>
+                          ))}
+                        </div>
+                      </>
+                    )}
+
+                    {/* Stage 4: action cards */}
+                    {i === 4 && (
+                      <>
+                        <p className="text-[12px] text-muted-foreground leading-[1.6]">
+                          All downstream actions fire automatically — no human needed.
+                        </p>
+                        <div className="grid grid-cols-2 gap-1.5 mt-1">
+                          {actions.map((a, ai) => (
+                            <div key={ai} className="border border-border/50 rounded-lg px-2.5 py-2 flex gap-2 items-start">
+                              <Icon name={a.icon} className="w-3.5 h-3.5 text-[#1D9E75] shrink-0 mt-0.5" />
+                              <div>
+                                <p className="text-[11px] font-medium text-foreground leading-tight">{a.label}</p>
+                                <p className="text-[10px] text-muted-foreground leading-tight">{a.val}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+
+                    {/* Stage 5: log + outcomes */}
+                    {i === 5 && (
+                      <>
+                        <p className="text-[12px] text-muted-foreground leading-[1.6]">
+                          Full transcript, sentiment score, and outcome recorded automatically in your dashboard.
+                        </p>
+                        {logLines.length > 0 && (
+                          <div className="bg-muted/30 rounded-lg px-2.5 py-2 mt-1 space-y-1">
+                            {logLines.map((l, li) => (
+                              <div key={li} className="flex items-baseline gap-1.5">
+                                <span className="text-[10px] text-muted-foreground min-w-[28px]">{l.t}</span>
+                                <span className={cn("w-1.5 h-1.5 rounded-full shrink-0 mt-[3px]",
+                                  l.dot === "pur" ? "bg-[#7F77DD]" :
+                                  l.dot === "grn" ? "bg-[#1D9E75]" : "bg-[#EF9F27]"
+                                )} />
+                                <span className="text-[11px] text-muted-foreground">{l.text}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {outcomes.length > 0 && (
+                          <div className="grid grid-cols-4 gap-1.5 mt-2">
+                            {outcomes.map((o, oi) => (
+                              <div key={oi} className="bg-muted/30 rounded-lg p-2 text-center">
+                                <Icon name={o.icon} className="w-4 h-4 text-[#534AB7] mx-auto mb-1" />
+                                <p className="text-[10px] font-medium text-foreground leading-tight">{o.label}</p>
+                                <p className="text-[10px] text-muted-foreground leading-tight">{o.val}</p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    )}
+
+                  </div>
+                </motion.div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
@@ -534,11 +1170,11 @@ export function IndustryPageSections({ content, industryName }: {
         </motion.div>
       </FadeSection>
 
-      {/* ── Demo player ── */}
-      <FadeSection>
-        <motion.div variants={fadeUp}>
-          <DemoPlayer scenarios={content.demoScenarios} />
-        </motion.div>
+      <Sep />
+
+      {/* ── How it works simulation ── */}
+      <FadeSection className="mb-12">
+        <HowItWorks />
       </FadeSection>
 
       <Sep />
@@ -640,30 +1276,68 @@ export function IndustryPageSections({ content, industryName }: {
 
       {/* ── CTA ── */}
       <FadeSection>
-        <motion.div variants={fadeUp}
-          className="rounded-2xl p-10 text-center"
-          style={{
-            background: "linear-gradient(135deg, #534AB7 0%, #3D33A5 100%)",
-            boxShadow: "0 24px 56px -12px rgba(83,74,183,0.45)",
-          }}>
-          <p className="mb-4 inline-block rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-white/80">
-            Get started
-          </p>
-          <h2 className="text-balance text-2xl font-semibold leading-tight tracking-tight text-white sm:text-3xl mb-3">
-            {content.ctaHeadline}
-          </h2>
-          <p className="text-white/75 text-base leading-relaxed mb-7 max-w-sm mx-auto">
-            {content.ctaSubheadline}
-          </p>
-          <div className="flex gap-3 justify-center flex-wrap">
-            <Link href="/pricing"
-              className="inline-flex items-center gap-2 rounded-full bg-white text-[#3D33A5] px-6 py-2.5 text-sm font-medium transition-opacity hover:opacity-90 shadow-sm">
-              <CalendarDays className="w-4 h-4" /> Book a live demo
-            </Link>
-            <Link href="/pricing"
-              className="inline-flex items-center rounded-full border border-white/30 bg-white/10 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/20">
-              Start free trial
-            </Link>
+        {/*
+          SVG clip-path definition — objectBoundingBox so it scales to any element size.
+          Original viewBox: (10,5)→(490,156), Width=480, Height=151
+          Normalised: X_n=(X-10)/480, Y_n=(Y-5)/151
+        */}
+        <svg width="0" height="0" className="absolute overflow-hidden" aria-hidden>
+          <defs>
+            <clipPath id="cta-clip" clipPathUnits="objectBoundingBox">
+              <path d="
+                M0,0.4305
+                V0.0397
+                Q0,0 0.0104,0
+                H0.4479
+                Q0.4583,0 0.4750,0.0530
+                Q0.4813,0.0728 0.4917,0.0795
+                H0.9896
+                Q1,0.0795 1,0.1126
+                V0.8808
+                Q1,0.9073 0.9958,0.9139
+                L0.9729,0.9735
+                Q0.9646,1 0.9583,1
+                H0.2313
+                Q0.2250,1 0.2188,0.9801
+                L0.2021,0.9404
+                Q0.1958,0.9272 0.1875,0.9272
+                H0.0125
+                Q0,0.9272 0,0.8874
+                Z
+              " />
+            </clipPath>
+          </defs>
+        </svg>
+
+        {/* drop-shadow traces the clip shape (unlike box-shadow which ignores clip-path) */}
+        <motion.div variants={fadeUp}>
+          <div className="text-white"
+            style={{
+              background: "linear-gradient(135deg, #6259C9 0%, #534AB7 45%, #3D33A5 100%)",
+              clipPath: "url(#cta-clip)",
+            }}>
+            {/* Inner content constrained to safe visible zone of the custom shape */}
+            <div className="mx-auto max-w-xl text-center px-6 py-9">
+              <p className="mb-3 inline-block rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-white/80">
+                Get started
+              </p>
+              <h2 className="text-balance text-xl font-semibold leading-tight tracking-tight text-white sm:text-2xl mb-2.5">
+                {content.ctaHeadline}
+              </h2>
+              <p className="text-white/70 text-sm leading-relaxed mb-6">
+                {content.ctaSubheadline}
+              </p>
+              <div className="flex gap-3 justify-center flex-wrap">
+                <Link href="/pricing"
+                  className="inline-flex items-center gap-2 rounded-full bg-white text-[#3D33A5] px-5 py-2 text-sm font-medium transition-opacity hover:opacity-90 shadow-sm">
+                  <CalendarDays className="w-3.5 h-3.5" /> Book a live demo
+                </Link>
+                <Link href="/pricing"
+                  className="inline-flex items-center rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20">
+                  Start free trial
+                </Link>
+              </div>
+            </div>
           </div>
         </motion.div>
       </FadeSection>
