@@ -145,25 +145,31 @@ export function IndustryHeroHeader({
             </motion.div>
           )}
 
-          {/* blur layers + gradient overlay — fade in AFTER bg image has appeared */}
+          {/* gradient overlay — fades in slowly after bg is visible */}
           <motion.div
-            className="absolute inset-0 pointer-events-none [--layers:5]"
+            className={styles.blurOverlay}
             initial={{ opacity: 0 }}
             animate={loaderDone ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: 0.6, duration: 0.75, ease: "easeOut" }}
+            transition={{ delay: 0.5, duration: 1.4, ease: [0.25, 0, 0.35, 1] }}
             aria-hidden
-          >
-            <div className="absolute inset-0">
-              {[1, 2, 3, 4, 5].map((index) => (
-                <div
-                  key={index}
-                  className={styles.layer}
-                  style={{ "--index": index } as CSSProperties}
-                />
-              ))}
-            </div>
-            <div className={styles.blurOverlay} />
-          </motion.div>
+          />
+
+          {/* blur layers — each layer staggers in for a soft progressive effect */}
+          {[1, 2, 3, 4, 5].map((index) => (
+            <motion.div
+              key={index}
+              className={`${styles.layer} pointer-events-none`}
+              style={{ "--index": index, "--layers": 5 } as CSSProperties}
+              initial={{ opacity: 0 }}
+              animate={loaderDone ? { opacity: 1 } : { opacity: 0 }}
+              transition={{
+                delay: 0.45 + index * 0.08,
+                duration: 1.2,
+                ease: [0.25, 0, 0.35, 1],
+              }}
+              aria-hidden
+            />
+          ))}
 
           {/* 4 — Bottom content: subtle parallax + fade-up entrance */}
           <motion.div
