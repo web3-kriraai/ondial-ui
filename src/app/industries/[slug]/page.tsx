@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { IndustryHeroHeader } from "@/components/marketing/industry-hero-header";
+import { AudioDemoPlayer } from "@/components/marketing/audio-demo-player";
 import { Button } from "@/components/ui/button";
 import {
   getAllIndustrySlugs,
@@ -39,6 +40,8 @@ export default async function IndustryPage({ params }: Props) {
   return (
     <main className="flex flex-1 flex-col">
       <IndustryHeroHeader {...hero} />
+
+      <AudioDemoPlayer tracks={hero.audioDemos} />
 
       <section className="mx-auto w-full max-w-3xl px-4 pb-14 pt-2 text-center sm:px-6 sm:pb-16">
         <p className="text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">

@@ -91,11 +91,11 @@ export function IndustryHeroHeader({
   }
 
   return (
-    <section className={`relative w-full pb-10 mt-[calc(-1*(env(safe-area-inset-top)+4.25rem))] ${bebasNeue.variable}`}>
-      <div className="relative w-full h-[100svh] min-h-[500px]">
+    <section className={`relative w-full flex justify-center px-4 sm:px-6 pb-10 mt-[calc(-1*(env(safe-area-inset-top)+4.25rem))] ${bebasNeue.variable}`}>
+      <div className="relative w-full max-w-full md:max-w-[85vw] xl:max-w-[60vw] h-[65vh] md:h-[60vh] min-h-[380px]" style={{ marginTop: "calc(env(safe-area-inset-top) + 4.25rem + 1.5rem)" }}>
 
         <article
-          className="absolute inset-0 overflow-hidden [clip-path:inset(0_round_0px)]"
+          className="absolute inset-0 overflow-hidden rounded-2xl [clip-path:inset(0_round_1rem)]"
           aria-label={`${highlight} hero`}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
@@ -121,7 +121,7 @@ export function IndustryHeroHeader({
             variants={variants.title}
             initial="hidden"
             animate={animateState}
-            className="absolute left-1/2 top-[20%] xl:top-[calc(env(safe-area-inset-top)+4.25rem+2.5rem)] w-[88%] m-0 -translate-x-1/2 -translate-y-1/2 xl:translate-y-0 uppercase text-white text-center wrap-break-word leading-[1.05] [text-shadow:0_2px_18px_rgba(0,0,0,0.45)] text-[clamp(4rem,12vw,12rem)] pointer-events-none"
+            className="absolute left-1/2 top-[18%] w-[88%] m-0 -translate-x-1/2 -translate-y-1/2 uppercase text-white text-center wrap-break-word leading-[1.05] [text-shadow:0_2px_18px_rgba(0,0,0,0.45)] text-[clamp(2.5rem,8vw,8rem)] pointer-events-none"
             style={{ fontFamily: "var(--font-bebas-neue), 'Bebas Neue', sans-serif" }}
           >
             {title}
