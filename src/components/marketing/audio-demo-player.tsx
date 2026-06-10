@@ -5,6 +5,7 @@ import { createNoise2D } from "simplex-noise";
 import { motion, AnimatePresence, MotionConfig, useMotionValue } from "framer-motion";
 import type { AudioDemoTrack } from "@/data/industry-hero-content";
 import { useLoaderComplete } from "@/components/providers/loader-context";
+import { useDemoSync } from "@/components/providers/demo-sync-context";
 
 const INTERVAL = 80;
 const TICK     = 0.042;
@@ -46,8 +47,16 @@ export function AudioDemoPlayer({ tracks }: { tracks: AudioDemoTrack[] }) {
   const noiseRef   = useRef(createNoise2D());
   const dragY      = useMotionValue(0);
   const loaderDone = useLoaderComplete();
-  const track      = tracks[idx] ?? tracks[0];
+  const { activeLabel, inlinePlaying, inlineProgress, inlineBars, resetInlineDemo } = useDemoSync();
+
+  const track    = tracks[idx] ?? tracks[0];
   const progress = elapsed / track.seconds;
+
+  /* When the inline demo is active, mirror its state */
+  const displayLabel    = inlinePlaying && activeLabel ? activeLabel : track.label;
+  const displayProgress = inlinePlaying ? inlineProgress : progress;
+  const isPlaying       = playing || inlinePlaying;
+  const displayBars     = inlinePlaying ? inlineBars : bars;
 
   const animateBars = useCallback(() => {
     tickRef.current += TICK;
@@ -59,10 +68,17 @@ export function AudioDemoPlayer({ tracks }: { tracks: AudioDemoTrack[] }) {
     }));
   }, []);
 
+  /* Bar animation — only run own noise when standalone playing; inline bars come from context */
+  useEffect(() => {
+    if (!playing || inlinePlaying) return;
+    const id = setInterval(animateBars, INTERVAL);
+    return () => clearInterval(id);
+  }, [playing, inlinePlaying, animateBars]);
+
+  /* Elapsed clock — only for the standalone floating player */
   useEffect(() => {
     if (!playing) return;
     const id = setInterval(() => {
-      animateBars();
       setElapsed(e => {
         const next = e + INTERVAL / 1000;
         if (next >= track.seconds) { setPlaying(false); return 0; }
@@ -70,15 +86,15 @@ export function AudioDemoPlayer({ tracks }: { tracks: AudioDemoTrack[] }) {
       });
     }, INTERVAL);
     return () => clearInterval(id);
-  }, [playing, track.seconds, animateBars]);
+  }, [playing, track.seconds]);
 
   function changeTrack(dir: 1 | -1) {
     setIdx(i => (i + dir + tracks.length) % tracks.length);
     setElapsed(0); setPlaying(false); setBars(Array(64).fill(5));
   }
 
-  /* pill bars — 24 bars, small */
-  const litPill = Math.floor(progress * 24);
+  /* pill bars */
+  const litPill = Math.floor(displayProgress * 24);
 
   const shadow = `0 16px 48px -8px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.09), 0 0 28px -6px ${track.accent}28`;
 
@@ -132,20 +148,24 @@ export function AudioDemoPlayer({ tracks }: { tracks: AudioDemoTrack[] }) {
               >
                 {/* Mini bars */}
                 <div className="flex items-center gap-[2px] shrink-0" style={{ width: 48, height: 24 }}>
-                  {bars.slice(0, 24).map((h, i) => (
+                  {displayBars.slice(0, 24).map((h, i) => (
                     <div key={i} className="flex-1 rounded-full"
                       style={{ height: `${clamp(h * 0.65, 2, 18)}px`,
                         background: i < litPill ? track.accent : "rgba(255,255,255,0.18)",
                         transition: `height ${INTERVAL}ms ease` }} />
                   ))}
                 </div>
-                <span className="flex-1 text-white text-[12.5px] font-medium truncate leading-tight">{track.label}</span>
+                <span className="flex-1 text-white text-[12.5px] font-medium truncate leading-tight">{displayLabel}</span>
                 <motion.button whileTap={{ scale: 0.86 }}
-                  onClick={e => { e.stopPropagation(); setPlaying(p => !p); }}
+                  onClick={e => {
+                    e.stopPropagation();
+                    if (inlinePlaying) { resetInlineDemo(); return; }
+                    setPlaying(p => !p);
+                  }}
                   className="w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0"
                   style={{ background: track.accent, boxShadow: `0 3px 12px -3px ${track.accent}90` }}>
                   <AnimatePresence mode="wait" initial={false}>
-                    {playing
+                    {isPlaying
                       ? <motion.svg key="pa" className="w-[10px] fill-white" viewBox="0 0 320 512" initial={{ scale: 0.5 }} animate={{ scale: 1 }} exit={{ scale: 0.5 }} transition={{ duration: 0.1 }}><path d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z"/></motion.svg>
                       : <motion.svg key="pl" className="w-[10px] fill-white ml-px" viewBox="0 0 384 512" initial={{ scale: 0.5 }} animate={{ scale: 1 }} exit={{ scale: 0.5 }} transition={{ duration: 0.1 }}><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></motion.svg>
                     }
@@ -172,11 +192,11 @@ export function AudioDemoPlayer({ tracks }: { tracks: AudioDemoTrack[] }) {
                     style={{ width: 56, height: 56,
                       background: `linear-gradient(145deg,${track.from} 0%,${track.to} 100%)`,
                       boxShadow: `0 4px 14px -3px ${track.accent}55` }}>
-                    {bars.slice(4, 22).map((h, i) => (
+                    {displayBars.slice(4, 22).map((h, i) => (
                       <div key={i} className="flex-1 rounded-full mx-px"
                         style={{ height: `${clamp(h * 0.72, 3, 30)}px`,
                           background: "rgba(255,255,255,0.85)",
-                          opacity: playing ? 1 : 0.45,
+                          opacity: isPlaying ? 1 : 0.45,
                           transition: `height ${INTERVAL}ms ease` }} />
                     ))}
                   </div>
@@ -187,7 +207,7 @@ export function AudioDemoPlayer({ tracks }: { tracks: AudioDemoTrack[] }) {
                       <motion.div key={track.id}
                         initial={{ opacity: 0, x: 5 }} animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -5 }} transition={{ duration: 0.15 }}>
-                        <p className="text-white font-semibold text-[0.9rem] leading-tight truncate">{track.label}</p>
+                        <p className="text-white font-semibold text-[0.9rem] leading-tight truncate">{displayLabel}</p>
                         <p className="text-white/45 text-[0.72rem] mt-[2px] truncate">{track.artist}</p>
                       </motion.div>
                     </AnimatePresence>
@@ -199,7 +219,7 @@ export function AudioDemoPlayer({ tracks }: { tracks: AudioDemoTrack[] }) {
                       className="w-5 h-5 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors">
                       <svg className="w-2.5 h-2.5 fill-white/30" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3l105.4 105.3c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256l105.3-105.4z"/></svg>
                     </button>
-                    <WaveIcon bars={bars} accent={track.accent} playing={playing} />
+                    <WaveIcon bars={displayBars} accent={track.accent} playing={isPlaying} />
                   </div>
                 </div>
 
@@ -208,12 +228,21 @@ export function AudioDemoPlayer({ tracks }: { tracks: AudioDemoTrack[] }) {
                   <div className="relative h-[3px] rounded-full" style={{ background: "rgba(255,255,255,0.12)" }}>
                     <motion.div className="absolute inset-y-0 left-0 rounded-full"
                       style={{ background: `linear-gradient(90deg, ${track.from}, ${track.accent})` }}
-                      animate={{ width: `${progress * 100}%` }}
+                      animate={{ width: `${displayProgress * 100}%` }}
                       transition={{ duration: 0.08, ease: "linear" }} />
                   </div>
                   <div className="flex justify-between text-[10px] text-white/30 mt-1">
-                    <span>{fmt(elapsed)}</span>
-                    <span>{neg(elapsed, track.seconds)}</span>
+                    {inlinePlaying ? (
+                      <>
+                        <span>{Math.round(inlineProgress * 100)}%</span>
+                        <span>Demo</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>{fmt(elapsed)}</span>
+                        <span>{neg(elapsed, track.seconds)}</span>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -225,11 +254,11 @@ export function AudioDemoPlayer({ tracks }: { tracks: AudioDemoTrack[] }) {
                   </motion.button>
 
                   <motion.button whileTap={{ scale: 0.88 }} whileHover={{ scale: 1.06 }}
-                    onClick={() => setPlaying(p => !p)}
+                    onClick={() => { if (inlinePlaying) { resetInlineDemo(); return; } setPlaying(p => !p); }}
                     className="w-12 h-12 rounded-full flex items-center justify-center"
                     style={{ background: "white", boxShadow: `0 6px 20px -4px rgba(0,0,0,0.5)` }}>
                     <AnimatePresence mode="wait" initial={false}>
-                      {playing
+                      {isPlaying
                         ? <motion.svg key="pa" className="w-[18px] h-[18px]" viewBox="0 0 320 512" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.1 }}><path d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z"/></motion.svg>
                         : <motion.svg key="pl" className="w-[18px] h-[18px] ml-0.5" viewBox="0 0 384 512" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }} transition={{ duration: 0.1 }}><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></motion.svg>
                       }

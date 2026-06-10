@@ -26,8 +26,8 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const variants = {
   bg: {
-    hidden: { opacity: 0, scale: 1.07 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 1.1, ease } },
+    hidden:  { opacity: 1, scale: 1.07 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 1.4, ease } },
   },
   title: {
     hidden: { opacity: 0, y: -90, scale: 1.06 },
@@ -145,8 +145,14 @@ export function IndustryHeroHeader({
             </motion.div>
           )}
 
-          {/* blur layers — static, no parallax */}
-          <div className="absolute inset-0 pointer-events-none [--layers:5]" aria-hidden>
+          {/* blur layers + gradient overlay — fade in AFTER bg image has appeared */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none [--layers:5]"
+            initial={{ opacity: 0 }}
+            animate={loaderDone ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: 0.6, duration: 0.75, ease: "easeOut" }}
+            aria-hidden
+          >
             <div className="absolute inset-0">
               {[1, 2, 3, 4, 5].map((index) => (
                 <div
@@ -156,10 +162,8 @@ export function IndustryHeroHeader({
                 />
               ))}
             </div>
-          </div>
-
-          {/* gradient overlay */}
-          <div className={styles.blurOverlay} aria-hidden />
+            <div className={styles.blurOverlay} />
+          </motion.div>
 
           {/* 4 — Bottom content: subtle parallax + fade-up entrance */}
           <motion.div
