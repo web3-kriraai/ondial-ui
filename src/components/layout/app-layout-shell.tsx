@@ -40,7 +40,7 @@ export function AppLayoutShell({ children }: AppLayoutShellProps) {
   const hideFooter = footerHidden(pathname);
   const authSplit = isAuthSplitRoute(pathname);
   /** Page `transform` breaks `backdrop-filter` on industry hero blur layers. */
-  const industryDetailPage = pathname.startsWith("/industries/") && pathname !== "/industries";
+  const industryDetailPage = pathname.startsWith("/industries/");
 
   return (
     <SiteShell

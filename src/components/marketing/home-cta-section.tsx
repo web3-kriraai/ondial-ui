@@ -14,7 +14,7 @@ export function HomeCtaSection() {
       contentClassName="lg:px-16"
     >
       <div className="flex flex-wrap items-center gap-3">
-        <SplitSectionLink href="/industries" variant="ghost">
+        <SplitSectionLink href="/pricing" variant="ghost">
           Get started now
         </SplitSectionLink>
         <SplitSectionLink href="/about" variant="ghost" className="border-primary-foreground/20 bg-transparent">

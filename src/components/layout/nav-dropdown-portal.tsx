@@ -293,14 +293,16 @@ export function NavDropdownPortal({
                 ) : (
                   <span />
                 )}
-                <Link
-                  href={menu.overviewHref}
-                  prefetch
-                  className={styles.footerLink}
-                  onClick={() => onClose()}
-                >
-                  {menu.overviewLabel}
-                </Link>
+                {menu.overviewHref && menu.overviewLabel ? (
+                  <Link
+                    href={menu.overviewHref}
+                    prefetch
+                    className={styles.footerLink}
+                    onClick={() => onClose()}
+                  >
+                    {menu.overviewLabel}
+                  </Link>
+                ) : null}
               </motion.div>
             </motion.div>
           </motion.div>

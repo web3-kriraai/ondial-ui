@@ -43,6 +43,8 @@ export const BENTO_H = 310;
 export const BENTO_MOBILE_W = 330;
 export const BENTO_MOBILE_H = 590;
 
+const BENTO_BG_IMAGE = "/marketing/industry-stats-bento-bg.jpg";
+
 type StatSlot = {
   x: number;
   y: number;
@@ -152,7 +154,7 @@ function BentoPanel({
   valueClassName: string;
   labelClassName: string;
 }) {
-  const gradId = `stats-bento-grad-${idSuffix}`;
+  const clipId = `stats-bento-clip-${idSuffix}`;
   const shadowId = `stats-bento-shadow-${idSuffix}`;
 
   return (
@@ -168,12 +170,9 @@ function BentoPanel({
         aria-label="Key performance statistics"
       >
         <defs>
-          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#1A2744" />
-            <stop offset="38%" stopColor="#243B6B" />
-            <stop offset="72%" stopColor="#2F4F82" />
-            <stop offset="100%" stopColor="#3A5F96" />
-          </linearGradient>
+          <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
+            <path d={path} />
+          </clipPath>
           <filter
             id={shadowId}
             x="-4%"
@@ -199,7 +198,17 @@ function BentoPanel({
           </filter>
         </defs>
 
-        <path d={path} fill={`url(#${gradId})`} filter={`url(#${shadowId})`} />
+        <g filter={`url(#${shadowId})`}>
+          <image
+            href={BENTO_BG_IMAGE}
+            x={0}
+            y={0}
+            width={width}
+            height={height}
+            preserveAspectRatio="xMidYMid slice"
+            clipPath={`url(#${clipId})`}
+          />
+        </g>
       </svg>
 
       {stats.map((stat, i) => {

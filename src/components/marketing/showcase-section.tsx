@@ -34,7 +34,7 @@ function ShowcaseCta() {
       onHoverEnd={resetArrow}
     >
       <Link
-        href="/industries"
+        href="/pricing"
         className={styles.cta}
         onFocus={playArrow}
         onBlur={resetArrow}
