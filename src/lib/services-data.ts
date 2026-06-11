@@ -4,20 +4,19 @@ import {
   Car,
   Factory,
   GraduationCap,
-  HardHat,
   Heart,
   Hotel,
   Landmark,
-  Leaf,
   Phone,
   Plane,
   Scale,
   Shield,
   ShoppingCart,
-  TrendingUp,
   Truck,
   Users,
-  Zap,
+  CalendarDays,
+  Brain,
+  Pill,
 } from "lucide-react";
 
 /** Matte card fills — shared by service cards and marketing carousel. */
@@ -62,30 +61,6 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 2,
-    name: "Finance & Banking",
-    slug: "financial-and-banking-services",
-    icon: Building2,
-    description:
-      "Enable fraud alerts, loan status updates, payment reminders, credit score notifications, and account activity updates. Enhance customer security and financial communication.",
-  },
-  {
-    id: 3,
-    name: "Real Estate",
-    slug: "real-estate-services",
-    icon: Building2,
-    description:
-      "Manage property inquiries, schedule site visits, share market updates, handle lease renewals, and streamline closing process communication.",
-  },
-  {
-    id: 4,
-    name: "Retail & E-commerce",
-    slug: "retail-and-ecommerce-services",
-    icon: ShoppingCart,
-    description:
-      "Recover abandoned carts, send order and delivery updates, collect customer feedback, manage returns, and promote seasonal offers with AI-powered outreach.",
-  },
-  {
-    id: 5,
     name: "Insurance",
     slug: "insurance-services",
     icon: Shield,
@@ -93,15 +68,23 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
       "Automate policy renewals, claim status updates, premium reminders, and risk assessment notifications. Improve customer trust and response times.",
   },
   {
-    id: 6,
-    name: "Sales & Lead Generation",
-    slug: "sales-and-lead-generation-services",
-    icon: TrendingUp,
+    id: 3,
+    name: "Finance & Banking",
+    slug: "financial-and-banking-services",
+    icon: Building2,
     description:
-      "Qualify leads, schedule appointments, follow up with prospects, and launch win-back campaigns. Increase conversions with automated engagement.",
+      "Enable fraud alerts, loan status updates, payment reminders, credit score notifications, and account activity updates. Enhance customer security and financial communication.",
   },
   {
-    id: 7,
+    id: 4,
+    name: "Real Estate",
+    slug: "real-estate-services",
+    icon: Building2,
+    description:
+      "Manage property inquiries, schedule site visits, share market updates, handle lease renewals, and streamline closing process communication.",
+  },
+  {
+    id: 5,
     name: "Call Centers & BPO",
     slug: "call-center-and-bpo-services",
     icon: Phone,
@@ -109,31 +92,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
       "Automate customer surveys, feedback collection, compliance notifications, and data verification processes. Improve operational efficiency and service quality.",
   },
   {
-    id: 8,
-    name: "Telecom",
-    slug: "telecommunications-services",
-    icon: Phone,
-    description:
-      "Handle service activations, billing support, technical assistance, and contract renewal reminders. Deliver faster customer communication and support.",
-  },
-  {
-    id: 9,
-    name: "Automotive",
-    slug: "automotive-services",
-    icon: Car,
-    description:
-      "Manage service reminders, warranty extensions, recall notifications, insurance updates, and financing assistance. Keep customers informed throughout the ownership journey.",
-  },
-  {
-    id: 10,
-    name: "Education",
-    slug: "education-services",
-    icon: GraduationCap,
-    description:
-      "Automate enrollment confirmations, tuition reminders, academic progress updates, and alumni engagement campaigns. Improve communication across the education lifecycle.",
-  },
-  {
-    id: 11,
+    id: 6,
     name: "Travel & Tourism",
     slug: "travel-and-tourism-services",
     icon: Plane,
@@ -141,8 +100,48 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
       "Automate booking confirmations, flight updates, check-in reminders, weather alerts, and loyalty program notifications. Enhance traveler experience with real-time communication.",
   },
   {
+    id: 7,
+    name: "Transportation & Logistics",
+    slug: "transportation-and-logistics-services",
+    icon: Truck,
+    description:
+      "Provide delivery tracking updates, delay notifications, documentation reminders, rate quotations, and compliance alerts. Optimize supply chain communication.",
+  },
+  {
+    id: 8,
+    name: "Retail & E-commerce",
+    slug: "retail-and-ecommerce-services",
+    icon: ShoppingCart,
+    description:
+      "Recover abandoned carts, send order and delivery updates, collect customer feedback, manage returns, and promote seasonal offers with AI-powered outreach.",
+  },
+  {
+    id: 9,
+    name: "Telecommunications",
+    slug: "telecommunications-services",
+    icon: Phone,
+    description:
+      "Handle service activations, billing support, technical assistance, and contract renewal reminders. Deliver faster customer communication and support.",
+  },
+  {
+    id: 10,
+    name: "Automotive",
+    slug: "automotive-services",
+    icon: Car,
+    description:
+      "Manage service reminders, warranty extensions, recall notifications, insurance updates, and financing assistance. Keep customers informed throughout the ownership journey.",
+  },
+  {
+    id: 11,
+    name: "Education",
+    slug: "education-services",
+    icon: GraduationCap,
+    description:
+      "Automate enrollment confirmations, tuition reminders, academic progress updates, and alumni engagement campaigns. Improve communication across the education lifecycle.",
+  },
+  {
     id: 12,
-    name: "Hospitality Services",
+    name: "Hospitality",
     slug: "hospitality-services",
     icon: Hotel,
     description:
@@ -150,7 +149,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 13,
-    name: "Legal Services",
+    name: "Legal",
     slug: "legal-services",
     icon: Scale,
     description:
@@ -158,7 +157,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 14,
-    name: "Government Services",
+    name: "Government",
     slug: "government-services",
     icon: Landmark,
     description:
@@ -166,11 +165,11 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 15,
-    name: "Utilities",
-    slug: "utilities-services",
-    icon: Zap,
+    name: "Manufacturing",
+    slug: "manufacturing-services",
+    icon: Factory,
     description:
-      "Automate bill reminders, outage notifications, meter reading appointments, and energy-saving recommendations. Improve customer trust and service transparency.",
+      "Automate production updates, quality assurance notifications, maintenance schedules, safety alerts, and supplier coordination workflows.",
   },
   {
     id: 16,
@@ -182,35 +181,27 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 17,
-    name: "Transportation & Logistics",
-    slug: "transportation-and-logistics-services",
-    icon: Truck,
+    name: "Event Management",
+    slug: "event-management-services",
+    icon: CalendarDays,
     description:
-      "Provide delivery tracking updates, delay notifications, documentation reminders, rate quotations, and compliance alerts. Optimize supply chain communication.",
+      "Coordinate event registrations, send booking confirmations, manage attendee queries, and automate post-event feedback collection.",
   },
   {
     id: 18,
-    name: "Manufacturing",
-    slug: "manufacturing-services",
-    icon: Factory,
+    name: "Consultation",
+    slug: "consulting-services",
+    icon: Brain,
     description:
-      "Automate production updates, quality assurance notifications, maintenance schedules, safety alerts, and supplier coordination workflows.",
+      "Schedule advisory sessions, automate appointment follow-ups, gather client pre-intake information, and streamline advisory communication.",
   },
   {
     id: 19,
-    name: "Construction",
-    slug: "construction-services",
-    icon: HardHat,
+    name: "Pharmaceuticals",
+    slug: "pharmaceutical-services",
+    icon: Pill,
     description:
-      "Send project progress updates, permit notifications, material delivery schedules, safety inspection reminders, and payment milestone alerts.",
-  },
-  {
-    id: 20,
-    name: "Agriculture",
-    slug: "agriculture-services",
-    icon: Leaf,
-    description:
-      "Enable crop management alerts, market updates, insurance claims, loan reminders, and equipment maintenance scheduling. Empower farmers with real-time updates.",
+      "Handle prescription order updates, automate delivery notifications, share medical guidelines, and support pharmacy customer inquiries.",
   },
 ];
 

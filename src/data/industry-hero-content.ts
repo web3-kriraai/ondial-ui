@@ -33,94 +33,69 @@ const OSAKA_TOWER = "https://assets.codepen.io/605876/do-not-copy-osaka-tower.pn
 
 /**
  * Per-industry background + optional foreground images.
- * backgroundImage → full-bleed landscape photo (sky/scene layer)
- * foregroundImage → transparent PNG depth layer (optional)
  */
 const INDUSTRY_IMAGES: Record<string, { background: string; foreground?: string }> = {
   "healthcare-and-medical-services": {
-    background:
-      "https://images.pexels.com/photos/23234956/pexels-photo-23234956.jpeg",
+    background: "https://images.pexels.com/photos/23234956/pexels-photo-23234956.jpeg",
     foreground: "/industries/Untitled design.png",
   },
+  "insurance-services": {
+    background: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop",
+  },
   "financial-and-banking-services": {
-    background:
-      "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1600&auto=format&fit=crop",
+    background: "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1600&auto=format&fit=crop",
     foreground: OSAKA_TOWER,
   },
   "real-estate-services": {
-    background:
-    "https://images.pexels.com/photos/23234956/pexels-photo-23234956.jpeg",
+    background: "https://images.pexels.com/photos/23234956/pexels-photo-23234956.jpeg",
     foreground: "/industries/Untitled design.png",
   },
-  "retail-and-ecommerce-services": {
-    background:
-      "https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=1600&auto=format&fit=crop",
-  },
-  "insurance-services": {
-    background:
-      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop",
-  },
-  "sales-and-lead-generation-services": {
-    background:
-      "https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=1600&auto=format&fit=crop",
-  },
   "call-center-and-bpo-services": {
-    background:
-      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1600&auto=format&fit=crop",
-  },
-  "telecommunications-services": {
-    background:
-      "https://images.unsplash.com/photo-1488509082528-cefbba5ad692?q=80&w=1600&auto=format&fit=crop",
-  },
-  "automotive-services": {
-    background:
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1600&auto=format&fit=crop",
-  },
-  "education-services": {
-    background:
-      "https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1600&auto=format&fit=crop",
+    background: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1600&auto=format&fit=crop",
   },
   "travel-and-tourism-services": {
-    background:
-      "https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=1600&auto=format&fit=crop",
+    background: "https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=1600&auto=format&fit=crop",
     foreground: OSAKA_TOWER,
-  },
-  "hospitality-services": {
-    background:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1600&auto=format&fit=crop",
-  },
-  "legal-services": {
-    background:
-      "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1600&auto=format&fit=crop",
-  },
-  "government-services": {
-    background:
-      "https://images.unsplash.com/photo-1541872705-1f73c6400ec9?q=80&w=1600&auto=format&fit=crop",
-    foreground: OSAKA_TOWER,
-  },
-  "utilities-services": {
-    background:
-      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1600&auto=format&fit=crop",
-  },
-  "non-profit-organizations-services": {
-    background:
-      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=1600&auto=format&fit=crop",
   },
   "transportation-and-logistics-services": {
-    background:
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1600&auto=format&fit=crop",
+    background: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1600&auto=format&fit=crop",
+  },
+  "retail-and-ecommerce-services": {
+    background: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=1600&auto=format&fit=crop",
+  },
+  "telecommunications-services": {
+    background: "https://images.unsplash.com/photo-1488509082528-cefbba5ad692?q=80&w=1600&auto=format&fit=crop",
+  },
+  "automotive-services": {
+    background: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1600&auto=format&fit=crop",
+  },
+  "education-services": {
+    background: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1600&auto=format&fit=crop",
+  },
+  "hospitality-services": {
+    background: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1600&auto=format&fit=crop",
+  },
+  "legal-services": {
+    background: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1600&auto=format&fit=crop",
+  },
+  "government-services": {
+    background: "https://images.unsplash.com/photo-1541872705-1f73c6400ec9?q=80&w=1600&auto=format&fit=crop",
+    foreground: OSAKA_TOWER,
   },
   "manufacturing-services": {
-    background:
-      "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?q=80&w=1600&auto=format&fit=crop",
+    background: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?q=80&w=1600&auto=format&fit=crop",
   },
-  "construction-services": {
-    background:
-      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1600&auto=format&fit=crop",
+  "non-profit-organizations-services": {
+    background: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=1600&auto=format&fit=crop",
   },
-  "agriculture-services": {
-    background:
-      "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1600&auto=format&fit=crop",
+  "event-management-services": {
+    background: "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1600&auto=format&fit=crop",
+  },
+  "consulting-services": {
+    background: "https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=1600&auto=format&fit=crop",
+  },
+  "pharmaceutical-services": {
+    background: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop",
   },
 };
 
@@ -130,6 +105,11 @@ const INDUSTRY_DEMOS: Record<string, AudioDemoTrack[]> = {
     { id: 1, label: "Appointment Reminder",  artist: "AI Voice · Healthcare", from: "#1e3a8a", to: "#3b82f6", accent: "#60a5fa", seconds: 38 },
     { id: 2, label: "Prescription Refill",   artist: "AI Voice · Healthcare", from: "#164e63", to: "#06b6d4", accent: "#22d3ee", seconds: 52 },
     { id: 3, label: "Lab Results Follow-up", artist: "AI Voice · Healthcare", from: "#1e1b4b", to: "#6366f1", accent: "#818cf8", seconds: 44 },
+  ],
+  "insurance-services": [
+    { id: 1, label: "Policy Renewal",        artist: "AI Voice · Insurance",  from: "#1e1b4b", to: "#4f46e5", accent: "#818cf8", seconds: 48 },
+    { id: 2, label: "Claim Status Update",   artist: "AI Voice · Insurance",  from: "#0f172a", to: "#334155", accent: "#94a3b8", seconds: 40 },
+    { id: 3, label: "Premium Reminder",      artist: "AI Voice · Insurance",  from: "#172554", to: "#1d4ed8", accent: "#60a5fa", seconds: 34 },
   ],
   "financial-and-banking-services": [
     { id: 1, label: "Payment Due Reminder",  artist: "AI Voice · Banking",   from: "#064e3b", to: "#10b981", accent: "#34d399", seconds: 35 },
@@ -141,25 +121,25 @@ const INDUSTRY_DEMOS: Record<string, AudioDemoTrack[]> = {
     { id: 2, label: "Lead Follow-up",        artist: "AI Voice · Real Estate", from: "#7c2d12", to: "#ea580c", accent: "#fb923c", seconds: 55 },
     { id: 3, label: "Lease Renewal",         artist: "AI Voice · Real Estate", from: "#431407", to: "#dc2626", accent: "#f87171", seconds: 48 },
   ],
-  "retail-and-ecommerce-services": [
-    { id: 1, label: "Order Status Update",   artist: "AI Voice · Retail",     from: "#500724", to: "#db2777", accent: "#f472b6", seconds: 30 },
-    { id: 2, label: "Return Confirmation",   artist: "AI Voice · E-commerce", from: "#4a044e", to: "#a21caf", accent: "#c026d3", seconds: 36 },
-    { id: 3, label: "Loyalty Points Alert",  artist: "AI Voice · Retail",     from: "#2e1065", to: "#7c3aed", accent: "#a78bfa", seconds: 44 },
-  ],
-  "insurance-services": [
-    { id: 1, label: "Policy Renewal",        artist: "AI Voice · Insurance",  from: "#1e1b4b", to: "#4f46e5", accent: "#818cf8", seconds: 48 },
-    { id: 2, label: "Claim Status Update",   artist: "AI Voice · Insurance",  from: "#0f172a", to: "#334155", accent: "#94a3b8", seconds: 40 },
-    { id: 3, label: "Premium Reminder",      artist: "AI Voice · Insurance",  from: "#172554", to: "#1d4ed8", accent: "#60a5fa", seconds: 34 },
-  ],
-  "sales-and-lead-generation-services": [
-    { id: 1, label: "Lead Qualification",    artist: "AI Voice · Sales",      from: "#431407", to: "#f97316", accent: "#fb923c", seconds: 55 },
-    { id: 2, label: "Demo Booking",          artist: "AI Voice · Sales",      from: "#7c2d12", to: "#ea580c", accent: "#fdba74", seconds: 42 },
-    { id: 3, label: "Follow-up Call",        artist: "AI Voice · Sales",      from: "#78350f", to: "#d97706", accent: "#fcd34d", seconds: 38 },
-  ],
   "call-center-and-bpo-services": [
     { id: 1, label: "Customer Support",      artist: "AI Voice · BPO",        from: "#0c4a6e", to: "#0284c7", accent: "#38bdf8", seconds: 60 },
     { id: 2, label: "Complaint Resolution",  artist: "AI Voice · BPO",        from: "#164e63", to: "#0891b2", accent: "#22d3ee", seconds: 52 },
     { id: 3, label: "Survey Call",           artist: "AI Voice · Call Center",from: "#1e3a8a", to: "#2563eb", accent: "#93c5fd", seconds: 45 },
+  ],
+  "travel-and-tourism-services": [
+    { id: 1, label: "Booking Confirmation",  artist: "AI Voice · Travel",     from: "#042f2e", to: "#0f766e", accent: "#2dd4bf", seconds: 42 },
+    { id: 2, label: "Flight Delay Alert",    artist: "AI Voice · Travel",     from: "#164e63", to: "#0e7490", accent: "#22d3ee", seconds: 30 },
+    { id: 3, label: "Check-in Reminder",     artist: "AI Voice · Tourism",    from: "#065f46", to: "#059669", accent: "#34d399", seconds: 35 },
+  ],
+  "transportation-and-logistics-services": [
+    { id: 1, label: "Delivery ETA Update",   artist: "AI Voice · Logistics",  from: "#1e3a8a", to: "#1d4ed8", accent: "#60a5fa", seconds: 30 },
+    { id: 2, label: "Pickup Confirmation",   artist: "AI Voice · Transport",  from: "#0c4a6e", to: "#0284c7", accent: "#38bdf8", seconds: 28 },
+    { id: 3, label: "Shipment Alert",        artist: "AI Voice · Logistics",  from: "#0f172a", to: "#334155", accent: "#94a3b8", seconds: 36 },
+  ],
+  "retail-and-ecommerce-services": [
+    { id: 1, label: "Order Status Update",   artist: "AI Voice · Retail",     from: "#500724", to: "#db2777", accent: "#f472b6", seconds: 30 },
+    { id: 2, label: "Return Confirmation",   artist: "AI Voice · E-commerce", from: "#4a044e", to: "#a21caf", accent: "#c026d3", seconds: 36 },
+    { id: 3, label: "Loyalty Points Alert",  artist: "AI Voice · Retail",     from: "#2e1065", to: "#7c3aed", accent: "#a78bfa", seconds: 44 },
   ],
   "telecommunications-services": [
     { id: 1, label: "Plan Upgrade Offer",    artist: "AI Voice · Telecom",    from: "#0c4a6e", to: "#0ea5e9", accent: "#38bdf8", seconds: 40 },
@@ -176,11 +156,6 @@ const INDUSTRY_DEMOS: Record<string, AudioDemoTrack[]> = {
     { id: 2, label: "Class Schedule Alert",  artist: "AI Voice · Education",  from: "#2e1065", to: "#6d28d9", accent: "#c4b5fd", seconds: 36 },
     { id: 3, label: "Tuition Due Notice",    artist: "AI Voice · Education",  from: "#1e1b4b", to: "#4338ca", accent: "#818cf8", seconds: 40 },
   ],
-  "travel-and-tourism-services": [
-    { id: 1, label: "Booking Confirmation",  artist: "AI Voice · Travel",     from: "#042f2e", to: "#0f766e", accent: "#2dd4bf", seconds: 42 },
-    { id: 2, label: "Flight Delay Alert",    artist: "AI Voice · Travel",     from: "#164e63", to: "#0e7490", accent: "#22d3ee", seconds: 30 },
-    { id: 3, label: "Check-in Reminder",     artist: "AI Voice · Tourism",    from: "#065f46", to: "#059669", accent: "#34d399", seconds: 35 },
-  ],
   "hospitality-services": [
     { id: 1, label: "Reservation Confirm",   artist: "AI Voice · Hospitality",from: "#4c0519", to: "#e11d48", accent: "#fb7185", seconds: 38 },
     { id: 2, label: "Check-in Welcome",      artist: "AI Voice · Hotel",      from: "#881337", to: "#be123c", accent: "#fda4af", seconds: 30 },
@@ -196,35 +171,30 @@ const INDUSTRY_DEMOS: Record<string, AudioDemoTrack[]> = {
     { id: 2, label: "Document Ready Alert",  artist: "AI Voice · Government", from: "#1e3a8a", to: "#2563eb", accent: "#93c5fd", seconds: 32 },
     { id: 3, label: "Survey Call",           artist: "AI Voice · Government", from: "#0c4a6e", to: "#0369a1", accent: "#38bdf8", seconds: 48 },
   ],
-  "utilities-services": [
-    { id: 1, label: "Outage Notification",   artist: "AI Voice · Utilities",  from: "#713f12", to: "#ca8a04", accent: "#facc15", seconds: 28 },
-    { id: 2, label: "Bill Due Reminder",     artist: "AI Voice · Utilities",  from: "#78350f", to: "#d97706", accent: "#fcd34d", seconds: 34 },
-    { id: 3, label: "Meter Reading Alert",   artist: "AI Voice · Utilities",  from: "#065f46", to: "#16a34a", accent: "#4ade80", seconds: 40 },
+  "manufacturing-services": [
+    { id: 1, label: "Order Dispatch Alert",  artist: "AI Voice · Manufacturing",from: "#431407", to: "#c2410c", accent: "#fb923c", seconds: 35 },
+    { id: 2, label: "Quality Check Notify",  artist: "AI Voice · Manufacturing",from: "#1c1917", to: "#57534e", accent: "#a8a29e", seconds: 40 },
+    { id: 3, label: "Maintenance Reminder",  artist: "AI Voice · Manufacturing",from: "#78350f", to: "#b45309", accent: "#fbbf24", seconds: 44 },
   ],
   "non-profit-organizations-services": [
     { id: 1, label: "Donation Thank You",    artist: "AI Voice · Non-Profit", from: "#052e16", to: "#15803d", accent: "#4ade80", seconds: 45 },
     { id: 2, label: "Event Invitation",      artist: "AI Voice · Non-Profit", from: "#064e3b", to: "#059669", accent: "#34d399", seconds: 55 },
     { id: 3, label: "Volunteer Reminder",    artist: "AI Voice · Non-Profit", from: "#042f2e", to: "#0f766e", accent: "#2dd4bf", seconds: 40 },
   ],
-  "transportation-and-logistics-services": [
-    { id: 1, label: "Delivery ETA Update",   artist: "AI Voice · Logistics",  from: "#1e3a8a", to: "#1d4ed8", accent: "#60a5fa", seconds: 30 },
-    { id: 2, label: "Pickup Confirmation",   artist: "AI Voice · Transport",  from: "#0c4a6e", to: "#0284c7", accent: "#38bdf8", seconds: 28 },
-    { id: 3, label: "Shipment Alert",        artist: "AI Voice · Logistics",  from: "#0f172a", to: "#334155", accent: "#94a3b8", seconds: 36 },
+  "event-management-services": [
+    { id: 1, label: "Registration Confirm",  artist: "AI Voice · Events",     from: "#581c87", to: "#a855f7", accent: "#d8b4fe", seconds: 30 },
+    { id: 2, label: "Event Detail Update",   artist: "AI Voice · Events",     from: "#431407", to: "#ea580c", accent: "#fdba74", seconds: 45 },
+    { id: 3, label: "Feedback Request",      artist: "AI Voice · Events",     from: "#0c4a6e", to: "#0ea5e9", accent: "#7dd3fc", seconds: 38 },
   ],
-  "manufacturing-services": [
-    { id: 1, label: "Order Dispatch Alert",  artist: "AI Voice · Manufacturing",from: "#431407", to: "#c2410c", accent: "#fb923c", seconds: 35 },
-    { id: 2, label: "Quality Check Notify",  artist: "AI Voice · Manufacturing",from: "#1c1917", to: "#57534e", accent: "#a8a29e", seconds: 40 },
-    { id: 3, label: "Maintenance Reminder",  artist: "AI Voice · Manufacturing",from: "#78350f", to: "#b45309", accent: "#fbbf24", seconds: 44 },
+  "consulting-services": [
+    { id: 1, label: "Meeting Schedule",      artist: "AI Voice · Consulting", from: "#1e293b", to: "#64748b", accent: "#cbd5e1", seconds: 40 },
+    { id: 2, label: "Intake Form Follow-up", artist: "AI Voice · Advisory",   from: "#1e1b4b", to: "#4f46e5", accent: "#93c5fd", seconds: 50 },
+    { id: 3, label: "Session Reminder",      artist: "AI Voice · Consulting", from: "#064e3b", to: "#10b981", accent: "#a7f3d0", seconds: 32 },
   ],
-  "construction-services": [
-    { id: 1, label: "Site Safety Alert",     artist: "AI Voice · Construction",from: "#78350f", to: "#d97706", accent: "#fcd34d", seconds: 32 },
-    { id: 2, label: "Project Update",        artist: "AI Voice · Construction",from: "#431407", to: "#ea580c", accent: "#fdba74", seconds: 48 },
-    { id: 3, label: "Inspection Reminder",   artist: "AI Voice · Construction",from: "#1c1917", to: "#44403c", accent: "#d6d3d1", seconds: 38 },
-  ],
-  "agriculture-services": [
-    { id: 1, label: "Weather Alert",         artist: "AI Voice · Agriculture", from: "#14532d", to: "#16a34a", accent: "#4ade80", seconds: 28 },
-    { id: 2, label: "Harvest Schedule",      artist: "AI Voice · Agriculture", from: "#3f6212", to: "#65a30d", accent: "#a3e635", seconds: 42 },
-    { id: 3, label: "Supply Delivery ETA",   artist: "AI Voice · Agriculture", from: "#064e3b", to: "#059669", accent: "#34d399", seconds: 36 },
+  "pharmaceutical-services": [
+    { id: 1, label: "Prescription Ready",    artist: "AI Voice · Pharmacy",   from: "#1e3a8a", to: "#3b82f6", accent: "#93c5fd", seconds: 35 },
+    { id: 2, label: "Refill Renewal Alert",  artist: "AI Voice · Pharmacy",   from: "#164e63", to: "#06b6d4", accent: "#67e8f9", seconds: 44 },
+    { id: 3, label: "Delivery Dispatched",   artist: "AI Voice · Pharma",     from: "#0f172a", to: "#475569", accent: "#94a3b8", seconds: 30 },
   ],
 };
 
@@ -270,7 +240,7 @@ export function getAllIndustrySlugs() {
 
 /* ─────────────────────────────────────────────────────────
    Industry page content types
-───────────────────────────────────────────────────────── */
+   ───────────────────────────────────────────────────────── */
 
 export type IndustryStat = {
   value: string;
@@ -280,11 +250,8 @@ export type IndustryStat = {
 export type IndustryUseCase = {
   title: string;
   description: string;
-  /** Tailwind bg colour class for icon wrapper */
   iconBg: string;
-  /** Tailwind text colour class for icon */
   iconColor: string;
-  /** Lucide icon name string */
   icon: string;
 };
 
@@ -307,15 +274,36 @@ export type IndustryTestimonial = {
   initials: string;
 };
 
+export type IndustryDemoIdentityCheck = {
+  field: string;
+  value: string;
+};
+
+export type IndustryCallDirection = "inbound" | "outbound";
+
 export type IndustryDemoScenario = {
   label: string;
   duration: string;
+  /** Defaults to inbound unless the first message is from the AI (outbound opener). */
+  callDirection?: IndustryCallDirection;
   aiResponse: string;
-  /** Optional real audio file served from /public */
   audioSrc?: string;
-  /** BCP-47 language tag e.g. "hi", "en" — shown in the player */
   lang?: string;
   messages: { from: "caller" | "ai"; text: string }[];
+  caller: string;
+  num: string;
+  av: string;
+  intents: string[];
+  tools: { label: string; icon: string }[];
+  actions: { icon: string; label: string; val: string }[];
+  logLines: { t: string; dot: "pur" | "grn" | "amb"; text: string }[];
+  outcomes: { icon: string; label: string; val: string }[];
+  /** Appointment flows — slots offered to the caller */
+  availableSlots?: string[];
+  /** Which slot the caller selects */
+  selectedSlot?: string;
+  /** Lab / order flows — fields the AI collects before lookup */
+  identityChecks?: IndustryDemoIdentityCheck[];
 };
 
 export type IndustryPageContent = {
@@ -334,7 +322,7 @@ export type IndustryPageContent = {
 
 /* ─────────────────────────────────────────────────────────
    Per-industry page content
-───────────────────────────────────────────────────────── */
+   ───────────────────────────────────────────────────────── */
 
 const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
   "real-estate-services": {
@@ -350,18 +338,44 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     demoScenarios: [
       {
         label: "Property inquiry",
-        duration: "1:20",
+        duration: "1:12",
         audioSrc: "/demos/property-inquiry.mp3",
-        lang: "hi",
-        aiResponse: `"नमस्ते रिधम, मैं आर्यन बोल रहा हूँ सिक्योर श्योर इंश्योरेंस से। क्या अभी आपसे बात करने का सही समय है?"`,
+        lang: "en",
+        aiResponse: "Yes, the 3BHK in Bandra West is still available! It's ₹1.2 Cr for 1,450 sq ft with parking. Would you like to schedule a viewing?",
         messages: [
-          { from: "ai",     text: "नमस्ते रिधम, मैं आर्यन बोल रहा हूँ सिक्योर श्योर इंश्योरेंस से। क्या अभी आपसे बात करने का सही समय है?" },
-          { from: "caller", text: "हाँ, बताइए।" },
-          { from: "ai",     text: "धन्यवाद। हम मेटा विज्ञापनों के ज़रिए लोगों को उनकी ज़रूरतों के हिसाब से सही बीमा चुनने में मदद कर रहे हैं। क्या आप अभी अपने लिए या अपने परिवार के लिए किसी खास तरह के बीमा, जैसे हेल्थ, लाइफ या ऑटो इंश्योरेंस के बारे में जानकारी लेना चाहेंगे?" },
-          { from: "caller", text: "लाइफ इंश्योरेंस।" },
-          { from: "ai",     text: "समझ गया, लाइफ इंश्योरेंस। क्या आप अपने लिए कोई टर्म प्लान देख रहे हैं जिसमें कम प्रीमियम में ज़्यादा कवर मिले, या फिर आप ऐसा प्लान चाहते हैं जिसमें मैच्योरिटी पर आपका पैसा वापस मिल जाए?" },
-          { from: "caller", text: "वो क्या होता है?" },
-          { from: "ai",     text: "टर्म प्लान में आपको कम पैसों में बहुत बड़ा कवर मिलता है, जैसे कि पचास लाख रुपये का बीमा, लेकिन इसमें मैच्योरिटी पर पैसा वापस नहीं मिलता। वहीं, रिटर्न ऑफ प्रीमियम प्लान में मैच्योरिटी के समय आपका जमा किया हुआ पैसा आपको वापस मिल जाता है। क्या आप इनमें से किसी एक के बारे में विस्तार से जानना चाहेंगे?" },
+          { from: "caller", text: "Hi, I saw a 3BHK listing on your site in Bandra West — is it still available, and what's the asking price?" },
+          { from: "ai",     text: "Let me check that listing for you right away." },
+          { from: "caller", text: "Sure, thanks." },
+          { from: "ai",     text: "Yes, it's still available at ₹1.2 Cr. Would you like to book a viewing this week?" },
+        ],
+        caller: "Ravi Shah",
+        num: "+91 98765 43210",
+        av: "RS",
+        intents: ["Property inquiry", "3BHK · Bandra West", "Positive", "English", "Normal"],
+        tools: [
+          { label: "listing_search()", icon: "Database" },
+          { label: "price_lookup()",   icon: "Tag" },
+          { label: "crm_lookup()",     icon: "Search" },
+        ],
+        actions: [
+          { icon: "Database", label: "Listing fetched",    val: "3BHK · Bandra West · ₹1.2Cr" },
+          { icon: "UserPlus", label: "Lead created",       val: "CRM · Ravi Shah" },
+          { icon: "FileText", label: "Transcript saved",   val: "Full call recorded" },
+          { icon: "Bell",     label: "Agent notified",     val: "Slack alert sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+          { t: "0:03", dot: "pur", text: "Intent detected: property inquiry" },
+          { t: "0:04", dot: "amb", text: "listing_search() called → 1 result" },
+          { t: "0:04", dot: "amb", text: "crm_lookup() → new lead" },
+          { t: "0:06", dot: "pur", text: "Response generated + spoken" },
+          { t: "0:09", dot: "grn", text: "Lead logged in CRM · agent notified" },
+        ],
+        outcomes: [
+          { icon: "PhoneCall",  label: "Call answered", val: "< 2s" },
+          { icon: "UserCheck",  label: "Lead captured",  val: "CRM updated" },
+          { icon: "Star",       label: "CSAT",           val: "4.9 / 5" },
+          { icon: "Clock",      label: "Handle time",    val: "1m 12s" },
         ],
       },
       {
@@ -374,6 +388,35 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
           { from: "caller", text: "Saturday morning works." },
           { from: "ai",     text: "Confirmed! Your visit is booked for Saturday 11 AM. Can I take your name and a contact number to send a reminder?" },
         ],
+        caller: "Priya Mehta",
+        num: "+91 90000 11223",
+        av: "PM",
+        intents: ["Booking intent", "2BHK · Worli · Sat", "Positive", "English", "High"],
+        tools: [
+          { label: "calendar_check()", icon: "CalendarDays" },
+          { label: "slot_book()",      icon: "CalendarCheck" },
+          { label: "sms_send()",       icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "CalendarCheck", label: "Slot booked",   val: "Sat · 11:00 AM · Worli" },
+          { icon: "MessageSquare", label: "SMS sent",      val: "Confirmation to Priya" },
+          { icon: "Database",      label: "CRM updated",   val: "Viewing scheduled" },
+          { icon: "UserCheck",     label: "Agent assigned",val: "Amit K. notified" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+          { t: "0:03", dot: "pur", text: "Intent: viewing request — Worli 2BHK" },
+          { t: "0:04", dot: "amb", text: "calendar_check() → Sat 11am free" },
+          { t: "0:05", dot: "amb", text: "slot_book() → confirmed" },
+          { t: "0:05", dot: "amb", text: "sms_send() → confirmation dispatched" },
+          { t: "0:07", dot: "grn", text: "Viewing booked · agent notified" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Viewing booked", val: "Sat 11 AM" },
+          { icon: "MessageSquare", label: "SMS sent",       val: "Confirmed" },
+          { icon: "Star",          label: "CSAT",           val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",    val: "0m 58s" },
+        ],
       },
       {
         label: "Lead qualification",
@@ -384,6 +427,36 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
           { from: "ai",     text: "Got it. Are you looking to move in within 3 months, or is this more of a long-term search?" },
           { from: "caller", text: "Within 3 months, ideally." },
           { from: "ai",     text: "Perfect. Do you need a home loan, or are you planning a cash purchase? This helps me match the right listings for you." },
+        ],
+        caller: "Ankit Desai",
+        num: "+91 77711 88990",
+        av: "AD",
+        intents: ["Lead qualification", "Budget ₹60L · 2mo", "Positive", "English", "High urgency"],
+        tools: [
+          { label: "lead_score()",    icon: "BarChart2" },
+          { label: "listing_match()", icon: "Search" },
+          { label: "crm_create()",    icon: "UserPlus" },
+          { label: "agent_alert()",   icon: "Bell" },
+        ],
+        actions: [
+          { icon: "Flame",    label: "Lead scored",       val: "Hot · 94 / 100" },
+          { icon: "Search",   label: "3 listings matched", val: "₹55–62L range" },
+          { icon: "UserPlus", label: "Lead created",      val: "CRM · High priority" },
+          { icon: "Bell",     label: "Agent alerted",     val: "Immediate callback" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+          { t: "0:03", dot: "pur", text: "Intent: lead qualification · budget ₹60L" },
+          { t: "0:04", dot: "amb", text: "lead_score() → 94/100 hot lead" },
+          { t: "0:04", dot: "amb", text: "listing_match() → 3 results" },
+          { t: "0:05", dot: "amb", text: "crm_create() → lead saved" },
+          { t: "0:06", dot: "grn", text: "Agent alerted · callback scheduled" },
+        ],
+        outcomes: [
+          { icon: "Flame",      label: "Hot lead",          val: "Score 94/100" },
+          { icon: "ListChecks", label: "Listings matched",  val: "3 properties" },
+          { icon: "Star",       label: "CSAT",              val: "4.8 / 5" },
+          { icon: "Clock",      label: "Handle time",       val: "1m 30s" },
         ],
       },
     ],
@@ -432,35 +505,140 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     demoScenarios: [
       {
         label: "Appointment booking",
-        duration: "0:20",
-        aiResponse: `"Your appointment with Dr. Mehta is confirmed for Tuesday at 10:30 AM. You'll receive a reminder 24 hours before."`,
+        duration: "1:05",
+        aiResponse: "You're all set, Asha. Your appointment with Dr. Mehta is confirmed for Tuesday at 10:30 AM. A confirmation SMS has been sent to your number on file.",
         messages: [
-          { from: "caller", text: "Hi, I need to book an appointment with Dr. Mehta." },
-          { from: "ai",     text: "Of course! Dr. Mehta has availability on Tuesday at 10:30 AM or Thursday at 2 PM. Which suits you?" },
-          { from: "caller", text: "Tuesday morning, please." },
-          { from: "ai",     text: "Perfect. Can I confirm your date of birth for the patient record?" },
+          { from: "caller", text: "Hi, I'd like to book a general check-up with Dr. Mehta." },
+          { from: "ai",     text: "Of course — let me check Dr. Mehta's available slots for you." },
+          { from: "ai",     text: "I have three openings: Tuesday 10:30 AM, Tuesday 11:45 AM, or Thursday 2:00 PM. Which works best for you?" },
+          { from: "caller", text: "Tuesday at 10:30 AM, please." },
+          { from: "ai",     text: "Great choice. To complete the booking, I'll need your patient ID and date of birth." },
+          { from: "caller", text: "Patient ID PAT-48291, date of birth March 14, 1991." },
+        ],
+        caller: "Asha Sharma",
+        num: "+91 98765 00112",
+        av: "AS",
+        availableSlots: ["Tue · 10:30 AM", "Tue · 11:45 AM", "Thu · 2:00 PM"],
+        selectedSlot: "Tue · 10:30 AM",
+        identityChecks: [
+          { field: "Patient ID", value: "PAT-48291" },
+          { field: "Date of birth", value: "14 Mar 1991" },
+        ],
+        intents: ["Appointment booking", "Dr. Mehta · check-up", "Positive", "English", "Normal"],
+        tools: [
+          { label: "schedule_fetch()", icon: "CalendarDays" },
+          { label: "patient_verify()", icon: "Search" },
+          { label: "appointment_book()", icon: "CalendarCheck" },
+        ],
+        actions: [
+          { icon: "CalendarCheck", label: "Slot booked", val: "Tue · 10:30 AM" },
+          { icon: "UserCheck", label: "Patient verified", val: "PAT-48291" },
+          { icon: "MessageSquare", label: "SMS sent", val: "Confirmation to Asha" },
+          { icon: "Database", label: "EHR updated", val: "Appt logged" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound call answered by AI" },
+          { t: "0:03", dot: "pur", text: "Intent: book appointment with Dr. Mehta" },
+          { t: "0:04", dot: "amb", text: "schedule_fetch() → 3 slots returned" },
+          { t: "0:08", dot: "pur", text: "Caller selected Tue 10:30 AM" },
+          { t: "0:10", dot: "amb", text: "patient_verify() → PAT-48291 matched" },
+          { t: "0:12", dot: "grn", text: "appointment_book() → Confirmed in EHR" },
+        ],
+        outcomes: [
+          { icon: "PhoneCall", label: "Answer time", val: "< 3s" },
+          { icon: "CalendarCheck", label: "Appt booked", val: "Tue 10:30 AM" },
+          { icon: "Star", label: "CSAT", val: "4.9 / 5" },
+          { icon: "Clock", label: "Handle time", val: "1m 05s" },
         ],
       },
       {
-        label: "Appointment reminder",
-        duration: "0:15",
-        aiResponse: `"This is a reminder for your appointment tomorrow at 10:30 AM with Dr. Mehta at City Health Clinic. Press 1 to confirm."`,
+        label: "Lab report request",
+        duration: "1:10",
+        aiResponse: "Your CBC panel results are ready. I've sent a secure report link to asha.sharma@gmail.com — it expires in 48 hours.",
         messages: [
-          { from: "ai",     text: "Hello, this is a reminder for your appointment tomorrow at 10:30 AM with Dr. Mehta." },
-          { from: "caller", text: "Yes, I'll be there. Can I reschedule if needed?" },
-          { from: "ai",     text: "Absolutely. You can call us back or press 2 now to reschedule. Is there anything else I can help with?" },
-          { from: "caller", text: "No, that's all. Thank you." },
+          { from: "caller", text: "I'm calling to check if my blood test results are ready." },
+          { from: "ai",     text: "I can help with that. For security, may I have your patient ID or medical record number?" },
+          { from: "caller", text: "It's PAT-77320." },
+          { from: "ai",     text: "Thank you. And your date of birth, please?" },
+          { from: "caller", text: "June 8, 1985." },
+          { from: "ai",     text: "Verified. Your results are ready — should I send the secure report link to your email on file, or a different address?" },
+          { from: "caller", text: "Send it to asha.sharma@gmail.com." },
+        ],
+        caller: "Asha Sharma",
+        num: "+91 91234 56789",
+        av: "AS",
+        identityChecks: [
+          { field: "Patient ID / MRN", value: "PAT-77320" },
+          { field: "Date of birth", value: "08 Jun 1985" },
+          { field: "Email", value: "asha.sharma@gmail.com" },
+        ],
+        intents: ["Lab results inquiry", "Identity verify", "Positive", "English", "Normal"],
+        tools: [
+          { label: "patient_verify()", icon: "Search" },
+          { label: "records_lookup()", icon: "FileText" },
+          { label: "secure_link_send()", icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "UserCheck", label: "Patient verified", val: "PAT-77320" },
+          { icon: "FileText", label: "Report found", val: "CBC panel · ready" },
+          { icon: "MessageSquare", label: "Secure link sent", val: "asha.sharma@gmail.com" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound call answered by AI" },
+          { t: "0:02", dot: "pur", text: "Intent: lab results inquiry" },
+          { t: "0:04", dot: "amb", text: "patient_verify() → ID + DOB matched" },
+          { t: "0:06", dot: "amb", text: "records_lookup() → CBC results ready" },
+          { t: "0:09", dot: "grn", text: "secure_link_send() → Email dispatched" },
+        ],
+        outcomes: [
+          { icon: "FileText", label: "Report status", val: "Ready" },
+          { icon: "MessageSquare", label: "Link delivered", val: "Email sent" },
+          { icon: "Star", label: "CSAT", val: "4.9 / 5" },
+          { icon: "Clock", label: "Handle time", val: "1m 10s" },
         ],
       },
       {
-        label: "Lab result follow-up",
-        duration: "0:18",
-        aiResponse: `"Your test results are ready. I'm connecting you with the nurse on duty who can walk you through the report."`,
+        label: "Order tracking",
+        duration: "0:55",
+        aiResponse: "Your lab order LAB-22941 was processed yesterday. Results are finalized — I've emailed a copy to vikram.rao@email.com and updated your patient portal.",
         messages: [
-          { from: "caller", text: "I'm calling to check on my blood test results." },
-          { from: "ai",     text: "I can see your results are ready from last Monday. Would you like me to connect you with a nurse to discuss them?" },
-          { from: "caller", text: "Yes please." },
-          { from: "ai",     text: "Connecting you now. Please hold for just a moment." },
+          { from: "caller", text: "What's the status of my lab order from last week?" },
+          { from: "ai",     text: "I can look that up. What's your order reference number or patient ID?" },
+          { from: "caller", text: "Order reference LAB-22941." },
+          { from: "ai",     text: "Got it. For verification, what's the email address on your account?" },
+          { from: "caller", text: "vikram.rao@email.com." },
+        ],
+        caller: "Vikram Rao",
+        num: "+91 88888 77777",
+        av: "VR",
+        identityChecks: [
+          { field: "Order reference", value: "LAB-22941" },
+          { field: "Email", value: "vikram.rao@email.com" },
+        ],
+        intents: ["Order status", "Lab tracking", "Neutral", "English", "Normal"],
+        tools: [
+          { label: "order_lookup()", icon: "Search" },
+          { label: "patient_verify()", icon: "UserCheck" },
+          { label: "portal_update()", icon: "Database" },
+        ],
+        actions: [
+          { icon: "Search", label: "Order matched", val: "LAB-22941" },
+          { icon: "UserCheck", label: "Email verified", val: "vikram.rao@email.com" },
+          { icon: "FileText", label: "Status updated", val: "Results finalized" },
+          { icon: "MessageSquare", label: "Email sent", val: "Report copy delivered" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound call answered by AI" },
+          { t: "0:02", dot: "pur", text: "Intent: lab order status check" },
+          { t: "0:04", dot: "amb", text: "order_lookup(LAB-22941) → found" },
+          { t: "0:06", dot: "amb", text: "patient_verify() → email confirmed" },
+          { t: "0:08", dot: "grn", text: "portal_update() → status + email sent" },
+        ],
+        outcomes: [
+          { icon: "Search", label: "Order tracked", val: "LAB-22941" },
+          { icon: "FileText", label: "Status", val: "Finalized" },
+          { icon: "Star", label: "CSAT", val: "4.8 / 5" },
+          { icon: "Clock", label: "Handle time", val: "0m 55s" },
         ],
       },
     ],
@@ -495,10 +673,2596 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaHeadline: "Hear your AI agent handle a patient call",
     ctaSubheadline: "Free 14-day trial. No credit card. HIPAA-friendly setup in under 30 minutes.",
   },
+
+  "insurance-services": {
+    headline: "Every policy call",
+    headlineHighlight: "handled",
+    subheadline: "Your AI agent answers renewals, claims inquiries, and premium reminders — 24/7, so your advisors can focus on complex cases.",
+    stats: [
+      { value: "70%",  label: "Faster claims triage" },
+      { value: "24/7", label: "Policy support coverage" },
+      { value: "85%",  label: "First-call resolution" },
+      { value: "<3s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Policy renewal",
+        duration: "0:22",
+        aiResponse: `"Your policy is due for renewal on July 15th. I've sent the updated premium details to your email. Would you like to confirm renewal now?"`,
+        messages: [
+          { from: "caller", text: "Hi, I got a notice about my policy renewal. Can you help?" },
+          { from: "ai",     text: "Of course! Your motor policy ending in 4521 is due on July 15th. Your new premium is ₹12,400. Shall I send the details to your registered email?" },
+          { from: "caller", text: "Yes, please. And can I pay online?" },
+          { from: "ai",     text: "Absolutely. I've sent a secure payment link to your email and mobile. Is there anything else I can help you with?" },
+        ],
+        caller: "Arjun Nair",
+        num: "+91 99887 65432",
+        av: "AN",
+        intents: ["Policy renewal", "Motor policy #4521", "Positive", "English", "Normal"],
+        tools: [
+          { label: "policy_lookup()", icon: "Search" },
+          { label: "premium_calc()", icon: "BarChart2" },
+          { label: "email_send()",   icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",       label: "Policy fetched",   val: "Motor #4521 · Due Jul 15" },
+          { icon: "MessageSquare",label: "Email dispatched", val: "Premium + payment link" },
+          { icon: "FileText",     label: "Renewal logged",   val: "CRM updated" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound call answered by AI" },
+          { t: "0:02", dot: "pur", text: "Intent: policy renewal inquiry" },
+          { t: "0:03", dot: "amb", text: "policy_lookup() → Motor #4521" },
+          { t: "0:04", dot: "amb", text: "premium_calc() → ₹12,400" },
+          { t: "0:06", dot: "grn", text: "email_send() → Payment link sent" },
+        ],
+        outcomes: [
+          { icon: "PhoneCall",   label: "Answer time",   val: "< 3s" },
+          { icon: "FileText",    label: "Renewal email", val: "Sent" },
+          { icon: "Star",        label: "CSAT",          val: "4.9 / 5" },
+          { icon: "Clock",       label: "Handle time",   val: "1m 05s" },
+        ],
+      },
+      {
+        label: "Claim status check",
+        duration: "0:18",
+        aiResponse: `"Your claim #CLM-9823 is currently under assessment. The expected resolution date is June 20th. I've sent the status update to your email."`,
+        messages: [
+          { from: "caller", text: "I want to check the status of my insurance claim." },
+          { from: "ai",     text: "Sure! Could I have your policy number or claim reference?" },
+          { from: "caller", text: "It's CLM-9823." },
+          { from: "ai",     text: "Your claim is under assessment — estimated resolution by June 20th. Shall I email you the full status report?" },
+        ],
+        caller: "Sonia Patel",
+        num: "+91 98877 11223",
+        av: "SP",
+        intents: ["Claim status", "Claim #CLM-9823", "Neutral", "English", "Normal"],
+        tools: [
+          { label: "claim_lookup()", icon: "Search" },
+          { label: "status_fetch()", icon: "Database" },
+        ],
+        actions: [
+          { icon: "Search",   label: "Claim found",     val: "#CLM-9823 · Under review" },
+          { icon: "FileText", label: "Status emailed",  val: "Resolution: Jun 20" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+          { t: "0:02", dot: "pur", text: "Intent: claim status inquiry" },
+          { t: "0:03", dot: "amb", text: "claim_lookup(CLM-9823) → found" },
+          { t: "0:05", dot: "grn", text: "Status shared + email sent" },
+        ],
+        outcomes: [
+          { icon: "Search",  label: "Claim matched", val: "#CLM-9823" },
+          { icon: "Bell",    label: "Status update",  val: "Emailed" },
+          { icon: "Star",    label: "CSAT",           val: "4.8 / 5" },
+          { icon: "Clock",   label: "Handle time",   val: "0m 55s" },
+        ],
+      },
+      {
+        label: "Premium reminder",
+        duration: "0:15",
+        aiResponse: `"Your premium of ₹8,200 is due in 3 days. I've sent the payment link to your mobile. Shall I connect you to an advisor for any queries?"`,
+        messages: [
+          { from: "ai",     text: "Hello, this is a reminder that your health policy premium of ₹8,200 is due on June 14th." },
+          { from: "caller", text: "Yes, I was going to pay. Can I get a payment link?" },
+          { from: "ai",     text: "I've just sent a secure payment link to your registered mobile. It'll be valid for 48 hours." },
+          { from: "caller", text: "Perfect, thank you!" },
+        ],
+        caller: "Rahul Desai",
+        num: "+91 91234 77890",
+        av: "RD",
+        intents: ["Premium due", "Health policy", "Positive", "English", "Normal"],
+        tools: [
+          { label: "policy_fetch()",  icon: "Search" },
+          { label: "sms_payment()",   icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "MessageSquare", label: "SMS sent",    val: "Payment link dispatched" },
+          { icon: "FileText",      label: "Log updated", val: "Reminder confirmed" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound reminder call placed" },
+          { t: "0:02", dot: "pur", text: "Caller engaged — payment intent" },
+          { t: "0:03", dot: "amb", text: "sms_payment() → Link sent" },
+          { t: "0:05", dot: "grn", text: "Payment reminder logged" },
+        ],
+        outcomes: [
+          { icon: "Bell",         label: "Reminder sent", val: "Success" },
+          { icon: "MessageSquare",label: "Pay link",       val: "SMS dispatched" },
+          { icon: "Star",         label: "CSAT",           val: "5.0 / 5" },
+          { icon: "Clock",        label: "Handle time",   val: "0m 42s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Policy renewals",      description: "Proactively calls policyholders before expiry, shares premium details, and sends payment links.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "FileText" },
+      { title: "Claims triage",        description: "Collects claim details, assigns reference numbers, and routes complex cases to adjusters.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "ShieldCheck" },
+      { title: "Premium reminders",    description: "Sends automated reminder calls with payment links before policy lapses occur.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "BellRing" },
+      { title: "Coverage questions",   description: "Answers FAQs on coverage, exclusions, and deductibles without waiting for an agent.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "MessageSquare" },
+      { title: "Document collection",  description: "Guides policyholders through uploading KYC or claim documents via automated prompts.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "Database" },
+      { title: "Customer retention",   description: "Re-engages lapsed or at-risk policyholders with personalised outbound calls.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "UserCheck" },
+    ],
+    benefits: [
+      { title: "24/7 policy support",          description: "Policyholders get instant answers at any hour — no hold queues, no lost calls.", icon: "Clock" },
+      { title: "Reduce lapse rates",           description: "Automated premium reminders with payment links cut policy lapses by up to 35%.", icon: "BellRing" },
+      { title: "CRM & policy system sync",     description: "Pushes call outcomes and updates directly into your policy management platform.", icon: "Plug" },
+      { title: "Multilingual support",         description: "Handles customers in their preferred language across 100+ languages automatically.", icon: "Languages" },
+      { title: "Compliance-ready call logs",   description: "Every call is recorded and transcribed in line with IRDAI and data regulations.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",     description: "Connect your number, choose an insurance template, and your AI is live instantly.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "35%",  label: "Fewer policy lapses",    sublabel: "Via automated premium reminders" },
+      { value: "70%",  label: "Faster claims triage",   sublabel: "Compared to manual intake process" },
+      { value: "85%",  label: "First-call resolution",  sublabel: "On routine policy inquiries" },
+      { value: "$30K", label: "Saved per year",         sublabel: "In call centre staffing costs" },
+    ],
+    testimonial: {
+      quote: "OnDial handles our renewal reminders and claim status calls completely on autopilot. Our advisors now only deal with complex cases. Policy lapse rates are down 30% since we started.",
+      name: "Vikram Mehra",
+      role: "VP Operations · SecureShield Insurance",
+      initials: "VM",
+    },
+    ctaHeadline: "Hear your AI agent handle an insurance call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
+  },
+
+  "financial-and-banking-services": {
+    headline: "Every banking call",
+    headlineHighlight: "resolved",
+    subheadline: "Your AI calling agent handles balance inquiries, payment reminders, fraud alerts, and loan queries — securely, 24/7.",
+    stats: [
+      { value: "90%",  label: "Routine call automation" },
+      { value: "24/7", label: "Banking support" },
+      { value: "60%",  label: "Cost per call reduction" },
+      { value: "<2s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Payment reminder",
+        duration: "0:18",
+        aiResponse: `"Your EMI of ₹14,500 is due on June 15th. I've sent the payment link to your registered mobile. Would you like to speak with a loan officer?"`,
+        messages: [
+          { from: "ai",     text: "Hello, this is a reminder from First National Bank. Your loan EMI of ₹14,500 is due on June 15th." },
+          { from: "caller", text: "Yes, I was planning to pay. Can I get the payment details?" },
+          { from: "ai",     text: "I've sent a secure payment link to your mobile number ending in 4521. It's valid for 24 hours." },
+          { from: "caller", text: "Got it, thanks." },
+        ],
+        caller: "Amit Kumar",
+        num: "+91 98877 00112",
+        av: "AK",
+        intents: ["EMI reminder", "Loan account", "Positive", "English", "Normal"],
+        tools: [
+          { label: "account_fetch()", icon: "Database" },
+          { label: "sms_link()",      icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Database",      label: "Account fetched", val: "Loan acc #L-4521" },
+          { icon: "MessageSquare", label: "SMS sent",         val: "Payment link dispatched" },
+          { icon: "FileText",      label: "Call logged",      val: "Reminder confirmed" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound EMI reminder placed" },
+          { t: "0:02", dot: "pur", text: "Caller engaged" },
+          { t: "0:03", dot: "amb", text: "account_fetch() → Loan #L-4521" },
+          { t: "0:04", dot: "amb", text: "sms_link() → Payment link sent" },
+          { t: "0:06", dot: "grn", text: "Reminder logged in CRM" },
+        ],
+        outcomes: [
+          { icon: "Bell",         label: "Reminder",   val: "Delivered" },
+          { icon: "MessageSquare",label: "SMS link",    val: "Sent" },
+          { icon: "Star",         label: "CSAT",        val: "4.9 / 5" },
+          { icon: "Clock",        label: "Handle time", val: "0m 48s" },
+        ],
+      },
+      {
+        label: "Fraud alert",
+        duration: "0:15",
+        aiResponse: `"We've detected a suspicious transaction of ₹25,000 on your card ending in 8811. Press 1 to confirm this was you, or press 2 to block your card immediately."`,
+        messages: [
+          { from: "ai",     text: "This is an urgent alert from your bank. A transaction of ₹25,000 was attempted on your card ending 8811. Did you authorise this?" },
+          { from: "caller", text: "No! I did not." },
+          { from: "ai",     text: "I've immediately blocked your card and raised a fraud dispute. Your replacement card will arrive in 3–5 business days. You'll receive an SMS confirmation now." },
+        ],
+        caller: "Priya Singh",
+        num: "+91 90000 88811",
+        av: "PS",
+        intents: ["Fraud dispute", "Card block", "Urgent", "English", "High urgency"],
+        tools: [
+          { label: "txn_verify()",   icon: "ShieldCheck" },
+          { label: "card_block()",   icon: "Database" },
+          { label: "dispute_raise()",icon: "FileText" },
+        ],
+        actions: [
+          { icon: "ShieldCheck", label: "Txn flagged",     val: "₹25,000 · Card 8811" },
+          { icon: "Database",    label: "Card blocked",    val: "Immediate block applied" },
+          { icon: "FileText",    label: "Dispute raised",  val: "Case #FRD-7721" },
+          { icon: "Bell",        label: "SMS sent",        val: "Confirmation dispatched" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound fraud alert placed" },
+          { t: "0:02", dot: "pur", text: "Caller confirmed: NOT authorised" },
+          { t: "0:03", dot: "amb", text: "card_block() → Immediate block" },
+          { t: "0:04", dot: "amb", text: "dispute_raise() → Case #FRD-7721" },
+          { t: "0:05", dot: "grn", text: "SMS confirmation sent" },
+        ],
+        outcomes: [
+          { icon: "ShieldCheck", label: "Card blocked",   val: "< 1 min" },
+          { icon: "FileText",    label: "Dispute raised", val: "#FRD-7721" },
+          { icon: "Star",        label: "CSAT",           val: "5.0 / 5" },
+          { icon: "Clock",       label: "Handle time",    val: "0m 55s" },
+        ],
+      },
+      {
+        label: "Loan inquiry",
+        duration: "0:25",
+        aiResponse: `"Based on your profile, you're eligible for a personal loan of up to ₹5 lakh at 10.5% p.a. I've scheduled a call with our loan officer for tomorrow at 11 AM."`,
+        messages: [
+          { from: "caller", text: "I'm interested in a personal loan. What are my options?" },
+          { from: "ai",     text: "Happy to help! Could I pull up your account to check your pre-approved offers?" },
+          { from: "caller", text: "Sure, go ahead." },
+          { from: "ai",     text: "You're pre-approved for up to ₹5 lakh at 10.5% p.a. for 36 months. Would you like to speak with a loan specialist to proceed?" },
+        ],
+        caller: "Rohan Joshi",
+        num: "+91 91234 56780",
+        av: "RJ",
+        intents: ["Loan inquiry", "Personal loan", "Positive", "English", "High"],
+        tools: [
+          { label: "eligibility_check()", icon: "BarChart2" },
+          { label: "offer_fetch()",       icon: "Database" },
+          { label: "callback_book()",     icon: "CalendarCheck" },
+        ],
+        actions: [
+          { icon: "BarChart2",    label: "Eligible",         val: "Up to ₹5L · 10.5% p.a." },
+          { icon: "CalendarCheck",label: "Callback booked",  val: "Tomorrow · 11:00 AM" },
+          { icon: "UserPlus",     label: "Lead created",     val: "CRM · High priority" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+          { t: "0:03", dot: "pur", text: "Intent: personal loan inquiry" },
+          { t: "0:04", dot: "amb", text: "eligibility_check() → ₹5L approved" },
+          { t: "0:05", dot: "amb", text: "callback_book() → Tomorrow 11 AM" },
+          { t: "0:07", dot: "grn", text: "Lead logged · specialist alerted" },
+        ],
+        outcomes: [
+          { icon: "BarChart2",    label: "Offer matched",    val: "₹5L approved" },
+          { icon: "CalendarCheck",label: "Callback booked",  val: "Tomorrow 11 AM" },
+          { icon: "Star",         label: "CSAT",             val: "4.9 / 5" },
+          { icon: "Clock",        label: "Handle time",      val: "1m 20s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "EMI & payment reminders",  description: "Proactively reminds customers of upcoming EMIs and sends secure payment links automatically.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "BellRing" },
+      { title: "Fraud alerts & blocking",  description: "Instantly notifies customers of suspicious transactions and enables card blocking on the call.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "ShieldCheck" },
+      { title: "Loan & credit inquiries",  description: "Checks eligibility, presents offers, and books specialist callbacks in one seamless call.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "BarChart2" },
+      { title: "Balance & statement queries", description: "Provides balances, mini-statements, and transaction history over voice — securely.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "Database" },
+      { title: "KYC follow-ups",           description: "Reminds customers to complete KYC verification and guides them through the process.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "UserCheck" },
+      { title: "Customer onboarding",      description: "Walks new customers through account setup and collects required information on the call.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "UserPlus" },
+    ],
+    benefits: [
+      { title: "Secure by design",            description: "All calls are encrypted and compliant with RBI, PCI-DSS, and banking data regulations.", icon: "ShieldCheck" },
+      { title: "Zero missed payments",        description: "Automated EMI reminders with payment links reduce delinquency before it happens.", icon: "BellRing" },
+      { title: "Core banking integration",    description: "Connects to your CBS, CRM, and fraud systems for real-time data on every call.", icon: "Plug" },
+      { title: "Multilingual banking support",description: "Serves customers in 100+ languages — regional language support built in.", icon: "Languages" },
+      { title: "Full audit trail",            description: "Every interaction is logged, transcribed, and stored for compliance and quality review.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",    description: "No engineering work required — connect your number and go live with a banking template.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "90%",  label: "Routine calls automated", sublabel: "Freeing advisors for complex cases" },
+      { value: "60%",  label: "Cost per call reduced",   sublabel: "Vs traditional call centre handling" },
+      { value: "40%",  label: "Lower delinquency rate",  sublabel: "On EMI accounts with reminders" },
+      { value: "$45K", label: "Saved per year",          sublabel: "Across a 20-seat call centre" },
+    ],
+    testimonial: {
+      quote: "OnDial handles our payment reminders, fraud alerts, and loan pre-qualification calls with zero human intervention. Collections improved 38% in the first quarter.",
+      name: "Aisha Kapoor",
+      role: "Head of Digital Banking · Horizon Bank",
+      initials: "AK",
+    },
+    ctaHeadline: "Hear your AI agent handle a banking call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Secure banking setup in under 30 minutes.",
+  },
+
+  "call-center-and-bpo-services": {
+    headline: "Scale your call centre",
+    headlineHighlight: "with AI",
+    subheadline: "Your AI agent handles tier-1 calls, routes complex queries, and completes post-call work — so your team can focus on what matters.",
+    stats: [
+      { value: "3×",   label: "More calls handled per agent" },
+      { value: "50%",  label: "AHT reduction" },
+      { value: "24/7", label: "Blended AI + human coverage" },
+      { value: "95%",  label: "Call answer rate" },
+    ],
+    demoScenarios: [
+      {
+        label: "Customer support",
+        duration: "0:20",
+        aiResponse: `"I can see your order #ORD-5521 is delayed due to a courier issue. I've raised an escalation and you'll receive a delivery update within 2 hours."`,
+        messages: [
+          { from: "caller", text: "Hi, I've been waiting for my order for 5 days. What's going on?" },
+          { from: "ai",     text: "I'm sorry to hear that! Let me pull up your order. Could I have your order number or registered email?" },
+          { from: "caller", text: "It's ORD-5521." },
+          { from: "ai",     text: "Your order is delayed at the courier hub due to a weather disruption. I've raised a priority escalation — you'll get an update within 2 hours. I apologise for the inconvenience." },
+        ],
+        caller: "Priya Sharma",
+        num: "+91 98765 11223",
+        av: "PS",
+        intents: ["Order delay", "Complaint", "Negative", "English", "High urgency"],
+        tools: [
+          { label: "order_lookup()",   icon: "Search" },
+          { label: "escalate_ticket()",icon: "FileText" },
+          { label: "notify_courier()", icon: "Bell" },
+        ],
+        actions: [
+          { icon: "Search",   label: "Order found",       val: "#ORD-5521 · Delayed" },
+          { icon: "FileText", label: "Escalation raised", val: "Priority ticket #ESC-112" },
+          { icon: "Bell",     label: "Courier notified",  val: "Resolution in 2 hrs" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound complaint call answered" },
+          { t: "0:02", dot: "pur", text: "Intent: order delay complaint" },
+          { t: "0:03", dot: "amb", text: "order_lookup(ORD-5521) → delayed" },
+          { t: "0:04", dot: "amb", text: "escalate_ticket() → #ESC-112" },
+          { t: "0:06", dot: "grn", text: "Courier notified · customer informed" },
+        ],
+        outcomes: [
+          { icon: "FileText", label: "Ticket raised",  val: "#ESC-112" },
+          { icon: "Bell",     label: "Courier alerted", val: "2-hr SLA set" },
+          { icon: "Star",     label: "CSAT",            val: "4.7 / 5" },
+          { icon: "Clock",    label: "Handle time",     val: "1m 10s" },
+        ],
+      },
+      {
+        label: "Complaint resolution",
+        duration: "0:22",
+        aiResponse: `"I've logged your complaint and assigned it reference #CMP-8811. A senior agent will call you within 4 hours to resolve this."`,
+        messages: [
+          { from: "caller", text: "I want to raise a formal complaint about your billing." },
+          { from: "ai",     text: "I understand, and I'm sorry for the trouble. Could you describe the issue so I can log it accurately?" },
+          { from: "caller", text: "I was charged twice for the same service last month." },
+          { from: "ai",     text: "I've raised a formal complaint — reference #CMP-8811. A senior agent will contact you within 4 hours and the duplicate charge will be reversed." },
+        ],
+        caller: "Aditya Rao",
+        num: "+91 90000 22334",
+        av: "AR",
+        intents: ["Billing complaint", "Double charge", "Negative", "English", "High"],
+        tools: [
+          { label: "billing_lookup()",  icon: "Database" },
+          { label: "complaint_log()",   icon: "FileText" },
+          { label: "callback_schedule()",icon: "CalendarCheck" },
+        ],
+        actions: [
+          { icon: "Database",     label: "Billing checked",   val: "Duplicate charge found" },
+          { icon: "FileText",     label: "Complaint logged",  val: "#CMP-8811 raised" },
+          { icon: "CalendarCheck",label: "Callback scheduled",val: "Senior agent · 4 hrs" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound call answered by AI" },
+          { t: "0:02", dot: "pur", text: "Intent: billing complaint" },
+          { t: "0:03", dot: "amb", text: "billing_lookup() → duplicate found" },
+          { t: "0:04", dot: "amb", text: "complaint_log() → #CMP-8811" },
+          { t: "0:06", dot: "grn", text: "Senior callback scheduled" },
+        ],
+        outcomes: [
+          { icon: "FileText",     label: "Complaint",   val: "#CMP-8811" },
+          { icon: "CalendarCheck",label: "Callback",    val: "< 4 hrs" },
+          { icon: "Star",         label: "CSAT",        val: "4.8 / 5" },
+          { icon: "Clock",        label: "Handle time", val: "1m 25s" },
+        ],
+      },
+      {
+        label: "Survey call",
+        duration: "0:18",
+        aiResponse: `"Thank you for your time! Based on your feedback, we'll follow up with recommendations tailored to your experience."`,
+        messages: [
+          { from: "ai",     text: "Hello, I'm calling on behalf of TechServ to gather your feedback on your recent support experience. This will take under 2 minutes." },
+          { from: "caller", text: "Sure, go ahead." },
+          { from: "ai",     text: "On a scale of 1 to 10, how satisfied were you with the resolution of your issue?" },
+          { from: "caller", text: "About a 7. The wait time was too long." },
+          { from: "ai",     text: "Thank you for that feedback. I've noted your concern about wait times. We'll use this to improve our service." },
+        ],
+        caller: "Neha Gupta",
+        num: "+91 91234 00112",
+        av: "NG",
+        intents: ["CSAT survey", "Wait time concern", "Neutral", "English", "Normal"],
+        tools: [
+          { label: "survey_log()", icon: "FileText" },
+          { label: "crm_update()", icon: "Database" },
+        ],
+        actions: [
+          { icon: "FileText", label: "Response logged", val: "CSAT score: 7/10" },
+          { icon: "Database", label: "CRM updated",     val: "Feedback tagged" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound survey call placed" },
+          { t: "0:03", dot: "pur", text: "Caller engaged" },
+          { t: "0:05", dot: "amb", text: "survey_log() → CSAT 7/10" },
+          { t: "0:06", dot: "grn", text: "Feedback saved to CRM" },
+        ],
+        outcomes: [
+          { icon: "FileText", label: "Survey done",   val: "CSAT 7/10" },
+          { icon: "Database", label: "CRM updated",   val: "Feedback tagged" },
+          { icon: "Star",     label: "CSAT",          val: "4.9 / 5" },
+          { icon: "Clock",    label: "Handle time",   val: "1m 05s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Tier-1 call handling",    description: "Resolves routine inquiries instantly — order status, FAQs, account info — without a human agent.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "PhoneIncoming" },
+      { title: "Intelligent call routing",description: "Identifies caller intent and routes complex cases to the right agent or team automatically.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Filter" },
+      { title: "Complaint management",    description: "Logs complaints, raises tickets, and schedules callbacks — all on the same call.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "FileText" },
+      { title: "CSAT surveys",            description: "Runs automated post-call satisfaction surveys and logs scores directly into your CRM.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "BarChart2" },
+      { title: "Post-call wrap-up",       description: "Completes call summaries, CRM updates, and ticket creation automatically after each call.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "CheckCheck" },
+      { title: "Outbound campaigns",      description: "Runs proactive outreach at scale — renewals, follow-ups, and win-back campaigns.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "BellRing" },
+    ],
+    benefits: [
+      { title: "Handle 3× more volume",      description: "AI handles tier-1 calls while your agents focus on complex, high-value interactions.", icon: "PhoneIncoming" },
+      { title: "Cut AHT by 50%",             description: "Automated call summaries and CRM sync eliminate post-call work for every agent.", icon: "Clock" },
+      { title: "CRM & ticketing integration",description: "Works with Salesforce, Zendesk, Freshdesk, and all major platforms out of the box.", icon: "Plug" },
+      { title: "100+ language support",       description: "Serve customers in their native language — multilingual handling built in.", icon: "Languages" },
+      { title: "Real-time dashboards",        description: "Live call monitoring, agent metrics, CSAT scores, and resolution rates in one place.", icon: "BarChart2" },
+      { title: "Deploy in under 30 minutes", description: "No coding needed — connect your telephony and go live with a BPO-ready template.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "3×",   label: "More calls handled",   sublabel: "Per agent per day vs before" },
+      { value: "50%",  label: "AHT reduction",        sublabel: "Via AI-assisted call flows" },
+      { value: "95%",  label: "Call answer rate",     sublabel: "Even at peak volume spikes" },
+      { value: "$60K", label: "Saved per year",       sublabel: "Across a 50-seat BPO team" },
+    ],
+    testimonial: {
+      quote: "We deployed OnDial for our BPO's tier-1 queue. Within 2 weeks, the AI was handling 60% of all inbound calls. Our agents now only touch escalations. CSAT went up, not down.",
+      name: "Riya Bose",
+      role: "Operations Head · SwiftCare BPO, Hyderabad",
+      initials: "RB",
+    },
+    ctaHeadline: "Hear your AI agent handle a support call",
+    ctaSubheadline: "Free 14-day trial. No credit card. BPO-ready in under 30 minutes.",
+  },
+
+  "travel-and-tourism-services": {
+    headline: "Every travel inquiry",
+    headlineHighlight: "answered instantly",
+    subheadline: "Your AI agent books trips, confirms reservations, handles cancellations, and sends real-time travel alerts — 24/7.",
+    stats: [
+      { value: "4×",   label: "More bookings captured" },
+      { value: "24/7", label: "Travel support coverage" },
+      { value: "70%",  label: "Fewer missed inquiries" },
+      { value: "<2s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Booking confirmation",
+        duration: "0:20",
+        aiResponse: `"Your Goa trip is confirmed for December 20–25. You'll receive a full itinerary and hotel vouchers on your email within minutes."`,
+        messages: [
+          { from: "caller", text: "I'd like to confirm my Goa package booking for December." },
+          { from: "ai",     text: "Of course! I can see your booking reference GW-4821 for Goa from Dec 20–25 for 2 adults. Shall I confirm and send the vouchers?" },
+          { from: "caller", text: "Yes please." },
+          { from: "ai",     text: "Done! Your hotel vouchers and itinerary are on their way to your email. Have a wonderful trip!" },
+        ],
+        caller: "Kavya Reddy",
+        num: "+91 98765 55555",
+        av: "KR",
+        intents: ["Booking confirmation", "Goa package Dec 20-25", "Positive", "English", "Normal"],
+        tools: [
+          { label: "booking_fetch()", icon: "Search" },
+          { label: "email_send()",    icon: "MessageSquare" },
+          { label: "crm_update()",    icon: "Database" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Booking found",  val: "#GW-4821 · Goa · Dec 20-25" },
+          { icon: "MessageSquare", label: "Vouchers sent",  val: "Email + hotel voucher" },
+          { icon: "Database",      label: "CRM updated",    val: "Booking confirmed" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+          { t: "0:02", dot: "pur", text: "Intent: booking confirmation" },
+          { t: "0:03", dot: "amb", text: "booking_fetch(GW-4821) → found" },
+          { t: "0:05", dot: "amb", text: "email_send() → Vouchers dispatched" },
+          { t: "0:07", dot: "grn", text: "CRM updated · booking confirmed" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Booking",     val: "Confirmed" },
+          { icon: "MessageSquare", label: "Vouchers",    val: "Email sent" },
+          { icon: "Star",          label: "CSAT",        val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time", val: "0m 55s" },
+        ],
+      },
+      {
+        label: "Flight delay alert",
+        duration: "0:12",
+        aiResponse: `"Your IndiGo flight 6E-201 to Mumbai has been delayed by 2 hours. Your new departure time is 4:30 PM. I've updated your ground transfer accordingly."`,
+        messages: [
+          { from: "ai",     text: "Important travel alert: Your flight 6E-201 to Mumbai is delayed by 2 hours. New departure is 4:30 PM." },
+          { from: "caller", text: "Oh no. Can you reschedule my airport transfer too?" },
+          { from: "ai",     text: "Already done! Your transfer is now booked for 3:00 PM. You'll receive a confirmation SMS shortly." },
+        ],
+        caller: "Rahul Sharma",
+        num: "+91 91234 44444",
+        av: "RS",
+        intents: ["Flight delay", "Transfer reschedule", "Concerned", "English", "High urgency"],
+        tools: [
+          { label: "flight_status()",    icon: "Search" },
+          { label: "transfer_reschedule()",icon: "CalendarCheck" },
+          { label: "sms_send()",         icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Delay confirmed",  val: "6E-201 · +2 hrs" },
+          { icon: "CalendarCheck", label: "Transfer updated", val: "3:00 PM pickup" },
+          { icon: "MessageSquare", label: "SMS sent",         val: "New schedule" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound delay alert placed" },
+          { t: "0:02", dot: "pur", text: "Caller requests transfer change" },
+          { t: "0:03", dot: "amb", text: "transfer_reschedule() → 3:00 PM" },
+          { t: "0:05", dot: "grn", text: "SMS confirmation sent" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Transfer rebooked", val: "3:00 PM" },
+          { icon: "MessageSquare", label: "Alert sent",        val: "SMS delivered" },
+          { icon: "Star",          label: "CSAT",              val: "4.9 / 5" },
+          { icon: "Clock",         label: "Handle time",       val: "0m 42s" },
+        ],
+      },
+      {
+        label: "Check-in reminder",
+        duration: "0:15",
+        aiResponse: `"Your online check-in for 6E-201 is now open. I've sent the check-in link to your email. Your seat preference has been noted."`,
+        messages: [
+          { from: "ai",     text: "Hello! Online check-in for your Mumbai flight tomorrow is now open. Would you like me to send the check-in link?" },
+          { from: "caller", text: "Yes please. Can I also request a window seat?" },
+          { from: "ai",     text: "I've sent the check-in link and noted your window seat preference. You can select it during check-in. Safe travels!" },
+        ],
+        caller: "Sunita Rao",
+        num: "+91 99887 33222",
+        av: "SR",
+        intents: ["Check-in reminder", "Seat preference", "Positive", "English", "Normal"],
+        tools: [
+          { label: "checkin_link()",  icon: "MessageSquare" },
+          { label: "seat_note()",     icon: "Database" },
+        ],
+        actions: [
+          { icon: "MessageSquare", label: "Check-in link", val: "Email + SMS sent" },
+          { icon: "Database",      label: "Preference",    val: "Window seat noted" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound check-in reminder" },
+          { t: "0:02", dot: "pur", text: "Caller requests window seat" },
+          { t: "0:03", dot: "amb", text: "checkin_link() → sent" },
+          { t: "0:05", dot: "grn", text: "Seat preference logged" },
+        ],
+        outcomes: [
+          { icon: "MessageSquare", label: "Check-in link", val: "Sent" },
+          { icon: "Database",      label: "Preference",    val: "Noted" },
+          { icon: "Star",          label: "CSAT",          val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",   val: "0m 38s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Booking confirmations",   description: "Confirms trips, sends vouchers, and updates itineraries automatically on every call.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "CalendarDays" },
+      { title: "Flight & hotel alerts",   description: "Proactively alerts travellers of delays, changes, and check-in windows before they need to call.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Bell" },
+      { title: "Cancellations & refunds", description: "Handles cancellation requests, calculates refunds, and initiates the process on the call.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "RotateCcw" },
+      { title: "Upsell & add-ons",        description: "Offers relevant upgrades, travel insurance, and add-ons during booking confirmation calls.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "Star" },
+      { title: "Travel inquiries",        description: "Answers destination, visa, and package questions instantly without agent involvement.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "MessageSquare" },
+      { title: "Post-trip feedback",      description: "Collects traveller satisfaction scores and reviews automatically after each journey.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "BarChart2" },
+    ],
+    benefits: [
+      { title: "24/7 traveller support",     description: "Handles bookings and alerts around the clock — even for customers in different time zones.", icon: "Clock" },
+      { title: "Never miss a booking",       description: "Every inquiry is captured and responded to instantly — no missed calls, no lost revenue.", icon: "PhoneIncoming" },
+      { title: "GDS & PMS integration",      description: "Connects to your booking systems, GDS, and property management platforms in real time.", icon: "Plug" },
+      { title: "Multilingual traveller care",description: "Speaks to tourists in their native language — 100+ languages supported automatically.", icon: "Languages" },
+      { title: "Real-time trip analytics",   description: "Track booking rates, call sentiment, and cancellations in your live dashboard.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",   description: "No IT team required — connect your travel number and start handling bookings instantly.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "4×",   label: "More bookings captured", sublabel: "Inquiries answered 24/7" },
+      { value: "70%",  label: "Fewer missed calls",     sublabel: "Peak season and weekends" },
+      { value: "45%",  label: "Lower cancellation rate",sublabel: "With proactive travel alerts" },
+      { value: "$35K", label: "Saved per year",         sublabel: "In travel support staffing" },
+    ],
+    testimonial: {
+      quote: "Peak season used to break our call centre. With OnDial, every inquiry is answered in seconds — bookings, alerts, and cancellations. We've grown revenue 40% without adding staff.",
+      name: "Ananya Pillai",
+      role: "Head of Customer Experience · SkyRoute Travel",
+      initials: "AP",
+    },
+    ctaHeadline: "Hear your AI agent handle a travel inquiry",
+    ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
+  },
+
+  "transportation-and-logistics-services": {
+    headline: "Every shipment call",
+    headlineHighlight: "tracked & resolved",
+    subheadline: "Your AI agent handles delivery ETAs, pickup confirmations, shipment alerts, and driver coordination — automatically, 24/7.",
+    stats: [
+      { value: "80%",  label: "Fewer WISMO calls" },
+      { value: "24/7", label: "Delivery support" },
+      { value: "3×",   label: "More calls handled" },
+      { value: "<2s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Delivery ETA update",
+        duration: "0:15",
+        aiResponse: `"Your shipment #SHP-7721 is out for delivery and will arrive between 2–4 PM today. The driver's contact number has been sent to your mobile."`,
+        messages: [
+          { from: "caller", text: "When will my delivery arrive? I've been waiting all day." },
+          { from: "ai",     text: "Your shipment #SHP-7721 is currently out for delivery. Based on current traffic, the estimated arrival window is 2–4 PM today." },
+          { from: "caller", text: "Can I get the driver's number?" },
+          { from: "ai",     text: "I've sent the driver's contact number to your registered mobile. You can coordinate directly with them." },
+        ],
+        caller: "Suresh Kumar",
+        num: "+91 98765 33311",
+        av: "SK",
+        intents: ["Delivery ETA", "WISMO", "Frustrated", "English", "High urgency"],
+        tools: [
+          { label: "shipment_track()", icon: "Search" },
+          { label: "driver_info()",    icon: "PhoneCall" },
+          { label: "sms_send()",       icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Shipment tracked", val: "#SHP-7721 · Out for delivery" },
+          { icon: "MessageSquare", label: "Driver SMS sent",  val: "Contact to Suresh" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound WISMO call answered" },
+          { t: "0:02", dot: "pur", text: "Intent: delivery ETA inquiry" },
+          { t: "0:03", dot: "amb", text: "shipment_track(SHP-7721) → OFD" },
+          { t: "0:04", dot: "amb", text: "driver_info() → contact fetched" },
+          { t: "0:05", dot: "grn", text: "SMS with driver contact sent" },
+        ],
+        outcomes: [
+          { icon: "Search",        label: "ETA shared",      val: "2–4 PM today" },
+          { icon: "MessageSquare", label: "Driver contact",   val: "SMS sent" },
+          { icon: "Star",          label: "CSAT",            val: "4.8 / 5" },
+          { icon: "Clock",         label: "Handle time",     val: "0m 48s" },
+        ],
+      },
+      {
+        label: "Pickup confirmation",
+        duration: "0:14",
+        aiResponse: `"Your pickup is scheduled for tomorrow between 10 AM–12 PM. The driver will call 30 minutes before arrival."`,
+        messages: [
+          { from: "caller", text: "I booked a pickup for tomorrow. Can you confirm the time slot?" },
+          { from: "ai",     text: "Your pickup reference PK-2234 is scheduled for tomorrow between 10 AM and 12 PM. The driver will call 30 minutes ahead." },
+          { from: "caller", text: "Great, thanks for confirming." },
+        ],
+        caller: "Nisha Patel",
+        num: "+91 91234 22334",
+        av: "NP",
+        intents: ["Pickup confirmation", "Time slot check", "Positive", "English", "Normal"],
+        tools: [
+          { label: "pickup_lookup()", icon: "Search" },
+          { label: "sms_confirm()",   icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Pickup found",     val: "#PK-2234 · Tomorrow 10-12" },
+          { icon: "MessageSquare", label: "SMS confirmation", val: "Time slot confirmed" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+          { t: "0:02", dot: "pur", text: "Intent: pickup slot confirmation" },
+          { t: "0:03", dot: "amb", text: "pickup_lookup(PK-2234) → found" },
+          { t: "0:05", dot: "grn", text: "SMS confirmation sent" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Pickup confirmed", val: "10–12 AM" },
+          { icon: "MessageSquare", label: "SMS sent",         val: "Confirmed" },
+          { icon: "Star",          label: "CSAT",             val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",      val: "0m 35s" },
+        ],
+      },
+      {
+        label: "Shipment exception alert",
+        duration: "0:16",
+        aiResponse: `"Your shipment #SHP-5512 encountered a delay at the customs checkpoint. New estimated delivery is June 16th. I've raised a priority case for you."`,
+        messages: [
+          { from: "ai",     text: "This is an alert regarding your shipment #SHP-5512. There is a delay at the customs checkpoint. Your new delivery date is June 16th." },
+          { from: "caller", text: "This is urgent — I need it by June 15th. What can be done?" },
+          { from: "ai",     text: "I understand the urgency. I've raised a priority escalation with our customs team. You'll receive an update within 2 hours." },
+        ],
+        caller: "Arjun Mehta",
+        num: "+91 99887 00112",
+        av: "AM",
+        intents: ["Customs delay", "Urgent escalation", "Concerned", "English", "High urgency"],
+        tools: [
+          { label: "shipment_track()",  icon: "Search" },
+          { label: "escalate_customs()",icon: "FileText" },
+        ],
+        actions: [
+          { icon: "Search",   label: "Exception logged",   val: "Customs delay · Jun 16" },
+          { icon: "FileText", label: "Priority raised",    val: "Customs team alerted" },
+          { icon: "Bell",     label: "Customer notified",  val: "Update in 2 hrs" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound exception alert placed" },
+          { t: "0:02", dot: "pur", text: "Caller requests urgent resolution" },
+          { t: "0:03", dot: "amb", text: "escalate_customs() → priority raised" },
+          { t: "0:05", dot: "grn", text: "Customer & customs team notified" },
+        ],
+        outcomes: [
+          { icon: "FileText", label: "Escalation",   val: "Priority raised" },
+          { icon: "Bell",     label: "Alert sent",   val: "2-hr SLA" },
+          { icon: "Star",     label: "CSAT",         val: "4.7 / 5" },
+          { icon: "Clock",    label: "Handle time",  val: "0m 52s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "WISMO call deflection",    description: "Answers 'Where is my order?' calls instantly with live tracking data — no agent needed.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "Search" },
+      { title: "Pickup & delivery alerts", description: "Proactively notifies customers and drivers about pickups, ETAs, and schedule changes.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Bell" },
+      { title: "Exception management",     description: "Alerts customers of delays and raises escalations automatically with defined SLAs.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "FileText" },
+      { title: "Driver coordination",      description: "Handles driver check-ins, route confirmations, and delivery completions via voice.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "PhoneCall" },
+      { title: "Returns & re-delivery",    description: "Processes re-delivery requests and return pickups without involving a human agent.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "RotateCcw" },
+      { title: "Fleet operations support", description: "Handles maintenance alerts, fuel reports, and compliance reminders for fleet managers.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Settings" },
+    ],
+    benefits: [
+      { title: "Kill WISMO calls",         description: "80% of 'where is my order?' calls are resolved automatically — no agent time wasted.", icon: "Search" },
+      { title: "Proactive exception alerts",description: "Customers are notified of delays before they need to call — reducing inbound volume.", icon: "Bell" },
+      { title: "TMS & WMS integration",    description: "Connects to your transport and warehouse management systems for real-time tracking data.", icon: "Plug" },
+      { title: "Multilingual logistics",   description: "Communicates with customers and drivers in 100+ languages automatically.", icon: "Languages" },
+      { title: "End-to-end call analytics",description: "Track call volumes, resolution rates, and exception trends in your operations dashboard.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes", description: "No engineering work — connect your logistics number and start handling calls instantly.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "80%",  label: "Fewer WISMO calls",    sublabel: "Deflected by automated tracking updates" },
+      { value: "3×",   label: "More calls handled",   sublabel: "Per agent after AI deployment" },
+      { value: "65%",  label: "Faster exception SLA", sublabel: "With automated escalation flows" },
+      { value: "$40K", label: "Saved per year",       sublabel: "In logistics support staffing" },
+    ],
+    testimonial: {
+      quote: "WISMO calls were killing our support team. OnDial now handles 75% of all tracking inquiries automatically. Our SLA compliance improved within the first week.",
+      name: "Raju Menon",
+      role: "VP Customer Operations · FastFreight Logistics",
+      initials: "RM",
+    },
+    ctaHeadline: "Hear your AI agent handle a logistics call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
+  },
+
+  "retail-and-ecommerce-services": {
+    headline: "Every shopper call",
+    headlineHighlight: "answered instantly",
+    subheadline: "Your AI agent handles order status, returns, product questions, and loyalty queries — 24/7, without a single human agent.",
+    stats: [
+      { value: "75%",  label: "Routine queries automated" },
+      { value: "24/7", label: "Shopper support" },
+      { value: "40%",  label: "Cart recovery via call" },
+      { value: "<2s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Order status update",
+        duration: "0:14",
+        aiResponse: "Your order #ORD-8821 has been shipped and will be delivered by June 14th. The tracking link has been sent to your email.",
+        messages: [
+          { from: "caller", text: "Hi, I want to check the status of my order." },
+          { from: "ai",     text: "Happy to help! Could I have your order number or the email you used?" },
+          { from: "caller", text: "It's ORD-8821." },
+        ],
+        identityChecks: [
+          { field: "Order number", value: "ORD-8821" },
+        ],
+        caller: "Meera Shah",
+        num: "+91 98765 44411",
+        av: "MS",
+        intents: ["Order status", "Shipped query", "Neutral", "English", "Normal"],
+        tools: [
+          { label: "order_track()", icon: "Search" },
+          { label: "email_link()",  icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Order tracked",  val: "#ORD-8821 · Shipped" },
+          { icon: "MessageSquare", label: "Tracking email", val: "Sent to Meera" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound order inquiry answered" },
+          { t: "0:02", dot: "pur", text: "Intent: order status check" },
+          { t: "0:03", dot: "amb", text: "order_track(ORD-8821) → shipped" },
+          { t: "0:05", dot: "grn", text: "Tracking email dispatched" },
+        ],
+        outcomes: [
+          { icon: "Search",        label: "Order found",    val: "Shipped" },
+          { icon: "MessageSquare", label: "Tracking link",  val: "Email sent" },
+          { icon: "Star",          label: "CSAT",           val: "4.9 / 5" },
+          { icon: "Clock",         label: "Handle time",    val: "0m 40s" },
+        ],
+      },
+      {
+        label: "Return confirmation",
+        duration: "0:18",
+        aiResponse: `"Your return for order #ORD-5512 has been initiated. A pickup will be arranged within 2 business days and your refund processed within 5–7 days."`,
+        messages: [
+          { from: "caller", text: "I'd like to return an item from my recent order." },
+          { from: "ai",     text: "Of course! Could I have your order number?" },
+          { from: "caller", text: "ORD-5512 — the blue shirt, it doesn't fit." },
+          { from: "ai",     text: "I've initiated a return for the blue shirt in order #ORD-5512. Pickup will be in 2 business days and your refund processed within 5–7 days." },
+        ],
+        caller: "Ravi Jain",
+        num: "+91 91234 55522",
+        av: "RJ",
+        intents: ["Return request", "Size issue", "Neutral", "English", "Normal"],
+        tools: [
+          { label: "order_lookup()",  icon: "Search" },
+          { label: "return_init()",   icon: "RotateCcw" },
+          { label: "pickup_book()",   icon: "CalendarCheck" },
+        ],
+        actions: [
+          { icon: "RotateCcw",    label: "Return raised",  val: "#ORD-5512 · Blue shirt" },
+          { icon: "CalendarCheck",label: "Pickup booked",  val: "Within 2 business days" },
+          { icon: "FileText",     label: "Refund queued",  val: "5–7 days processing" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Return request call answered" },
+          { t: "0:02", dot: "pur", text: "Intent: return item from ORD-5512" },
+          { t: "0:03", dot: "amb", text: "return_init() → Return created" },
+          { t: "0:04", dot: "amb", text: "pickup_book() → 2 business days" },
+          { t: "0:06", dot: "grn", text: "Refund initiated · SMS sent" },
+        ],
+        outcomes: [
+          { icon: "RotateCcw",    label: "Return raised", val: "Success" },
+          { icon: "CalendarCheck",label: "Pickup",        val: "2 business days" },
+          { icon: "Star",         label: "CSAT",          val: "4.8 / 5" },
+          { icon: "Clock",        label: "Handle time",   val: "1m 05s" },
+        ],
+      },
+      {
+        label: "Loyalty points alert",
+        duration: "0:14",
+        aiResponse: `"You have 2,400 loyalty points worth ₹240 that expire on June 30th. Would you like me to send the redemption link to your email?"`,
+        messages: [
+          { from: "ai",     text: "Hello! This is a reminder that your 2,400 loyalty points worth ₹240 expire on June 30th. Don't let them go to waste!" },
+          { from: "caller", text: "Oh, I forgot! How do I use them?" },
+          { from: "ai",     text: "I'll send the redemption link and your current offers to your email right now. Points can be used on your next purchase." },
+        ],
+        caller: "Anjali Bose",
+        num: "+91 99887 66600",
+        av: "AB",
+        intents: ["Loyalty points", "Expiry reminder", "Positive", "English", "Normal"],
+        tools: [
+          { label: "points_lookup()",  icon: "Database" },
+          { label: "email_offers()",   icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Database",      label: "Points checked", val: "2,400 pts · ₹240 · Jun 30" },
+          { icon: "MessageSquare", label: "Offers emailed", val: "Redemption link sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound loyalty reminder placed" },
+          { t: "0:02", dot: "pur", text: "Caller interested in redemption" },
+          { t: "0:03", dot: "amb", text: "points_lookup() → 2,400 pts" },
+          { t: "0:05", dot: "grn", text: "Offers emailed · link sent" },
+        ],
+        outcomes: [
+          { icon: "Star",         label: "Redemption",    val: "Link sent" },
+          { icon: "MessageSquare",label: "Offers email",   val: "Delivered" },
+          { icon: "Star",         label: "CSAT",          val: "5.0 / 5" },
+          { icon: "Clock",        label: "Handle time",   val: "0m 42s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Order status & tracking",  description: "Answers WISMO calls instantly with live shipment data — no agent, no wait time.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "Search" },
+      { title: "Returns & refunds",        description: "Initiates returns, schedules pickups, and tracks refund status automatically on the call.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "RotateCcw" },
+      { title: "Loyalty & rewards",        description: "Reminds shoppers of expiring points, shares redemption options, and drives repeat purchases.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "Star" },
+      { title: "Product questions",        description: "Answers availability, sizing, and product detail questions without hold queues.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "MessageSquare" },
+      { title: "Abandoned cart recovery",  description: "Calls shoppers who abandoned carts with personalised offers to recover lost revenue.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "BellRing" },
+      { title: "Flash sale notifications", description: "Sends targeted outbound calls alerting VIP customers to exclusive deals and drops.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Flame" },
+    ],
+    benefits: [
+      { title: "24/7 shopper support",      description: "Customers get instant answers on orders, returns, and loyalty — day or night.", icon: "Clock" },
+      { title: "Reduce support costs",      description: "75% of routine retail queries are handled without any human agent involvement.", icon: "BarChart2" },
+      { title: "OMS & CRM integration",     description: "Connects to Shopify, WooCommerce, Magento, and all major order management systems.", icon: "Plug" },
+      { title: "100+ language support",     description: "Serves shoppers in their native language — regional language support built in.", icon: "Languages" },
+      { title: "Revenue recovery calls",    description: "Automated cart recovery and loyalty nudge calls drive measurable incremental revenue.", icon: "Flame" },
+      { title: "Live in under 30 minutes",  description: "No developer needed — connect your store's number and start handling calls instantly.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "75%",  label: "Queries automated",   sublabel: "Order, return, and loyalty calls" },
+      { value: "40%",  label: "Cart recovery rate",  sublabel: "On abandoned cart callback campaigns" },
+      { value: "60%",  label: "Support cost cut",    sublabel: "Per 1,000 support interactions" },
+      { value: "$28K", label: "Saved per year",      sublabel: "In shopper support staffing" },
+    ],
+    testimonial: {
+      quote: "OnDial handles 80% of our customer support calls automatically — order status, returns, and loyalty queries. Our team now focuses on VIP shoppers. Support costs dropped 55%.",
+      name: "Pooja Khanna",
+      role: "Head of CX · StyleHub E-commerce",
+      initials: "PK",
+    },
+    ctaHeadline: "Hear your AI agent handle a retail support call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
+  },
+
+  "telecommunications-services": {
+    headline: "Every telecom call",
+    headlineHighlight: "resolved faster",
+    subheadline: "Your AI agent handles plan queries, bill disputes, outage alerts, and upgrades — automatically, before customers need to escalate.",
+    stats: [
+      { value: "80%",  label: "Tier-1 call deflection" },
+      { value: "24/7", label: "Network & billing support" },
+      { value: "50%",  label: "AHT reduction" },
+      { value: "<3s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Plan upgrade offer",
+        duration: "0:20",
+        aiResponse: `"Based on your usage, you'd save ₹200/month by switching to our Unlimited Pro plan. I can process the upgrade right now if you'd like."`,
+        messages: [
+          { from: "caller", text: "My current plan keeps running out of data. Is there a better option?" },
+          { from: "ai",     text: "I can see you're on the Basic 2GB plan. Based on your usage, the Unlimited Pro at ₹599/month would save you ₹200 and give unlimited data. Want me to upgrade you now?" },
+          { from: "caller", text: "Yes, let's do it." },
+          { from: "ai",     text: "Done! Your plan has been upgraded to Unlimited Pro effective immediately. You'll receive a confirmation SMS." },
+        ],
+        caller: "Karthik Nair",
+        num: "+91 98765 77700",
+        av: "KN",
+        intents: ["Data plan query", "Upgrade intent", "Positive", "English", "Normal"],
+        tools: [
+          { label: "usage_lookup()",  icon: "BarChart2" },
+          { label: "plan_compare()",  icon: "Database" },
+          { label: "plan_upgrade()",  icon: "CheckCheck" },
+        ],
+        actions: [
+          { icon: "BarChart2",  label: "Usage analysed",   val: "95% of plan used" },
+          { icon: "Database",   label: "Best plan found",  val: "Unlimited Pro · ₹599" },
+          { icon: "CheckCheck", label: "Plan upgraded",    val: "Effective immediately" },
+          { icon: "Bell",       label: "SMS sent",         val: "Confirmation dispatched" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound plan query answered" },
+          { t: "0:02", dot: "pur", text: "Intent: data plan upgrade" },
+          { t: "0:03", dot: "amb", text: "usage_lookup() → 95% used" },
+          { t: "0:04", dot: "amb", text: "plan_compare() → Unlimited Pro" },
+          { t: "0:05", dot: "grn", text: "plan_upgrade() → Done" },
+        ],
+        outcomes: [
+          { icon: "CheckCheck", label: "Plan upgraded", val: "Unlimited Pro" },
+          { icon: "Bell",       label: "SMS sent",      val: "Confirmed" },
+          { icon: "Star",       label: "CSAT",          val: "5.0 / 5" },
+          { icon: "Clock",      label: "Handle time",   val: "1m 05s" },
+        ],
+      },
+      {
+        label: "Outage notification",
+        duration: "0:12",
+        aiResponse: `"We're aware of a network outage in your area affecting services until approximately 3 PM today. Our engineers are working on it. I've logged your report."`,
+        messages: [
+          { from: "caller", text: "My internet has been down for 2 hours. What's happening?" },
+          { from: "ai",     text: "I can see there's a known network outage in your area. Our engineers are working on it — estimated resolution is 3 PM today." },
+          { from: "caller", text: "Fine. Please log this complaint." },
+          { from: "ai",     text: "Done — your complaint is logged as case #OUT-4421. You'll receive an SMS when service is restored." },
+        ],
+        caller: "Deepa Menon",
+        num: "+91 91234 88890",
+        av: "DM",
+        intents: ["Outage complaint", "Area outage", "Frustrated", "English", "High urgency"],
+        tools: [
+          { label: "outage_check()",  icon: "Search" },
+          { label: "complaint_log()", icon: "FileText" },
+        ],
+        actions: [
+          { icon: "Search",   label: "Outage confirmed", val: "Area outage · 3 PM ETA" },
+          { icon: "FileText", label: "Complaint logged",  val: "#OUT-4421" },
+          { icon: "Bell",     label: "SMS queued",        val: "Resolution alert" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound outage complaint answered" },
+          { t: "0:02", dot: "pur", text: "Intent: internet outage" },
+          { t: "0:03", dot: "amb", text: "outage_check() → Known outage" },
+          { t: "0:04", dot: "amb", text: "complaint_log() → #OUT-4421" },
+          { t: "0:06", dot: "grn", text: "SMS alert queued for resolution" },
+        ],
+        outcomes: [
+          { icon: "FileText", label: "Complaint",   val: "#OUT-4421" },
+          { icon: "Bell",     label: "SMS alert",   val: "Queued" },
+          { icon: "Star",     label: "CSAT",        val: "4.7 / 5" },
+          { icon: "Clock",    label: "Handle time", val: "0m 45s" },
+        ],
+      },
+      {
+        label: "Bill reminder",
+        duration: "0:14",
+        aiResponse: `"Your bill of ₹799 is due on June 20th. I've sent the payment link to your mobile. Would you like to set up auto-pay to avoid reminders in future?"`,
+        messages: [
+          { from: "ai",     text: "Hello, this is a reminder that your telecom bill of ₹799 is due on June 20th." },
+          { from: "caller", text: "Yes, I'll pay. Can you send the link?" },
+          { from: "ai",     text: "I've sent the secure payment link to your mobile. Also, would you like to set up auto-pay for future bills?" },
+          { from: "caller", text: "Yes, that would be helpful." },
+          { from: "ai",     text: "Auto-pay has been activated on your account. You'll never miss a payment again." },
+        ],
+        caller: "Vikas Gupta",
+        num: "+91 99887 11100",
+        av: "VG",
+        intents: ["Bill due", "Auto-pay setup", "Positive", "English", "Normal"],
+        tools: [
+          { label: "bill_fetch()",   icon: "Database" },
+          { label: "sms_link()",     icon: "MessageSquare" },
+          { label: "autopay_set()",  icon: "Settings" },
+        ],
+        actions: [
+          { icon: "MessageSquare", label: "Payment SMS",  val: "Link sent" },
+          { icon: "Settings",      label: "Auto-pay on",  val: "Account updated" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound bill reminder placed" },
+          { t: "0:02", dot: "pur", text: "Caller requests payment link" },
+          { t: "0:03", dot: "amb", text: "sms_link() → payment link sent" },
+          { t: "0:04", dot: "amb", text: "autopay_set() → activated" },
+          { t: "0:06", dot: "grn", text: "Account updated · auto-pay live" },
+        ],
+        outcomes: [
+          { icon: "MessageSquare", label: "Payment link", val: "SMS sent" },
+          { icon: "Settings",      label: "Auto-pay",     val: "Activated" },
+          { icon: "Star",          label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",  val: "0m 50s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Plan queries & upgrades",  description: "Recommends better plans based on usage and completes upgrades instantly on the call.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "BarChart2" },
+      { title: "Billing & payment",        description: "Sends bill reminders, payment links, and sets up auto-pay — reducing payment defaults.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Database" },
+      { title: "Outage management",        description: "Proactively alerts customers of outages and logs complaints without agent involvement.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "Bell" },
+      { title: "Technical troubleshooting",description: "Walks customers through self-service fixes for common connectivity issues.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "Wrench" },
+      { title: "Churn prevention",         description: "Identifies at-risk customers and offers personalised retention packages proactively.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "UserCheck" },
+      { title: "Service activations",      description: "Activates new SIMs, value-added services, and plan changes on the call.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "CheckCheck" },
+    ],
+    benefits: [
+      { title: "Deflect 80% of tier-1 calls",description: "Bill reminders, plan queries, and outage alerts handled without human agents.", icon: "PhoneIncoming" },
+      { title: "Reduce churn proactively",   description: "AI identifies at-risk customers and makes retention offers before they cancel.", icon: "UserCheck" },
+      { title: "BSS & CRM integration",      description: "Works with your billing system, CRM, and OSS/BSS platforms out of the box.", icon: "Plug" },
+      { title: "Multilingual telecom support",description: "Handles subscribers in their regional language across 100+ languages.", icon: "Languages" },
+      { title: "Network-aware intelligence", description: "Accesses outage data in real time to give accurate, context-aware responses.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",   description: "Connect your telecom number and go live with a carrier-ready AI template.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "80%",  label: "Tier-1 deflection",   sublabel: "Calls resolved without a human agent" },
+      { value: "50%",  label: "AHT reduction",        sublabel: "On billing and plan inquiry calls" },
+      { value: "25%",  label: "Churn reduction",      sublabel: "Via proactive retention outreach" },
+      { value: "$55K", label: "Saved per year",       sublabel: "In telecom support centre costs" },
+    ],
+    testimonial: {
+      quote: "OnDial deflects 80% of our tier-1 calls — bill reminders, outage alerts, plan upgrades. Our NPS improved 15 points and we saved ₹40L in the first year.",
+      name: "Sanjay Reddy",
+      role: "GM Customer Experience · ConnectNow Telecom",
+      initials: "SR",
+    },
+    ctaHeadline: "Hear your AI agent handle a telecom support call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Carrier-ready in under 30 minutes.",
+  },
+
+  "automotive-services": {
+    headline: "Every service call",
+    headlineHighlight: "handled on cue",
+    subheadline: "Your AI agent books service appointments, sends maintenance reminders, and follows up on test drives — automatically, 24/7.",
+    stats: [
+      { value: "3×",   label: "More service bookings" },
+      { value: "24/7", label: "Dealership support" },
+      { value: "55%",  label: "No-show reduction" },
+      { value: "<2s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Service appointment",
+        duration: "0:20",
+        aiResponse: `"Your service appointment for your Honda City (MH-02-AB-1234) is confirmed for Saturday at 10 AM at Apex Honda, Andheri. You'll receive a reminder 24 hours before."`,
+        messages: [
+          { from: "caller", text: "I need to book my car for its annual service." },
+          { from: "ai",     text: "Sure! Could I have your vehicle registration number?" },
+          { from: "caller", text: "MH-02-AB-1234 — it's a Honda City." },
+          { from: "ai",     text: "Your Honda City is due for its 10,000 km service. I have Saturday 10 AM available at Apex Honda, Andheri. Shall I confirm that?" },
+          { from: "caller", text: "Yes, perfect." },
+        ],
+        caller: "Suresh Menon",
+        num: "+91 98765 11234",
+        av: "SM",
+        intents: ["Service booking", "Honda City MH-02-AB-1234", "Positive", "English", "Normal"],
+        tools: [
+          { label: "vehicle_lookup()",  icon: "Search" },
+          { label: "service_book()",    icon: "CalendarCheck" },
+          { label: "sms_confirm()",     icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Vehicle found",    val: "Honda City · 10K km due" },
+          { icon: "CalendarCheck", label: "Appt confirmed",   val: "Sat 10 AM · Apex Honda" },
+          { icon: "MessageSquare", label: "SMS sent",         val: "Confirmation to Suresh" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Service booking call answered" },
+          { t: "0:02", dot: "pur", text: "Intent: annual service booking" },
+          { t: "0:03", dot: "amb", text: "vehicle_lookup(MH-02-AB-1234)" },
+          { t: "0:04", dot: "amb", text: "service_book() → Sat 10 AM" },
+          { t: "0:06", dot: "grn", text: "SMS confirmation sent" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Appt booked", val: "Sat 10 AM" },
+          { icon: "MessageSquare", label: "SMS sent",     val: "Confirmed" },
+          { icon: "Star",          label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",  val: "1m 10s" },
+        ],
+      },
+      {
+        label: "Test drive booking",
+        duration: "0:18",
+        aiResponse: `"Your test drive for the Tata Nexon EV is booked for Sunday at 11 AM. Our executive will meet you at your preferred location."`,
+        messages: [
+          { from: "caller", text: "I'm interested in a test drive for the Tata Nexon EV." },
+          { from: "ai",     text: "Excellent choice! When would you prefer — this weekend? I can arrange a home test drive at your convenience." },
+          { from: "caller", text: "Sunday at 11 AM would work." },
+          { from: "ai",     text: "Confirmed! Our sales executive will be at your location on Sunday at 11 AM with the Nexon EV. You'll receive their contact 30 minutes before arrival." },
+        ],
+        caller: "Riya Singh",
+        num: "+91 91234 99988",
+        av: "RS",
+        intents: ["Test drive", "Nexon EV", "Positive", "English", "High"],
+        tools: [
+          { label: "slot_check()",   icon: "CalendarDays" },
+          { label: "drive_book()",   icon: "CalendarCheck" },
+          { label: "lead_create()",  icon: "UserPlus" },
+        ],
+        actions: [
+          { icon: "CalendarCheck", label: "Drive booked",  val: "Sun 11 AM · Nexon EV" },
+          { icon: "UserPlus",      label: "Lead created",  val: "CRM · Riya Singh" },
+          { icon: "Bell",          label: "Executive alert",val: "Assigned & notified" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Test drive inquiry answered" },
+          { t: "0:02", dot: "pur", text: "Intent: home test drive booking" },
+          { t: "0:03", dot: "amb", text: "slot_check() → Sunday 11 AM free" },
+          { t: "0:04", dot: "amb", text: "drive_book() → confirmed" },
+          { t: "0:06", dot: "grn", text: "Lead created · executive notified" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Drive booked", val: "Sunday 11 AM" },
+          { icon: "UserPlus",      label: "Lead",         val: "CRM updated" },
+          { icon: "Star",          label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",  val: "1m 00s" },
+        ],
+      },
+      {
+        label: "Parts ready alert",
+        duration: "0:12",
+        aiResponse: `"The parts for your Hyundai Creta service are ready. Your vehicle is expected to be delivered by 4 PM today. Should I notify you when it's ready for pickup?"`,
+        messages: [
+          { from: "ai",     text: "Hello, your Hyundai Creta (TN-09-XY-4321) parts are in and the service is nearly complete. Estimated pickup at 4 PM today." },
+          { from: "caller", text: "Can you call me when it's ready?" },
+          { from: "ai",     text: "Absolutely! I'll trigger an automated call and SMS the moment your vehicle is ready. Is there anything else I can help with?" },
+        ],
+        caller: "Anand Krishnan",
+        num: "+91 99887 44321",
+        av: "AK",
+        intents: ["Service update", "Pickup alert", "Positive", "English", "Normal"],
+        tools: [
+          { label: "service_status()",icon: "Search" },
+          { label: "alert_set()",     icon: "Bell" },
+        ],
+        actions: [
+          { icon: "Search", label: "Status checked",  val: "Parts fitted · ETA 4 PM" },
+          { icon: "Bell",   label: "Alert queued",    val: "Call + SMS on ready" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Service update alert placed" },
+          { t: "0:02", dot: "pur", text: "Caller requests ready alert" },
+          { t: "0:03", dot: "amb", text: "service_status() → ETA 4 PM" },
+          { t: "0:05", dot: "grn", text: "Pickup alert queued" },
+        ],
+        outcomes: [
+          { icon: "Search", label: "Status update",  val: "ETA 4 PM" },
+          { icon: "Bell",   label: "Alert set",      val: "Call + SMS" },
+          { icon: "Star",   label: "CSAT",           val: "4.9 / 5" },
+          { icon: "Clock",  label: "Handle time",    val: "0m 38s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Service appointment booking",description: "Books, reschedules, and confirms service slots instantly — synced to your workshop calendar.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "CalendarDays" },
+      { title: "Test drive scheduling",      description: "Captures interest, books home or showroom test drives, and creates CRM leads automatically.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Star" },
+      { title: "Maintenance reminders",      description: "Proactively calls customers when their vehicle is due for service based on mileage or date.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "BellRing" },
+      { title: "Service status updates",     description: "Keeps customers informed on their vehicle's service progress without agent involvement.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "Wrench" },
+      { title: "Parts & delivery alerts",    description: "Alerts customers when their vehicle is ready and handles pickup coordination.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "Bell" },
+      { title: "Lead follow-up",             description: "Re-engages test drive leads and showroom visitors who haven't converted yet.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "UserPlus" },
+    ],
+    benefits: [
+      { title: "24/7 dealership support",   description: "Customers can book service or test drives at any hour — your AI never sleeps.", icon: "Clock" },
+      { title: "Reduce no-shows by 55%",    description: "Automated reminder calls and SMS before every appointment reduce missed slots.", icon: "BellRing" },
+      { title: "DMS & CRM integration",     description: "Connects to your dealer management system and CRM for real-time vehicle and lead data.", icon: "Plug" },
+      { title: "Multilingual customer care",description: "Speaks to customers in their preferred language — regional languages supported.", icon: "Languages" },
+      { title: "Full service analytics",    description: "Track appointment rates, no-shows, and test drive conversions in your dashboard.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",  description: "Connect your dealership number and launch with an automotive-ready AI template.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "3×",   label: "More bookings",      sublabel: "Service and test drive appointments" },
+      { value: "55%",  label: "Fewer no-shows",     sublabel: "With automated reminder calls" },
+      { value: "35%",  label: "More test drives",   sublabel: "Captured via 24/7 AI booking" },
+      { value: "$25K", label: "Saved per year",     sublabel: "Per dealership in support costs" },
+    ],
+    testimonial: {
+      quote: "OnDial books our service appointments and test drives automatically. Missed service slots dropped 50% in the first month. Customers love the instant confirmation.",
+      name: "Deepak Verma",
+      role: "Service Director · Apex Honda, Mumbai",
+      initials: "DV",
+    },
+    ctaHeadline: "Hear your AI agent handle a dealership call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Dealer-ready in under 30 minutes.",
+  },
+
+  "education-services": {
+    headline: "Every student inquiry",
+    headlineHighlight: "answered",
+    subheadline: "Your AI calling agent handles admissions, enrollment reminders, fee queries, and schedule changes — 24/7, so your staff can focus on teaching.",
+    stats: [
+      { value: "60%",  label: "More inquiries captured" },
+      { value: "24/7", label: "Student support" },
+      { value: "45%",  label: "Fewer no-shows on demos" },
+      { value: "<3s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Enrollment reminder",
+        duration: "0:18",
+        aiResponse: `"Your enrollment for the MBA programme closes on June 20th. I've sent the admission form link and fee details to your email. Shall I connect you with an advisor?"`,
+        messages: [
+          { from: "ai",     text: "Hello! This is a reminder that the enrollment deadline for the MBA programme is June 20th — just 5 days away." },
+          { from: "caller", text: "I'm still deciding. Can you send me the fee structure?" },
+          { from: "ai",     text: "I've sent the fee structure and scholarship information to your registered email. Would you like to speak with an admission advisor?" },
+          { from: "caller", text: "Yes, please arrange a call." },
+          { from: "ai",     text: "A callback is booked for tomorrow at 10 AM. You'll get a confirmation SMS shortly." },
+        ],
+        caller: "Ananya Sharma",
+        num: "+91 98765 99900",
+        av: "AS",
+        intents: ["Enrollment query", "MBA programme", "Interested", "English", "Normal"],
+        tools: [
+          { label: "course_info()",    icon: "Database" },
+          { label: "email_details()",  icon: "MessageSquare" },
+          { label: "callback_book()",  icon: "CalendarCheck" },
+        ],
+        actions: [
+          { icon: "MessageSquare", label: "Fee email sent",    val: "Fees + scholarship info" },
+          { icon: "CalendarCheck", label: "Callback booked",   val: "Tomorrow 10 AM" },
+          { icon: "UserPlus",      label: "Lead created",      val: "CRM · Ananya Sharma" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Enrollment reminder call placed" },
+          { t: "0:02", dot: "pur", text: "Caller requests fee info" },
+          { t: "0:03", dot: "amb", text: "email_details() → Fees sent" },
+          { t: "0:04", dot: "amb", text: "callback_book() → Tomorrow 10 AM" },
+          { t: "0:06", dot: "grn", text: "Lead logged · advisor alerted" },
+        ],
+        outcomes: [
+          { icon: "MessageSquare", label: "Info email",     val: "Sent" },
+          { icon: "CalendarCheck", label: "Callback",       val: "Tomorrow 10 AM" },
+          { icon: "Star",          label: "CSAT",           val: "4.9 / 5" },
+          { icon: "Clock",         label: "Handle time",    val: "1m 15s" },
+        ],
+      },
+      {
+        label: "Class schedule alert",
+        duration: "0:14",
+        aiResponse: `"Your Physics class scheduled for tomorrow at 9 AM has been moved to 11 AM in Room 204. I've updated your schedule and sent a reminder."`,
+        messages: [
+          { from: "ai",     text: "Schedule alert: Your Physics class tomorrow at 9 AM has been rescheduled to 11 AM in Room 204." },
+          { from: "caller", text: "Thanks. Can you also remind me an hour before?" },
+          { from: "ai",     text: "Absolutely! I've set a reminder call for 10 AM tomorrow. Is there anything else?" },
+        ],
+        caller: "Arjun Pillai",
+        num: "+91 91234 77788",
+        av: "AP",
+        intents: ["Schedule change", "Reminder request", "Positive", "English", "Normal"],
+        tools: [
+          { label: "schedule_update()", icon: "CalendarDays" },
+          { label: "reminder_set()",    icon: "Bell" },
+        ],
+        actions: [
+          { icon: "CalendarDays", label: "Schedule updated", val: "Physics → 11 AM Room 204" },
+          { icon: "Bell",         label: "Reminder set",     val: "Call at 10 AM" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Schedule change alert placed" },
+          { t: "0:02", dot: "pur", text: "Caller requests reminder" },
+          { t: "0:03", dot: "amb", text: "reminder_set() → 10 AM call" },
+          { t: "0:05", dot: "grn", text: "Schedule logged · reminder active" },
+        ],
+        outcomes: [
+          { icon: "CalendarDays", label: "Schedule",   val: "Updated" },
+          { icon: "Bell",         label: "Reminder",   val: "Set for 10 AM" },
+          { icon: "Star",         label: "CSAT",       val: "5.0 / 5" },
+          { icon: "Clock",        label: "Handle time",val: "0m 38s" },
+        ],
+      },
+      {
+        label: "Tuition due notice",
+        duration: "0:16",
+        aiResponse: `"Your tuition fee of ₹45,000 is due by June 25th. I've sent the payment link and instalment options to your email."`,
+        messages: [
+          { from: "ai",     text: "This is a reminder that your tuition fee of ₹45,000 is due by June 25th." },
+          { from: "caller", text: "Is there an EMI option available?" },
+          { from: "ai",     text: "Yes! You can split into 3 monthly instalments of ₹15,000 each. I've sent the instalment plan and payment link to your email." },
+          { from: "caller", text: "Great, thank you." },
+        ],
+        caller: "Priya Bose",
+        num: "+91 99887 00111",
+        av: "PB",
+        intents: ["Tuition fee", "EMI request", "Positive", "English", "Normal"],
+        tools: [
+          { label: "fee_lookup()",   icon: "Database" },
+          { label: "emi_options()",  icon: "BarChart2" },
+          { label: "email_plan()",   icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "BarChart2",     label: "EMI plan",      val: "3 × ₹15,000" },
+          { icon: "MessageSquare", label: "Email sent",    val: "EMI plan + payment link" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Tuition reminder call placed" },
+          { t: "0:02", dot: "pur", text: "Caller requests EMI option" },
+          { t: "0:03", dot: "amb", text: "emi_options() → 3 × ₹15K" },
+          { t: "0:05", dot: "grn", text: "Plan emailed · link sent" },
+        ],
+        outcomes: [
+          { icon: "BarChart2",     label: "EMI plan",    val: "Presented" },
+          { icon: "MessageSquare", label: "Email sent",  val: "Payment + plan" },
+          { icon: "Star",          label: "CSAT",        val: "4.9 / 5" },
+          { icon: "Clock",         label: "Handle time", val: "0m 52s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Admissions & enrollment",  description: "Answers program queries, sends brochures, and books advisor callbacks for prospective students.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "UserPlus" },
+      { title: "Tuition & fee reminders",  description: "Reminds students of payment deadlines and sends EMI options and payment links automatically.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "BellRing" },
+      { title: "Schedule alerts",          description: "Notifies students of class changes, cancellations, and exam schedules proactively.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "CalendarDays" },
+      { title: "Demo class invitations",   description: "Calls prospective students to book and confirm demo or trial class attendance.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "Play" },
+      { title: "Student support queries",  description: "Handles attendance, grades, and assignment deadline queries without staff involvement.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "MessageSquare" },
+      { title: "Parent communication",     description: "Automates parent calls for progress updates, event invitations, and fee notifications.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "PhoneCall" },
+    ],
+    benefits: [
+      { title: "24/7 student & parent support",description: "Inquiries, reminders, and schedule alerts handled around the clock without staff.", icon: "Clock" },
+      { title: "Never lose an admission lead",  description: "Every admissions inquiry is captured and followed up automatically.", icon: "UserPlus" },
+      { title: "SIS & LMS integration",        description: "Connects to your student information and learning management systems.", icon: "Plug" },
+      { title: "Multilingual education",       description: "Communicates with students and parents in their preferred language — 100+ supported.", icon: "Languages" },
+      { title: "Enrolment analytics",          description: "Track inquiry rates, conversion, fee collection, and class attendance in one dashboard.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",     description: "No IT team required — connect your institution's number and start automating calls.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "60%",  label: "More inquiries handled", sublabel: "Without additional admin staff" },
+      { value: "45%",  label: "Fewer no-shows",         sublabel: "On demo classes with AI reminders" },
+      { value: "35%",  label: "Higher enrollment rate", sublabel: "Via proactive follow-up calls" },
+      { value: "$20K", label: "Saved per year",         sublabel: "In admissions team staffing" },
+    ],
+    testimonial: {
+      quote: "OnDial handles our admissions calls, fee reminders, and schedule alerts automatically. Our enrollment rate went up 35% and our team's workload dropped by half.",
+      name: "Dr. Meera Iyer",
+      role: "Director of Admissions · Excel Academy, Pune",
+      initials: "MI",
+    },
+    ctaHeadline: "Hear your AI agent handle a student inquiry",
+    ctaSubheadline: "Free 14-day trial. No credit card. Education-ready in under 30 minutes.",
+  },
+
+  "hospitality-services": {
+    headline: "Every guest call",
+    headlineHighlight: "answered with care",
+    subheadline: "Your AI calling agent handles reservations, check-in reminders, guest requests, and post-stay feedback — 24/7, in every language.",
+    stats: [
+      { value: "4×",   label: "More reservations captured" },
+      { value: "24/7", label: "Guest support coverage" },
+      { value: "50%",  label: "No-show reduction" },
+      { value: "<2s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Reservation confirm",
+        duration: "0:18",
+        aiResponse: `"Your reservation at The Grand Palms for 2 nights, June 20–22, is confirmed. Your sea-view room and breakfast package have been booked. Welcome!"`,
+        messages: [
+          { from: "caller", text: "Hi, I'd like to confirm my hotel reservation." },
+          { from: "ai",     text: "Of course! Could I have your booking reference?" },
+          { from: "caller", text: "It's TGP-5521." },
+          { from: "ai",     text: "Your 2-night stay at The Grand Palms from June 20–22 is confirmed. Sea-view room with breakfast included. Shall I email the voucher?" },
+          { from: "caller", text: "Yes please." },
+        ],
+        caller: "Priya Kapoor",
+        num: "+91 98765 66611",
+        av: "PK",
+        intents: ["Reservation confirmation", "The Grand Palms Jun 20-22", "Positive", "English", "Normal"],
+        tools: [
+          { label: "booking_fetch()", icon: "Search" },
+          { label: "email_voucher()", icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Booking found",   val: "#TGP-5521 · Sea view · 2N" },
+          { icon: "MessageSquare", label: "Voucher emailed", val: "Confirmation sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Reservation inquiry answered" },
+          { t: "0:02", dot: "pur", text: "Intent: confirm booking #TGP-5521" },
+          { t: "0:03", dot: "amb", text: "booking_fetch() → confirmed" },
+          { t: "0:05", dot: "grn", text: "Voucher emailed to Priya" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Reservation", val: "Confirmed" },
+          { icon: "MessageSquare", label: "Voucher",      val: "Email sent" },
+          { icon: "Star",          label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",  val: "0m 52s" },
+        ],
+      },
+      {
+        label: "Check-in welcome",
+        duration: "0:14",
+        aiResponse: `"Welcome, Mr. Raj! Your room 402 is ready. Check-in is at 2 PM. The pool and spa are open until 10 PM. Is there anything we can arrange before your arrival?"`,
+        messages: [
+          { from: "ai",     text: "Welcome to The Grand Palms, Raj! Your room 402 is ready. Early check-in is available from 12 PM today." },
+          { from: "caller", text: "Can I request an airport pickup?" },
+          { from: "ai",     text: "Absolutely! I've scheduled a complimentary airport pickup for you at 11:30 AM. The driver will text you 15 minutes before arrival." },
+        ],
+        caller: "Raj Kumar",
+        num: "+91 91234 44455",
+        av: "RK",
+        intents: ["Check-in", "Airport pickup request", "Positive", "English", "Normal"],
+        tools: [
+          { label: "checkin_details()",  icon: "Database" },
+          { label: "transfer_book()",    icon: "CalendarCheck" },
+        ],
+        actions: [
+          { icon: "Database",      label: "Room confirmed",   val: "Room 402 · Ready" },
+          { icon: "CalendarCheck", label: "Pickup booked",   val: "Airport · 11:30 AM" },
+          { icon: "MessageSquare", label: "Driver SMS set",  val: "15 min alert queued" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Pre-arrival welcome call placed" },
+          { t: "0:02", dot: "pur", text: "Guest requests airport transfer" },
+          { t: "0:03", dot: "amb", text: "transfer_book() → 11:30 AM" },
+          { t: "0:05", dot: "grn", text: "Driver assigned · SMS queued" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Transfer booked", val: "11:30 AM" },
+          { icon: "MessageSquare", label: "Driver alert",    val: "Queued" },
+          { icon: "Star",          label: "CSAT",            val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",     val: "0m 45s" },
+        ],
+      },
+      {
+        label: "Guest feedback survey",
+        duration: "0:16",
+        aiResponse: `"Thank you for staying at The Grand Palms, Priya! We'd love your feedback. Your response has been recorded and we'll use it to improve our service."`,
+        messages: [
+          { from: "ai",     text: "Hello Priya, thank you for your recent stay at The Grand Palms. Could you spare 2 minutes for a quick feedback survey?" },
+          { from: "caller", text: "Sure, go ahead." },
+          { from: "ai",     text: "How would you rate your overall stay on a scale of 1 to 10?" },
+          { from: "caller", text: "I'd give it a 9. The spa was excellent but the breakfast timing was a bit rushed." },
+          { from: "ai",     text: "Thank you! I've noted your feedback on breakfast timing. We hope to see you again soon." },
+        ],
+        caller: "Priya Kapoor",
+        num: "+91 98765 66611",
+        av: "PK",
+        intents: ["Post-stay survey", "Breakfast feedback", "Positive", "English", "Normal"],
+        tools: [
+          { label: "survey_log()",  icon: "FileText" },
+          { label: "crm_update()",  icon: "Database" },
+        ],
+        actions: [
+          { icon: "FileText", label: "Feedback logged", val: "Score 9/10" },
+          { icon: "Database", label: "CRM updated",     val: "Breakfast note tagged" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Post-stay survey call placed" },
+          { t: "0:03", dot: "pur", text: "Guest completed survey" },
+          { t: "0:05", dot: "amb", text: "survey_log() → 9/10" },
+          { t: "0:06", dot: "grn", text: "Feedback saved to CRM" },
+        ],
+        outcomes: [
+          { icon: "FileText", label: "Survey score", val: "9/10" },
+          { icon: "Database", label: "CRM updated",  val: "Feedback tagged" },
+          { icon: "Star",     label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",    label: "Handle time",  val: "1m 05s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Reservation handling",    description: "Confirms, modifies, and cancels reservations instantly — synced to your PMS in real time.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "CalendarDays" },
+      { title: "Pre-arrival concierge",   description: "Calls guests before arrival to share room details, arrange transfers, and upsell packages.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Star" },
+      { title: "Guest feedback surveys",  description: "Runs automated post-stay satisfaction surveys and feeds results into your review pipeline.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "MessageSquare" },
+      { title: "Room service requests",   description: "Takes in-room requests via voice and routes them to housekeeping or F&B instantly.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "Bell" },
+      { title: "Upsell & upgrades",       description: "Offers room upgrades, spa packages, and dining reservations during pre-arrival calls.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "Flame" },
+      { title: "Late checkout handling",  description: "Manages late checkout requests, availability checks, and charges — automatically.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Clock" },
+    ],
+    benefits: [
+      { title: "24/7 concierge service",    description: "Guests get instant answers on reservations, amenities, and requests at any hour.", icon: "Clock" },
+      { title: "Reduce no-shows by 50%",    description: "Automated check-in reminders and pre-arrival calls cut last-minute cancellations.", icon: "BellRing" },
+      { title: "PMS & CRS integration",     description: "Connects to Opera, Cloudbeds, and all major property management systems.", icon: "Plug" },
+      { title: "Multilingual guest care",   description: "Hosts international guests in their native language — 100+ languages supported.", icon: "Languages" },
+      { title: "Revenue per room analytics",description: "Track upsell conversion, guest satisfaction, and repeat bookings in your dashboard.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",  description: "Connect your hotel number and go live with a hospitality-grade AI template.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "4×",   label: "More bookings captured",  sublabel: "Inquiries answered 24/7 instantly" },
+      { value: "50%",  label: "Fewer no-shows",          sublabel: "With AI pre-arrival reminders" },
+      { value: "30%",  label: "More upsell revenue",     sublabel: "Via pre-arrival concierge calls" },
+      { value: "$32K", label: "Saved per year",          sublabel: "In front-desk staffing costs" },
+    ],
+    testimonial: {
+      quote: "Our AI concierge handles reservations, pre-arrival calls, and post-stay surveys automatically. Upsell revenue from AI calls grew 28% in the first quarter. Guests love it.",
+      name: "Meera Pillai",
+      role: "General Manager · The Grand Palms Resort, Goa",
+      initials: "MP",
+    },
+    ctaHeadline: "Hear your AI agent handle a guest reservation call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Hospitality-ready in under 30 minutes.",
+  },
+
+  "legal-services": {
+    headline: "Every client call",
+    headlineHighlight: "managed professionally",
+    subheadline: "Your AI calling agent handles client intake, court date reminders, consultation bookings, and document follow-ups — 24/7.",
+    stats: [
+      { value: "70%",  label: "Faster client intake" },
+      { value: "24/7", label: "Client support coverage" },
+      { value: "50%",  label: "Fewer missed court dates" },
+      { value: "<3s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Court date reminder",
+        duration: "0:16",
+        aiResponse: `"This is a reminder that your hearing in the matter of Singh vs. Patel is scheduled for June 17th at 10 AM at the District Court, Room 4. Please confirm your attendance."`,
+        messages: [
+          { from: "ai",     text: "This is a reminder from Kumar & Associates. Your hearing in Singh vs. Patel is on June 17th at 10 AM, District Court Room 4." },
+          { from: "caller", text: "Yes, I'll be there. Can you send me the case documents?" },
+          { from: "ai",     text: "I'll flag your request to your attorney right away. You'll receive a call from them within 2 hours with the documents." },
+        ],
+        caller: "Rajesh Singh",
+        num: "+91 98765 33344",
+        av: "RS",
+        intents: ["Court reminder", "Document request", "Positive", "English", "Normal"],
+        tools: [
+          { label: "case_lookup()",    icon: "Search" },
+          { label: "attorney_alert()", icon: "Bell" },
+        ],
+        actions: [
+          { icon: "Search", label: "Case confirmed",      val: "Singh vs Patel · Jun 17" },
+          { icon: "Bell",   label: "Attorney notified",   val: "Doc request flagged" },
+          { icon: "FileText", label: "Attendance logged", val: "Confirmed" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Court reminder call placed" },
+          { t: "0:02", dot: "pur", text: "Client confirms attendance" },
+          { t: "0:03", dot: "amb", text: "case_lookup() → Jun 17 10AM" },
+          { t: "0:04", dot: "amb", text: "attorney_alert() → Doc request" },
+          { t: "0:06", dot: "grn", text: "Attendance confirmed in CRM" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Attendance",  val: "Confirmed" },
+          { icon: "Bell",          label: "Attorney",    val: "Alerted" },
+          { icon: "Star",          label: "CSAT",        val: "4.9 / 5" },
+          { icon: "Clock",         label: "Handle time", val: "0m 50s" },
+        ],
+      },
+      {
+        label: "Document review alert",
+        duration: "0:14",
+        aiResponse: `"Your property agreement documents have been reviewed by our team and are ready for your signature. I've sent the secure signing link to your email."`,
+        messages: [
+          { from: "ai",     text: "Hello, your property agreement has been reviewed and is ready for your digital signature." },
+          { from: "caller", text: "Can I review it before signing?" },
+          { from: "ai",     text: "Of course. I've sent the full document and the digital signing link to your email. Please review and sign at your convenience." },
+        ],
+        caller: "Sunita Mehra",
+        num: "+91 91234 11100",
+        av: "SM",
+        intents: ["Document ready", "Review request", "Neutral", "English", "Normal"],
+        tools: [
+          { label: "doc_status()",   icon: "FileText" },
+          { label: "email_link()",   icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "FileText",      label: "Doc status",   val: "Reviewed · Ready to sign" },
+          { icon: "MessageSquare", label: "Email sent",   val: "Document + sign link" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Document alert call placed" },
+          { t: "0:02", dot: "pur", text: "Client requests doc review" },
+          { t: "0:03", dot: "amb", text: "doc_status() → Ready to sign" },
+          { t: "0:05", dot: "grn", text: "Email with signing link sent" },
+        ],
+        outcomes: [
+          { icon: "FileText",      label: "Doc status", val: "Ready" },
+          { icon: "MessageSquare", label: "Email sent", val: "Sign link" },
+          { icon: "Star",          label: "CSAT",       val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time","val": "0m 42s" },
+        ],
+      },
+      {
+        label: "Consultation booking",
+        duration: "0:20",
+        aiResponse: `"Your 30-minute consultation with Adv. Sharma is confirmed for June 18th at 3 PM. You'll receive a confirmation email with video call details."`,
+        messages: [
+          { from: "caller", text: "I need a legal consultation about a property dispute." },
+          { from: "ai",     text: "Absolutely. I can schedule you with Adv. Sharma, who specialises in property law. Would June 18th at 3 PM work?" },
+          { from: "caller", text: "Yes, that works perfectly." },
+          { from: "ai",     text: "Confirmed! Your 30-minute consultation is booked. A video call link will be sent to your email." },
+        ],
+        caller: "Arun Nair",
+        num: "+91 99887 55566",
+        av: "AN",
+        intents: ["Legal consultation", "Property dispute", "Positive", "English", "Normal"],
+        tools: [
+          { label: "attorney_match()",   icon: "Search" },
+          { label: "consultation_book()",icon: "CalendarCheck" },
+          { label: "email_confirm()",    icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Attorney matched",    val: "Adv. Sharma · Property law" },
+          { icon: "CalendarCheck", label: "Consultation booked", val: "Jun 18 · 3 PM · 30 min" },
+          { icon: "MessageSquare", label: "Confirmation email",  val: "Video link sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Consultation request answered" },
+          { t: "0:02", dot: "pur", text: "Intent: property law consultation" },
+          { t: "0:03", dot: "amb", text: "attorney_match() → Adv. Sharma" },
+          { t: "0:04", dot: "amb", text: "consultation_book() → Jun 18 3PM" },
+          { t: "0:06", dot: "grn", text: "Confirmation email sent" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Consultation", val: "Jun 18 3 PM" },
+          { icon: "MessageSquare", label: "Email sent",   val: "Confirmed" },
+          { icon: "Star",          label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",  val: "1m 10s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Client intake",         description: "Collects case details, conflict checks, and client information over the call before the first meeting.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "UserCheck" },
+      { title: "Court date reminders",  description: "Calls clients before hearings to confirm attendance and share logistics automatically.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "BellRing" },
+      { title: "Consultation booking",  description: "Matches clients with the right attorney and books consultations — 24/7, without reception.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "CalendarDays" },
+      { title: "Document follow-ups",   description: "Alerts clients when documents are ready for review or signature and sends secure links.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "FileText" },
+      { title: "Payment reminders",     description: "Sends retainer payment reminders and billing notifications without awkward conversations.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "Database" },
+      { title: "Case status updates",   description: "Provides automated updates on case progress and scheduled hearings to keep clients informed.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "MessageSquare" },
+    ],
+    benefits: [
+      { title: "24/7 client availability",  description: "Never miss a new client inquiry — your AI handles intake and bookings around the clock.", icon: "Clock" },
+      { title: "Reduce missed court dates", description: "Automated hearing reminders cut missed appearances and last-minute rescheduling.", icon: "BellRing" },
+      { title: "Practice management sync",  description: "Integrates with Clio, MyCase, and other legal practice management platforms.", icon: "Plug" },
+      { title: "Multilingual client care",  description: "Communicates with clients in their preferred language — 100+ languages supported.", icon: "Languages" },
+      { title: "Confidential call logging", description: "Every interaction is logged with attorney-client privilege compliance in mind.", icon: "ShieldCheck" },
+      { title: "Live in under 30 minutes",  description: "Connect your firm's number and go live with a legal-ready AI template instantly.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "70%",  label: "Faster client intake", sublabel: "Vs traditional phone reception" },
+      { value: "50%",  label: "Fewer missed hearings", sublabel: "With automated court reminders" },
+      { value: "40%",  label: "More consultations",   sublabel: "Booked via 24/7 AI scheduling" },
+      { value: "$18K", label: "Saved per year",       sublabel: "In receptionist staffing costs" },
+    ],
+    testimonial: {
+      quote: "OnDial handles our client intake calls, hearing reminders, and consultation bookings automatically. Our attorneys now start every client meeting fully prepared. Missed court dates are down 50%.",
+      name: "Adv. Ananya Sharma",
+      role: "Managing Partner · Sharma & Associates, Delhi",
+      initials: "AS",
+    },
+    ctaHeadline: "Hear your AI agent handle a legal intake call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Law-firm ready in under 30 minutes.",
+  },
+
+  "government-services": {
+    headline: "Every citizen call",
+    headlineHighlight: "answered",
+    subheadline: "Your AI calling agent handles appointment scheduling, document status inquiries, survey calls, and citizen information — 24/7, in every language.",
+    stats: [
+      { value: "80%",  label: "Routine inquiries automated" },
+      { value: "24/7", label: "Citizen support coverage" },
+      { value: "60%",  label: "Reduced wait times" },
+      { value: "<3s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Appointment reminder",
+        duration: "0:16",
+        aiResponse: `"This is a reminder that your Aadhaar update appointment is scheduled for June 18th at 11 AM at the Regional Seva Kendra, Sector 14. Please bring your original documents."`,
+        messages: [
+          { from: "ai",     text: "Namaste! This is a reminder from the Seva Kendra. Your Aadhaar update appointment is on June 18th at 11 AM, Sector 14 office." },
+          { from: "caller", text: "What documents should I bring?" },
+          { from: "ai",     text: "Please bring your original Aadhaar card, a proof of address, and a photo ID. I've sent the checklist to your registered mobile." },
+        ],
+        caller: "Suresh Kumar",
+        num: "+91 98765 44400",
+        av: "SK",
+        intents: ["Govt appointment", "Document checklist", "Positive", "Hindi", "Normal"],
+        tools: [
+          { label: "appointment_lookup()", icon: "Search" },
+          { label: "sms_checklist()",      icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Appointment found", val: "Jun 18 · 11 AM · Sector 14" },
+          { icon: "MessageSquare", label: "Document SMS",      val: "Checklist sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Outbound reminder call placed" },
+          { t: "0:02", dot: "pur", text: "Citizen requests document list" },
+          { t: "0:03", dot: "amb", text: "appointment_lookup() → Jun 18" },
+          { t: "0:05", dot: "grn", text: "Document checklist SMS sent" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Reminder",       val: "Delivered" },
+          { icon: "MessageSquare", label: "Checklist SMS",  val: "Sent" },
+          { icon: "Star",          label: "CSAT",           val: "4.9 / 5" },
+          { icon: "Clock",         label: "Handle time",    val: "0m 48s" },
+        ],
+      },
+      {
+        label: "Document ready alert",
+        duration: "0:13",
+        aiResponse: `"Your PAN card application (reference #PAN-8821) has been processed and is ready for collection at your nearest post office. You'll receive the tracking SMS shortly."`,
+        messages: [
+          { from: "ai",     text: "Your PAN card application #PAN-8821 has been approved and dispatched to your registered address. Expected delivery: June 16th." },
+          { from: "caller", text: "Can I track it?" },
+          { from: "ai",     text: "I've sent the courier tracking link to your mobile. It'll be delivered by Speed Post reference SP-7712." },
+        ],
+        caller: "Priya Rao",
+        num: "+91 91234 55500",
+        av: "PR",
+        intents: ["Document status", "PAN card", "Positive", "English", "Normal"],
+        tools: [
+          { label: "doc_status()",  icon: "Search" },
+          { label: "sms_track()",   icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Doc confirmed",  val: "#PAN-8821 · Dispatched" },
+          { icon: "MessageSquare", label: "Tracking SMS",   val: "SP-7712 link sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Document status alert placed" },
+          { t: "0:02", dot: "pur", text: "Citizen requests tracking" },
+          { t: "0:03", dot: "amb", text: "doc_status() → dispatched" },
+          { t: "0:05", dot: "grn", text: "Tracking SMS sent" },
+        ],
+        outcomes: [
+          { icon: "Search",        label: "Status",       val: "Dispatched" },
+          { icon: "MessageSquare", label: "Tracking SMS", val: "Sent" },
+          { icon: "Star",          label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",  val: "0m 40s" },
+        ],
+      },
+      {
+        label: "Citizen survey",
+        duration: "0:16",
+        aiResponse: `"Thank you for your feedback on the Swachh Bharat initiative. Your responses have been recorded and will help improve services in your area."`,
+        messages: [
+          { from: "ai",     text: "Namaste! I'm calling on behalf of the Municipal Corporation to gather your feedback on the Swachh Bharat scheme in your area. May I ask 3 quick questions?" },
+          { from: "caller", text: "Yes, go ahead." },
+          { from: "ai",     text: "On a scale of 1 to 5, how would you rate waste collection frequency in your locality?" },
+          { from: "caller", text: "I'd say 3. It's not regular enough." },
+          { from: "ai",     text: "Thank you. Your feedback has been recorded and will be shared with the concerned ward officer." },
+        ],
+        caller: "Amita Joshi",
+        num: "+91 99887 33300",
+        av: "AJ",
+        intents: ["Citizen survey", "Waste management feedback", "Neutral", "Hindi", "Normal"],
+        tools: [
+          { label: "survey_log()",  icon: "FileText" },
+          { label: "report_flag()", icon: "Bell" },
+        ],
+        actions: [
+          { icon: "FileText", label: "Survey recorded",  val: "Waste: 3/5" },
+          { icon: "Bell",     label: "Ward officer",     val: "Feedback flagged" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Citizen survey call placed" },
+          { t: "0:04", dot: "pur", text: "Survey completed" },
+          { t: "0:05", dot: "amb", text: "survey_log() → Score 3/5" },
+          { t: "0:06", dot: "grn", text: "Feedback flagged to ward officer" },
+        ],
+        outcomes: [
+          { icon: "FileText", label: "Survey done",  val: "Score 3/5" },
+          { icon: "Bell",     label: "Officer alert", val: "Flagged" },
+          { icon: "Star",     label: "CSAT",         val: "4.8 / 5" },
+          { icon: "Clock",    label: "Handle time",  val: "1m 00s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Appointment scheduling",  description: "Books and reminds citizens of government service appointments automatically — in multiple languages.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "CalendarDays" },
+      { title: "Document status alerts",  description: "Notifies citizens when documents are processed, ready, or dispatched for collection.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "FileText" },
+      { title: "Citizen feedback surveys",description: "Runs large-scale citizen satisfaction and scheme feedback surveys at low cost.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "BarChart2" },
+      { title: "Grievance intake",        description: "Collects citizen complaints, assigns reference numbers, and routes to the correct department.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "MessageSquare" },
+      { title: "Scheme awareness calls",  description: "Proactively informs citizens of government welfare schemes and eligibility criteria.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "Bell" },
+      { title: "Emergency & alert calls", description: "Sends mass alerts for weather, public safety, or civic emergencies in seconds.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "BellRing" },
+    ],
+    benefits: [
+      { title: "24/7 citizen access",      description: "Citizens can get answers, schedule appointments, and check status at any hour.", icon: "Clock" },
+      { title: "Scale to millions of calls",description: "Handle bulk citizen outreach — surveys, alerts, reminders — in seconds.", icon: "PhoneIncoming" },
+      { title: "Government system integration",description: "Connects to legacy citizen management, HRMS, and grievance redressal portals.", icon: "Plug" },
+      { title: "22 Indian language support", description: "Communicates in all scheduled Indian languages plus global language support.", icon: "Languages" },
+      { title: "Transparent audit trail",   description: "All citizen interactions are logged and reportable for accountability and compliance.", icon: "ShieldCheck" },
+      { title: "Live in under 30 minutes",  description: "No IT procurement needed — deploy on existing telephony with a government template.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "80%",  label: "Routine calls automated", sublabel: "Without staff involvement" },
+      { value: "60%",  label: "Reduced wait times",      sublabel: "For citizens seeking information" },
+      { value: "10M+", label: "Citizens reached",        sublabel: "Via large-scale outbound campaigns" },
+      { value: "40%",  label: "Lower operational cost",  sublabel: "Vs traditional helpline staffing" },
+    ],
+    testimonial: {
+      quote: "OnDial handled our citizen appointment reminders and scheme awareness calls for over 200,000 households. Response rates were 4× higher than SMS and the cost was minimal.",
+      name: "Rajendra Singh",
+      role: "District Collector · Smart City Mission, Rajasthan",
+      initials: "RS",
+    },
+    ctaHeadline: "Hear your AI agent handle a citizen service call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Government-ready in under 30 minutes.",
+  },
+
+  "manufacturing-services": {
+    headline: "Every supply chain call",
+    headlineHighlight: "automated",
+    subheadline: "Your AI calling agent handles order dispatch alerts, quality notifications, vendor follow-ups, and maintenance reminders — 24/7.",
+    stats: [
+      { value: "70%",  label: "Fewer manual follow-up calls" },
+      { value: "24/7", label: "Operations support" },
+      { value: "45%",  label: "Faster dispatch communication" },
+      { value: "<2s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Order dispatch alert",
+        duration: "0:15",
+        aiResponse: `"Your order #MFG-4421 of 500 units has been dispatched from our Pune facility. The AWB number is IN-78812 and estimated delivery is June 16th."`,
+        messages: [
+          { from: "ai",     text: "This is a dispatch alert from Apex Manufacturing. Your order #MFG-4421 of 500 units has been shipped. AWB: IN-78812, delivery by June 16th." },
+          { from: "caller", text: "Can you send me the invoice and packing list?" },
+          { from: "ai",     text: "I've emailed the invoice and packing list to your registered email. You'll also receive a tracking update when it reaches the distribution centre." },
+        ],
+        caller: "Manoj Gupta",
+        num: "+91 98765 22200",
+        av: "MG",
+        intents: ["Dispatch alert", "Invoice request", "Positive", "English", "Normal"],
+        tools: [
+          { label: "order_dispatch()", icon: "Database" },
+          { label: "email_docs()",     icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Database",      label: "Dispatch logged",   val: "#MFG-4421 · 500 units" },
+          { icon: "MessageSquare", label: "Invoice emailed",   val: "Invoice + packing list" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Dispatch alert call placed" },
+          { t: "0:02", dot: "pur", text: "Client requests invoice" },
+          { t: "0:03", dot: "amb", text: "order_dispatch() → AWB IN-78812" },
+          { t: "0:05", dot: "grn", text: "Invoice + docs emailed" },
+        ],
+        outcomes: [
+          { icon: "Database",      label: "Dispatch",    val: "Confirmed" },
+          { icon: "MessageSquare", label: "Invoice",     val: "Email sent" },
+          { icon: "Star",          label: "CSAT",        val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time", val: "0m 45s" },
+        ],
+      },
+      {
+        label: "Quality check notify",
+        duration: "0:14",
+        aiResponse: `"Your batch #BATCH-221 has passed quality inspection. The QC report has been emailed. The batch is cleared for dispatch."`,
+        messages: [
+          { from: "ai",     text: "Quality alert: Your batch #BATCH-221 has passed QC inspection and is cleared for dispatch." },
+          { from: "caller", text: "Can I get the inspection report?" },
+          { from: "ai",     text: "The full QC report has been sent to your registered email. The batch is ready for pickup from Bay 4." },
+        ],
+        caller: "Ravi Sharma",
+        num: "+91 91234 88811",
+        av: "RS",
+        intents: ["QC pass", "Report request", "Positive", "English", "Normal"],
+        tools: [
+          { label: "qc_status()",    icon: "CheckCheck" },
+          { label: "email_report()", icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "CheckCheck",    label: "QC passed",    val: "#BATCH-221 · Cleared" },
+          { icon: "MessageSquare", label: "Report emailed",val: "Full QC report" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "QC pass notification placed" },
+          { t: "0:02", dot: "pur", text: "Client requests QC report" },
+          { t: "0:03", dot: "amb", text: "qc_status() → BATCH-221 passed" },
+          { t: "0:05", dot: "grn", text: "QC report emailed" },
+        ],
+        outcomes: [
+          { icon: "CheckCheck",    label: "QC status",    val: "Passed" },
+          { icon: "MessageSquare", label: "Report",       val: "Email sent" },
+          { icon: "Star",          label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",  val: "0m 38s" },
+        ],
+      },
+      {
+        label: "Maintenance reminder",
+        duration: "0:16",
+        aiResponse: `"Preventive maintenance for Machine Line 3 is due on June 20th. I've scheduled a maintenance engineer visit and sent the checklist to the plant supervisor."`,
+        messages: [
+          { from: "ai",     text: "Maintenance alert: Machine Line 3 at the Pune plant is due for preventive maintenance on June 20th." },
+          { from: "caller", text: "Can you schedule the engineer and send the checklist?" },
+          { from: "ai",     text: "Done! A maintenance engineer is scheduled for June 20th at 8 AM. The checklist has been sent to the plant supervisor's email." },
+        ],
+        caller: "Priya Iyer",
+        num: "+91 99887 77700",
+        av: "PI",
+        intents: ["Maintenance due", "Engineer scheduling", "Positive", "English", "Normal"],
+        tools: [
+          { label: "machine_status()",    icon: "Wrench" },
+          { label: "engineer_schedule()", icon: "CalendarCheck" },
+          { label: "email_checklist()",   icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "CalendarCheck", label: "Engineer booked",  val: "Jun 20 · 8 AM" },
+          { icon: "MessageSquare", label: "Checklist emailed",val: "Plant supervisor" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Maintenance alert call placed" },
+          { t: "0:02", dot: "pur", text: "Supervisor requests scheduling" },
+          { t: "0:03", dot: "amb", text: "engineer_schedule() → Jun 20" },
+          { t: "0:05", dot: "grn", text: "Checklist emailed · confirmed" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Engineer booked",  val: "Jun 20 8 AM" },
+          { icon: "MessageSquare", label: "Checklist sent",   val: "Email" },
+          { icon: "Star",          label: "CSAT",             val: "4.9 / 5" },
+          { icon: "Clock",         label: "Handle time",      val: "0m 52s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Order dispatch alerts",    description: "Notifies customers and distributors when orders ship, with AWB details and delivery ETAs.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "Bell" },
+      { title: "QC & inspection updates",  description: "Alerts customers when batches pass or fail quality checks, with report delivery.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "CheckCheck" },
+      { title: "Maintenance reminders",    description: "Schedules preventive maintenance calls for plant machinery based on defined schedules.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "Wrench" },
+      { title: "Vendor & supplier follow-ups",description: "Follows up on purchase orders, delivery ETAs, and pending invoices automatically.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "PhoneCall" },
+      { title: "Production milestone alerts",description: "Notifies clients at key production stages — material sourcing, WIP, and completion.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "BarChart2" },
+      { title: "Complaint & defect intake", description: "Collects product defect reports and routes them to the quality team automatically.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "FileText" },
+    ],
+    benefits: [
+      { title: "Eliminate manual follow-ups",description: "Automated dispatch, QC, and vendor calls replace hours of manual phone work.", icon: "PhoneCall" },
+      { title: "Zero missed maintenance",   description: "Proactive maintenance reminders reduce unplanned downtime and equipment failures.", icon: "Wrench" },
+      { title: "ERP & MES integration",     description: "Connects to SAP, Oracle, and other enterprise manufacturing systems in real time.", icon: "Plug" },
+      { title: "Multilingual plant support",description: "Communicates with global vendors and customers in 100+ languages automatically.", icon: "Languages" },
+      { title: "Supply chain analytics",    description: "Track dispatch rates, QC pass rates, and vendor call outcomes in your dashboard.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",  description: "No engineering work — connect your plant number and launch with a manufacturing template.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "70%",  label: "Fewer manual calls",    sublabel: "Dispatch and QC alerts automated" },
+      { value: "45%",  label: "Faster dispatch comms", sublabel: "Customers notified within minutes" },
+      { value: "35%",  label: "Less unplanned downtime",sublabel: "Via proactive maintenance alerts" },
+      { value: "$22K", label: "Saved per year",        sublabel: "In operations communication costs" },
+    ],
+    testimonial: {
+      quote: "OnDial automated our dispatch alerts, QC notifications, and maintenance reminders. Our team spends zero time on routine calls now. Supply chain communication improved dramatically.",
+      name: "Rajesh Menon",
+      role: "Operations Director · Apex Industrial, Pune",
+      initials: "RM",
+    },
+    ctaHeadline: "Hear your AI agent handle a manufacturing ops call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Plant-ready in under 30 minutes.",
+  },
+
+  "non-profit-organizations-services": {
+    headline: "Every donor call",
+    headlineHighlight: "handled with purpose",
+    subheadline: "Your AI calling agent handles donor outreach, event invitations, volunteer coordination, and impact updates — automatically.",
+    stats: [
+      { value: "4×",   label: "More donor calls reached" },
+      { value: "24/7", label: "Donor & volunteer support" },
+      { value: "50%",  label: "Lower fundraising cost" },
+      { value: "<3s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Donation thank you",
+        duration: "0:16",
+        aiResponse: `"Thank you so much for your generous donation of ₹5,000 to Children First Foundation! Your support will fund meals for 50 children this month. Your tax receipt has been emailed."`,
+        messages: [
+          { from: "ai",     text: "Hello Priya, this is Children First Foundation. We wanted to personally thank you for your generous donation of ₹5,000. It will fund meals for 50 children this month!" },
+          { from: "caller", text: "That's lovely to hear. Can I get a tax receipt?" },
+          { from: "ai",     text: "Your Section 80G tax receipt has been emailed to you. Thank you for making a difference. Would you like to hear about our upcoming fundraiser?" },
+          { from: "caller", text: "Yes, tell me more." },
+        ],
+        caller: "Priya Mehta",
+        num: "+91 98765 55511",
+        av: "PM",
+        intents: ["Donor thanks", "Tax receipt", "Positive", "English", "Normal"],
+        tools: [
+          { label: "donor_lookup()",   icon: "Search" },
+          { label: "email_receipt()",  icon: "MessageSquare" },
+          { label: "event_share()",    icon: "Bell" },
+        ],
+        actions: [
+          { icon: "MessageSquare", label: "Tax receipt",      val: "80G email sent" },
+          { icon: "Bell",          label: "Event invite",     val: "Fundraiser details shared" },
+          { icon: "Database",      label: "Donor CRM",       val: "Updated" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Thank you call placed" },
+          { t: "0:02", dot: "pur", text: "Donor requests tax receipt" },
+          { t: "0:03", dot: "amb", text: "email_receipt() → 80G sent" },
+          { t: "0:05", dot: "grn", text: "Event invite shared · CRM updated" },
+        ],
+        outcomes: [
+          { icon: "MessageSquare", label: "Receipt sent",   val: "80G email" },
+          { icon: "Bell",          label: "Event shared",   val: "Invited" },
+          { icon: "Star",          label: "CSAT",           val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",    val: "1m 00s" },
+        ],
+      },
+      {
+        label: "Event invitation",
+        duration: "0:15",
+        aiResponse: `"You're invited to our Annual Gala Dinner on June 25th at The Meridian, Mumbai. I've reserved a seat for you and sent the event details to your email."`,
+        messages: [
+          { from: "ai",     text: "Hello! On behalf of the Children First Foundation, you're cordially invited to our Annual Gala on June 25th at The Meridian, Mumbai." },
+          { from: "caller", text: "I'd love to attend. Can you confirm my seat?" },
+          { from: "ai",     text: "Your seat is reserved! I've sent the event details, dress code, and digital pass to your email. We look forward to seeing you." },
+        ],
+        caller: "Arjun Kapoor",
+        num: "+91 91234 66600",
+        av: "AK",
+        intents: ["Event invite", "RSVP confirmed", "Positive", "English", "Normal"],
+        tools: [
+          { label: "seat_reserve()",  icon: "CalendarCheck" },
+          { label: "email_invite()",  icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "CalendarCheck", label: "Seat reserved",  val: "Gala · Jun 25" },
+          { icon: "MessageSquare", label: "Digital pass",   val: "Email sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Event invitation call placed" },
+          { t: "0:02", dot: "pur", text: "Donor confirms attendance" },
+          { t: "0:03", dot: "amb", text: "seat_reserve() → confirmed" },
+          { t: "0:05", dot: "grn", text: "Event pass emailed" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "RSVP",         val: "Confirmed" },
+          { icon: "MessageSquare", label: "Event pass",   val: "Email sent" },
+          { icon: "Star",          label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",  val: "0m 42s" },
+        ],
+      },
+      {
+        label: "Volunteer reminder",
+        duration: "0:14",
+        aiResponse: `"Your volunteer shift for the Community Kitchen on June 18th at 9 AM is confirmed. Please report to the East Wing. Thank you for your service!"`,
+        messages: [
+          { from: "ai",     text: "Hello! This is a reminder that your volunteer shift for Community Kitchen is this Saturday, June 18th at 9 AM." },
+          { from: "caller", text: "Yes, I'll be there. Where should I report?" },
+          { from: "ai",     text: "Please report to the East Wing of the Seva Centre. I've sent the location and coordinator's contact to your mobile." },
+        ],
+        caller: "Nisha Sharma",
+        num: "+91 99887 22200",
+        av: "NS",
+        intents: ["Volunteer shift", "Location query", "Positive", "English", "Normal"],
+        tools: [
+          { label: "shift_lookup()", icon: "Search" },
+          { label: "sms_location()", icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Shift confirmed",   val: "Jun 18 · 9 AM · East Wing" },
+          { icon: "MessageSquare", label: "Location SMS",      val: "Sent to Nisha" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Volunteer reminder placed" },
+          { t: "0:02", dot: "pur", text: "Volunteer asks for location" },
+          { t: "0:03", dot: "amb", text: "shift_lookup() → East Wing" },
+          { t: "0:05", dot: "grn", text: "Location SMS sent" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Shift confirmed", val: "Jun 18 9 AM" },
+          { icon: "MessageSquare", label: "Location SMS",    val: "Sent" },
+          { icon: "Star",          label: "CSAT",            val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",     val: "0m 38s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Donor outreach",          description: "Runs personalised thank-you calls, impact updates, and re-engagement campaigns at scale.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "PhoneCall" },
+      { title: "Event invitations",       description: "Invites donors and stakeholders to fundraisers, galas, and community events automatically.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "CalendarDays" },
+      { title: "Volunteer coordination",  description: "Sends shift reminders, location details, and coordinator contacts to volunteers.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "UserCheck" },
+      { title: "Fundraising campaigns",   description: "Runs outbound donation campaigns with personalised asks based on donor history.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "Flame" },
+      { title: "Impact reporting calls",  description: "Shares impact updates with donors — stories, outcomes, and fund utilisation.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "BarChart2" },
+      { title: "Tax receipt dispatch",    description: "Sends 80G/tax receipts and year-end giving summaries to donors automatically.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "FileText" },
+    ],
+    benefits: [
+      { title: "Reach more donors at lower cost",description: "AI calls replace expensive outbound telemarketing at a fraction of the cost.", icon: "Flame" },
+      { title: "Automate volunteer management",  description: "Shift reminders, confirmations, and coordination handled automatically.", icon: "UserCheck" },
+      { title: "CRM & fundraising platform sync",description: "Integrates with Salesforce NPSP, Raiser's Edge, and popular NGO CRMs.", icon: "Plug" },
+      { title: "Multilingual donor engagement",  description: "Reaches donors in their preferred language — regional language support built in.", icon: "Languages" },
+      { title: "Fundraising analytics",          description: "Track call conversion, donation rates, and campaign ROI in your dashboard.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",       description: "No IT team required — connect your number and launch your first campaign instantly.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "4×",   label: "More donors contacted",  sublabel: "Per campaign vs manual calling" },
+      { value: "50%",  label: "Lower fundraising cost", sublabel: "Vs traditional outbound calling" },
+      { value: "30%",  label: "Higher donor retention", sublabel: "With personalised thank-you calls" },
+      { value: "$15K", label: "Saved per year",         sublabel: "In outreach and coordination costs" },
+    ],
+    testimonial: {
+      quote: "OnDial calls 500 donors per day for our campaigns — thank-yous, invites, and impact updates. Donor retention improved 30% and our fundraising cost per dollar dropped by half.",
+      name: "Sunita Krishnan",
+      role: "Executive Director · Children First Foundation",
+      initials: "SK",
+    },
+    ctaHeadline: "Hear your AI agent handle a donor outreach call",
+    ctaSubheadline: "Free 14-day trial. No credit card. NGO-ready in under 30 minutes.",
+  },
+
+  "event-management-services": {
+    headline: "Every event call",
+    headlineHighlight: "managed flawlessly",
+    subheadline: "Your AI calling agent handles registrations, confirmations, schedule updates, and post-event feedback — automatically, at any scale.",
+    stats: [
+      { value: "5×",   label: "Faster registration handling" },
+      { value: "24/7", label: "Event support coverage" },
+      { value: "40%",  label: "Fewer no-shows" },
+      { value: "<2s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Registration confirm",
+        duration: "0:15",
+        aiResponse: `"Your registration for the Digital Marketing Summit on June 25th is confirmed. Your e-ticket and agenda have been sent to your email."`,
+        messages: [
+          { from: "caller", text: "I registered for the marketing summit. Can you confirm my registration?" },
+          { from: "ai",     text: "Your registration for the Digital Marketing Summit on June 25th at The Hyatt, Bangalore is confirmed." },
+          { from: "caller", text: "Can you send me the agenda?" },
+          { from: "ai",     text: "I've sent your e-ticket and the full event agenda to your registered email. Doors open at 9 AM." },
+        ],
+        caller: "Vikram Rao",
+        num: "+91 98765 88800",
+        av: "VR",
+        intents: ["Event registration", "Agenda request", "Positive", "English", "Normal"],
+        tools: [
+          { label: "registration_fetch()", icon: "Search" },
+          { label: "email_ticket()",       icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Registration confirmed", val: "Summit · Jun 25 · Hyatt" },
+          { icon: "MessageSquare", label: "E-ticket + agenda",      val: "Email sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Registration inquiry answered" },
+          { t: "0:02", dot: "pur", text: "Intent: confirm registration" },
+          { t: "0:03", dot: "amb", text: "registration_fetch() → confirmed" },
+          { t: "0:05", dot: "grn", text: "E-ticket and agenda emailed" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Registration",  val: "Confirmed" },
+          { icon: "MessageSquare", label: "E-ticket",      val: "Email sent" },
+          { icon: "Star",          label: "CSAT",          val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",   val: "0m 42s" },
+        ],
+      },
+      {
+        label: "Event detail update",
+        duration: "0:14",
+        aiResponse: `"Important update: The keynote session on June 25th has moved to Hall B at 10:30 AM. Your badge and entry details remain the same."`,
+        messages: [
+          { from: "ai",     text: "Schedule alert: The keynote at the Digital Marketing Summit has moved from Hall A to Hall B at 10:30 AM on June 25th." },
+          { from: "caller", text: "Thanks for the heads-up. Will the networking session still be at 4 PM?" },
+          { from: "ai",     text: "Yes, the networking session remains at 4 PM in the Grand Foyer. I've sent the updated agenda to your email." },
+        ],
+        caller: "Ananya Pillai",
+        num: "+91 91234 77711",
+        av: "AP",
+        intents: ["Schedule change", "Agenda query", "Positive", "English", "Normal"],
+        tools: [
+          { label: "schedule_update()", icon: "CalendarDays" },
+          { label: "email_agenda()",    icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "CalendarDays",  label: "Schedule updated", val: "Keynote → Hall B 10:30 AM" },
+          { icon: "MessageSquare", label: "Agenda email",     val: "Updated agenda sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Schedule change alert placed" },
+          { t: "0:02", dot: "pur", text: "Attendee asks about networking" },
+          { t: "0:03", dot: "amb", text: "schedule_update() → confirmed" },
+          { t: "0:05", dot: "grn", text: "Updated agenda emailed" },
+        ],
+        outcomes: [
+          { icon: "CalendarDays",  label: "Schedule",    val: "Updated" },
+          { icon: "MessageSquare", label: "Agenda",      val: "Email sent" },
+          { icon: "Star",          label: "CSAT",        val: "4.9 / 5" },
+          { icon: "Clock",         label: "Handle time", val: "0m 40s" },
+        ],
+      },
+      {
+        label: "Feedback request",
+        duration: "0:15",
+        aiResponse: `"Thank you for attending the Digital Marketing Summit! Your feedback has been recorded. We're glad you enjoyed the sessions and look forward to seeing you next year."`,
+        messages: [
+          { from: "ai",     text: "Hi! Thank you for attending the Digital Marketing Summit. Could you share your feedback? It'll take less than 2 minutes." },
+          { from: "caller", text: "Sure!" },
+          { from: "ai",     text: "How would you rate the overall event experience on a scale of 1 to 10?" },
+          { from: "caller", text: "I'd give it a 9. The speakers were excellent." },
+          { from: "ai",     text: "Wonderful! Your feedback has been recorded. We'll share the session recordings with you next week." },
+        ],
+        caller: "Rohan Bose",
+        num: "+91 99887 44411",
+        av: "RB",
+        intents: ["Post-event survey", "Speaker feedback", "Positive", "English", "Normal"],
+        tools: [
+          { label: "feedback_log()", icon: "FileText" },
+          { label: "crm_update()",   icon: "Database" },
+        ],
+        actions: [
+          { icon: "FileText", label: "Feedback saved",  val: "Score 9/10" },
+          { icon: "Database", label: "CRM updated",     val: "Feedback tagged" },
+          { icon: "Bell",     label: "Recording alert", val: "Queued for next week" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Post-event survey placed" },
+          { t: "0:04", dot: "pur", text: "Survey completed" },
+          { t: "0:05", dot: "amb", text: "feedback_log() → 9/10" },
+          { t: "0:06", dot: "grn", text: "CRM updated · recording queued" },
+        ],
+        outcomes: [
+          { icon: "FileText", label: "Survey score", val: "9/10" },
+          { icon: "Database", label: "CRM updated",  val: "Feedback tagged" },
+          { icon: "Star",     label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",    label: "Handle time",  val: "1m 00s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Registration management",  description: "Confirms registrations, sends e-tickets and agendas, and handles waitlist inquiries automatically.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "UserCheck" },
+      { title: "Attendee reminders",       description: "Sends personalised reminder calls before events to reduce no-shows significantly.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "BellRing" },
+      { title: "Schedule change alerts",   description: "Notifies attendees of venue changes, session updates, and schedule modifications instantly.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "CalendarDays" },
+      { title: "Sponsor & exhibitor calls",description: "Handles sponsor inquiry calls, package details, and booth allocation queries.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "Star" },
+      { title: "Post-event feedback",      description: "Collects attendee and speaker satisfaction scores automatically after each event.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "MessageSquare" },
+      { title: "Vendor coordination",      description: "Automates vendor confirmation calls for catering, AV, logistics, and venue setup.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "PhoneCall" },
+    ],
+    benefits: [
+      { title: "Scale to any event size",   description: "Handle thousands of registration confirmations and reminders in minutes.", icon: "PhoneIncoming" },
+      { title: "Reduce no-shows by 40%",    description: "Personalised reminder calls achieve better attendance rates than email alone.", icon: "BellRing" },
+      { title: "CRM & event tech integration",description: "Works with Eventbrite, Hopin, Cvent, and all major event management platforms.", icon: "Plug" },
+      { title: "Multilingual event support", description: "Communicates with international attendees in 100+ languages automatically.", icon: "Languages" },
+      { title: "Post-event analytics",       description: "Satisfaction scores, attendance rates, and feedback themes in your dashboard.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",  description: "Connect your event line and launch registration confirmations instantly.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "5×",   label: "Faster registration handling",sublabel: "vs manual confirmation calls" },
+      { value: "40%",  label: "Fewer no-shows",              sublabel: "With AI reminder calls" },
+      { value: "90%",  label: "Post-event survey response",  sublabel: "vs 20% email response rate" },
+      { value: "$18K", label: "Saved per event",             sublabel: "In event coordination costs" },
+    ],
+    testimonial: {
+      quote: "OnDial handles all our registration confirmations, schedule change alerts, and post-event surveys automatically. Our team now focuses on delivering great events instead of managing calls.",
+      name: "Kavya Nair",
+      role: "Managing Director · EventFirst Productions, Bangalore",
+      initials: "KN",
+    },
+    ctaHeadline: "Hear your AI agent handle an event registration call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Event-ready in under 30 minutes.",
+  },
+
+  "consulting-services": {
+    headline: "Every client engagement",
+    headlineHighlight: "starts here",
+    subheadline: "Your AI calling agent handles intake calls, meeting scheduling, session reminders, and follow-ups — so your consultants focus on delivering value.",
+    stats: [
+      { value: "3×",   label: "More consultations booked" },
+      { value: "24/7", label: "Client support coverage" },
+      { value: "50%",  label: "Faster intake processing" },
+      { value: "<2s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Meeting schedule",
+        duration: "0:18",
+        aiResponse: `"Your strategy session with our senior consultant is confirmed for June 19th at 2 PM. A video call link has been sent to your email."`,
+        messages: [
+          { from: "caller", text: "I'd like to schedule a strategy session with your firm." },
+          { from: "ai",     text: "Certainly! Could I know the nature of the engagement — business strategy, digital transformation, or HR consulting?" },
+          { from: "caller", text: "Business strategy. I'm looking for a 1-hour initial session." },
+          { from: "ai",     text: "I've scheduled you with our senior strategy consultant for June 19th at 2 PM. A video call link is on its way to your email." },
+        ],
+        caller: "Rahul Mehta",
+        num: "+91 98765 11100",
+        av: "RM",
+        intents: ["Consultation booking", "Business strategy", "Positive", "English", "High"],
+        tools: [
+          { label: "consultant_match()", icon: "Search" },
+          { label: "meeting_book()",     icon: "CalendarCheck" },
+          { label: "email_link()",       icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Consultant matched", val: "Sr. Strategy Consultant" },
+          { icon: "CalendarCheck", label: "Meeting booked",     val: "Jun 19 · 2 PM · 1 hr" },
+          { icon: "MessageSquare", label: "Video link sent",    val: "Email dispatched" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Consultation inquiry answered" },
+          { t: "0:02", dot: "pur", text: "Intent: strategy session booking" },
+          { t: "0:03", dot: "amb", text: "consultant_match() → Sr. Strategist" },
+          { t: "0:04", dot: "amb", text: "meeting_book() → Jun 19 2PM" },
+          { t: "0:06", dot: "grn", text: "Video link emailed" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Meeting booked",  val: "Jun 19 2 PM" },
+          { icon: "MessageSquare", label: "Video link",      val: "Email sent" },
+          { icon: "Star",          label: "CSAT",            val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",     val: "1m 05s" },
+        ],
+      },
+      {
+        label: "Intake form follow-up",
+        duration: "0:16",
+        aiResponse: `"Thank you for submitting your intake form. I've reviewed your requirements and matched you with our Change Management specialist. A detailed proposal will reach you within 24 hours."`,
+        messages: [
+          { from: "ai",     text: "Hello, we received your intake form regarding change management consulting. I'm calling to confirm your key requirements." },
+          { from: "caller", text: "Yes. We're undergoing a merger and need support with organisational change." },
+          { from: "ai",     text: "I've matched you with our Change Management specialist. Expect a detailed proposal in 24 hours and a call to discuss next steps." },
+        ],
+        caller: "Sunita Reddy",
+        num: "+91 91234 99900",
+        av: "SR",
+        intents: ["Intake follow-up", "Change management", "Positive", "English", "High"],
+        tools: [
+          { label: "intake_fetch()",     icon: "FileText" },
+          { label: "specialist_match()", icon: "Search" },
+          { label: "proposal_queue()",   icon: "Database" },
+        ],
+        actions: [
+          { icon: "Search",   label: "Specialist matched",  val: "Change Management expert" },
+          { icon: "Database", label: "Proposal queued",     val: "24-hr turnaround" },
+          { icon: "UserPlus", label: "Lead created",        val: "CRM · Sunita Reddy" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Intake follow-up call placed" },
+          { t: "0:02", dot: "pur", text: "Requirements confirmed" },
+          { t: "0:03", dot: "amb", text: "specialist_match() → CM expert" },
+          { t: "0:05", dot: "grn", text: "Proposal queued · lead logged" },
+        ],
+        outcomes: [
+          { icon: "Search",   label: "Specialist",   val: "Matched" },
+          { icon: "Database", label: "Proposal",     val: "Queued 24hr" },
+          { icon: "Star",     label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",    label: "Handle time",  val: "0m 55s" },
+        ],
+      },
+      {
+        label: "Session reminder",
+        duration: "0:13",
+        aiResponse: `"Your advisory session with Dr. Kapoor is tomorrow at 11 AM via Zoom. I've resent the meeting link and pre-read materials to your email."`,
+        messages: [
+          { from: "ai",     text: "Reminder: Your advisory session with Dr. Kapoor is tomorrow at 11 AM via Zoom." },
+          { from: "caller", text: "Can you resend the meeting link? I can't find it." },
+          { from: "ai",     text: "Done! I've sent the Zoom link and pre-read materials to your email. See you tomorrow." },
+        ],
+        caller: "Arjun Bose",
+        num: "+91 99887 00000",
+        av: "AB",
+        intents: ["Session reminder", "Link resend", "Positive", "English", "Normal"],
+        tools: [
+          { label: "session_lookup()", icon: "Search" },
+          { label: "email_link()",     icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Session confirmed",  val: "Tomorrow 11 AM · Dr. Kapoor" },
+          { icon: "MessageSquare", label: "Link + materials",   val: "Email resent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Session reminder placed" },
+          { t: "0:02", dot: "pur", text: "Client requests link resend" },
+          { t: "0:03", dot: "amb", text: "session_lookup() → Tomorrow 11 AM" },
+          { t: "0:05", dot: "grn", text: "Link and materials emailed" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Session",      val: "Tomorrow 11 AM" },
+          { icon: "MessageSquare", label: "Link sent",    val: "Email" },
+          { icon: "Star",          label: "CSAT",         val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",  val: "0m 38s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Client intake & discovery", description: "Collects project briefs and requirements over the call before the first consultant meeting.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "UserCheck" },
+      { title: "Consultation booking",      description: "Matches clients with the right specialist and books sessions — 24/7, without admin staff.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "CalendarDays" },
+      { title: "Session reminders",         description: "Sends personalised reminders with meeting links and pre-read materials before every session.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "BellRing" },
+      { title: "Proposal follow-ups",       description: "Re-engages prospects who received proposals but haven't responded with personalised calls.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "FileText" },
+      { title: "Feedback collection",       description: "Gathers client satisfaction and project outcome feedback automatically after engagements.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "BarChart2" },
+      { title: "Retainer billing reminders",description: "Sends monthly retainer payment reminders and invoice copies without awkward calls.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "Database" },
+    ],
+    benefits: [
+      { title: "24/7 client availability",  description: "Clients can book consultations and get intake handled at any hour, any day.", icon: "Clock" },
+      { title: "Never lose a new lead",      description: "Every inbound inquiry is captured and followed up without admin involvement.", icon: "UserPlus" },
+      { title: "CRM & scheduling integration",description: "Connects to Salesforce, HubSpot, Calendly, and all major consulting platforms.", icon: "Plug" },
+      { title: "Multilingual client support",description: "Engages global clients in their preferred language — 100+ languages supported.", icon: "Languages" },
+      { title: "Engagement analytics",       description: "Track conversion rates, meeting show rates, and client satisfaction in one dashboard.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",   description: "Connect your firm's number and launch with a consulting-ready AI template.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "3×",   label: "More consultations booked",sublabel: "24/7 AI booking vs business hours" },
+      { value: "50%",  label: "Faster intake processing",sublabel: "Pre-qualified before first meeting" },
+      { value: "35%",  label: "Higher proposal conversion",sublabel: "With AI follow-up calls" },
+      { value: "$20K", label: "Saved per year",          sublabel: "In admin and scheduling staff" },
+    ],
+    testimonial: {
+      quote: "OnDial handles our client intake, meeting scheduling, and session reminders automatically. Our consultants arrive at every meeting fully briefed. Pipeline conversion improved 35%.",
+      name: "Rohan Kapoor",
+      role: "Managing Partner · Insight Strategy Group",
+      initials: "RK",
+    },
+    ctaHeadline: "Hear your AI agent handle a consulting intake call",
+    ctaSubheadline: "Free 14-day trial. No credit card. Consulting-ready in under 30 minutes.",
+  },
+
+  "pharmaceutical-services": {
+    headline: "Every patient & partner call",
+    headlineHighlight: "handled compliantly",
+    subheadline: "Your AI calling agent handles prescription reminders, delivery alerts, HCP outreach, and refill notifications — securely, 24/7.",
+    stats: [
+      { value: "65%",  label: "Better medication adherence" },
+      { value: "24/7", label: "Patient & pharmacy support" },
+      { value: "50%",  label: "Fewer missed refills" },
+      { value: "<3s",  label: "Average answer time" },
+    ],
+    demoScenarios: [
+      {
+        label: "Prescription ready",
+        duration: "0:15",
+        aiResponse: `"Your prescription for Metformin 500mg is ready at Apollo Pharmacy, Koramangala. It can be collected today between 10 AM and 8 PM."`,
+        messages: [
+          { from: "ai",     text: "Hello, your prescription for Metformin 500mg is ready at Apollo Pharmacy, Koramangala. You can collect it today between 10 AM and 8 PM." },
+          { from: "caller", text: "Can I get it delivered instead?" },
+          { from: "ai",     text: "Absolutely! I've scheduled a home delivery for today between 3–5 PM. You'll receive a confirmation SMS shortly." },
+        ],
+        caller: "Geeta Sharma",
+        num: "+91 98765 11222",
+        av: "GS",
+        intents: ["Prescription ready", "Home delivery request", "Positive", "English", "Normal"],
+        tools: [
+          { label: "rx_status()",     icon: "Search" },
+          { label: "delivery_book()", icon: "CalendarCheck" },
+          { label: "sms_confirm()",   icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Rx confirmed",    val: "Metformin · Apollo Koramangala" },
+          { icon: "CalendarCheck", label: "Delivery booked", val: "Today 3–5 PM" },
+          { icon: "MessageSquare", label: "SMS sent",        val: "Confirmation to Geeta" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Prescription ready alert placed" },
+          { t: "0:02", dot: "pur", text: "Patient requests home delivery" },
+          { t: "0:03", dot: "amb", text: "delivery_book() → Today 3-5 PM" },
+          { t: "0:05", dot: "grn", text: "SMS confirmation sent" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Delivery booked", val: "3–5 PM" },
+          { icon: "MessageSquare", label: "SMS sent",        val: "Confirmed" },
+          { icon: "Star",          label: "CSAT",            val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time",     val: "0m 48s" },
+        ],
+      },
+      {
+        label: "Refill renewal alert",
+        duration: "0:16",
+        aiResponse: `"Your Amlodipine refill is due in 5 days. I've sent the refill request to your pharmacy and it'll be ready for collection by June 14th."`,
+        messages: [
+          { from: "ai",     text: "Hello, this is a medication reminder. Your Amlodipine 5mg prescription is due for renewal in 5 days." },
+          { from: "caller", text: "Can you arrange the refill automatically?" },
+          { from: "ai",     text: "Done! I've sent the refill request to your registered pharmacy. Your medication will be ready by June 14th. I'll send a collection reminder closer to the date." },
+        ],
+        caller: "Mohan Rao",
+        num: "+91 91234 33300",
+        av: "MR",
+        intents: ["Refill due", "Auto-refill request", "Positive", "English", "Normal"],
+        tools: [
+          { label: "rx_due_check()",   icon: "Search" },
+          { label: "refill_request()", icon: "Database" },
+          { label: "reminder_set()",   icon: "Bell" },
+        ],
+        actions: [
+          { icon: "Database", label: "Refill requested",   val: "Amlodipine · Pharmacy" },
+          { icon: "Bell",     label: "Reminder set",       val: "Collection alert Jun 14" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Refill reminder call placed" },
+          { t: "0:02", dot: "pur", text: "Patient requests auto-refill" },
+          { t: "0:03", dot: "amb", text: "refill_request() → sent to pharmacy" },
+          { t: "0:05", dot: "grn", text: "Collection reminder scheduled" },
+        ],
+        outcomes: [
+          { icon: "Database", label: "Refill",   val: "Requested" },
+          { icon: "Bell",     label: "Reminder", val: "Jun 14" },
+          { icon: "Star",     label: "CSAT",     val: "5.0 / 5" },
+          { icon: "Clock",    label: "Handle time","val": "0m 42s" },
+        ],
+      },
+      {
+        label: "Delivery dispatched",
+        duration: "0:13",
+        aiResponse: `"Your medication delivery is on the way. Estimated arrival is 4–5 PM today. The delivery executive's contact number has been sent to your mobile."`,
+        messages: [
+          { from: "ai",     text: "Your medication delivery is out for delivery and will arrive between 4–5 PM today." },
+          { from: "caller", text: "Can I get the delivery person's number?" },
+          { from: "ai",     text: "I've sent the delivery executive's contact to your mobile. They'll call 15 minutes before arrival." },
+        ],
+        caller: "Anita Joshi",
+        num: "+91 99887 66611",
+        av: "AJ",
+        intents: ["Delivery ETA", "Delivery contact", "Positive", "English", "Normal"],
+        tools: [
+          { label: "delivery_track()", icon: "Search" },
+          { label: "sms_contact()",    icon: "MessageSquare" },
+        ],
+        actions: [
+          { icon: "Search",        label: "Delivery tracked", val: "ETA: 4–5 PM" },
+          { icon: "MessageSquare", label: "Contact SMS",      val: "Executive number sent" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Delivery dispatch alert placed" },
+          { t: "0:02", dot: "pur", text: "Patient requests contact" },
+          { t: "0:03", dot: "amb", text: "delivery_track() → 4-5 PM ETA" },
+          { t: "0:05", dot: "grn", text: "Executive contact SMS sent" },
+        ],
+        outcomes: [
+          { icon: "Search",        label: "ETA",     val: "4–5 PM" },
+          { icon: "MessageSquare", label: "Contact", val: "SMS sent" },
+          { icon: "Star",          label: "CSAT",    val: "5.0 / 5" },
+          { icon: "Clock",         label: "Handle time","val": "0m 38s" },
+        ],
+      },
+    ],
+    useCases: [
+      { title: "Prescription ready alerts",  description: "Notifies patients when their prescription is ready for collection or initiates home delivery.", iconBg: "bg-[#EEEDFE]", iconColor: "text-[#534AB7]", icon: "Bell" },
+      { title: "Refill reminders",           description: "Proactively reminds patients when medications are due for renewal and automates the refill request.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "BellRing" },
+      { title: "Adherence calls",            description: "Checks in on patients taking chronic medication to ensure compliance and flag missed doses.", iconBg: "bg-[#FAEEDA]", iconColor: "text-[#633806]", icon: "UserCheck" },
+      { title: "HCP outreach",               description: "Automates medical representative calls to doctors for detailing, sampling, and appointment scheduling.", iconBg: "bg-[#E6F1FB]", iconColor: "text-[#0C447C]", icon: "PhoneCall" },
+      { title: "Clinical trial recruitment",description: "Calls eligible patients to pre-screen, inform, and book clinical trial consultations.", iconBg: "bg-[#FCEBEB]", iconColor: "text-[#A32D2D]", icon: "Search" },
+      { title: "Pharmacovigilance reports",  description: "Collects adverse event reports from patients and routes them to safety teams compliantly.", iconBg: "bg-[#E1F5EE]", iconColor: "text-[#085041]", icon: "ShieldCheck" },
+    ],
+    benefits: [
+      { title: "Improve medication adherence",description: "Automated refill and adherence reminders improve patient outcomes and reduce lapses.", icon: "UserCheck" },
+      { title: "HIPAA & regulatory compliant",description: "All patient calls are encrypted and compliant with pharma data and privacy regulations.", icon: "ShieldCheck" },
+      { title: "CRM & pharmacy system sync", description: "Connects to your pharmacy management system, CRM, and HCP database in real time.", icon: "Plug" },
+      { title: "Multilingual patient support",description: "Communicates with patients in their regional language — 100+ languages supported.", icon: "Languages" },
+      { title: "Drug safety reporting",       description: "Structures and routes adverse event reports to pharmacovigilance teams automatically.", icon: "BarChart2" },
+      { title: "Live in under 30 minutes",   description: "Connect your pharma helpline and go live with a healthcare-grade AI template.", icon: "Settings" },
+    ],
+    outcomes: [
+      { value: "65%",  label: "Better adherence",    sublabel: "Chronic patients with AI reminders" },
+      { value: "50%",  label: "Fewer missed refills", sublabel: "Via automated renewal alerts" },
+      { value: "3×",   label: "More HCP calls reached",sublabel: "Via AI-assisted med rep outreach" },
+      { value: "$30K", label: "Saved per year",       sublabel: "In pharmacy support staffing" },
+    ],
+    testimonial: {
+      quote: "OnDial's automated prescription reminders improved our patient adherence by 60%. Refill drop-off reduced dramatically. Our med rep outreach now reaches 3× more doctors per day.",
+      name: "Dr. Anil Kapoor",
+      role: "Head of Patient Services · MedLife Pharma",
+      initials: "AK",
+    },
+    ctaHeadline: "Hear your AI agent handle a pharma patient call",
+    ctaSubheadline: "Free 14-day trial. No credit card. HIPAA-friendly setup in under 30 minutes.",
+  },
 };
 
 /** Generic fallback content for industries without specific copy. */
 function buildFallbackContent(industryName: string): IndustryPageContent {
+  const shortName = industryName.split("&")[0]?.trim() || industryName;
+
   return {
     headline: `Transform your`,
     headlineHighlight: `${industryName} calls`,
@@ -515,10 +3279,34 @@ function buildFallbackContent(industryName: string): IndustryPageContent {
         duration: "0:18",
         aiResponse: `"Hi, thanks for calling! I'm the virtual assistant here. How can I help you today?"`,
         messages: [
-          { from: "caller", text: "Hi, I have a question about your services." },
+          { from: "caller", text: `Hi, I have a question about your ${shortName.toLowerCase()} services.` },
           { from: "ai",     text: "Happy to help! Could you tell me a bit more about what you're looking for so I can point you in the right direction?" },
           { from: "caller", text: "I'd like to know about pricing and availability." },
           { from: "ai",     text: "Great question. I can either share those details now or connect you with a specialist — which would you prefer?" },
+        ],
+        caller: "Aarav Sharma",
+        num: "+91 98765 01234",
+        av: "AS",
+        intents: [`${shortName} inquiry`, "Pricing/Info", "Neutral", "English", "Normal"],
+        tools: [
+          { label: "info_lookup()", icon: "Search" },
+          { label: "crm_lookup()", icon: "Database" },
+        ],
+        actions: [
+          { icon: "Search", label: "Details fetched", val: `${shortName} info` },
+          { icon: "UserPlus", label: "Contact updated", val: "Aarav Sharma" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Inbound call answered by AI" },
+          { t: "0:03", dot: "pur", text: "Intent: service inquiry" },
+          { t: "0:04", dot: "amb", text: "info_lookup() called" },
+          { t: "0:06", dot: "pur", text: "Response generated" },
+        ],
+        outcomes: [
+          { icon: "PhoneCall", label: "Call answered", val: "< 2s" },
+          { icon: "UserCheck", label: "Lead captured", val: "CRM updated" },
+          { icon: "Star", label: "CSAT", val: "4.8 / 5" },
+          { icon: "Clock", label: "Handle time", val: "0m 45s" },
         ],
       },
       {
@@ -526,10 +3314,35 @@ function buildFallbackContent(industryName: string): IndustryPageContent {
         duration: "0:20",
         aiResponse: `"Your appointment is confirmed. You'll receive a reminder 24 hours before. Is there anything else I can help with?"`,
         messages: [
-          { from: "caller", text: "I'd like to book an appointment." },
-          { from: "ai",     text: "Of course! I have availability tomorrow at 10am or Thursday at 2pm. Which works for you?" },
+          { from: "caller", text: `I'd like to book a ${shortName.toLowerCase()} consultation.` },
+          { from: "ai",     text: "Of course! I have availability tomorrow at 10 AM or Thursday at 2 PM. Which works for you?" },
           { from: "caller", text: "Tomorrow morning." },
           { from: "ai",     text: "Confirmed! Can I take your name and a contact number to send a reminder?" },
+        ],
+        caller: "Neha Gupta",
+        num: "+91 91234 56789",
+        av: "NG",
+        intents: ["Booking request", `${shortName} service`, "Positive", "English", "High"],
+        tools: [
+          { label: "calendar_check()", icon: "CalendarDays" },
+          { label: "slot_book()", icon: "CalendarCheck" },
+        ],
+        actions: [
+          { icon: "CalendarCheck", label: "Slot booked", val: "Tomorrow 10:00 AM" },
+          { icon: "MessageSquare", label: "SMS sent", val: "Confirmation to Neha" },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+          { t: "0:03", dot: "pur", text: "Intent: booking request" },
+          { t: "0:04", dot: "amb", text: "calendar_check() → Slot free" },
+          { t: "0:05", dot: "amb", text: "slot_book() → Confirmed" },
+          { t: "0:07", dot: "grn", text: "SMS confirmation sent" },
+        ],
+        outcomes: [
+          { icon: "CalendarCheck", label: "Slot booked", val: "10:00 AM" },
+          { icon: "MessageSquare", label: "SMS confirmation", val: "Sent" },
+          { icon: "Star", label: "CSAT", val: "5.0 / 5" },
+          { icon: "Clock", label: "Handle time", val: "0m 52s" },
         ],
       },
       {
@@ -541,6 +3354,30 @@ function buildFallbackContent(industryName: string): IndustryPageContent {
           { from: "ai",     text: "Absolutely. Could I take your name and the reference number from your earlier call?" },
           { from: "caller", text: "Sure — it's John, reference 4821." },
           { from: "ai",     text: "Found it! Let me pull up your details and connect you with the right person." },
+        ],
+        caller: "Kabir Mehta",
+        num: "+91 88888 99999",
+        av: "KM",
+        intents: ["Follow-up", "Ticket/Ref lookup", "Neutral", "English", "Normal"],
+        tools: [
+          { label: "ticket_lookup()", icon: "Search" },
+          { label: "agent_route()", icon: "PhoneCall" },
+        ],
+        actions: [
+          { icon: "Search", label: "Ref found", val: "Ref #4821" },
+          { icon: "PhoneCall", label: "Call routed", val: "Transferring..." },
+        ],
+        logLines: [
+          { t: "0:01", dot: "pur", text: "Call answered by AI agent" },
+          { t: "0:02", dot: "pur", text: "Intent: follow-up request" },
+          { t: "0:03", dot: "amb", text: "ticket_lookup(4821) → Found" },
+          { t: "0:05", dot: "grn", text: "Routing to the assigned team" },
+        ],
+        outcomes: [
+          { icon: "Search", label: "Ticket matched", val: "#4821" },
+          { icon: "PhoneCall", label: "Routed to agent", val: "Connected" },
+          { icon: "Star", label: "CSAT", val: "4.9 / 5" },
+          { icon: "Clock", label: "Handle time", val: "1m 15s" },
         ],
       },
     ],

@@ -8,6 +8,9 @@ const INDUSTRY_NAV_LABELS: Record<string, string> = {
   "hospitality-services": "Hospitality",
   "legal-services": "Legal",
   "government-services": "Government",
+  "event-management-services": "Event Management",
+  "consulting-services": "Consultation",
+  "pharmaceutical-services": "Pharmaceuticals",
 };
 
 export type IndustryNavItem = {
