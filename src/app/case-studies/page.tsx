@@ -1,31 +1,25 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
-import { MarketingPageBody } from "@/components/layout/marketing-page-body";
-import { Button } from "@/components/ui/button";
-import { INDUSTRIES_NAV_ITEMS } from "@/config/industries-nav";
+import { CaseStudyCustomerSuccessGridSection } from "@/components/marketing/case-study-customer-success-grid-section";
+import { CaseStudyFeaturedStorySection } from "@/components/marketing/case-study-featured-story-section";
+import { CaseStudyHeroSection } from "@/components/marketing/case-study-hero-section";
+import { CaseStudyIndustryFilterSection } from "@/components/marketing/case-study-industry-filter-section";
+import { CaseStudyRoiCalculatorSection } from "@/components/marketing/case-study-roi-calculator-section";
 
 export const metadata: Metadata = {
-  title: "Case studies",
-  description: "See how teams use Ondial voice agents to scale outreach, support, and operations.",
+  title: "Case Studies",
+  description:
+    "Real businesses, real conversations, real growth — see how teams automate calls and scale support with OnDial.",
 };
 
 export default function CaseStudiesPage() {
   return (
-    <MarketingPageBody
-      title="Case studies"
-      description="Real-world results from teams automating reminders, outreach, surveys, and support with AI voice."
-    >
-      <Button
-        variant="outline"
-        className="self-center"
-        render={
-          <Link href={INDUSTRIES_NAV_ITEMS[0]?.href ?? "/pricing"} prefetch />
-        }
-        nativeButton={false}
-      >
-        Explore industries
-      </Button>
-    </MarketingPageBody>
+    <main className="flex flex-1 flex-col">
+      <CaseStudyHeroSection />
+      <CaseStudyFeaturedStorySection />
+      <CaseStudyCustomerSuccessGridSection />
+      <CaseStudyRoiCalculatorSection />
+      <CaseStudyIndustryFilterSection />
+    </main>
   );
 }

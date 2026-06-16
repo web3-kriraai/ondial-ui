@@ -1,23 +1,19 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
-import { MarketingPageBody } from "@/components/layout/marketing-page-body";
-import { Button } from "@/components/ui/button";
+import { NewsHeroSection } from "@/components/marketing/news-hero-section";
+import { NewsProductUpdateSection } from "@/components/marketing/news-product-update-section";
 
 export const metadata: Metadata = {
   title: "News",
-  description: "Product announcements, partnerships, and company updates from Ondial.",
+  description:
+    "Customer success stories and real-world results from teams using OnDial AI voice agents.",
 };
 
 export default function NewsPage() {
   return (
-    <MarketingPageBody
-      title="News"
-      description="The latest from Ondial — launches, milestones, and voice AI industry updates."
-    >
-      <Button variant="outline" className="self-center" render={<Link href="/blog" prefetch />} nativeButton={false}>
-        Read the blog
-      </Button>
-    </MarketingPageBody>
+    <main className="flex flex-1 flex-col">
+      <NewsHeroSection />
+      <NewsProductUpdateSection />
+    </main>
   );
 }
