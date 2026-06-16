@@ -4,7 +4,7 @@ import { ComplianceTrustSection } from "@/components/marketing/compliance-trust-
 import { HomeFaqSection } from "@/components/marketing/home-faq-section";
 import { HomeTestimonialsSection } from "@/components/marketing/home-testimonials-section";
 import { IntegrationsSection } from "@/components/marketing/integrations-section";
-import { SocialProofLogosSection } from "@/components/marketing/social-proof-logos-section";
+// import { SocialProofLogosSection } from "@/components/marketing/social-proof-logos-section";
 import { ShowcaseSection } from "@/components/marketing/showcase-section";
 import { SupportedLanguagesSection } from "@/components/marketing/supported-languages-section";
 
@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <main className="flex flex-1 flex-col">
       <ShowcaseSection />
-      <SocialProofLogosSection />
+      {/* <SocialProofLogosSection /> */}
       <HomeProblemSection />
       <HomeFeaturesSection />
       <ComplianceTrustSection />

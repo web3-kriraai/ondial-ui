@@ -110,7 +110,7 @@ export function AuthCollagePanel({ className }: AuthCollagePanelProps) {
               <div
                 key={src}
                 className={cn(
-                  "relative size-9 shrink-0 overflow-hidden rounded-full border-2 border-[#eef0f3] xl:size-10",
+                  "relative size-10 shrink-0 overflow-hidden rounded-full border-2 border-[#eef0f3] xl:size-10",
                   index > 0 && "-ml-2.5",
                 )}
               >
@@ -118,14 +118,14 @@ export function AuthCollagePanel({ className }: AuthCollagePanelProps) {
                   src={src}
                   alt=""
                   fill
-                  sizes="40px"
+                  sizes="50px"
                   className="object-cover"
                   draggable={false}
                 />
               </div>
             ))}
           </div>
-          <p className="m-0 text-center text-[10px] font-medium leading-none text-muted-foreground xl:text-xs">
+          <p className="m-0 text-center text-[12px] font-medium leading-none text-muted-foreground xl:text-xs">
             +5000 happy customers
           </p>
         </div>

@@ -39,10 +39,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", "font-sans", fontSans.variable)}
+      className={cn("h-full overflow-hidden", "antialiased", "font-sans", fontSans.variable)}
       suppressHydrationWarning
     >
-      <body className="flex min-h-dvh flex-col font-sans">
+      <body className="flex h-dvh min-h-0 flex-col overflow-hidden font-sans">
         <AppProviders>
           <AppLayoutShell>{children}</AppLayoutShell>
         </AppProviders>

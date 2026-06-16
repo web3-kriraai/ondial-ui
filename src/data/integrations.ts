@@ -95,5 +95,5 @@ export const INTEGRATIONS_API_CALLOUT = {
   title: "REST API & webhooks",
   description:
     "Push call events, transcripts, and disposition codes to any endpoint—or pull customer context before the agent speaks. Built for enterprise security reviews and custom stacks.",
-  ctaHref: "/industries",
+  ctaHref: "/pricing",
 } as const;

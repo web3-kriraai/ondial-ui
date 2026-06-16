@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteShell } from "@/components/layout/site-shell";
+import { ShellScrollIndicator } from "@/components/layout/shell-scroll-indicator";
 
 function footerShowsCtaCard(pathname: string) {
   if (pathname === "/login" || pathname === "/signup") return false;
@@ -40,12 +41,15 @@ export function AppLayoutShell({ children }: AppLayoutShellProps) {
   const hideFooter = footerHidden(pathname);
   const authSplit = isAuthSplitRoute(pathname);
   /** Page `transform` breaks `backdrop-filter` on industry hero blur layers. */
-  const industryDetailPage = pathname.startsWith("/industries/") && pathname !== "/industries";
+  const industryDetailPage = pathname.startsWith("/industries/");
 
   return (
     <SiteShell
       shellScrollerRef={shellScrollRef}
       bleedUnderNav={authSplit}
+      scrollIndicator={
+        authSplit ? null : <ShellScrollIndicator containerRef={shellScrollRef} />
+      }
       footer={hideFooter ? null : <SiteFooter showCtaCard={showFooterCta} />}
       /* Auth split (login/signup): transparent main so column backgrounds reach behind the nav. */
       mainClassName={

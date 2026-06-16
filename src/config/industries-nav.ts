@@ -36,5 +36,3 @@ export const INDUSTRIES_NAV_COLUMNS: readonly IndustryNavItem[][] = Array.from(
     return INDUSTRIES_NAV_ITEMS.slice(start, start + size);
   },
 ).filter((column) => column.length > 0);
-
-export const INDUSTRIES_OVERVIEW_HREF = "/industries";

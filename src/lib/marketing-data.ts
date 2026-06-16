@@ -4,7 +4,7 @@ export const SLIDER_DATA = [
     title: "Innovate Your Digital Presence",
     description: "Discover cutting-edge solutions tailored to elevate your business in the digital era. We build the future, today.",
     ctaText: "Get Started",
-    ctaLink: "/industries",
+    ctaLink: "/pricing",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
   },
   {

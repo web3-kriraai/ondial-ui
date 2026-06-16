@@ -552,17 +552,19 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
                   className="overflow-hidden"
                 >
                   <div className="mt-1 max-h-52 overflow-y-auto rounded-2xl border border-border/50 bg-muted/20 p-2 [-webkit-overflow-scrolling:touch]">
-                    <Link
-                      href={menu.overviewHref}
-                      prefetch
-                      className={cn(
-                        "mb-1 flex min-h-9 items-center rounded-xl px-3 text-[0.8125rem] font-semibold text-foreground",
-                        pathname === menu.overviewHref && "bg-background ring-1 ring-foreground/10",
-                      )}
-                      aria-current={pathname === menu.overviewHref ? "page" : undefined}
-                    >
-                      {menu.overviewLabel}
-                    </Link>
+                    {menu.overviewHref && menu.overviewLabel ? (
+                      <Link
+                        href={menu.overviewHref}
+                        prefetch
+                        className={cn(
+                          "mb-1 flex min-h-9 items-center rounded-xl px-3 text-[0.8125rem] font-semibold text-foreground",
+                          pathname === menu.overviewHref && "bg-background ring-1 ring-foreground/10",
+                        )}
+                        aria-current={pathname === menu.overviewHref ? "page" : undefined}
+                      >
+                        {menu.overviewLabel}
+                      </Link>
+                    ) : null}
                     <div className={cn("grid grid-cols-1 gap-0.5", gridCols)}>
                       {menu.items.map((subItem) =>
                         renderMobileSubLink(subItem.href, subItem.label, subItem.slug),

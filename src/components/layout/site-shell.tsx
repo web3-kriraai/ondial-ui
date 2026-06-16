@@ -22,6 +22,8 @@ type SiteShellProps = {
   shellScrollerRef?: Ref<HTMLDivElement>;
   /** Login split: main bleeds under nav without extra top padding (layout handles offsets). */
   bleedUnderNav?: boolean;
+  /** Overlay UI anchored to the shell scroll container (e.g. custom scrollbar). */
+  scrollIndicator?: ReactNode;
 };
 
 export function SiteShell({
@@ -31,6 +33,7 @@ export function SiteShell({
   mainClassName,
   shellScrollerRef,
   bleedUnderNav = false,
+  scrollIndicator,
 }: SiteShellProps) {
   const nav = header === null ? null : header === undefined ? <SiteNavbar /> : header;
   const foot = footer === null ? null : footer === undefined ? <SiteFooter /> : footer;
@@ -49,8 +52,9 @@ export function SiteShell({
         ref={shellScrollerRef}
         className={cn(
           "relative flex min-h-0 flex-1 flex-col overflow-x-hidden rounded-2xl rounded-tl-none bg-background text-foreground shadow-[0_24px_64px_-24px_rgba(0,0,0,0.45)]",
-          bleedUnderNav ? "overflow-hidden" : "overflow-y-auto scroll-auto",
-          "no-scrollbar",
+          bleedUnderNav
+            ? "overflow-hidden"
+            : "overflow-y-auto [-webkit-overflow-scrolling:touch]",
         )}
       >
         <div className="sticky top-0 z-60 w-full shrink-0">
@@ -93,6 +97,7 @@ export function SiteShell({
         </main>
         {foot}
       </div>
+      {scrollIndicator}
     </div>
   );
 }
