@@ -111,8 +111,18 @@ export function MarketingSiteFooter({ className }: MarketingSiteFooterProps) {
   const showColumns = prefersReducedMotion || footerInView;
 
   return (
-    <footer ref={footerRef} className={cn(styles.footer, "rounded-b-2xl", className)}>
-      <div className={styles.inner}>
+    <footer ref={footerRef} className={cn(styles.footer, "relative overflow-hidden rounded-b-2xl", className)}>
+      {/* Huge subtle background text */}
+      <div className="pointer-events-none absolute inset-0 hidden items-center justify-center overflow-hidden select-none md:flex">
+        <span
+          className="bg-gradient-to-b from-black/[0.07] to-transparent bg-clip-text text-[16vw] lg:text-[23vw] font-black leading-none tracking-tighter text-transparent"
+          aria-hidden="true"
+        >
+          ONDIAL
+        </span>
+      </div>
+
+      <div className={cn(styles.inner, "relative z-10")}>
         <motion.div
           className={styles.grid}
           variants={gridVariants}
