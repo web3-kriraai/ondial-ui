@@ -1,7 +1,10 @@
 import type { ReactNode, Ref } from "react";
+import Link from "next/link";
 
 import { SiteFooter } from "@/components/layout/site-footer";
+import { APP_NAME } from "@/lib/constants";
 import { SiteNavbar } from "@/components/layout/site-navbar";
+import { ShellBottomBlur } from "@/components/layout/shell-bottom-blur";
 import { cn } from "@/lib/utils";
 
 type SiteShellProps = {
@@ -58,6 +61,12 @@ export function SiteShell({
         )}
       >
         <div className="sticky top-0 z-60 w-full shrink-0">
+          <Link
+            href="/"
+            prefetch
+            aria-label={`${APP_NAME} home`}
+            className="absolute left-[15px] top-[15px] z-60 block h-[33px] w-[120px]"
+          />
           {/* Corner notch — square top-left on the card; this SVG provides the branded curve */}
           <svg
             width="180"
@@ -69,6 +78,7 @@ export function SiteShell({
             className="pointer-events-none absolute left-0 top-0 z-50"
             aria-hidden
           >
+
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -97,6 +107,7 @@ export function SiteShell({
         </main>
         {foot}
       </div>
+      <ShellBottomBlur scrollContainerRef={shellScrollerRef} />
       {scrollIndicator}
     </div>
   );

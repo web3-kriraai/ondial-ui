@@ -32,7 +32,7 @@ export const ABOUT_WHY_CHOOSE_FEATURES: readonly WhyChooseFeature[] = [
     description:
       "Eliminate the need for large call center teams and expensive overnight staffing. Our AI handles millions of calls while you sleep, dramatically reducing operational costs.",
     illustrationBg: "#e1f5ee",
-    image: "/blog_productivity_1777703371947.png",
+    image: "/about/support.png",
     imageAlt: "AI voice agent reducing call center operational costs",
   },
   {

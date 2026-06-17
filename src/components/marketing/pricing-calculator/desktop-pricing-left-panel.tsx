@@ -14,28 +14,54 @@ type LeftPanelProps = {
   isMobile?: boolean;
 };
 
-export function DesktopPricingLeftPanel({ minutes, setMinutes, channels, setChannels, numbers, setNumbers, isMobile }: LeftPanelProps) {
+export function DesktopPricingLeftPanel({
+  minutes,
+  setMinutes,
+  channels,
+  setChannels,
+  numbers,
+  setNumbers,
+  isMobile,
+}: LeftPanelProps) {
+  const labelClass = cn(
+    "font-medium leading-none tracking-wide text-white/90",
+    isMobile ? "text-xs" : "text-[8px]",
+  );
+
+  const rowClass = cn(
+    "flex items-center justify-between gap-4",
+    isMobile ? "min-h-10" : "min-h-[18px]",
+  );
 
   return (
-    <div className={cn(
-      "flex w-full flex-col text-white",
-      isMobile ? "h-auto justify-start p-6 pt-10" : "h-full justify-start p-4 pt-[12px]"
-    )}>
-      <div className={isMobile ? "mb-6" : "mb-3"}>
-        <h3 className={cn("font-bold leading-tight", isMobile ? "mb-1 text-lg" : "mb-0.5 text-[10px]")}>Customize Your Plan</h3>
-        <p className={cn("text-white/70 leading-tight", isMobile ? "text-xs" : "text-[6px]")}>
+    <div
+      className={cn(
+        "flex w-full flex-col text-white",
+        isMobile ? "h-auto justify-start px-6 pt-10 pb-2" : "h-full justify-start px-7 pt-5 pb-4",
+      )}
+    >
+      <header className={isMobile ? "mb-6" : "mb-5"}>
+        <h3
+          className={cn(
+            "font-bold tracking-tight text-white",
+            isMobile ? "mb-1.5 text-lg" : "mb-1 text-[14px]",
+          )}
+        >
+          Customize Your Plan
+        </h3>
+        <p className={cn("leading-snug text-white/55", isMobile ? "text-xs" : "text-[7px]")}>
           Adjust the sliders to calculate your credits.
         </p>
-      </div>
+      </header>
 
-      <div className={isMobile ? "space-y-6" : "space-y-3"}>
-        <div className={cn("mt-1", isMobile ? "space-y-4" : "space-y-2")}>
-          <div className="flex items-center justify-between">
-            <label className={cn("font-medium leading-none tracking-wide", isMobile ? "text-xs" : "text-[6px]")}>Monthly Call Minutes</label>
-            {/* Value is now displayed floating above the thumb */}
-          </div>
-          <div className="px-2">
+      <div className={cn("flex flex-col", isMobile ? "gap-6" : "gap-4")}>
+        <div className={cn("flex flex-col", isMobile ? "gap-3 pb-1" : "gap-2 pb-0.5")}>
+          <label htmlFor="minutes-slider" className={labelClass}>
+            Monthly Call Minutes
+          </label>
+          <div className={cn("w-full", isMobile ? "px-0.5 pt-1" : "px-0.5 pt-2")}>
             <NumberFlowSlider
+              id="minutes-slider"
               min={100}
               max={10000}
               step={100}
@@ -46,26 +72,36 @@ export function DesktopPricingLeftPanel({ minutes, setMinutes, channels, setChan
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
-          <label className={cn("font-medium leading-none tracking-wide", isMobile ? "text-xs" : "text-[6px]")}>Channels</label>
-          <NumberFlowInput 
-            min={1} 
-            max={20} 
-            value={channels} 
-            onChange={setChannels} 
-            isMobile={isMobile}
-          />
-        </div>
+        <div className={cn("bg-white/10", isMobile ? "h-px" : "mx-0.5 h-px")} aria-hidden />
 
-        <div className="flex items-center justify-between">
-          <label className={cn("font-medium leading-none tracking-wide", isMobile ? "text-xs" : "text-[6px]")}>Phone Numbers</label>
-          <NumberFlowInput 
-            min={1} 
-            max={10} 
-            value={numbers} 
-            onChange={setNumbers} 
-            isMobile={isMobile}
-          />
+        <div className={cn("flex flex-col", isMobile ? "gap-5" : "gap-3.5")}>
+          <div className={rowClass}>
+            <label htmlFor="channels-input" className={labelClass}>
+              Channels
+            </label>
+            <NumberFlowInput
+              id="channels-input"
+              min={1}
+              max={20}
+              value={channels}
+              onChange={setChannels}
+              isMobile={isMobile}
+            />
+          </div>
+
+          <div className={rowClass}>
+            <label htmlFor="numbers-input" className={labelClass}>
+              Phone Numbers
+            </label>
+            <NumberFlowInput
+              id="numbers-input"
+              min={1}
+              max={10}
+              value={numbers}
+              onChange={setNumbers}
+              isMobile={isMobile}
+            />
+          </div>
         </div>
       </div>
     </div>
