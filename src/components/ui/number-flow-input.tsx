@@ -10,11 +10,12 @@ type Props = {
 	min?: number
 	max?: number
 	onChange?: (value: number) => void
-  className?: string
-  isMobile?: boolean
+	className?: string
+	isMobile?: boolean
+	id?: string
 }
 
-export function NumberFlowInput({ value = 0, min = -Infinity, max = Infinity, onChange, className, isMobile }: Props) {
+export function NumberFlowInput({ value = 0, min = -Infinity, max = Infinity, onChange, className, isMobile, id }: Props) {
 	const defaultValue = React.useRef(value)
 	const inputRef = React.useRef<HTMLInputElement>(null)
 	const [animated, setAnimated] = React.useState(true)
@@ -48,17 +49,17 @@ export function NumberFlowInput({ value = 0, min = -Infinity, max = Infinity, on
 
 	return (
 		<div className={cn(
-      "group flex items-center rounded-full border border-white/20 bg-white/5 font-bold text-white transition-all focus-within:border-white/50 focus-within:bg-white/10 hover:border-white/30", 
-      isMobile ? "text-xs" : "text-[6px]",
-      className
-    )}>
+			"group flex items-center rounded-full border border-white/20 bg-white/5 font-bold text-white transition-all focus-within:border-white/50 focus-within:bg-white/10 hover:border-white/30",
+			isMobile ? "text-xs" : "text-[6px]",
+			className
+		)}>
 			<button
 				aria-hidden="true"
 				tabIndex={-1}
 				className={cn(
-          "flex h-full items-center opacity-70 transition-opacity hover:opacity-100 disabled:opacity-30",
-          isMobile ? "pl-3 pr-2 py-2" : "pl-1.5 md:pr-1 py-1"
-        )}
+					"flex h-full items-center opacity-40 transition-opacity hover:opacity-100 disabled:opacity-30",
+					isMobile ? "pl-3 pr-2 py-2" : "pl-1.5 md:pr-1 py-1"
+				)}
 				disabled={min != null && value <= min}
 				onPointerDown={handlePointerDown(-1)}
 			>
@@ -67,9 +68,10 @@ export function NumberFlowInput({ value = 0, min = -Infinity, max = Infinity, on
 			<div className="relative grid items-center justify-items-center text-center [grid-template-areas:'overlap'] *:[grid-area:overlap]">
 				<input
 					ref={inputRef}
+					id={id}
 					className={cn(
 						showCaret ? 'caret-white' : 'caret-transparent',
-						'w-[3em] appearance-none bg-transparent py-1 text-center font-[inherit] text-transparent outline-none m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [appearance:textfield]'
+						'w-[3em] [appearance:textfield] bg-transparent py-1 text-center font-[inherit] text-transparent outline-none m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [appearance:textfield]'
 					)}
 					style={{ fontKerning: 'none' }}
 					type="number"
@@ -102,9 +104,9 @@ export function NumberFlowInput({ value = 0, min = -Infinity, max = Infinity, on
 				aria-hidden="true"
 				tabIndex={-1}
 				className={cn(
-          "flex h-full items-center opacity-70 transition-opacity hover:opacity-100 disabled:opacity-30",
-          isMobile ? "pl-2 pr-3 py-2" : "pl-1 pr-1.5 py-1"
-        )}
+					"flex h-full items-center opacity-40 transition-opacity hover:opacity-100 disabled:opacity-30",
+					isMobile ? "pl-2 pr-3 py-2" : "pl-1 pr-1.5 py-1"
+				)}
 				disabled={max != null && value >= max}
 				onPointerDown={handlePointerDown(1)}
 			>

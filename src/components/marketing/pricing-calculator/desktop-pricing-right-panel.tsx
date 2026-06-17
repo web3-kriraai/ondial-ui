@@ -24,7 +24,7 @@ export function DesktopPricingRightPanel({ minutes, channels, numbers, isMobile,
       <div className="flex flex-col items-start w-full">
         <div className={cn("flex items-center", isMobile ? "gap-2 mb-2" : "gap-1.5 mb-1")}>
           <span className={cn("font-bold text-white/40 tracking-wide uppercase", isMobile ? "text-[10px]" : "text-[6px]")}>Monthly Cost</span>
-          <span className={cn("rounded-full bg-[#5b51ea] font-bold text-white tracking-widest uppercase shadow-sm", isMobile ? "px-2 py-1 text-[8px]" : "px-1.5 py-0.5 text-[4px]")}>
+          <span className={cn("rounded-full bg-[#5b51ea]/60 font-bold text-white tracking-widest uppercase shadow-sm", isMobile ? "px-2 py-1 text-[8px]" : "px-1.5 py-0.5 text-[4px]")}>
             ESSENTIAL
           </span>
         </div>
@@ -46,18 +46,18 @@ export function DesktopPricingRightPanel({ minutes, channels, numbers, isMobile,
         <div className={cn("w-full bg-white/5 shadow-sm border border-white/10 text-center", isMobile ? "rounded-2xl p-4 mb-8" : "rounded-xl p-2 mb-4")}>
           <div className={cn("text-white/30 uppercase tracking-widest font-bold", isMobile ? "text-[8px] mb-1" : "text-[4px] mb-0.5")}>CURRENT PRICING TIER</div>
           <div className={cn("font-extrabold text-indigo-300", isMobile ? "text-sm mb-4" : "text-[6px] mb-2")}>0 - 10,000 minutes</div>
-          
+
           <div className={cn("flex justify-between text-white/60", isMobile ? "text-[8px] px-2" : "text-[4px] px-1")}>
             <div className="flex flex-col items-center">
-              <span className={cn("leading-tight opacity-70", isMobile ? "mb-1" : "mb-0.5")}>Per<br/>minute:</span>
+              <span className={cn("leading-tight opacity-70", isMobile ? "mb-1" : "mb-0.5")}>Per<br />minute:</span>
               <span className={cn("font-bold text-white tabular-nums", isMobile ? "text-xs" : "text-[5px]")}>$0.055</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className={cn("leading-tight opacity-70", isMobile ? "mb-1" : "mb-0.5")}>Per<br/>number:</span>
+              <span className={cn("leading-tight opacity-70", isMobile ? "mb-1" : "mb-0.5")}>Per<br />number:</span>
               <span className={cn("font-bold text-white tabular-nums", isMobile ? "text-xs" : "text-[5px]")}>$4.9</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className={cn("leading-tight opacity-70", isMobile ? "mb-1" : "mb-0.5")}>Per<br/>channel:</span>
+              <span className={cn("leading-tight opacity-70", isMobile ? "mb-1" : "mb-0.5")}>Per<br />channel:</span>
               <span className={cn("font-bold text-white tabular-nums", isMobile ? "text-xs" : "text-[5px]")}>$4.9</span>
             </div>
           </div>
@@ -113,7 +113,7 @@ export function DesktopPricingRightPanel({ minutes, channels, numbers, isMobile,
 
         {/* Purchase Plan Button - Absolutely positioned on desktop for perfect lockup with the arrow */}
         <div className={cn("w-full mt-auto", isMobile ? "pt-8 pb-4" : "relative h-8")}>
-          <button 
+          <button
             onMouseEnter={() => setIsHovered?.(true)}
             onMouseLeave={() => setIsHovered?.(false)}
             className={cn(
@@ -130,19 +130,19 @@ export function DesktopPricingRightPanel({ minutes, channels, numbers, isMobile,
                 Purchase Plan
               </span>
               {/* Hand-drawn SVG Underline */}
-              <svg 
+              <svg
                 className={cn(
-                  "absolute bottom-[-1px] left-0 w-full h-[3px] pointer-events-none transition-opacity duration-300",
+                  "absolute -bottom-px left-0 w-full h-[3px] pointer-events-none transition-opacity duration-300",
                   isHovered ? "opacity-100" : "opacity-0"
                 )}
-                viewBox="0 0 100 10" 
+                viewBox="0 0 100 10"
                 preserveAspectRatio="none"
               >
-                <path 
-                  d="M0 5c20-3 40-3 100 0" 
-                  stroke="white" 
-                  strokeWidth="2" 
-                  fill="none" 
+                <path
+                  d="M0 5c20-3 40-3 100 0"
+                  stroke="white"
+                  strokeWidth="2"
+                  fill="none"
                   strokeLinecap="round"
                   style={{
                     strokeDasharray: 120,

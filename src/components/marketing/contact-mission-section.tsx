@@ -68,7 +68,7 @@ function MissionRow({
               "overflow-hidden rounded-sm bg-muted transition-all duration-500 ease-out",
               isActive
                 ? "aspect-4/5 h-70 w-full opacity-100"
-                : "h-18 w-42 opacity-100",
+                : "h-38 w-64 opacity-100",
             )}
           >
             <Image
