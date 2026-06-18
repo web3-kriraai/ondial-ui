@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Ensures gradient utility classes used in `src/data/industries.json` are generated. */
 @source "../data/industries.json";

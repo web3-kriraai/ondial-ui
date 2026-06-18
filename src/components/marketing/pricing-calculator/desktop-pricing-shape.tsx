@@ -26,12 +26,21 @@ export function DesktopPricingShape({ minutes, setMinutes, channels, setChannels
       className="relative z-0 hidden h-full w-full md:block drop-shadow-2xl"
     >
       <defs>
+        {/* Outer bounding rectangle — same corners as shape but no notch */}
+        <clipPath id="desktop-pricing-outer-clip">
+          <path d="M160 60 Q160 40 180 40 H495 Q516 40 516 60 V260 Q516 280 495 280 H180 Q160 280 160 260 Z" />
+        </clipPath>
         <clipPath id="desktop-pricing-shape-clip">
           <path d={desktopShapePath} />
         </clipPath>
       </defs>
 
-      {/* Draw the backgrounds in SVG so they are perfectly clipped without breaking HTML pointer events */}
+      {/* Red layer — only visible in the notch cutout */}
+      <g clipPath="url(#desktop-pricing-outer-clip)">
+        <rect x="160" y="40" width="360" height="240" fill="transparent" />
+      </g>
+
+      {/* Black shape on top — covers everything except the notch */}
       <g clipPath="url(#desktop-pricing-shape-clip)">
         <rect x="160" y="40" width="360" height="240" fill="#0a0a0a" />
       </g>

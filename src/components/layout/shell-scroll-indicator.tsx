@@ -20,21 +20,25 @@ const MOBILE_MEDIA_QUERY = "(max-width: 639px)";
 
 type ScrollbarSizing = {
   thumbWidth: number;
-  minThumbHeight: number;
+  fixedThumbHeight: number;
   nativeThumbWidth: number;
   edgeMargin: number;
 };
 
 function getScrollbarSizing(): ScrollbarSizing {
   if (typeof window === "undefined") {
-    return { thumbWidth: 44, minThumbHeight: 132, nativeThumbWidth: 8, edgeMargin: 4 };
+    return { thumbWidth: 44, fixedThumbHeight: 132, nativeThumbWidth: 8, edgeMargin: 4 };
   }
 
-  const compact = window.innerWidth < 640;
+  const isTab = window.innerWidth < 1024;
+  const heightRatio = isTab ? 8 : 6;
+  const fixedHeight = window.innerHeight / heightRatio;
+
   return {
-    thumbWidth: compact ? 40 : 44,
-    minThumbHeight: compact ? 118 : 132,
-    nativeThumbWidth: compact ? 7 : 8,
+    thumbWidth: isTab ? 40 : 44,
+    // Ensure it doesn't get too small to fit the clock and text
+    fixedThumbHeight: Math.max(110, fixedHeight),
+    nativeThumbWidth: isTab ? 7 : 8,
     edgeMargin: 4,
   };
 }
@@ -75,18 +79,6 @@ type DragState = {
   scrollable: number;
 };
 
-function formatDigitalClock(date: Date) {
-  const hours = date.getHours();
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-  const hour12 = hours % 12 || 12;
-  const meridiem = hours >= 12 ? "PM" : "AM";
-
-  return {
-    time: `${hour12.toString().padStart(2, "0")}:${minutes}`,
-    meridiem,
-  };
-}
-
 function getThumbMetrics(
   metrics: ScrollMetrics,
   sizing: ScrollbarSizing,
@@ -98,26 +90,21 @@ function getThumbMetrics(
   if (trackHeight <= 0 || scrollable <= 0) {
     return {
       trackHeight,
-      thumbHeight: sizing.minThumbHeight,
+      thumbHeight: sizing.fixedThumbHeight,
       thumbOffset: 0,
-      nativeThumbHeight: 48,
+      nativeThumbHeight: sizing.fixedThumbHeight,
       scrollable: 0,
       maxThumbOffset: 0,
       isScrollable: false,
     };
   }
 
-  const proportionalHeight = (clientHeight / scrollHeight) * trackHeight;
-  const thumbHeight = Math.min(
-    trackHeight,
-    Math.max(sizing.minThumbHeight, proportionalHeight),
-  );
-  const nativeThumbHeight = Math.min(
-    trackHeight,
-    Math.max(40, proportionalHeight),
-  );
+  // The custom cursor is always fixed height as requested by the user
+  const thumbHeight = Math.min(trackHeight, sizing.fixedThumbHeight);
+  const nativeThumbHeight = thumbHeight; // Keep native and expanded thumb height consistent
+
   const maxThumbOffset = Math.max(0, trackHeight - thumbHeight);
-  const thumbOffset = (scrollTop / scrollable) * maxThumbOffset;
+  const thumbOffset = maxThumbOffset > 0 ? (scrollTop / scrollable) * maxThumbOffset : 0;
 
   return {
     trackHeight,
@@ -130,15 +117,8 @@ function getThumbMetrics(
   };
 }
 
-function AnalogClockFace({ date }: { date: Date }) {
-  const hours = date.getHours() % 12;
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-  const milliseconds = date.getMilliseconds();
-
-  const secondAngle = ((seconds + milliseconds / 1000) / 60) * 360;
-  const minuteAngle = ((minutes + seconds / 60) / 60) * 360;
-  const hourAngle = ((hours + minutes / 60) / 12) * 360;
+function ScrollClockFace({ progress }: { progress: number }) {
+  const handAngle = progress * 360;
 
   return (
     <svg
@@ -163,24 +143,9 @@ function AnalogClockFace({ date }: { date: Date }) {
         />
       ))}
       <motion.g
-        animate={{ rotate: hourAngle }}
-        transition={{ type: "spring", stiffness: 140, damping: 18, mass: 0.55 }}
-        style={{ transformOrigin: "14px 14px" }}
-      >
-        <line
-          x1="14"
-          y1="14"
-          x2="14"
-          y2="10"
-          stroke="#0F172A"
-          strokeWidth="1.35"
-          strokeLinecap="round"
-        />
-      </motion.g>
-      <motion.g
-        animate={{ rotate: minuteAngle }}
-        transition={{ type: "spring", stiffness: 180, damping: 20, mass: 0.5 }}
-        style={{ transformOrigin: "14px 14px" }}
+        animate={{ rotate: handAngle }}
+        transition={{ type: "spring", stiffness: 200, damping: 22, mass: 0.5 }}
+        style={{ transformOrigin: "14px 14px", transformBox: "view-box" }}
       >
         <line
           x1="14"
@@ -188,27 +153,11 @@ function AnalogClockFace({ date }: { date: Date }) {
           x2="14"
           y2="8"
           stroke="#0F172A"
-          strokeWidth="0.95"
+          strokeWidth="1.1"
           strokeLinecap="round"
         />
       </motion.g>
-      <motion.g
-        animate={{ rotate: secondAngle }}
-        transition={{ type: "tween", duration: 0.05, ease: "linear" }}
-        style={{ transformOrigin: "14px 14px" }}
-      >
-        <line
-          x1="14"
-          y1="14"
-          x2="14"
-          y2="7"
-          stroke="#534AB7"
-          strokeWidth="0.65"
-          strokeLinecap="round"
-        />
-      </motion.g>
-      <circle cx="14" cy="14" r="1.1" fill="#0F172A" />
-      <circle cx="14" cy="14" r="0.45" fill="#534AB7" />
+      <circle cx="14" cy="14" r="1.2" fill="#534AB7" />
     </svg>
   );
 }
@@ -233,7 +182,6 @@ export function ShellScrollIndicator({ containerRef, className }: ShellScrollInd
     if (typeof window === "undefined") return false;
     return window.matchMedia(MOBILE_MEDIA_QUERY).matches;
   });
-  const [now, setNow] = useState(() => new Date());
   const [isDragging, setIsDragging] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
@@ -243,7 +191,6 @@ export function ShellScrollIndicator({ containerRef, className }: ShellScrollInd
   const dragRef = useRef<DragState | null>(null);
   const idleTimerRef = useRef<number | null>(null);
   const expandedRef = useRef(expanded);
-  const clockRafRef = useRef<number | null>(null);
 
   expandedRef.current = expanded;
 
@@ -357,23 +304,6 @@ export function ShellScrollIndicator({ containerRef, className }: ShellScrollInd
       mutationObserver.disconnect();
     };
   }, [clearIdleTimer, containerRef, expandThumb, scheduleCollapse]);
-
-  useEffect(() => {
-    if (!expanded) return;
-
-    const tick = () => {
-      setNow(new Date());
-      clockRafRef.current = requestAnimationFrame(tick);
-    };
-
-    clockRafRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (clockRafRef.current !== null) {
-        cancelAnimationFrame(clockRafRef.current);
-        clockRafRef.current = null;
-      }
-    };
-  }, [expanded]);
 
   const scrollFromThumbOffset = useCallback(
     (thumbOffset: number) => {
@@ -514,7 +444,7 @@ export function ShellScrollIndicator({ containerRef, className }: ShellScrollInd
 
   if (!mounted || isMobileViewport || !bounds || !isScrollable) return null;
 
-  const digitalClock = formatDigitalClock(now);
+  const scrollProgress = scrollable > 0 ? metrics.scrollTop / scrollable : 0;
   const morphTransition = prefersReducedMotion ? REDUCED_MOTION_TRANSITION : EXPAND_SPRING;
   const collapseTransition = prefersReducedMotion ? REDUCED_MOTION_TRANSITION : COLLAPSE_SPRING;
   const contentTransition = prefersReducedMotion ? REDUCED_MOTION_TRANSITION : CONTENT_SPRING;
@@ -564,7 +494,7 @@ export function ShellScrollIndicator({ containerRef, className }: ShellScrollInd
               width: expanded ? sizing.thumbWidth : sizing.nativeThumbWidth,
               height: expanded ? thumbHeight : nativeThumbHeight,
               borderRadius: 9999,
-              backgroundColor: expanded ? "#000000" : "oklch(0.55 0 0 / 0.45)",
+              backgroundColor: expanded ? "#000000" : "rgba(115, 115, 115, 0.45)",
               boxShadow: expanded
                 ? "0 8px 24px rgba(0,0,0,0.28)"
                 : "0 2px 8px rgba(0,0,0,0.12)",
@@ -592,14 +522,11 @@ export function ShellScrollIndicator({ containerRef, className }: ShellScrollInd
               transition={contentTransition}
               aria-hidden={!expanded}
             >
-              <AnalogClockFace date={now} />
+              <ScrollClockFace progress={scrollProgress} />
 
               <div className="flex shrink-0 flex-col items-center text-center leading-none text-white">
                 <span className="text-[11px] font-semibold tracking-tight tabular-nums">
-                  {digitalClock.time}
-                </span>
-                <span className="mt-0.5 text-[9px] font-medium uppercase tracking-wide opacity-90">
-                  {digitalClock.meridiem}
+                  {Math.round(scrollProgress * 100)}%
                 </span>
               </div>
             </motion.div>

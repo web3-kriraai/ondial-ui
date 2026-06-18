@@ -21,12 +21,16 @@ type SiteShellProps = {
   footer?: ReactNode | null;
   /** Merged onto `<main>` (e.g. column flex for page/auth children). */
   mainClassName?: string;
+  /** Merged onto the inner scroll card (e.g. route-specific surface color). */
+  scrollerClassName?: string;
   /** Ref to the rounded card’s scroll container (e.g. scroll reset on client navigation). */
   shellScrollerRef?: Ref<HTMLDivElement>;
   /** Login split: main bleeds under nav without extra top padding (layout handles offsets). */
   bleedUnderNav?: boolean;
   /** Overlay UI anchored to the shell scroll container (e.g. custom scrollbar). */
   scrollIndicator?: ReactNode;
+  /** Feathered bottom blur for footer reveal — disable on long-form reading pages. */
+  bottomBlurEnabled?: boolean;
 };
 
 export function SiteShell({
@@ -34,9 +38,11 @@ export function SiteShell({
   header,
   footer,
   mainClassName,
+  scrollerClassName,
   shellScrollerRef,
   bleedUnderNav = false,
   scrollIndicator,
+  bottomBlurEnabled = true,
 }: SiteShellProps) {
   const nav = header === null ? null : header === undefined ? <SiteNavbar /> : header;
   const foot = footer === null ? null : footer === undefined ? <SiteFooter /> : footer;
@@ -58,6 +64,7 @@ export function SiteShell({
           bleedUnderNav
             ? "overflow-hidden"
             : "overflow-y-auto [-webkit-overflow-scrolling:touch]",
+          scrollerClassName,
         )}
       >
         <div className="sticky top-0 z-60 w-full shrink-0">
@@ -107,7 +114,7 @@ export function SiteShell({
         </main>
         {foot}
       </div>
-      <ShellBottomBlur scrollContainerRef={shellScrollerRef} />
+      <ShellBottomBlur scrollContainerRef={shellScrollerRef} enabled={bottomBlurEnabled} />
       {scrollIndicator}
     </div>
   );

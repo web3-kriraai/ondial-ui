@@ -5,8 +5,10 @@ import { useLayoutEffect, useRef, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { SiteFooter } from "@/components/layout/site-footer";
+import { ShellScrollProvider } from "@/components/layout/shell-scroll-context";
 import { SiteShell } from "@/components/layout/site-shell";
 import { ShellScrollIndicator } from "@/components/layout/shell-scroll-indicator";
+import { blogPageSurfaceClass } from "@/config/marketing-layout";
 
 function footerShowsCtaCard(pathname: string) {
   if (pathname === "/login" || pathname === "/signup") return false;
@@ -20,6 +22,14 @@ function footerHidden(pathname: string) {
 
 function isAuthSplitRoute(pathname: string) {
   return pathname === "/login" || pathname === "/signup";
+}
+
+function isBlogRoute(pathname: string) {
+  return pathname === "/blog" || pathname.startsWith("/blog/");
+}
+
+function isBlogArticleRoute(pathname: string) {
+  return pathname.startsWith("/blog/") && pathname !== "/blog";
 }
 
 type AppLayoutShellProps = {
@@ -40,24 +50,31 @@ export function AppLayoutShell({ children }: AppLayoutShellProps) {
   const showFooterCta = footerShowsCtaCard(pathname);
   const hideFooter = footerHidden(pathname);
   const authSplit = isAuthSplitRoute(pathname);
+  const blogRoute = isBlogRoute(pathname);
+  const blogArticleRoute = isBlogArticleRoute(pathname);
   /** Page `transform` breaks `backdrop-filter` on industry hero blur layers. */
   const industryDetailPage = pathname.startsWith("/industries/");
 
   return (
-    <SiteShell
-      shellScrollerRef={shellScrollRef}
-      bleedUnderNav={authSplit}
-      scrollIndicator={
-        authSplit ? null : <ShellScrollIndicator containerRef={shellScrollRef} />
-      }
-      footer={hideFooter ? null : <SiteFooter showCtaCard={showFooterCta} />}
-      /* Auth split (login/signup): transparent main so column backgrounds reach behind the nav. */
-      mainClassName={
-        authSplit
-          ? "flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-transparent"
-          : "flex min-h-min flex-col"
-      }
-    >
+    <ShellScrollProvider scrollerRef={shellScrollRef}>
+      <SiteShell
+        shellScrollerRef={shellScrollRef}
+        bleedUnderNav={authSplit}
+        scrollerClassName={blogRoute ? blogPageSurfaceClass : undefined}
+        bottomBlurEnabled={!blogArticleRoute}
+        scrollIndicator={
+          authSplit ? null : <ShellScrollIndicator containerRef={shellScrollRef} />
+        }
+        footer={hideFooter ? null : <SiteFooter showCtaCard={showFooterCta} />}
+        /* Auth split (login/signup): transparent main so column backgrounds reach behind the nav. */
+        mainClassName={
+          authSplit
+            ? "flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-transparent"
+            : blogRoute
+              ? "flex min-h-min flex-col bg-transparent"
+              : "flex min-h-min flex-col"
+        }
+      >
       {industryDetailPage ? (
         <div className="flex flex-1 flex-col">{children}</div>
       ) : (
@@ -78,5 +95,6 @@ export function AppLayoutShell({ children }: AppLayoutShellProps) {
         </AnimatePresence>
       )}
     </SiteShell>
+    </ShellScrollProvider>
   );
 }

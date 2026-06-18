@@ -12,13 +12,16 @@ const FOOTER_REVEAL_OFFSET_PX = 220;
 
 type ShellBottomBlurProps = {
   scrollContainerRef?: Ref<HTMLElement | null>;
+  enabled?: boolean;
 };
 
 /** Fixed feathered blur at the shell bottom — hidden when the footer scrolls into view. */
-export function ShellBottomBlur({ scrollContainerRef }: ShellBottomBlurProps) {
+export function ShellBottomBlur({ scrollContainerRef, enabled = true }: ShellBottomBlurProps) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    if (!enabled) return;
+
     const scroller =
       scrollContainerRef && typeof scrollContainerRef !== "function" ? scrollContainerRef.current : null;
     if (!scroller) return;
@@ -37,7 +40,9 @@ export function ShellBottomBlur({ scrollContainerRef }: ShellBottomBlurProps) {
       scroller.removeEventListener("scroll", update);
       resizeObserver.disconnect();
     };
-  }, [scrollContainerRef]);
+  }, [scrollContainerRef, enabled]);
+
+  if (!enabled) return null;
 
   return (
     <div

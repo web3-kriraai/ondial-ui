@@ -44,7 +44,14 @@ export const PRICING_PLANS: readonly PricingPlan[] = [
 ] as const;
 
 export const HOME_PRICING_HEADING = {
+  eyebrow: "Pricing",
   title: "Plans that scale with you",
   description:
     "Whether you're piloting your first voice agent or running thousands of calls a day we've got a plan that fits your workflow.",
+} as const;
+
+export const PRICING_CALCULATOR_HEADING = {
+  eyebrow: "Cost calculator",
+  title: "Calculate your call cost",
+  description: "Use our calculator to get a transparent breakdown based on your needs.",
 } as const;

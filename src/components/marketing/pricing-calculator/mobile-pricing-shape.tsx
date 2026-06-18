@@ -27,12 +27,21 @@ export function MobilePricingShape({ minutes, setMinutes, channels, setChannels,
       className="relative z-0 block h-full w-full md:hidden drop-shadow-2xl"
     >
       <defs>
+        {/* Outer bounding rectangle — same corners as shape but no notch */}
+        <clipPath id="mobile-pricing-outer-clip">
+          <path d="M20 0 H331 Q353 0 353 20 V780 Q353 800 331 800 H20 Q0 800 0 780 V20 Q0 0 20 0 Z" />
+        </clipPath>
         <clipPath id="mobile-pricing-shape-clip">
           <path d={mobileShapePath} />
         </clipPath>
       </defs>
 
-      {/* Draw the backgrounds in SVG so they are perfectly clipped */}
+      {/* Red layer — only visible in the notch cutout */}
+      <g clipPath="url(#mobile-pricing-outer-clip)">
+        <rect x="0" y="0" width="356" height="800" fill="transparent" />
+      </g>
+
+      {/* Black shape on top — covers everything except the notch */}
       <g clipPath="url(#mobile-pricing-shape-clip)">
         <rect x="0" y="0" width="356" height="800" fill="#0a0a0a" />
       </g>

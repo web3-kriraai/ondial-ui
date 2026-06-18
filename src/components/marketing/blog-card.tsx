@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useLoaderComplete } from "@/components/providers/loader-context";
+import { motion, useInView, useReducedMotion, type Transition } from "framer-motion";
+import { useCallback, useRef, useState, type HTMLAttributes } from "react";
 
 export type BlogPost = {
   id: string;
@@ -20,138 +20,189 @@ export type BlogPost = {
   };
 };
 
+const CARD_PATH =
+  "M0 117 V60 Q0 40 20 40 H80 Q100 40 100 20 Q100 0 120 0 H280 Q300 0 300 20 V340 Q301 360 280 360 H221 Q200 360 200 380 Q200 400 180 399 V400 H20 Q0 400 0 380 Z";
+
+const HOVER_EASE = [0.22, 1, 0.36, 1] as const;
+
+const hoverTransition: Transition = {
+  duration: 0.58,
+  ease: HOVER_EASE,
+};
+
+type BlogCardClipContentProps = {
+  post: BlogPost;
+  hovered: boolean;
+  reduceMotion: boolean;
+};
+
+function BlogCardClipContent({ post, hovered, reduceMotion }: BlogCardClipContentProps) {
+  const active = reduceMotion ? false : hovered;
+
+  return (
+    <div
+      {...({
+        xmlns: "http://www.w3.org/1999/xhtml",
+      } as HTMLAttributes<HTMLDivElement>)}
+      className="relative box-border h-full w-full overflow-hidden bg-[#0a0a0a]"
+    >
+      {/* Image + overlays */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          className="absolute inset-0"
+          initial={false}
+          animate={{ scale: active ? 1.05 : 1 }}
+          transition={hoverTransition}
+          style={{ transformOrigin: "center center" }}
+        >
+          <Image
+            src={post.image}
+            alt={post.title}
+            fill
+            className="object-contain object-center"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 288px"
+          />
+        </motion.div>
+
+        <motion.div
+          className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/80 via-black/25 to-transparent"
+          initial={false}
+          animate={{ opacity: active ? 0 : 1 }}
+          transition={hoverTransition}
+        />
+
+        {/* Blur stays constant; opacity crossfade = smooth perceived blur */}
+        <motion.div
+          className="pointer-events-none absolute inset-0 bg-[#1a1733]/72 backdrop-blur-md"
+          initial={false}
+          animate={{ opacity: active ? 1 : 0 }}
+          transition={hoverTransition}
+        />
+      </div>
+
+      {/* Default state copy */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-0 flex flex-col justify-end px-8"
+        initial={false}
+        animate={{
+          opacity: active ? 0 : 1,
+          y: active ? -14 : 0,
+        }}
+        transition={hoverTransition}
+      >
+        <div className="mb-3 flex items-center gap-2">
+          <span className="rounded-full border border-white/15 bg-black/40 px-2.5 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-white/90 backdrop-blur-md">
+            {post.category}
+          </span>
+        </div>
+        <h3 className="line-clamp-2 text-balance text-lg font-semibold leading-snug tracking-tight text-white sm:text-xl">
+          {post.title}
+        </h3>
+        <div className="h-[12%] shrink-0" />
+      </motion.div>
+
+      {/* Hover state copy */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-10 flex flex-col px-8 pt-[10%] pb-[10%]"
+        initial={false}
+        animate={{
+          opacity: active ? 1 : 0,
+          y: active ? 0 : 28,
+        }}
+        transition={hoverTransition}
+      >
+        <div className="absolute top-2.5 right-0 flex h-[10%] items-center justify-end pr-3 pl-8 sm:pr-4">
+          <span className="rounded-full border border-white/25 bg-white/15 px-2.5 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.1em] text-white backdrop-blur-md">
+            {post.category}
+          </span>
+        </div>
+
+        <h3 className="mt-4 mb-3 text-balance text-xl font-semibold leading-snug tracking-tight text-white sm:mt-5 sm:text-2xl">
+          {post.title}
+        </h3>
+
+        <p className="line-clamp-4 text-sm leading-relaxed text-white/90">{post.excerpt}</p>
+      </motion.div>
+    </div>
+  );
+}
+
 export function BlogCard({ post, index }: { post: BlogPost; index: number }) {
-  const path = "M0 117 V60 Q0 40 20 40 H80 Q100 40 100 20 Q100 0 120 0 H280 Q300 0 300 20 V340 Q301 360 280 360 H221 Q200 360 200 380 Q200 400 180 399 V400 H20 Q0 400 0 380 Z";
+  const cardRef = useRef<HTMLDivElement>(null);
+  const loaderComplete = useLoaderComplete();
+  const inView = useInView(cardRef, { once: true, amount: 0.15 });
+  const prefersReducedMotion = useReducedMotion();
+  const show = loaderComplete && (prefersReducedMotion || inView);
+  const [hovered, setHovered] = useState(false);
+
+  const onEnter = useCallback(() => setHovered(true), []);
+  const onLeave = useCallback(() => setHovered(false), []);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="flex justify-center w-full"
+      ref={cardRef}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+      animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      transition={{
+        duration: 0.55,
+        delay: prefersReducedMotion ? 0 : index * 0.07,
+        ease: HOVER_EASE,
+      }}
+      className="flex w-full justify-center"
     >
-      {/* Main div for the card */}
-      <div className="group relative w-full aspect-[3/4] bg-red-500 rounded-2xl transition-transform duration-500">
-        
-        {/* Glow effect on hover behind the card */}
-        <div className="absolute inset-0 bg-primary/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10 rounded-full" />
-
+      <div
+        className="relative mx-auto aspect-[3/4] w-full max-w-[17.5rem] rounded-2xl bg-[#534AB7] sm:max-w-[18rem]"
+        onMouseEnter={onEnter}
+        onMouseLeave={onLeave}
+      >
         <Link href={`/blog/${post.id}`} className="absolute inset-0 z-20" />
-        
-        {/* Top-Left Cutout Text (Date) */}
-        <div className="absolute top-0 left-0 w-[33.33%] h-[10%] flex items-center justify-center z-10 pointer-events-none px-1">
-          <span className="block text-[12px] sm:text-[14px] font-black  text-white drop-shadow-sm text-center">
+
+        <div className="absolute top-0 left-0 z-10 flex h-[10%] w-[33.33%] items-center justify-center px-1 pointer-events-none">
+          <span className="block text-center text-[0.6875rem] font-medium leading-none text-white/95 sm:text-xs">
             {post.date}
           </span>
         </div>
 
-        {/* Bottom-Right Cutout Text (Author) */}
-        <div className="absolute bottom-0 right-0 w-[33.33%] h-[10%] flex items-center justify-center z-10 pointer-events-none px-1">
-          <span className="block text-[12px] sm:text-[14px] font-black  text-white drop-shadow-sm text-center">
+        <div className="absolute bottom-0 right-0 z-10 flex h-[10%] w-[33.33%] items-center justify-center px-1 pointer-events-none">
+          <span className="block text-center text-[0.6875rem] font-medium leading-none text-white/95 sm:text-xs">
             {post.author.name}
           </span>
         </div>
 
-        {/* The SVG shape fully covering the parent div */}
-        <svg 
-          viewBox="0 0 300 400" 
-          className="absolute inset-0 w-full h-full drop-shadow-2xl"
-          fill="none" 
+        <svg
+          viewBox="0 0 300 400"
+          className="absolute inset-0 h-full w-full drop-shadow-2xl"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
             <clipPath id={`clip-${post.id}`}>
-              <path d={path} />
+              <path d={CARD_PATH} />
             </clipPath>
           </defs>
-          
-          {/* Base shape background */}
-          <path d={path} fill="#0a0a0a" className="transition-colors duration-500" />
-          
-          {/* Inside this SVG div, two divs using foreignObject */}
+
+          <path d={CARD_PATH} fill="#0a0a0a" />
+
           <foreignObject x="0" y="0" width="300" height="400" clipPath={`url(#clip-${post.id})`}>
-            <div className="relative w-full h-full bg-black">
-              
-              {/* Div 1: Image */}
-              <div className="absolute inset-0 w-full h-full">
-                <Image 
-                  src={post.image} 
-                  alt={post.title} 
-                  fill 
-                  className="object-cover transition-transform duration-1000 group-hover:scale-110" 
-                />
-                {/* Gradient overlay to make text readable and transition beautifully */}
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 group-hover:opacity-0" />
-                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-[2px]" />
-              </div>
-
-              {/* Title & Category visible when NOT hovered */}
-              <div className="absolute inset-0 flex flex-col justify-end px-8 transition-all duration-500 group-hover:opacity-0 group-hover:-translate-y-4 z-0 pointer-events-none">
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="rounded-full bg-black/50 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-md border border-white/10 uppercase tracking-widest">
-                    {post.category}
-                  </span>
-                </div>
-                <h3 className="text-xl font-bold leading-tight tracking-tight text-white drop-shadow-md line-clamp-2">
-                  {post.title}
-                </h3>
-                {/* Spacer to avoid bottom-right cutout */}
-                <div className="shrink-0 h-[12%]" />
-              </div>
-
-              {/* Div 2: Content (appears on hover) */}
-              <div className="absolute inset-0 flex flex-col px-8 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-8 group-hover:translate-y-0 z-10">
-                
-                {/* Spacer to avoid top-left cutout */}
-                <div className="shrink-0 h-[12%]" />
-
-                <div className="mb-4 flex items-center gap-3 text-[10px] font-bold text-white uppercase tracking-widest">
-                  <span className="rounded-full bg-black/50 px-3 py-1 backdrop-blur-md text-white border border-white/10">
-                    {post.category}
-                  </span>
-                  <div className="flex items-center gap-1 text-white/80">
-                    <Clock className="size-3" />
-                    {post.readTime}
-                  </div>
-                </div>
-
-                <h3 className="mb-3 text-2xl font-black leading-tight tracking-tight text-white drop-shadow-lg">
-                  {post.title}
-                </h3>
-                
-                <p className="mb-6 line-clamp-4 text-sm leading-relaxed text-white/80">
-                  {post.excerpt}
-                </p>
-
-                <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/20">
-                  <div className="flex items-center gap-2">
-                    <div className="relative size-8 overflow-hidden rounded-full border border-white/20">
-                      <Image src={post.author.avatar} alt={post.author.name} fill className="object-cover" />
-                    </div>
-                    <span className="text-xs font-bold text-white">{post.author.name}</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-xs font-black text-white transition-transform group-hover:translate-x-1">
-                    Read <ArrowRight className="size-3" />
-                  </div>
-                </div>
-
-                {/* Spacer to avoid bottom-right cutout */}
-                <div className="shrink-0 h-[12%]" />
-
-              </div>
-
-            </div>
+            <BlogCardClipContent
+              post={post}
+              hovered={hovered}
+              reduceMotion={prefersReducedMotion ?? false}
+            />
           </foreignObject>
 
-          {/* Stroke outline drawn on top */}
-          <path 
-            d={path} 
-            stroke="rgba(255,255,255,0.15)" 
-            strokeWidth="2" 
-            className="group-hover:stroke-primary/60 transition-colors duration-500 pointer-events-none" 
+          <motion.path
+            d={CARD_PATH}
+            fill="none"
+            strokeWidth="2"
+            className="pointer-events-none"
+            initial={false}
+            animate={{
+              stroke: hovered && !prefersReducedMotion ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.15)",
+            }}
+            transition={hoverTransition}
           />
         </svg>
-
       </div>
     </motion.div>
   );

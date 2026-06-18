@@ -60,7 +60,7 @@ export function PricingPlanCard({
       )}
     >
       <div className="relative aspect-3/5 w-full rounded-[2rem] bg-black p-2">
-        <div className="absolute right-2 top-0.5 z-20 flex h-[12%] w-[104px] items-center justify-center text-center text-sm font-bold tracking-tight text-white">
+        <div className="absolute right-2 top-1 z-20 flex h-[11%] min-h-[2.25rem] w-[6.5rem] items-center justify-center text-center text-xs font-bold tracking-tight text-white sm:text-sm">
           {price}
         </div>
         <div className="relative h-full w-full">
@@ -77,11 +77,11 @@ export function PricingPlanCard({
             />
           </svg>
 
-          <div className="absolute inset-0 flex h-full flex-col p-6 sm:p-8">
-            <h3 className="text-[1.65rem] font-semibold leading-none tracking-tight sm:text-[2rem]">
+          <div className="absolute inset-0 flex h-full flex-col px-6 pb-6 pt-9 sm:px-8 sm:pb-8 sm:pt-11">
+            <h3 className="pr-2 text-[1.5rem] font-semibold leading-tight tracking-tight sm:text-[1.75rem]">
               {title}
             </h3>
-            <p className="mt-3 max-w-[18ch] text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-3 max-w-[18ch] text-sm leading-relaxed text-muted-foreground sm:mt-3.5">
               {description}
             </p>
             <div className="mt-6 h-px w-full bg-slate-300/70 dark:bg-slate-700/70 sm:mt-8" />
