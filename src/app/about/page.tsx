@@ -10,7 +10,7 @@ import { MarketingDottedPageShell } from "@/components/layout/marketing-dotted-p
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Learn about Ondial.",
+  description: "Learn about OnDial.",
 };
 
 export default function AboutPage() {

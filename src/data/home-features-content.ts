@@ -16,7 +16,6 @@ export type HomeFeatureCard = {
   pill: { label: string; tone: FeaturePillTone };
   title: string;
   description: string;
-  description2: string;
 };
 
 export const HOME_FEATURES_HEADING = {
@@ -92,8 +91,7 @@ export const HOME_FEATURE_CARDS: readonly HomeFeatureCard[] = [
     pill: { label: "Handle calls 24/7 instantly", tone: "purple" },
     title: "AI Voice Agents",
     description:
-      "The AI answers instantly, speaks like a human, and logs everything to your CRM automatically. No hold music. No missed calls.",
-    description2: "Deploy autonomous AI voice agents that handle inbound and outbound calls 24/7 with human-like tone, contextual understanding, and instant responses.",
+      "Our AI voice agents answers instantly, speaks like a human, and logs everything to your CRM automatically. No hold music. No missed calls.",
   },
   {
     id: "scheduling",
@@ -102,8 +100,7 @@ export const HOME_FEATURE_CARDS: readonly HomeFeatureCard[] = [
     illustrationBg: "#F0FAF5",
     pill: { label: "Automate bookings fully", tone: "green" },
     title: "Appointment Scheduling",
-    description: "Checks availability and confirms slots — no human needed.",
-    description2: "AI Voice Agents automate appointment scheduling, letting customers book, reschedule, or cancel in real time with seamless calendar integration.",
+    description: "AI Call Automation checks availability, schedules appointments, and confirms bookings instantly — no human intervention required.",
   },
   {
     id: "multilingual",
@@ -112,8 +109,7 @@ export const HOME_FEATURE_CARDS: readonly HomeFeatureCard[] = [
     illustrationBg: "#F0F6FF",
     pill: { label: "Serve 100+ languages", tone: "blue" },
     title: "Multilingual AI Communication",
-    description: "Auto-detects language. Responds naturally. No extra setup.",
-    description2: "Serve global audiences with multilingual AI Voice Agents, capable of switching between 100+ languages for seamless customer experiences.",
+    description: "Multilingual AI Voice Agents that auto-detects language, responds naturally, and works instantly with no extra setup.",
   },
   {
     id: "lead-qualification",
@@ -122,8 +118,7 @@ export const HOME_FEATURE_CARDS: readonly HomeFeatureCard[] = [
     illustrationBg: "#FFFBF5",
     pill: { label: "Prioritize hot leads", tone: "amber" },
     title: "Lead Qualification",
-    description: "Asks the right questions. Routes hot leads to your team instantly.",
-    description2: "Use intelligent AI Voice Agents to automatically score and qualify leads based on conversation quality, behavior, and intent.",
+    description: "Asks the right questions. AI Voice Agents that routes hot leads to your team instantly.",
   },
   {
     id: "analytics",
@@ -132,8 +127,7 @@ export const HOME_FEATURE_CARDS: readonly HomeFeatureCard[] = [
     illustrationBg: "#FFF5F5",
     pill: { label: "Boost insights & ROI", tone: "red" },
     title: "Smart Analytics",
-    description: "Sentiment, CSAT, resolution rate — all in one dashboard.",
-    description2: "Access insights into call performance, sentiment, and behavior. With AI-powered analytics, you can optimize sales, support, and marketing in real time.",
+    description: "Sentiment, CSAT, resolution rate — all in one AI-powered analytics dashboard.",
   },
   {
     id: "integrations",
@@ -143,7 +137,6 @@ export const HOME_FEATURE_CARDS: readonly HomeFeatureCard[] = [
     pill: { label: "Plug & Play", tone: "teal" },
     title: "Works with your existing stack",
     description:
-      "Connects to your CRM, calendar, and communication tools in minutes. No engineering required.",
-    description2: "Integrate AI Voice Agents seamlessly with your existing CRM, calendar, and communication tools for a smooth, automated call handling experience.",
+      "Connects to your CRM, calendar, and communication tools with intelligent AI Voice Agents in minutes. No engineering required.",
   },
 ];

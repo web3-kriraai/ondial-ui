@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!service) return { title: "Service" };
   return {
     title: service.label,
-    description: `Learn how Ondial's ${service.label} automates voice workflows end to end.`,
+    description: `Learn how OnDial's ${service.label} automates voice workflows end to end.`,
   };
 }
 

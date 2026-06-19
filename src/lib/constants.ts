@@ -1,1 +1,1 @@
-export const APP_NAME = "Ondial";
+export const APP_NAME = "OnDial";

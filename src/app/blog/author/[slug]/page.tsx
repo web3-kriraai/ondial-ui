@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: authorName ? `Posts by ${authorName}` : `Author · ${slug}`,
       description: authorName
-        ? `Read articles by ${authorName} on the Ondial blog.`
+        ? `Read articles by ${authorName} on the OnDial blog.`
         : `Posts by ${slug}.`,
     };
   } catch {
@@ -69,7 +69,7 @@ export default async function BlogAuthorPage({ params }: Props) {
           eyebrow="Author"
           align="start"
           title={authorName ? `Posts by ${authorName}` : `Author: ${slug}`}
-          description="Articles from this author on the Ondial blog."
+          description="Articles from this author on the OnDial blog."
         />
 
         <Button variant="outline" className="self-start rounded-full" render={<Link href="/blog" prefetch />} nativeButton={false}>

@@ -6,7 +6,7 @@ import { ContactPageSection } from "@/components/marketing/contact-page-section"
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with Ondial.",
+  description: "Get in touch with OnDial.",
 };
 
 export default function ContactPage() {

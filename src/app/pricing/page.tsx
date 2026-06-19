@@ -7,7 +7,7 @@ import { PricingCalculatorSection } from "@/components/marketing/pricing-calcula
 
 export const metadata: Metadata = {
   title: "Pricing",
-  description: "Plans and pricing for Ondial.",
+  description: "Plans and pricing for OnDial.",
 };
 
 export default function PricingPage() {

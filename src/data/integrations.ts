@@ -16,7 +16,7 @@ export const INTEGRATIONS_HEADING = {
   eyebrow: "Integrations",
   title: "Works with your existing stack",
   description:
-    "Connect Ondial to your CRM, calendars, and ticketing stack—sync outcomes, trigger calls from helpdesk workflows, and keep every conversation in context for enterprise teams.",
+    "Connect OnDial to your CRM, calendars, and ticketing stack—sync outcomes, trigger calls from helpdesk workflows, and keep every conversation in context for enterprise teams.",
 } as const;
 
 export const INTEGRATION_CATEGORIES: Record<

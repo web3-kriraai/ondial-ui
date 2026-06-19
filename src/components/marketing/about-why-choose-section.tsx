@@ -270,7 +270,7 @@ export function AboutWhyChooseSection() {
                     className={cn(
                       "inline-flex h-8 min-w-9 cursor-pointer items-center justify-center rounded-full border border-black/8 bg-background px-[0.55rem] text-[0.6875rem] font-bold tracking-[0.08em] text-muted-foreground transition-[border-color,color,background-color] duration-200 hover:border-black/14 hover:text-foreground",
                       index === activeIndex &&
-                        "border-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l)/0.35)] bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l)/0.1)] text-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-18%))]",
+                      "border-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l)/0.35)] bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l)/0.1)] text-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-18%))]",
                       index < activeIndex && "text-foreground",
                     )}
                     aria-label={`Show benefit ${feature.index}`}

@@ -9,7 +9,7 @@ import type {
   ContentfulRichText,
 } from "@/lib/contentful/types";
 
-const DEFAULT_AUTHOR = "Ondial Team";
+const DEFAULT_AUTHOR = "OnDial Team";
 const DEFAULT_CATEGORY = "Insights";
 const DEFAULT_IMAGE = "/blog_ai_comm_1777703161729.png";
 const DEFAULT_AVATAR = "/blog_author_avatar_1777703411435.png";

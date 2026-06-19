@@ -6,8 +6,8 @@ import { AuthSplitLayout } from "@/components/auth/auth-split-layout";
 import { SignupForm } from "./signup-form";
 
 export const metadata: Metadata = {
-  title: "Sign up | Ondial",
-  description: "Create your Ondial account to get started.",
+  title: "Sign up | OnDial",
+  description: "Create your OnDial account to get started.",
 };
 
 export default function SignupPage() {
