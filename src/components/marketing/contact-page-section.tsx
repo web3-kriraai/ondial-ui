@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState, type ElementType, type FormEvent } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
+import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
@@ -93,9 +95,58 @@ function ChannelItem({ channel }: { channel: (typeof CONTACT_CHANNELS)[number] }
 
 export function ContactPageSection() {
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    /*
+    if (!turnstileToken) {
+      setSubmitError("Please complete the CAPTCHA verification.");
+      return;
+    }
+    */
+
+    setSubmitError("");
+    setIsSubmitting(true);
+
+    const formData = new FormData(event.currentTarget);
+    const countryCode = CONTACT_FORM.fields.phone.countryCode;
+    const phone = formData.get("phone") as string;
+    const phoneWithCountryCode = `${countryCode} ${phone}`.trim();
+
+    const submitData = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      phone: phoneWithCountryCode,
+      subject: formData.get("subject"),
+      message: formData.get("message"),
+      turnstileToken: turnstileToken,
+    };
+
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://dashboard-test.ondial.ai/api';
+      const res = await fetch(`${baseUrl}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submitData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setSubmitError(data?.error || "Failed to submit. Please try again.");
+      } else {
+        setSubmitSuccess(true);
+      }
+    } catch (err) {
+      setSubmitError("Network error. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -161,7 +212,14 @@ export function ContactPageSection() {
                 </p>
               </header>
 
-              <form id="contact-form" className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
+              {submitSuccess ? (
+                <div className="flex flex-col items-center justify-center p-8 text-center bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l)/0.05)] rounded-2xl border border-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l)/0.2)]">
+                  <CheckCircle2 className="size-12 text-green-500 mb-4" />
+                  <h3 className="text-xl font-bold text-foreground mb-2">Message Sent!</h3>
+                  <p className="text-muted-foreground">Thank you for contacting us. Our team will get back to you shortly.</p>
+                </div>
+              ) : (
+                <form id="contact-form" className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="flex flex-col gap-[0.45rem]">
                     <Label htmlFor="contact-name" className="text-[0.8125rem] font-bold text-foreground">
@@ -267,34 +325,64 @@ export function ContactPageSection() {
                   />
                 </div>
 
-                <div className="mt-[0.35rem] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
-                  <label className="flex cursor-pointer items-start gap-[0.55rem] text-[0.8125rem] leading-[1.45] text-muted-foreground">
-                    <input
-                      type="checkbox"
-                      checked={agreedToPrivacy}
-                      onChange={(event) => setAgreedToPrivacy(event.target.checked)}
-                      className="mt-[0.1rem] size-4 shrink-0 accent-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]"
+                <div className="flex flex-col gap-3">
+                  {submitError && (
+                    <div className="flex items-center gap-2 p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-100">
+                      <AlertCircle className="size-4 shrink-0" />
+                      <p className="m-0">{submitError}</p>
+                    </div>
+                  )}
+
+                  <div className="min-h-[65px]">
+                    {/* Turnstile temporarily commented out for testing
+                    <Turnstile
+                      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
+                      onSuccess={setTurnstileToken}
+                      onError={() => setSubmitError("CAPTCHA verification failed.")}
+                      options={{
+                        theme: "light",
+                      }}
                     />
-                    <span>
-                      {CONTACT_FORM.privacyLabel}{" "}
-                      <Link
-                        href="/privacy"
-                        className="text-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-12%))] underline underline-offset-2"
-                      >
-                        privacy policy
-                      </Link>
-                    </span>
-                  </label>
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={!agreedToPrivacy}
-                    className="h-11! w-full rounded-xl! bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]! font-semibold! text-white hover:bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-6%))]! sm:w-auto sm:min-w-42"
-                  >
-                    {CONTACT_FORM.submitLabel}
-                  </Button>
+                    */}
+                  </div>
+
+                  <div className="mt-[0.35rem] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
+                    <label className="flex cursor-pointer items-start gap-[0.55rem] text-[0.8125rem] leading-[1.45] text-muted-foreground">
+                      <input
+                        type="checkbox"
+                        checked={agreedToPrivacy}
+                        onChange={(event) => setAgreedToPrivacy(event.target.checked)}
+                        className="mt-[0.1rem] size-4 shrink-0 accent-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]"
+                      />
+                      <span>
+                        {CONTACT_FORM.privacyLabel}{" "}
+                        <Link
+                          href="/privacy"
+                          className="text-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-12%))] underline underline-offset-2"
+                        >
+                          privacy policy
+                        </Link>
+                      </span>
+                    </label>
+                    <Button
+                      type="submit"
+                      size="lg"
+                      disabled={!agreedToPrivacy || isSubmitting}
+                      className="h-11! w-full rounded-xl! bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]! font-semibold! text-white hover:bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-6%))]! sm:w-auto sm:min-w-42"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 size-4 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        CONTACT_FORM.submitLabel
+                      )}
+                    </Button>
+                  </div>
                 </div>
               </form>
+              )}
             </div>
 
             <aside className="flex flex-col gap-[1.15rem]">
