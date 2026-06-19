@@ -5,9 +5,12 @@ export type HomeFaqItem = {
 };
 
 export const HOME_FAQ_HEADING = {
-  title: "Frequently asked questions",
+  // title: "Frequently asked questions",
+  // description:
+  //   "To help you make informed decisions, we've compiled answers to some of the most commonly asked questions.",
+  title: "Everything You Need to Know About OnDial",
   description:
-    "To help you make informed decisions, we've compiled answers to some of the most commonly asked questions.",
+    "Get answers to the most common questions about how OnDial can transform your business and never let you lose a customer again.",
 } as const;
 
 export const HOME_FAQS: readonly HomeFaqItem[] = [
@@ -16,6 +19,7 @@ export const HOME_FAQS: readonly HomeFaqItem[] = [
     question: "What are AI Voice Agents?",
     answer:
       "AI Voice Agents are intelligent software agents that use speech recognition and AI to handle calls, answer queries, and automate conversations in real time.",
+
   },
   {
     id: "how-do-they-work",

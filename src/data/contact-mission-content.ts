@@ -27,10 +27,11 @@ export const CONTACT_MISSION_HEADING = {
   ctaHref: "#contact-form",
 } as const;
 
+const AI_COMM_IMAGE = "/contact/ai-support.png";
+const CONNECTIVITY_IMAGE = "/contact/Global-Language-Coverage.png";
+const PRODUCTIVITY_IMAGE = "/contact/Real-Time-Intelligence.png";
+const CUSTOMER_FIRST_IMAGE = "/contact/Customer-First-Support.png";
 const AUTHOR_AVATAR = "/blog_author_avatar_1777703411435.png";
-const AI_COMM_IMAGE = "/blog_ai_comm_1777703161729.png";
-const CONNECTIVITY_IMAGE = "/blog_connectivity_1777703241008.png";
-const PRODUCTIVITY_IMAGE = "/blog_productivity_1777703371947.png";
 
 export const CONTACT_MISSION_PILLARS: readonly ContactMissionPillar[] = [
   {
@@ -84,7 +85,7 @@ export const CONTACT_MISSION_PILLARS: readonly ContactMissionPillar[] = [
     title: "Customer-First Support",
     description:
       "Human-like, context-aware conversations that feel personal — ensuring every caller is heard and helped exactly when they need it.",
-    image: AI_COMM_IMAGE,
+    image: CUSTOMER_FIRST_IMAGE,
     thumbImages: [CONNECTIVITY_IMAGE, AUTHOR_AVATAR],
     managedBy: [
       { name: "Alex Rivera", avatarSrc: AUTHOR_AVATAR },

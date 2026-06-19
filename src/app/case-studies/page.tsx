@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { MarketingDottedPageShell } from "@/components/layout/marketing-dotted-page-shell";
 import { CaseStudyCustomerSuccessGridSection } from "@/components/marketing/case-study-customer-success-grid-section";
 import { CaseStudyFeaturedStorySection } from "@/components/marketing/case-study-featured-story-section";
 import { CaseStudyHeroSection } from "@/components/marketing/case-study-hero-section";
@@ -14,12 +15,12 @@ export const metadata: Metadata = {
 
 export default function CaseStudiesPage() {
   return (
-    <main className="flex flex-1 flex-col">
+    <MarketingDottedPageShell>
       <CaseStudyHeroSection />
       <CaseStudyFeaturedStorySection />
       <CaseStudyCustomerSuccessGridSection />
       <CaseStudyRoiCalculatorSection />
       <CaseStudyIndustryFilterSection />
-    </main>
+    </MarketingDottedPageShell>
   );
 }

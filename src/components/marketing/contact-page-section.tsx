@@ -18,9 +18,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  marketingDottedSectionShellClass,
   marketingEyebrowClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import {
   CONTACT_CHANNELS,
@@ -100,7 +100,7 @@ export function ContactPageSection() {
 
   return (
     <section
-      className={cn(marketingSectionShellClass, "bg-background py-10! pb-20!")}
+      className={cn(marketingDottedSectionShellClass, "py-10! pb-20!")}
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="contact-title"
     >

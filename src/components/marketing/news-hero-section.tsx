@@ -30,10 +30,6 @@ const fadeUp: Variants = {
   },
 };
 
-const stagger: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.04 } },
-};
 
 function BentoCard({
   story,
@@ -149,7 +145,7 @@ function NewsHeroMasthead({ show }: { show: boolean }) {
   return (
     <section
       id="news-hero"
-      className="relative overflow-hidden pb-[min(260px,40vw)] pt-12 sm:pt-16 lg:pt-20 h-[calc(100svh-22rem)]"
+      className="relative overflow-hidden pb-[min(260px,40vw)] pt-10 h-[calc(100svh-22rem)] bg-white max-w-7xl mx-auto rounded-3xl border border-gray-200 my-4"
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="news-page-title"
     >

@@ -15,11 +15,16 @@ export type FeaturedLanguage = {
 };
 
 export const LANGUAGES_SECTION_HEADING = {
-  eyebrow: "Languages",
-  titleLead: "Speaks every language",
-  titleTail: "your customers",
-  titleAccent: "do",
-  subtitle: "Auto-detects the caller's language. Responds naturally. Zero extra setup.",
+  // eyebrow: "Languages",
+  // titleLead: "Speaks every language",
+  // titleTail: "your customers",
+  // titleAccent: "do",
+  // subtitle: "Auto-detects the caller's language. Responds naturally. Zero extra setup.",
+  eyebrow: "Global Voice Coverage",
+  titleLead: "Connect in Every",
+  titleTail: "",
+  titleAccent: "Language & Region",
+  subtitle: "Bridge linguistic divides with AI Voice Agents that speak 100+ languages fluently—so every customer feels understood.",
 } as const;
 
 export const LANGUAGES_SECTION_STATS = [

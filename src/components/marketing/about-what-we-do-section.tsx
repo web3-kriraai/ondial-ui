@@ -4,8 +4,8 @@ import {
   Check,
   Clock3,
   Globe2,
-  MessageCircle,
-  PlugZap,
+  Bot,
+  NotepadText,
   Sparkles,
   UserCheck,
   Zap,
@@ -16,14 +16,14 @@ import { useRef, type ElementType } from "react";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
 import {
+  marketingDottedSectionShellClass,
   marketingEyebrowClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import {
   ABOUT_WHAT_WE_DO_CAPABILITIES,
   ABOUT_WHAT_WE_DO_HEADING,
-  ABOUT_WHAT_WE_DO_HIGHLIGHTS,
+  // ABOUT_WHAT_WE_DO_HIGHLIGHTS,
   ABOUT_WHAT_WE_DO_USE_CASES,
   type WhatWeDoCapabilityId,
 } from "@/data/about-what-we-do-content";
@@ -40,8 +40,8 @@ const capabilityMeta: Record<
     iconClass: "bg-[#e1f5ee] text-[#085041]",
     checkClass: "bg-[#e1f5ee] text-[#085041]",
   },
-  "human-voice": {
-    icon: MessageCircle,
+  "real-time-analytics": {
+    icon: Bot,
     iconClass:
       "bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l)/0.12)] text-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-18%))]",
     checkClass:
@@ -63,7 +63,7 @@ const capabilityMeta: Record<
     checkClass: "bg-[#e1f5ee] text-[#085041]",
   },
   integration: {
-    icon: PlugZap,
+    icon: NotepadText,
     iconClass: "bg-[#faeeda] text-[#633806]",
     checkClass: "bg-[#faeeda] text-[#633806]",
   },
@@ -95,7 +95,7 @@ export function AboutWhatWeDoSection() {
     <section
       ref={sectionRef}
       id="what-we-do"
-      className={cn(marketingSectionShellClass, "bg-background")}
+      className={marketingDottedSectionShellClass}
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="what-we-do-title"
     >
@@ -146,7 +146,7 @@ export function AboutWhatWeDoSection() {
                 {ABOUT_WHAT_WE_DO_HEADING.paragraphTwo}
               </TextReveal>
 
-              <motion.ul
+              {/* <motion.ul
                 className="m-0 mt-[0.35rem] grid list-none grid-cols-3 gap-[0.65rem] p-0"
                 aria-label="Platform highlights"
                 initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
@@ -166,7 +166,7 @@ export function AboutWhatWeDoSection() {
                     </span>
                   </li>
                 ))}
-              </motion.ul>
+              </motion.ul> */}
 
               <motion.div
                 className="mt-1 flex flex-col gap-[0.65rem]"

@@ -17,6 +17,7 @@ import {
   type ComplianceBadgeId,
 } from "@/data/compliance-badges";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 import styles from "./compliance-trust-section.module.css";
 
@@ -26,15 +27,15 @@ const headingClass =
 const descriptionClass =
   "mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg";
 
-const badgeMeta: Record<
-  ComplianceBadgeId,
-  { icon: ElementType; iconClass: string }
-> = {
-  hipaa: { icon: ShieldCheck, iconClass: styles.iconHipaa },
-  gdpr: { icon: GlobeLock, iconClass: styles.iconGdpr },
-  "pci-dss": { icon: CreditCard, iconClass: styles.iconPci },
-  "soc-2": { icon: BadgeCheck, iconClass: styles.iconSoc },
-};
+// const badgeMeta: Record<
+//   ComplianceBadgeId,
+//   { icon: ElementType; iconClass: string }
+// > = {
+//   hipaa: { icon: ShieldCheck, iconClass: styles.iconHipaa },
+//   gdpr: { icon: GlobeLock, iconClass: styles.iconGdpr },
+//   "pci-dss": { icon: CreditCard, iconClass: styles.iconPci },
+//   "soc-2": { icon: BadgeCheck, iconClass: styles.iconSoc },
+// };
 
 const gridVariants: Variants = {
   hidden: {},
@@ -100,24 +101,26 @@ export function ComplianceTrustSection() {
 
         <motion.ul
           ref={gridRef}
-          className={cn(styles.grid, "mx-auto mt-10 max-w-5xl sm:mt-12 lg:mt-14")}
+          className="mx-auto mt-10 max-w-5xl sm:mt-12 lg:mt-14 grid sm:grid-cols-3 lg:grid-cols-5"
           aria-label="Compliance and security standards"
           variants={gridVariants}
           initial="hidden"
           animate={showCards ? "visible" : "hidden"}
         >
           {COMPLIANCE_BADGES.map((badge) => {
-            const { icon: Icon, iconClass } = badgeMeta[badge.id];
-
+            // const { icon: Icon, iconClass } = badgeMeta[badge.id];
             return (
               <motion.li
                 key={badge.id}
                 className={cn(styles.card, prefersReducedMotion && styles.cardMotionReduce)}
                 variants={cardVariants}
               >
-                <span className={cn(styles.iconWrap, iconClass)} aria-hidden>
+                {/* <span className={cn(styles.iconWrap, iconClass)} aria-hidden>
                   <Icon className="size-5 sm:size-[1.35rem]" strokeWidth={1.75} />
-                </span>
+                </span> */}
+                <div className="w-full h-25 flex items-center justify-center mb-5">
+                  <Image src={badge.icon} alt={badge.label} width={100} height={100} aria-hidden className="object-cover" />
+                </div>
                 <p className={styles.label}>{badge.label}</p>
                 <p className={styles.detail}>{badge.detail}</p>
               </motion.li>

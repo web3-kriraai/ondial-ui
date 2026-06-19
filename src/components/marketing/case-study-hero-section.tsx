@@ -181,7 +181,7 @@ export function CaseStudyHeroSection() {
   return (
     <section
       id="case-study-hero"
-      className="relative overflow-hidden bg-background pb-[clamp(2.5rem,4vw,2rem)] pt-[clamp(2.25rem,5vw,3.5rem)]"
+      className="relative overflow-hidden bg-transparent pb-[clamp(2.5rem,4vw,2rem)] pt-[clamp(2.25rem,5vw,3.5rem)]"
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="case-study-hero-title"
     >

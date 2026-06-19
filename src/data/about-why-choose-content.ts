@@ -32,7 +32,7 @@ export const ABOUT_WHY_CHOOSE_FEATURES: readonly WhyChooseFeature[] = [
     description:
       "Eliminate the need for large call center teams and expensive overnight staffing. Our AI handles millions of calls while you sleep, dramatically reducing operational costs.",
     illustrationBg: "#e1f5ee",
-    image: "/about/support.png",
+    image: "/about/cost-reduction.png",
     imageAlt: "AI voice agent reducing call center operational costs",
   },
   {
@@ -42,7 +42,7 @@ export const ABOUT_WHY_CHOOSE_FEATURES: readonly WhyChooseFeature[] = [
     description:
       "No more frustrated customers waiting on hold. Instant responses, immediate problem resolution, and always-available support that keeps customers happy and loyal.",
     illustrationBg: "#e6f1fb",
-    image: "/blog_connectivity_1777703241008.png",
+    image: "/about/customer-satisfaction.png",
     imageAlt: "Customer connected instantly without hold times",
   },
   {
@@ -52,7 +52,7 @@ export const ABOUT_WHY_CHOOSE_FEATURES: readonly WhyChooseFeature[] = [
     description:
       "Reach customers worldwide in their native language. Our AI understands regional accents, cultural nuances, and local preferences for truly global customer service.",
     illustrationBg: "#f8f7ff",
-    image: "/blog_ai_comm_1777703161729.png",
+    image: "/about/global-scalabilit.png",
     imageAlt: "Global multilingual AI voice communication",
   },
   {
@@ -62,7 +62,7 @@ export const ABOUT_WHY_CHOOSE_FEATURES: readonly WhyChooseFeature[] = [
     description:
       "Never miss a sales opportunity. Our AI engages leads 24/7, qualifies prospects intelligently, and routes high-value opportunities to your sales team instantly.",
     illustrationBg: "#faeeda",
-    image: "/home/carousel/04.webp",
+    image: "/about/sales-conversion.png",
     imageAlt: "Sales team engaging qualified leads with AI voice",
   },
 ] as const;

@@ -9,9 +9,9 @@ import { AboutHeroCta } from "@/components/marketing/about-hero-cta";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
 import {
+  marketingDottedSectionShellClass,
   marketingEyebrowClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import { ABOUT_CTA_HEADING } from "@/data/about-cta-content";
 import { cn } from "@/lib/utils";
@@ -61,7 +61,7 @@ export function AboutCtaSection() {
     <section
       ref={sectionRef}
       id="get-started"
-      className={cn(marketingSectionShellClass, "bg-background")}
+      className={marketingDottedSectionShellClass}
       style={
         {
           ...ONDIAL_ACCENT_STYLE,

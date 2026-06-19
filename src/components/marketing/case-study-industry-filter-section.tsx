@@ -13,9 +13,9 @@ import { useMemo, useRef, useState } from "react";
 
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import {
+  marketingDottedSectionShellClass,
   marketingEyebrowClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import {
   CASE_STUDY_CARDS,
@@ -303,7 +303,7 @@ export function CaseStudyIndustryFilterSection() {
     <section
       ref={sectionRef}
       id="case-study-filter"
-      className={marketingSectionShellClass}
+      className={marketingDottedSectionShellClass}
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="case-study-filter-title"
     >

@@ -53,7 +53,7 @@ export type Industry = {
 export const DEFAULT_INDUSTRIES: Industry[] = [
   {
     id: 1,
-    name: "Healthcare & Medical",
+    name: "AI Voice Agents for Healthcare & Medical",
     slug: "healthcare-and-medical-services",
     icon: Heart,
     description:
@@ -61,7 +61,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 2,
-    name: "Insurance",
+    name: "AI Voice Agents for Insurance",
     slug: "insurance-services",
     icon: Shield,
     description:
@@ -69,7 +69,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 3,
-    name: "Finance & Banking",
+    name: "AI Voice Agents for Finance & Banking",
     slug: "financial-and-banking-services",
     icon: Building2,
     description:
@@ -77,7 +77,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 4,
-    name: "Real Estate",
+    name: "AI Voice Agents for Real Estate",
     slug: "real-estate-services",
     icon: Building2,
     description:
@@ -85,7 +85,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 5,
-    name: "Call Centers & BPO",
+    name: "AI Voice Agents for Call Centers & BPO",
     slug: "call-center-and-bpo-services",
     icon: Phone,
     description:
@@ -93,7 +93,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 6,
-    name: "Travel & Tourism",
+    name: "AI Voice Agents for Travel & Tourism",
     slug: "travel-and-tourism-services",
     icon: Plane,
     description:
@@ -101,7 +101,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 7,
-    name: "Transportation & Logistics",
+    name: "AI Voice Agents for Transportation & Logistics",
     slug: "transportation-and-logistics-services",
     icon: Truck,
     description:
@@ -109,7 +109,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 8,
-    name: "Retail & E-commerce",
+    name: "AI Voice Agents for Retail & E-commerce",
     slug: "retail-and-ecommerce-services",
     icon: ShoppingCart,
     description:
@@ -117,7 +117,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 9,
-    name: "Telecommunications",
+    name: "AI Voice Agents for Telecommunications",
     slug: "telecommunications-services",
     icon: Phone,
     description:
@@ -125,7 +125,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 10,
-    name: "Automotive",
+    name: "AI Voice Agents for Automotive",
     slug: "automotive-services",
     icon: Car,
     description:
@@ -133,7 +133,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 11,
-    name: "Education",
+    name: "AI Voice Agents for Education",
     slug: "education-services",
     icon: GraduationCap,
     description:
@@ -141,7 +141,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 12,
-    name: "Hospitality",
+    name: "AI Voice Agents for Hospitality",
     slug: "hospitality-services",
     icon: Hotel,
     description:
@@ -149,7 +149,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 13,
-    name: "Legal",
+    name: "AI Voice Agents for Legal",
     slug: "legal-services",
     icon: Scale,
     description:
@@ -157,7 +157,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 14,
-    name: "Government",
+    name: "AI Voice Agents for Government",
     slug: "government-services",
     icon: Landmark,
     description:
@@ -165,7 +165,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 15,
-    name: "Manufacturing",
+    name: "AI Voice Agents for Manufacturing",
     slug: "manufacturing-services",
     icon: Factory,
     description:
@@ -173,7 +173,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 16,
-    name: "Non-Profit Organizations",
+    name: "AI Voice Agents for Non-Profit Organizations",
     slug: "non-profit-organizations-services",
     icon: Users,
     description:
@@ -181,7 +181,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 17,
-    name: "Event Management",
+    name: "AI Voice Agents for Event Management",
     slug: "event-management-services",
     icon: CalendarDays,
     description:
@@ -189,7 +189,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 18,
-    name: "Consultation",
+    name: "AI Voice Agents for Consultation",
     slug: "consulting-services",
     icon: Brain,
     description:
@@ -197,7 +197,7 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
   },
   {
     id: 19,
-    name: "Pharmaceuticals",
+    name: "AI Voice Agents for Pharmaceuticals",
     slug: "pharmaceutical-services",
     icon: Pill,
     description:
