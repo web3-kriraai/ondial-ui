@@ -1,0 +1,50 @@
+/**
+ * Shared brand & URL constants for JSON-LD schemas and OG metadata.
+ * Canonical host MUST match next.config redirect (bare → www).
+ */
+
+export const SITE_URL = 'https://www.ondial.ai';
+export const SITE_NAME = 'OnDial';
+export const SITE_LEGAL_NAME = 'OnDial AI';
+export const SITE_LOGO = `${SITE_URL}/img/logo/og.png`;
+export const SITE_DEFAULT_OG = `${SITE_URL}/img/logo/og.png`;
+
+export const ORGANIZATION_DESCRIPTION =
+  'OnDial provides enterprise-grade AI Voice Agents for inbound and outbound call automation, multilingual customer support, lead qualification, appointment scheduling, and business communication automation.';
+
+/** Public contact channels surfaced in Organization / ContactPage schemas. */
+export const ORGANIZATION_CONTACT_POINTS = [
+  {
+    telephone: '+91-9979620507',
+    contactType: 'customer service',
+    areaServed: ['IN', 'US'],
+    availableLanguage: ['English', 'Hindi'],
+  },
+  {
+    telephone: '+91-8160835445',
+    contactType: 'sales',
+    areaServed: ['IN', 'US'],
+    availableLanguage: ['English', 'Hindi'],
+  },
+];
+
+export const ORGANIZATION_SAME_AS = [
+  'https://twitter.com/ondialai',
+  'https://www.linkedin.com/company/ondialai',
+  'https://www.facebook.com/ondialai',
+  'https://www.instagram.com/ondialai',
+];
+
+export const ORGANIZATION_ADDRESS = {
+  '@type': 'PostalAddress',
+  addressCountry: 'IN',
+  addressRegion: 'Gujarat',
+};
+
+/** Build an absolute URL from a path. Safe for trailing slashes and empty paths. */
+export function absoluteUrl(path = '') {
+  if (!path) return SITE_URL;
+  if (/^https?:\/\//i.test(path)) return path;
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${SITE_URL}${cleanPath}`;
+}
