@@ -4,6 +4,10 @@
   padding-bottom: 3.5rem;
 }
 
+.sectionTransparent {
+  background: transparent;
+}
+
 @media (min-width: 640px) {
   .section {
     padding-bottom: 4rem;

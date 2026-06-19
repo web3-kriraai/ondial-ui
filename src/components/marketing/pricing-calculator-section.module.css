@@ -1,0 +1,281 @@
+.priceDisplay {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.22em;
+  line-height: 1;
+  margin-inline: auto;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+.priceCurrency {
+  font-size: clamp(1.125rem, 2.4vw, 1.5rem);
+  font-weight: 600;
+  color: var(--foreground);
+  transform: translateY(-0.08em);
+  opacity: 0.9;
+}
+
+.priceFlow {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Odometer digit roll + soft edge mask */
+.priceFlow :global(number-flow-react) {
+  --number-flow-mask-height: 0.3em;
+  --number-flow-char-height: 1em;
+}
+
+.priceFlow :global(number-flow-react::part(digit)) {
+  padding-inline: 0.01em;
+}
+
+.priceFlow :global(number-flow-react::part(fraction)) {
+  opacity: 0.92;
+}
+
+.planBuyButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: 2.75rem;
+  padding: 0.625rem 1.125rem 0.625rem 1.25rem;
+  border: 1px solid rgb(0 0 0 / 0.08);
+  border-radius: 9999px;
+  background: var(--foreground);
+  color: var(--background);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+  overflow: hidden;
+  will-change: transform;
+}
+
+.planBuyButton:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--background),
+    0 0 0 4px rgb(47 103 216 / 0.35);
+}
+
+.planBuyButtonPlan {
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.planBuyButtonPlanText {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.planBuyButtonPriceBlock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.planBuyButtonDivider {
+  width: 1px;
+  height: 0.875rem;
+  background: rgb(255 255 255 / 0.22);
+}
+
+.planBuyButtonPrice {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.planBuyButtonPriceCurrency {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.88;
+}
+
+.planBuyButtonPriceFlow {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.planBuyButtonPriceFlow :global(number-flow-react) {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.planBuyButtonSuffix {
+  margin-left: 0.05em;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.72;
+}
+
+.planBuyButtonArrow {
+  display: grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  margin-left: 0.125rem;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.12);
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.planBuyButtonArrow svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.sliderTooltip {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 0.35rem;
+  filter: drop-shadow(0 3px 10px rgb(47 103 216 / 0.14));
+}
+
+.sliderTooltipPill {
+  position: relative;
+  z-index: 1;
+  min-width: 4.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgb(168 184 232 / 0.95);
+  background: #fff;
+  padding: 0.4375rem 1rem;
+  text-align: center;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+  transition: box-shadow 0.22s ease;
+}
+
+.sliderTooltipPill::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  z-index: 3;
+  width: 0.875rem;
+  height: 2px;
+  background: #fff;
+  transform: translateX(-50%);
+}
+
+.sliderTooltipPill::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.3125rem;
+  z-index: 2;
+  width: 0.5625rem;
+  height: 0.5625rem;
+  background: #fff;
+  border-right: 1px solid rgb(168 184 232 / 0.95);
+  border-bottom: 1px solid rgb(168 184 232 / 0.95);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.sliderTooltipValue {
+  display: inline-block;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.sliderTooltipValue :global(number-flow-react) {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.sliderInstruction {
+  pointer-events: none;
+  position: absolute;
+  right: -0.15rem;
+  top: 2.35rem;
+  z-index: 30;
+  display: flex;
+  width: 4.75rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  color: rgb(71 85 105 / 0.72);
+  transform: rotate(-8deg);
+  transform-origin: center center;
+}
+
+.sliderInstructionIcon {
+  width: 3.35rem;
+  height: auto;
+  flex-shrink: 0;
+  transform: scaleX(-1);
+}
+
+.sliderInstructionLabel {
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: rgb(71 85 105 / 0.72);
+}
+
+@media (min-width: 640px) {
+  .sliderInstruction {
+    right: 0.15rem;
+    top: 2.1rem;
+    width: 5.5rem;
+  }
+
+  .sliderInstructionIcon {
+    width: 3.85rem;
+  }
+
+  .sliderInstructionLabel {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .sliderInstruction {
+    right: -0.35rem;
+    width: 4rem;
+  }
+
+  .sliderInstructionIcon {
+    width: 2.85rem;
+  }
+
+  .sliderInstructionLabel {
+    font-size: 0.6875rem;
+  }
+}

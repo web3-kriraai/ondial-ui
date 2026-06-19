@@ -3,25 +3,16 @@
 import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { useRef } from "react";
 
+import { BlogPageHero } from "@/components/marketing/blog-page-hero";
 import { PricingPlanCard } from "@/components/marketing/pricing-plan-card";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
-import {
-  marketingEyebrowClass,
-  marketingPageHeroSectionClass,
-  marketingSectionContainerClass,
-} from "@/config/marketing-layout";
+import { marketingSectionContainerClass } from "@/config/marketing-layout";
 import {
   HOME_PRICING_HEADING,
   HOME_PRICING_PLANS,
 } from "@/data/home-pricing-plans";
 import { cn } from "@/lib/utils";
-
-const headingClass =
-  "text-balance text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]";
-
-const subtitleClass =
-  "mx-auto max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg";
 
 const gridVariants: Variants = {
   hidden: {},
@@ -54,32 +45,37 @@ export function HomePricingSection() {
   return (
     <section
       id="pricing"
-      className={cn(marketingPageHeroSectionClass, "bg-background")}
+      className="w-full bg-transparent pb-12 sm:pb-16 lg:pb-20"
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="home-pricing-title"
     >
-      <div className={marketingSectionContainerClass}>
-        <header className="mx-auto max-w-3xl text-center">
-          <p className={cn("mb-5 sm:mb-6", marketingEyebrowClass)}>{HOME_PRICING_HEADING.eyebrow}</p>
-          <h2 id="home-pricing-title" className={headingClass}>
-            <TextReveal as="span" className="block" delay={0.05} stagger={0.07} inViewAmount={0.5}>
-              {HOME_PRICING_HEADING.title}
-            </TextReveal>
-          </h2>
-          <TextReveal
-            as="p"
-            className={cn(subtitleClass, "mt-5 sm:mt-6")}
-            delay={0.22}
-            stagger={0.028}
-            inViewAmount={0.4}
-          >
-            {HOME_PRICING_HEADING.description}
-          </TextReveal>
-        </header>
+      <div className="mx-auto flex w-full min-w-0 max-w-3xl flex-col px-4 pt-6 sm:px-6 sm:pt-8 lg:max-w-4xl">
+        <BlogPageHero
+          eyebrow={HOME_PRICING_HEADING.eyebrow}
+          title={
+            <h1
+              id="home-pricing-title"
+              className="mx-auto max-w-4xl text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-[2.625rem] lg:leading-tight"
+            >
+              <TextReveal
+                as="span"
+                className="inline"
+                delay={0.08}
+                stagger={0.04}
+                inViewAmount={0.2}
+              >
+                {HOME_PRICING_HEADING.title}
+              </TextReveal>
+            </h1>
+          }
+          description={HOME_PRICING_HEADING.description}
+        />
+      </div>
 
+      <div className={cn(marketingSectionContainerClass, "mt-8 sm:mt-10")}>
         <motion.div
           ref={gridRef}
-          className="mt-12 grid gap-6 sm:mt-14 md:grid-cols-2 xl:grid-cols-4 xl:gap-5"
+          className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 xl:gap-5"
           variants={gridVariants}
           initial="hidden"
           animate={showCards ? "visible" : "hidden"}

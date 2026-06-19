@@ -8,46 +8,71 @@ export type PricingPlan = {
   ctaLabel?: string;
 };
 
+export const PRICING_PLAN_MINUTE_TIERS = [
+  { planId: "essential", minMinutes: 0, maxMinutes: 10_000 },
+  { planId: "growth", minMinutes: 10_001, maxMinutes: 25_000 },
+  { planId: "scale", minMinutes: 25_001, maxMinutes: 100_000 },
+] as const;
+
 export const PRICING_PLANS: readonly PricingPlan[] = [
   {
     id: "essential",
     title: "Essential",
-    description: "Perfect for small businesses",
+    description: "For small businesses",
     price: "$0.055/min",
-    features: ["Up to 3 users", "Basic analytics", "Email support"],
-    ctaHref: "/contact",
+    features: ["0 - 10,000 minutes"],
+    ctaHref: "/signup",
+    ctaLabel: "Start Free Trial",
   },
   {
     id: "growth",
     title: "Growth",
-    description: "Ideal for growing businesses",
-    price: "$0.05/min",
-    features: ["Up to 15 users", "Advanced analytics", "Priority support"],
-    ctaHref: "/contact",
+    description: "For growing businesses",
+    price: "$0.050/min",
+    features: ["10,001 - 25,000 minutes"],
+    ctaHref: "/signup",
+    ctaLabel: "Start Free Trial",
   },
   {
     id: "scale",
     title: "Scale",
     description: "For enterprise customers",
-    price: "$0.45/min",
-    features: ["Unlimited users", "Custom integrations", "Dedicated success manager"],
-    ctaHref: "/contact",
+    price: "$0.045/min",
+    features: ["25,001 - 100,000 minutes"],
+    ctaHref: "/signup",
+    ctaLabel: "Start Free Trial",
   },
   {
     id: "enterprise",
     title: "Enterprise",
-    description: "For high-volume enterprises",
-    price: "$Custom/min",
-    features: ["Unlimited users", "AI call routing", "24/7 premium support"],
+    description: "For large-scale businesses",
+    price: "Custom/min",
+    features: [
+      "For high-volume usage, contact our sales team for custom pricing.",
+    ],
     ctaHref: "/contact",
+    ctaLabel: "Contact Sales",
   },
 ] as const;
+
+export function getPricingPlanForMinutes(minutes: number): PricingPlan {
+  const tier = PRICING_PLAN_MINUTE_TIERS.find(
+    (entry) => minutes >= entry.minMinutes && minutes <= entry.maxMinutes,
+  );
+
+  if (tier) {
+    const plan = PRICING_PLANS.find((entry) => entry.id === tier.planId);
+    if (plan) return plan;
+  }
+
+  return PRICING_PLANS.find((entry) => entry.id === "enterprise") ?? PRICING_PLANS[0]!;
+}
 
 export const HOME_PRICING_HEADING = {
   eyebrow: "Pricing",
   title: "Plans that scale with you",
   description:
-    "Whether you're piloting your first voice agent or running thousands of calls a day we've got a plan that fits your workflow.",
+    "Whether you're piloting your first voice agent or running thousands of calls a day, we've got a plan that fits your workflow.",
 } as const;
 
 export const PRICING_CALCULATOR_HEADING = {
@@ -55,3 +80,31 @@ export const PRICING_CALCULATOR_HEADING = {
   title: "Calculate your call cost",
   description: "Use our calculator to get a transparent breakdown based on your needs.",
 } as const;
+
+export const PRICING_MINUTES_CALCULATOR = {
+  title: "Pay only for what you automate",
+  descriptionLines: [
+    "This pricing scales as your automations do. No surprises – just usage.",
+    "Use the slider to preview your monthly cost. Custom pricing available.",
+  ],
+  minMinutes: 0,
+  maxMinutes: 100_000,
+  defaultMinutes: 85700,
+  step: 100,
+  /** Minutes included per US dollar of usage. */
+  minutesPerDollar: 15,
+} as const;
+
+/** @deprecated Use PRICING_MINUTES_CALCULATOR */
+export const PRICING_CREDIT_CALCULATOR = PRICING_MINUTES_CALCULATOR;
+
+export function computeMinutesMonthlyPrice(minutes: number): number {
+  const { minMinutes, maxMinutes, minutesPerDollar } = PRICING_MINUTES_CALCULATOR;
+  const clampedMinutes = Math.min(maxMinutes, Math.max(minMinutes, minutes));
+  return clampedMinutes / minutesPerDollar;
+}
+
+/** @deprecated Use computeMinutesMonthlyPrice */
+export function computeCreditMonthlyPrice(minutes: number): number {
+  return computeMinutesMonthlyPrice(minutes);
+}

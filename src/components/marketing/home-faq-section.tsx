@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { TextReveal } from "@/components/ui/text-reveal";
 import { marketingSectionContainerClass } from "@/config/marketing-layout";
 import { HOME_FAQ_HEADING, HOME_FAQS } from "@/data/home-faqs";
+import { cn } from "@/lib/utils";
 
 import styles from "./home-faq-section.module.css";
 
@@ -45,7 +46,12 @@ const answerTextVariants: Variants = {
   },
 };
 
-export function HomeFaqSection() {
+type HomeFaqSectionProps = {
+  /** Let a parent shell (e.g. dotted marketing surface) show through. */
+  transparentSurface?: boolean;
+};
+
+export function HomeFaqSection({ transparentSurface = false }: HomeFaqSectionProps) {
   const prefersReducedMotion = useReducedMotion();
   const accordionRef = useRef<HTMLDivElement>(null);
   const accordionInView = useInView(accordionRef, { once: true, amount: 0.12 });
@@ -54,7 +60,11 @@ export function HomeFaqSection() {
   const showAccordion = prefersReducedMotion || accordionInView;
 
   return (
-    <section id="faq" className={styles.section} aria-labelledby="faq-title">
+    <section
+      id="faq"
+      className={cn(styles.section, transparentSurface && styles.sectionTransparent)}
+      aria-labelledby="faq-title"
+    >
       <div className={marketingSectionContainerClass}>
         <div className={styles.layout}>
           <header className={styles.intro}>
