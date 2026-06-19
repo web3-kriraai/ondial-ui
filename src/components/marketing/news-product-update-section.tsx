@@ -9,8 +9,8 @@ import { useRef } from "react";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
 import {
+  marketingDottedSectionShellClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import {
   NEWS_UPDATE_ITEMS,
@@ -77,7 +77,7 @@ export function NewsProductUpdateSection() {
   return (
     <section
       id="news-updates"
-      className={cn(marketingSectionShellClass, "bg-background")}
+      className={marketingDottedSectionShellClass}
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="news-updates-title"
     >

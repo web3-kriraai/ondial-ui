@@ -7,9 +7,9 @@ import { useRef } from "react";
 
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import {
+  marketingDottedSectionShellClass,
   marketingEyebrowClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import {
   CUSTOMER_SUCCESS_GRID_HEADING,
@@ -285,7 +285,7 @@ export function CaseStudyCustomerSuccessGridSection() {
     <section
       ref={sectionRef}
       id="customer-success-grid"
-      className={cn(marketingSectionShellClass, "relative overflow-hidden")}
+      className={cn(marketingDottedSectionShellClass, "relative overflow-hidden")}
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="customer-success-grid-title"
     >

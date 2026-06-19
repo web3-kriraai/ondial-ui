@@ -1,6 +1,6 @@
 export type WhatWeDoCapabilityId =
   | "always-on"
-  | "human-voice"
+  | "real-time-analytics"
   | "languages"
   | "instant-response"
   | "lead-routing"
@@ -22,11 +22,11 @@ export const ABOUT_WHAT_WE_DO_HEADING = {
 
 export const ABOUT_WHAT_WE_DO_CAPABILITIES: readonly WhatWeDoCapability[] = [
   { id: "always-on", label: "24/7 AI-Powered Call Handling" },
-  { id: "human-voice", label: "Human-Like Voice Conversations" },
+  { id: "real-time-analytics", label: "Real-Time Analytics" },
   { id: "languages", label: "Support in 100+ Languages" },
-  { id: "instant-response", label: "Instant Customer Response" },
-  { id: "lead-routing", label: "Lead Qualification & Routing" },
-  { id: "integration", label: "Seamless Business Integration" },
+  { id: "instant-response", label: "Smart Lead Qualification" },
+  { id: "lead-routing", label: "Instant Customer Support" },
+  { id: "integration", label: "Appointment Booking" },
 ] as const;
 
 export const ABOUT_WHAT_WE_DO_HIGHLIGHTS = [

@@ -21,15 +21,15 @@ export type ContactChannel = {
 
 export const CONTACT_HERO = {
   eyebrow: "Contact Us",
-  title: "Conversation",
-  titleAccent: "Let's Start a",
+  titleAccent: "Let's talk about your",
+  title: "voice AI goals",
   description:
-    "Ready to transform your business with AI? Our team of experts is standing by to help you succeed.",
+    "Book a demo, ask about pricing, or get support — our team is here to help.",
 } as const;
 
 export const CONTACT_FORM = {
   title: "Send us a Message",
-  description: "Tell us about your project and we'll get back to you",
+  description: "Fill in your details and we'll get back to you shortly.",
   submitLabel: "Send Message",
   privacyLabel: "I agree to the privacy policy",
   fields: {

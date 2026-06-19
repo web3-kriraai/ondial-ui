@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { MarketingDottedPageShell } from "@/components/layout/marketing-dotted-page-shell";
 import { ContactMissionSection } from "@/components/marketing/contact-mission-section";
 import { ContactPageSection } from "@/components/marketing/contact-page-section";
 
@@ -10,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="flex flex-1 flex-col">
+    <MarketingDottedPageShell>
       <ContactPageSection />
       <ContactMissionSection />
-    </main>
+    </MarketingDottedPageShell>
   );
 }

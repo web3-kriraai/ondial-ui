@@ -97,7 +97,7 @@ export function ShowcaseSection() {
           delay={0.12}
           stagger={0.07}
         >
-          Automate Your Calls with AI
+          Automate Your Calls with OnDial AI Voice Agents
         </TextReveal>
         <p className={styles.description}>
           Explore how teams use AI voice for reminders, outreach, surveys, and

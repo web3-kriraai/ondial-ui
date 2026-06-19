@@ -10,6 +10,19 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { ShellScrollIndicator } from "@/components/layout/shell-scroll-indicator";
 import { blogPageSurfaceClass } from "@/config/marketing-layout";
 
+function isDottedMarketingRoute(pathname: string) {
+  if (
+    pathname === "/about" ||
+    pathname === "/contact" ||
+    pathname === "/news" ||
+    pathname === "/case-studies"
+  ) {
+    return true;
+  }
+
+  return pathname === "/blog" || pathname.startsWith("/blog/");
+}
+
 function footerShowsCtaCard(pathname: string) {
   if (pathname === "/login" || pathname === "/signup") return false;
   if (pathname.startsWith("/auth/")) return false;
@@ -22,10 +35,6 @@ function footerHidden(pathname: string) {
 
 function isAuthSplitRoute(pathname: string) {
   return pathname === "/login" || pathname === "/signup";
-}
-
-function isBlogRoute(pathname: string) {
-  return pathname === "/blog" || pathname.startsWith("/blog/");
 }
 
 function isBlogArticleRoute(pathname: string) {
@@ -50,17 +59,19 @@ export function AppLayoutShell({ children }: AppLayoutShellProps) {
   const showFooterCta = footerShowsCtaCard(pathname);
   const hideFooter = footerHidden(pathname);
   const authSplit = isAuthSplitRoute(pathname);
-  const blogRoute = isBlogRoute(pathname);
+  const dottedSurfaceRoute = isDottedMarketingRoute(pathname);
   const blogArticleRoute = isBlogArticleRoute(pathname);
   /** Page `transform` breaks `backdrop-filter` on industry hero blur layers. */
   const industryDetailPage = pathname.startsWith("/industries/");
+  /** No enter/exit motion — transform/opacity can stick on direct tab loads until repaint. */
+  const skipPageTransition = industryDetailPage || dottedSurfaceRoute;
 
   return (
     <ShellScrollProvider scrollerRef={shellScrollRef}>
       <SiteShell
         shellScrollerRef={shellScrollRef}
         bleedUnderNav={authSplit}
-        scrollerClassName={blogRoute ? blogPageSurfaceClass : undefined}
+        scrollerClassName={dottedSurfaceRoute ? blogPageSurfaceClass : undefined}
         bottomBlurEnabled={!blogArticleRoute}
         scrollIndicator={
           authSplit ? null : <ShellScrollIndicator containerRef={shellScrollRef} />
@@ -70,31 +81,33 @@ export function AppLayoutShell({ children }: AppLayoutShellProps) {
         mainClassName={
           authSplit
             ? "flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-transparent"
-            : blogRoute
+            : dottedSurfaceRoute
               ? "flex min-h-min flex-col bg-transparent"
               : "flex min-h-min flex-col"
         }
       >
-      {industryDetailPage ? (
-        <div className="flex flex-1 flex-col">{children}</div>
-      ) : (
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{
-              duration: 0.3,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className={authSplit ? "flex h-full min-h-0 flex-1 flex-col" : "flex flex-1 flex-col"}
-          >
+        {skipPageTransition ? (
+          <div className={authSplit ? "flex h-full min-h-0 flex-1 flex-col" : "flex flex-1 flex-col"}>
             {children}
-          </motion.div>
-        </AnimatePresence>
-      )}
-    </SiteShell>
+          </div>
+        ) : (
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{
+                duration: 0.3,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className={authSplit ? "flex h-full min-h-0 flex-1 flex-col" : "flex flex-1 flex-col"}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        )}
+      </SiteShell>
     </ShellScrollProvider>
   );
 }

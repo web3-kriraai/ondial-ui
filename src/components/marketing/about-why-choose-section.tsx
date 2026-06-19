@@ -14,9 +14,9 @@ import { useCallback, useEffect, useRef, useState, type ElementType } from "reac
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
 import {
+  marketingDottedSectionShellClass,
   marketingEyebrowClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import {
   ABOUT_WHY_CHOOSE_FEATURES,
@@ -154,7 +154,7 @@ export function AboutWhyChooseSection() {
     <section
       ref={sectionRef}
       id="why-choose-ondial"
-      className={cn(marketingSectionShellClass, "relative bg-background")}
+      className={cn(marketingDottedSectionShellClass, "relative")}
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="why-choose-ondial-title"
       onFocusCapture={() => setIsPaused(true)}
@@ -208,7 +208,7 @@ export function AboutWhyChooseSection() {
         </header>
 
         <div
-          className="relative z-1 mt-[clamp(2.25rem,5vw,3.25rem)] grid items-stretch gap-[clamp(1.5rem,4vw,2.5rem)] lg:grid-cols-2 lg:gap-[clamp(2rem,4vw,3rem)]"
+          className="relative z-1 mt-[clamp(2.25rem,5vw,3.25rem)] grid items-stretch gap-[clamp(1.5rem,4vw,2.5rem)] md:grid-cols-2 lg:gap-[clamp(2rem,4vw,3rem)]"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -285,7 +285,7 @@ export function AboutWhyChooseSection() {
           </div>
 
           <div className="flex min-h-[clamp(18rem,42vw,22rem)] items-stretch justify-center overflow-visible">
-            <div className="relative h-full min-h-[clamp(18rem,42vw,22rem)] w-[80%] overflow-visible pt-15 pr-11 perspective-distant">
+            <div className="relative h-full min-h-[clamp(18rem,42vw,22rem)] w-full sm:w-[80%] overflow-visible pt-15 pr-11 perspective-distant">
               {ABOUT_WHY_CHOOSE_FEATURES.map((feature, index) => {
                 const depth = getCardDepth(
                   index,

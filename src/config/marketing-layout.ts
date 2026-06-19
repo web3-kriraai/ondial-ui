@@ -1,8 +1,12 @@
 /** Shared background for all marketing / homepage sections. */
 export const marketingSectionBgClass = "bg-background";
 
-/** Soft off-white surface for blog routes — warm tint, not pure white. */
-export const blogPageSurfaceClass = "bg-[oklch(0.985_0.006_280)]";
+/** Soft off-white surface for dotted marketing routes — warm tint, not pure white. */
+export const dottedPageSurfaceClass = "bg-[oklch(0.985_0.006_280)]";
+
+export const blogPageSurfaceClass = dottedPageSurfaceClass;
+
+export const aboutPageSurfaceClass = dottedPageSurfaceClass;
 
 /** Matches `SiteShell` main overlap — blog bg must bleed into this zone behind the navbar. */
 export const marketingNavClearanceClass =
@@ -21,6 +25,10 @@ export const blogListingGridClass =
 /** Shared max-width + horizontal padding for homepage marketing sections. */
 export const marketingSectionContainerClass =
   "mx-auto w-full max-w-[min(100%,92rem)] px-5 sm:px-8 lg:px-12 xl:px-14";
+
+/** Section shell on dotted marketing pages — transparent so the page grid shows through. */
+export const marketingDottedSectionShellClass =
+  "w-full bg-transparent py-14 sm:py-16 lg:py-20";
 
 /** Standard padded marketing section shell (width + background, no dividers). */
 export const marketingSectionShellClass = `w-full ${marketingSectionBgClass} py-14 sm:py-16 lg:py-20`;

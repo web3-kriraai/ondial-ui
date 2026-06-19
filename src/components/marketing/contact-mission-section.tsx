@@ -9,8 +9,8 @@ import { useRef, useState } from "react";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
 import {
+  marketingDottedSectionShellClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import {
   CONTACT_MISSION_HEADING,
@@ -67,8 +67,8 @@ function MissionRow({
             className={cn(
               "overflow-hidden rounded-sm bg-muted transition-all duration-500 ease-out",
               isActive
-                ? "aspect-4/5 h-70 w-full opacity-100"
-                : "h-38 w-64 opacity-100",
+                ? "aspect-4/5 h-65 w-full opacity-100"
+                : "h-42 w-74 opacity-100",
             )}
           >
             <Image
@@ -192,7 +192,7 @@ export function ContactMissionSection() {
   return (
     <section
       id="contact-mission"
-      className={cn(marketingSectionShellClass, "bg-background")}
+      className={marketingDottedSectionShellClass}
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="contact-mission-title"
       onMouseLeave={() => setActiveIndex(0)}

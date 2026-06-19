@@ -6,9 +6,9 @@ import { useRef } from "react";
 
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import {
+  marketingDottedSectionShellClass,
   marketingEyebrowClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import { FEATURED_SUCCESS_STORY } from "@/data/case-study-featured-story-content";
 import { cn } from "@/lib/utils";
@@ -174,7 +174,7 @@ export function CaseStudyFeaturedStorySection() {
     <section
       ref={sectionRef}
       id="featured-success-story"
-      className={marketingSectionShellClass}
+      className={marketingDottedSectionShellClass}
       style={ONDIAL_ACCENT_STYLE}
       aria-labelledby="featured-story-title"
     >

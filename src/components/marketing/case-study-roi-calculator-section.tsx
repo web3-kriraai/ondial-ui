@@ -9,9 +9,9 @@ import { useMemo, useRef, useState } from "react";
 
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import {
+  marketingDottedSectionShellClass,
   marketingEyebrowClass,
   marketingSectionContainerClass,
-  marketingSectionShellClass,
 } from "@/config/marketing-layout";
 import {
   computeRoiResults,
@@ -205,7 +205,7 @@ export function CaseStudyRoiCalculatorSection() {
       ref={sectionRef}
       id="roi-calculator"
       className={cn(
-        marketingSectionShellClass,
+        marketingDottedSectionShellClass,
         "relative overflow-hidden ",
       )}
       style={ONDIAL_ACCENT_STYLE}
