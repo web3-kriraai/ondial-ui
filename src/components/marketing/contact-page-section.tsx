@@ -98,33 +98,92 @@ export function ContactPageSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+
+  const clearError = (field: string) => {
+    if (errors[field]) {
+      setErrors((prev) => {
+        const copy = { ...prev };
+        delete copy[field];
+        return copy;
+      });
+    }
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    /*
+    const newErrors: Record<string, string> = {};
+    const formData = new FormData(event.currentTarget);
+    const name = (formData.get("name") as string || "").trim();
+    const email = (formData.get("email") as string || "").trim();
+    const phone = (formData.get("phone") as string || "").trim();
+    const message = (formData.get("message") as string || "").trim();
+
+    if (!name) {
+      newErrors.name = "Full name is required";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      newErrors.email = "Email address is required";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!phone) {
+      newErrors.phone = "Phone number is required";
+    } else {
+      const normalizedPhone = phone.replace(/[\s\-()]/g, '');
+      const phoneRegex = /^[+]?[1-9][\d]{0,15}$/;
+      if (!phoneRegex.test(normalizedPhone)) {
+        newErrors.phone = "Please enter a valid phone number";
+      }
+    }
+
+    if (!message) {
+      newErrors.message = "Message is required";
+    }
+
     if (!turnstileToken) {
-      setSubmitError("Please complete the CAPTCHA verification.");
+      newErrors.turnstile = "Please complete the CAPTCHA verification.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setSubmitError("");
+
+      // Scroll to the first error field
+      const firstErrorField = Object.keys(newErrors)[0];
+      const elementId = firstErrorField === "turnstile" ? "contact-form" : `contact-${firstErrorField}`;
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (firstErrorField !== "turnstile") {
+          // Focus the input element
+          setTimeout(() => {
+            (element as HTMLElement).focus();
+          }, 100);
+        }
+      }
       return;
     }
-    */
 
     setSubmitError("");
+    setErrors({});
     setIsSubmitting(true);
 
-    const formData = new FormData(event.currentTarget);
     const countryCode = CONTACT_FORM.fields.phone.countryCode;
-    const phone = formData.get("phone") as string;
     const phoneWithCountryCode = `${countryCode} ${phone}`.trim();
 
     const submitData = {
-      name: formData.get("name"),
-      email: formData.get("email"),
+      name,
+      email,
       phone: phoneWithCountryCode,
       subject: formData.get("subject"),
-      message: formData.get("message"),
-      turnstileToken: turnstileToken,
+      message,
+      turnstileToken,
     };
 
     try {
@@ -220,168 +279,193 @@ export function ContactPageSection() {
                 </div>
               ) : (
                 <form id="contact-form" className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="flex flex-col gap-[0.45rem]">
-                    <Label htmlFor="contact-name" className="text-[0.8125rem] font-bold text-foreground">
-                      {CONTACT_FORM.fields.name.label}
-                      <span className="text-red-500" aria-hidden>
-                        *
-                      </span>
-                    </Label>
-                    <Input
-                      id="contact-name"
-                      name="name"
-                      type="text"
-                      required
-                      autoComplete="name"
-                      placeholder={CONTACT_FORM.fields.name.placeholder}
-                      className={fieldInputClass}
-                    />
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="flex flex-col gap-[0.45rem]">
+                      <Label htmlFor="contact-name" className="text-[0.8125rem] font-bold text-foreground">
+                        {CONTACT_FORM.fields.name.label}
+                        <span className="text-red-500" aria-hidden>
+                          *
+                        </span>
+                      </Label>
+                      <Input
+                        id="contact-name"
+                        name="name"
+                        type="text"
+                        required
+                        autoComplete="name"
+                        placeholder={CONTACT_FORM.fields.name.placeholder}
+                        className={cn(
+                          fieldInputClass,
+                          errors.name && "border-red-500! focus-visible:border-red-500! focus-visible:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]"
+                        )}
+                        onChange={() => clearError("name")}
+                      />
+                      {errors.name && <span className="text-xs text-red-500 mt-1">{errors.name}</span>}
+                    </div>
+                    <div className="flex flex-col gap-[0.45rem]">
+                      <Label htmlFor="contact-email" className="text-[0.8125rem] font-bold text-foreground">
+                        {CONTACT_FORM.fields.email.label}
+                        <span className="text-red-500" aria-hidden>
+                          *
+                        </span>
+                      </Label>
+                      <Input
+                        id="contact-email"
+                        name="email"
+                        type="email"
+                        required
+                        autoComplete="email"
+                        placeholder={CONTACT_FORM.fields.email.placeholder}
+                        className={cn(
+                          fieldInputClass,
+                          errors.email && "border-red-500! focus-visible:border-red-500! focus-visible:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]"
+                        )}
+                        onChange={() => clearError("email")}
+                      />
+                      {errors.email && <span className="text-xs text-red-500 mt-1">{errors.email}</span>}
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-[0.45rem]">
-                    <Label htmlFor="contact-email" className="text-[0.8125rem] font-bold text-foreground">
-                      {CONTACT_FORM.fields.email.label}
-                      <span className="text-red-500" aria-hidden>
-                        *
-                      </span>
-                    </Label>
-                    <Input
-                      id="contact-email"
-                      name="email"
-                      type="email"
-                      required
-                      autoComplete="email"
-                      placeholder={CONTACT_FORM.fields.email.placeholder}
-                      className={fieldInputClass}
-                    />
-                  </div>
-                </div>
 
-                <div className="flex flex-col gap-[0.45rem]">
-                  <Label htmlFor="contact-phone" className="text-[0.8125rem] font-bold text-foreground">
-                    {CONTACT_FORM.fields.phone.label}
-                    <span className="text-red-500" aria-hidden>
-                      *
-                    </span>
-                  </Label>
-                  <div className="flex items-stretch overflow-hidden rounded-xl border border-black/8 bg-background">
-                    <span
-                      className="inline-flex items-center whitespace-nowrap border-r border-black/8 px-[0.85rem] text-sm font-semibold text-foreground"
-                      aria-hidden
-                    >
-                      {CONTACT_FORM.fields.phone.countryCode}
-                    </span>
-                    <Input
-                      id="contact-phone"
-                      name="phone"
-                      type="tel"
+                  <div className="flex flex-col gap-[0.45rem]">
+                    <Label htmlFor="contact-phone" className="text-[0.8125rem] font-bold text-foreground">
+                      {CONTACT_FORM.fields.phone.label}
+                      <span className="text-red-500" aria-hidden>
+                        *
+                      </span>
+                    </Label>
+                    <div className={cn(
+                      "flex items-stretch overflow-hidden rounded-xl border border-black/8 bg-background",
+                      errors.phone && "border-red-500! focus-within:border-red-500! focus-within:ring-[3px] focus-within:ring-red-500/15"
+                    )}>
+                      <span
+                        className="inline-flex items-center whitespace-nowrap border-r border-black/8 px-[0.85rem] text-sm font-semibold text-foreground"
+                        aria-hidden
+                      >
+                        {CONTACT_FORM.fields.phone.countryCode}
+                      </span>
+                      <Input
+                        id="contact-phone"
+                        name="phone"
+                        type="tel"
+                        required
+                        autoComplete="tel"
+                        placeholder={CONTACT_FORM.fields.phone.placeholder}
+                        className={cn(
+                          fieldInputClass,
+                          "rounded-none! border-none! shadow-none! focus-visible:shadow-none!",
+                        )}
+                        onChange={() => clearError("phone")}
+                      />
+                    </div>
+                    {errors.phone && <span className="text-xs text-red-500 mt-1">{errors.phone}</span>}
+                  </div>
+
+                  <div className="flex flex-col gap-[0.45rem]">
+                    <Label htmlFor="contact-subject" className="text-[0.8125rem] font-bold text-foreground">
+                      {CONTACT_FORM.fields.subject.label}
+                      <span className="text-red-500" aria-hidden>
+                        *
+                      </span>
+                    </Label>
+                    <select
+                      id="contact-subject"
+                      name="subject"
                       required
-                      autoComplete="tel"
-                      placeholder={CONTACT_FORM.fields.phone.placeholder}
+                      defaultValue={CONTACT_SUBJECTS[0]?.id}
+                      className={selectClass}
+                    >
+                      {CONTACT_SUBJECTS.map((subject) => (
+                        <option key={subject.id} value={subject.id}>
+                          {subject.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col gap-[0.45rem]">
+                    <Label htmlFor="contact-message" className="text-[0.8125rem] font-bold text-foreground">
+                      {CONTACT_FORM.fields.message.label}
+                      <span className="text-red-500" aria-hidden>
+                        *
+                      </span>
+                    </Label>
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      required
+                      rows={5}
+                      placeholder={CONTACT_FORM.fields.message.placeholder}
                       className={cn(
                         fieldInputClass,
-                        "rounded-none! border-none! shadow-none! focus-visible:shadow-none!",
+                        "min-h-34 resize-y",
+                        errors.message && "border-red-500! focus-visible:border-red-500! focus-visible:shadow-[0_0_0_3px_rgba(239,68,68,0.15)]"
                       )}
+                      onChange={() => clearError("message")}
                     />
+                    {errors.message && <span className="text-xs text-red-500 mt-1">{errors.message}</span>}
                   </div>
-                </div>
 
-                <div className="flex flex-col gap-[0.45rem]">
-                  <Label htmlFor="contact-subject" className="text-[0.8125rem] font-bold text-foreground">
-                    {CONTACT_FORM.fields.subject.label}
-                    <span className="text-red-500" aria-hidden>
-                      *
-                    </span>
-                  </Label>
-                  <select
-                    id="contact-subject"
-                    name="subject"
-                    required
-                    defaultValue={CONTACT_SUBJECTS[0]?.id}
-                    className={selectClass}
-                  >
-                    {CONTACT_SUBJECTS.map((subject) => (
-                      <option key={subject.id} value={subject.id}>
-                        {subject.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                  <div className="flex flex-col gap-3">
+                    {submitError && (
+                      <div className="flex items-center gap-2 p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-100">
+                        <AlertCircle className="size-4 shrink-0" />
+                        <p className="m-0">{submitError}</p>
+                      </div>
+                    )}
 
-                <div className="flex flex-col gap-[0.45rem]">
-                  <Label htmlFor="contact-message" className="text-[0.8125rem] font-bold text-foreground">
-                    {CONTACT_FORM.fields.message.label}
-                    <span className="text-red-500" aria-hidden>
-                      *
-                    </span>
-                  </Label>
-                  <textarea
-                    id="contact-message"
-                    name="message"
-                    required
-                    rows={5}
-                    placeholder={CONTACT_FORM.fields.message.placeholder}
-                    className={cn(fieldInputClass, "min-h-34 resize-y")}
-                  />
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  {submitError && (
-                    <div className="flex items-center gap-2 p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-100">
-                      <AlertCircle className="size-4 shrink-0" />
-                      <p className="m-0">{submitError}</p>
+                    <div className="min-h-[65px] flex flex-col gap-1">
+                      <div className="w-[302px] h-[67px] overflow-hidden rounded-xl border border-black/[0.08] bg-background">
+                        <Turnstile
+                          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
+                          onSuccess={(token) => {
+                            setTurnstileToken(token);
+                            clearError("turnstile");
+                          }}
+                          onError={() => setSubmitError("CAPTCHA verification failed.")}
+                          options={{
+                            theme: "light",
+                          }}
+                        />
+                      </div>
+                      {errors.turnstile && <span className="text-xs text-red-500 mt-1 block">{errors.turnstile}</span>}
                     </div>
-                  )}
 
-                  <div className="min-h-[65px]">
-                    {/* Turnstile temporarily commented out for testing
-                    <Turnstile
-                      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
-                      onSuccess={setTurnstileToken}
-                      onError={() => setSubmitError("CAPTCHA verification failed.")}
-                      options={{
-                        theme: "light",
-                      }}
-                    />
-                    */}
+                    <div className="mt-[0.35rem] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
+                      <label className="flex cursor-pointer items-start gap-[0.55rem] text-[0.8125rem] leading-[1.45] text-muted-foreground">
+                        <input
+                          type="checkbox"
+                          checked={agreedToPrivacy}
+                          onChange={(event) => setAgreedToPrivacy(event.target.checked)}
+                          className="mt-[0.1rem] size-4 shrink-0 accent-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]"
+                        />
+                        <span>
+                          {CONTACT_FORM.privacyLabel}{" "}
+                          <Link
+                            href="/privacy"
+                            className="text-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-12%))] underline underline-offset-2"
+                          >
+                            privacy policy
+                          </Link>
+                        </span>
+                      </label>
+                      <Button
+                        type="submit"
+                        size="lg"
+                        disabled={!agreedToPrivacy || isSubmitting}
+                        className="h-11! w-full rounded-xl! bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]! font-semibold! text-white hover:bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-6%))]! sm:w-auto sm:min-w-42"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 size-4 animate-spin" />
+                            Submitting...
+                          </>
+                        ) : (
+                          CONTACT_FORM.submitLabel
+                        )}
+                      </Button>
+                    </div>
                   </div>
-
-                  <div className="mt-[0.35rem] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
-                    <label className="flex cursor-pointer items-start gap-[0.55rem] text-[0.8125rem] leading-[1.45] text-muted-foreground">
-                      <input
-                        type="checkbox"
-                        checked={agreedToPrivacy}
-                        onChange={(event) => setAgreedToPrivacy(event.target.checked)}
-                        className="mt-[0.1rem] size-4 shrink-0 accent-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]"
-                      />
-                      <span>
-                        {CONTACT_FORM.privacyLabel}{" "}
-                        <Link
-                          href="/privacy"
-                          className="text-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-12%))] underline underline-offset-2"
-                        >
-                          privacy policy
-                        </Link>
-                      </span>
-                    </label>
-                    <Button
-                      type="submit"
-                      size="lg"
-                      disabled={!agreedToPrivacy || isSubmitting}
-                      className="h-11! w-full rounded-xl! bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]! font-semibold! text-white hover:bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-6%))]! sm:w-auto sm:min-w-42"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="mr-2 size-4 animate-spin" />
-                          Submitting...
-                        </>
-                      ) : (
-                        CONTACT_FORM.submitLabel
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              </form>
+                </form>
               )}
             </div>
 

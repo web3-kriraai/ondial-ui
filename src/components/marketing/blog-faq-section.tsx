@@ -43,15 +43,20 @@ export function BlogFaqSection({ faqs }: BlogFaqSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section ref={sectionRef} className="mt-12 border-t border-border/35 pt-10 sm:mt-14 sm:pt-12">
-      <motion.h2
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-        animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-        transition={{ duration: 0.45, ease: easeOut }}
-        className="mb-6 text-2xl font-semibold tracking-tight text-foreground sm:text-[1.625rem]"
-      >
-        {faqs.title}
-      </motion.h2>
+    <section ref={sectionRef} className="mt-16 border-t border-border/35 pt-12 sm:mt-20 sm:pt-16">
+      <div className="flex flex-col items-center text-center mb-10 max-w-2xl mx-auto">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.06] bg-black/[0.015] px-3.5 py-1.5 text-xs font-medium text-muted-foreground mb-4">
+          <ChevronDown className="size-3.5 text-[#534AB7] rotate-180" />
+          AI Voice Agent FAQs
+        </span>
+        <h2 className="text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl md:text-[2.25rem] mb-4">
+          Frequently Asked Questions About <span className="block sm:inline text-[#534AB7]">AI Voice Agents</span>
+        </h2>
+        <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
+          Get comprehensive answers to common questions about AI voice agents and how they can transform your customer service.
+        </p>
+        <div className="h-0.5 w-16 bg-[#534AB7]/40 rounded-full mt-6" />
+      </div>
 
       <motion.div
         className="flex flex-col gap-3"
