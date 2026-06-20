@@ -39,7 +39,7 @@ const cardVariants: Variants = {
 export function HomePricingSection() {
   const prefersReducedMotion = useReducedMotion();
   const gridRef = useRef<HTMLDivElement>(null);
-  const gridInView = useInView(gridRef, { once: true, amount: 0.1 });
+  const gridInView = useInView(gridRef, { once: true, amount: 0.05, margin: "0px 0px -80px 0px" });
   const showCards = prefersReducedMotion || gridInView;
 
   return (

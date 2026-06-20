@@ -1,8 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useLayoutEffect, useRef, useState, useEffect, type ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ShellScrollProvider } from "@/components/layout/shell-scroll-context";
@@ -10,18 +9,30 @@ import { SiteShell } from "@/components/layout/site-shell";
 import { ShellScrollIndicator } from "@/components/layout/shell-scroll-indicator";
 import { blogPageSurfaceClass } from "@/config/marketing-layout";
 
+const DOTTED_MARKETING_PATHS = new Set([
+  "/about",
+  "/contact",
+  "/news",
+  "/case-studies",
+  "/pricing",
+  "/ondial-for-enterprise",
+  "/privacy",
+  "/terms-and-conditions",
+  "/return-policy",
+  "/services",
+]);
+
 function isDottedMarketingRoute(pathname: string) {
-  if (
-    pathname === "/about" ||
-    pathname === "/contact" ||
-    pathname === "/news" ||
-    pathname === "/case-studies" ||
-    pathname.startsWith("/case-studies/")
-  ) {
+  if (DOTTED_MARKETING_PATHS.has(pathname)) {
     return true;
   }
 
-  return pathname === "/blog" || pathname.startsWith("/blog/");
+  return (
+    pathname.startsWith("/case-studies/") ||
+    pathname === "/blog" ||
+    pathname.startsWith("/blog/") ||
+    pathname.startsWith("/services/")
+  );
 }
 
 function footerShowsCtaCard(pathname: string) {
@@ -53,11 +64,6 @@ export function AppLayoutShell({ children, initialPathname }: AppLayoutShellProp
   const clientPathname = usePathname();
   const pathname = clientPathname ?? initialPathname;
   const shellScrollRef = useRef<HTMLDivElement>(null);
-  const [pageMotionReady, setPageMotionReady] = useState(false);
-
-  useEffect(() => {
-    setPageMotionReady(true);
-  }, []);
 
   useLayoutEffect(() => {
     const el = shellScrollRef.current;
@@ -70,10 +76,6 @@ export function AppLayoutShell({ children, initialPathname }: AppLayoutShellProp
   const authSplit = isAuthSplitRoute(pathname);
   const dottedSurfaceRoute = isDottedMarketingRoute(pathname);
   const blogArticleRoute = isBlogArticleRoute(pathname);
-  /** Page `transform` breaks `backdrop-filter` on industry hero blur layers. */
-  const industryDetailPage = pathname.startsWith("/industries/");
-  /** No enter/exit motion - transform/opacity can stick on direct tab loads until repaint. */
-  const skipPageTransition = industryDetailPage || dottedSurfaceRoute;
 
   return (
     <ShellScrollProvider scrollerRef={shellScrollRef}>
@@ -95,27 +97,9 @@ export function AppLayoutShell({ children, initialPathname }: AppLayoutShellProp
               : "flex min-h-min flex-col"
         }
       >
-        {skipPageTransition || !pageMotionReady ? (
-          <div className={authSplit ? "flex h-full min-h-0 flex-1 flex-col" : "flex flex-1 flex-col"}>
-            {children}
-          </div>
-        ) : (
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={pathname}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{
-                duration: 0.3,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className={authSplit ? "flex h-full min-h-0 flex-1 flex-col" : "flex flex-1 flex-col"}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
-        )}
+        <div className={authSplit ? "flex h-full min-h-0 flex-1 flex-col" : "flex flex-1 flex-col"}>
+          {children}
+        </div>
       </SiteShell>
     </ShellScrollProvider>
   );
