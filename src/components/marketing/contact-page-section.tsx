@@ -132,12 +132,23 @@ export function ContactPageSection() {
       newErrors.email = "Please enter a valid email address";
     }
 
+    const countryCode = CONTACT_FORM.fields.phone.countryCode;
+    let cleanPhone = phone.replace(/[\s\-()]/g, '');
+    const cleanCountryCode = countryCode.replace('+', '').trim();
+    if (cleanPhone.startsWith('+')) {
+      if (cleanPhone.startsWith(countryCode)) {
+        cleanPhone = cleanPhone.slice(countryCode.length);
+      }
+    } else if (cleanPhone.startsWith(cleanCountryCode)) {
+      cleanPhone = cleanPhone.slice(cleanCountryCode.length);
+    }
+    cleanPhone = cleanPhone.replace(/\D/g, '');
+
     if (!phone) {
       newErrors.phone = "Phone number is required";
     } else {
-      const normalizedPhone = phone.replace(/[\s\-()]/g, '');
-      const phoneRegex = /^[+]?[1-9][\d]{0,15}$/;
-      if (!phoneRegex.test(normalizedPhone)) {
+      const phoneRegex = /^\d{8,14}$/;
+      if (!phoneRegex.test(cleanPhone)) {
         newErrors.phone = "Please enter a valid phone number";
       }
     }
@@ -174,8 +185,7 @@ export function ContactPageSection() {
     setErrors({});
     setIsSubmitting(true);
 
-    const countryCode = CONTACT_FORM.fields.phone.countryCode;
-    const phoneWithCountryCode = `${countryCode} ${phone}`.trim();
+    const phoneWithCountryCode = `${countryCode} ${cleanPhone}`.trim();
 
     const submitData = {
       name,
