@@ -1330,8 +1330,9 @@ export function IndustryPageSections({ content, industryName, industrySlug }: {
 
         {/* ── Headline + CTAs ── */}
         <FadeSection className="pt-12 sm:pt-16 pb-8">
+
           <TextReveal
-            as="h2"
+            as="h3"
             className="text-balance text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-[2.5rem] mb-4"
             delay={0.05}
             stagger={0.05}
@@ -1390,7 +1391,7 @@ export function IndustryPageSections({ content, industryName, industrySlug }: {
 
           <Eyebrow>Use cases</Eyebrow>
           <SectionHead
-            title="What the agent handles"
+            title={content.useCasesTitle}
             sub="Every routine call - handled automatically, perfectly, every time."
           />
 

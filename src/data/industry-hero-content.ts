@@ -313,7 +313,6 @@ export type IndustryDemoScenario = {
 };
 
 export type IndustryPageContent = {
-  question?: string;
   headline: string;
   headlineHighlight: string;
   subheadline: string;
@@ -328,6 +327,7 @@ export type IndustryPageContent = {
   ctaSubheadline: string;
   serviceHeadline: string;
   serviceSubheadline: string;
+  useCasesTitle: string;
 };
 
 /* ─────────────────────────────────────────────────────────
@@ -545,11 +545,10 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
     serviceHeadline: "Core Real Estate AI Voice Services",
     serviceSubheadline: "Streamline property management, lead engagement, and client communication with AI-powered voice solutions.",
-    question: "Why AI Voice Agents in Real Estate Industry?",
+    useCasesTitle: "Why Real Estate Needs AI Voice Agents ?",
   },
 
   "healthcare-and-medical-services": {
-    question: "Why AI Voice Agents in Healthcare & Medical Industry?",
     headline: "Every patient call",
     headlineHighlight: "answered",
     subheadline: "Your AI calling agent books appointments, sends reminders, and handles follow-ups - 24/7, so your staff can focus on care.",
@@ -773,6 +772,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. HIPAA-friendly setup in under 30 minutes.",
     serviceHeadline: "Core Healthcare & Medical AI Voice Services",
     serviceSubheadline: "Transform healthcare operations with AI-powered voice solutions.",
+    useCasesTitle: "Why AI Voice Agents in Healthcare & Medical Industry ?",
   },
 
   "insurance-services": {
@@ -969,6 +969,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
     serviceHeadline: "Core Insurance AI Voice Services",
     serviceSubheadline: "Streamline policy management, claims processing, and customer engagement with AI-powered voice solutions.",
+    useCasesTitle: "Why Insurance Companies Need AI Voice Agents ?",
   },
 
   "financial-and-banking-services": {
@@ -1170,6 +1171,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Secure banking setup in under 30 minutes.",
     serviceHeadline: "Core Financial & Banking AI Voice Services",
     serviceSubheadline: "Enhance financial operations and customer engagement with AI-powered voice solutions.",
+    useCasesTitle: "Why Banking & Financial Services Need AI Voice Agents ?",
   },
 
   "call-center-and-bpo-services": {
@@ -1370,6 +1372,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. BPO-ready in under 30 minutes.",
     serviceHeadline: "Core Call Centers & BPO AI Voice Services",
     serviceSubheadline: "Enhance customer support, operational efficiency, and compliance with AI-powered voice agents.",
+    useCasesTitle: "Why Call Centers & BPOs Need AI Voice Agents ?",
   },
 
   "travel-and-tourism-services": {
@@ -1566,6 +1569,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
     serviceHeadline: "Core Travel & Tourism AI Voice Services",
     serviceSubheadline: "Enhance traveler experience, operational efficiency, and engagement with AI-powered voice agents.",
+    useCasesTitle: "Why Travel & Tourism Industry Needs AI Voice Agents ?",
   },
 
   "transportation-and-logistics-services": {
@@ -1760,6 +1764,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
     serviceHeadline: "Core Transportation & Logistics AI Voice Services",
     serviceSubheadline: "Enhance logistics operations and customer communication with AI-powered voice agents for transportation and delivery services.",
+    useCasesTitle: "Why Transportation & Logistics Industry Needs AI Voice Agents ?",
   },
 
   "retail-and-ecommerce-services": {
@@ -1957,6 +1962,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
     serviceHeadline: "Core Retail & E-commerce AI Voice Services",
     serviceSubheadline: "Enhance customer engagement, boost conversions, and streamline operations with AI-powered voice solutions.",
+    useCasesTitle: "Why Retail & E-commerce Industry Needs AI Voice Agents ?",
   },
 
   "telecommunications-services": {
@@ -2159,6 +2165,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Carrier-ready in under 30 minutes.",
     serviceHeadline: "Core Telecommunications AI Voice Services",
     serviceSubheadline: "Streamline customer support, billing, and service management with AI-powered voice agents for telecom providers.",
+    useCasesTitle: "Why Choose OnDial for Telecom AI Voice Agents ?",
   },
 
   "automotive-services": {
@@ -2358,6 +2365,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Dealer-ready in under 30 minutes.",
     serviceHeadline: "Core Automotive AI Voice Services",
     serviceSubheadline: "Enhance customer engagement, service management, and sales in the automotive industry with AI-powered voice agents.",
+    useCasesTitle: "Why AI Voice Agents Matter in the Automotive Industry ?",
   },
 
   "education-services": {
@@ -2555,6 +2563,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Education-ready in under 30 minutes.",
     serviceHeadline: "Key Benefits of OnDial in Education",
     serviceSubheadline: "Enhance learning, communication, and administrative efficiency with AI voice agents",
+    useCasesTitle: "Why Education Needs AI Voice Agents ?",
   },
 
   "hospitality-services": {
@@ -2750,6 +2759,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Hospitality-ready in under 30 minutes.",
     serviceHeadline: "Core Hospitality AI Voice Services",
     serviceSubheadline: "Enhance guest experience, streamline operations, and boost loyalty with AI-powered voice agents for hotels and resorts.",
+    useCasesTitle: "Why Do Hotels & Resorts Need AI Voice Agents ?",
   },
 
   "legal-services": {
@@ -2946,6 +2956,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Law-firm ready in under 30 minutes.",
     serviceHeadline: "Core Legal AI Voice Services",
     serviceSubheadline: "Streamline client communication, case management, and compliance tasks with AI-powered voice agents for law firms.",
+    useCasesTitle: "Why Do Law Firms Need AI Voice Agents ?",
   },
 
   "government-services": {
@@ -3138,6 +3149,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Government-ready in under 30 minutes.",
     serviceHeadline: "Core Government AI Voice Services",
     serviceSubheadline: "Enhance citizen engagement, streamline operations, and improve service delivery with AI-powered voice agents for government agencies.",
+    useCasesTitle: "Why Do Government Agencies Need AI Voice Agents ?",
   },
 
   "manufacturing-services": {
@@ -3329,6 +3341,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Plant-ready in under 30 minutes.",
     serviceHeadline: "Core Manufacturing AI Voice Services",
     serviceSubheadline: "Streamline factory operations, communication, and compliance with AI-powered voice agents for manufacturing.",
+    useCasesTitle: "Why Manufacturing Needs AI Voice Agents ?",
   },
 
   "non-profit-organizations-services": {
@@ -3522,6 +3535,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. NGO-ready in under 30 minutes.",
     serviceHeadline: "Core Non-Profit AI Voice Services",
     serviceSubheadline: "Streamline donor engagement, volunteer coordination, and outreach efforts with AI-powered voice agents for non-profit organizations.",
+    useCasesTitle: "What Are AI Voice Agents for Non-Profits?",
   },
 
   "event-management-services": {
@@ -3711,6 +3725,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Event-ready in under 30 minutes.",
     serviceHeadline: "Core Event Management AI Voice Services",
     serviceSubheadline: "Streamline event registration, attendance tracking, and post-event feedback with AI-powered voice agents for event organizers.",
+    useCasesTitle: "Why Do Event Organizers Need AI Voice Agents ?",
   },
 
   "consulting-services": {
@@ -3907,6 +3922,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Consulting-ready in under 30 minutes.",
     serviceHeadline: "Core consulting AI Voice Services",
     serviceSubheadline: "Optimize project management, safety, and communication for consulting firms with AI-powered voice agents.",
+    useCasesTitle: "Why Construction Companies Need AI Voice Agents",
   },
 
   "pharmaceutical-services": {
@@ -4100,6 +4116,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. HIPAA-friendly setup in under 30 minutes.",
     serviceHeadline: "Core Pharmaceutical AI Voice Services",
     serviceSubheadline: "Automate prescription management, refill reminders, adherence tracking, and patient outreach with AI-powered voice agents for healthcare providers.",
+    useCasesTitle: "Why Do Pharmacies Need AI Voice Agents ?",
   },
 };
 
@@ -4267,6 +4284,7 @@ function buildFallbackContent(industryName: string): IndustryPageContent {
     ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
     serviceHeadline: "Core Healthcare & Medical AI Voice Services",
     serviceSubheadline: "Transform healthcare operations with AI-powered voice solutions.",
+    useCasesTitle: "Why AI Voice Agents in Healthcare & Medical Industry ?",
   };
 }
 
