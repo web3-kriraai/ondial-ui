@@ -37,7 +37,12 @@ export function BlogList({ posts }: BlogListProps) {
   );
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col gap-8">
+      <div className="flex items-center justify-between border-b border-border/10 pb-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">
+          All Articles ({posts.length})
+        </span>
+      </div>
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={currentPage}
