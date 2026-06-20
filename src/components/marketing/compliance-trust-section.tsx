@@ -118,14 +118,13 @@ export function ComplianceTrustSection() {
                 {/* <span className={cn(styles.iconWrap, iconClass)} aria-hidden>
                   <Icon className="size-5 sm:size-[1.35rem]" strokeWidth={1.75} />
                 </span> */}
-                <div className="mb-5 flex h-25 w-full items-center justify-center">
+                <div className="relative mb-5 h-25 w-full">
                   <Image
                     src={badge.icon}
                     alt={badge.label}
-                    width={100}
-                    height={100}
-                    aria-hidden
-                    className="h-full w-auto max-w-full object-contain"
+                    fill
+                    sizes="120px"
+                    className="object-contain"
                   />
                 </div>
                 <p className={styles.label}>{badge.label}</p>

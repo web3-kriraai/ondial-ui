@@ -1,15 +1,22 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type SyntheticEvent } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import Image from "next/image";
+import { Bebas_Neue } from "next/font/google";
 
-import { HOME_CAROUSEL_IMAGES } from "@/data/home-carousel-images";
+import { CarouselSlideImage } from "@/components/marketing/carousel-slide-image";
+import { HOME_CAROUSEL_PRELOAD_IMAGE, HOME_CAROUSEL_SLIDES } from "@/config/home-carousel";
 
 import styles from "./showcase-section.module.css";
 
-const CARD_COUNT = HOME_CAROUSEL_IMAGES.length;
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-bebas-neue",
+});
+
+const CARD_COUNT = HOME_CAROUSEL_SLIDES.length;
 const MOBILE_MEDIA = "(max-width: 767px)";
 const AUTO_ROTATE_DURATION_S = 32;
 const AUTO_ROTATE_DURATION_REDUCED_S = 128;
@@ -17,6 +24,8 @@ const DRAG_ROTATION_FACTOR = 0.22;
 const INERTIA_MULTIPLIER = 220;
 const MAX_INERTIA_ROTATION = 95;
 const INERTIA_DURATION_S = 0.7;
+const IMAGE_LOAD_STAGGER_MS = 140;
+const INITIAL_IMAGE_LOAD_COUNT = 2;
 
 function getAutoRotateDuration() {
   if (typeof window === "undefined") return AUTO_ROTATE_DURATION_S;
@@ -60,6 +69,10 @@ function readRotationY(element: HTMLElement): number {
   return 0;
 }
 
+function blockImageExtraction(event: SyntheticEvent) {
+  event.preventDefault();
+}
+
 export function ThreeDCarousel() {
   const stageRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
@@ -71,6 +84,53 @@ export function ThreeDCarousel() {
   const lastDragTsRef = useRef(0);
   const velocityRef = useRef(0);
   const useMobileCssSpinRef = useRef(true);
+  const [loadedImageCount, setLoadedImageCount] = useState(INITIAL_IMAGE_LOAD_COUNT);
+
+  useEffect(() => {
+    if (!HOME_CAROUSEL_PRELOAD_IMAGE) return;
+
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = HOME_CAROUSEL_PRELOAD_IMAGE;
+    link.type = "image/webp";
+    document.head.appendChild(link);
+
+    return () => {
+      link.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (loadedImageCount >= CARD_COUNT) return;
+
+    const timer = window.setTimeout(() => {
+      setLoadedImageCount((count) => Math.min(count + 1, CARD_COUNT));
+    }, IMAGE_LOAD_STAGGER_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [loadedImageCount]);
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const blockNative = (event: Event) => {
+      event.preventDefault();
+    };
+
+    stage.addEventListener("contextmenu", blockNative);
+    stage.addEventListener("dragstart", blockNative);
+    stage.addEventListener("selectstart", blockNative);
+    stage.addEventListener("copy", blockNative);
+
+    return () => {
+      stage.removeEventListener("contextmenu", blockNative);
+      stage.removeEventListener("dragstart", blockNative);
+      stage.removeEventListener("selectstart", blockNative);
+      stage.removeEventListener("copy", blockNative);
+    };
+  }, []);
 
   const stopInertia = () => {
     inertiaTweenRef.current?.kill();
@@ -268,8 +328,10 @@ export function ThreeDCarousel() {
   return (
     <div
       ref={stageRef}
-      className={styles.carouselStage}
+      className={`${styles.carouselStage} ${styles.carouselStageSecure} ${bebasNeue.variable}`}
       style={{ cursor: "grab" }}
+      onContextMenu={blockImageExtraction}
+      onDragStart={blockImageExtraction}
       onMouseDown={(e) => dragStart(e.clientX)}
       onTouchStart={(e) => {
         if (e.touches.length > 0) {
@@ -278,27 +340,36 @@ export function ThreeDCarousel() {
       }}
     >
       <div ref={ringRef} className={styles.carouselRing} style={ringStyle}>
-        {HOME_CAROUSEL_IMAGES.map((src, index) => {
+        {HOME_CAROUSEL_SLIDES.map((slide, index) => {
           const cardStyle = {
             "--i": index,
           } as CSSProperties;
 
           return (
             <div
-              key={src}
-              className={`carousel-card ${styles.carouselCard}`}
+              key={slide.slug}
+              className={`carousel-card ${styles.carouselCard} ${styles.carouselCardSecure}`}
               style={cardStyle}
+              onContextMenu={blockImageExtraction}
+              onDragStart={blockImageExtraction}
             >
-              <Image
-                src={src}
-                alt=""
-                fill
-                sizes="(max-width: 767px) 220px, 280px"
-                className={styles.carouselImage}
+              <CarouselSlideImage
+                src={slide.image}
+                alt={slide.title}
+                shouldLoad={index < loadedImageCount}
                 priority={index === 0}
-                fetchPriority={index === 0 ? "high" : undefined}
-                loading="eager"
               />
+
+              <div className={styles.carouselCardShield} aria-hidden />
+
+              <div className={styles.carouselCardOverlay}>
+                <div className={styles.carouselCardHeader}>
+                  <h3 className={styles.carouselCardTitle}>{slide.title}</h3>
+                </div>
+                <div className={styles.carouselCardFooter}>
+                  <p className={styles.carouselCardSubtitle}>{slide.subtitle}</p>
+                </div>
+              </div>
             </div>
           );
         })}

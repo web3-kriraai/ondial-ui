@@ -15,21 +15,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..");
 const publicDir = path.join(root, "public");
 
-const CAROUSEL_IDS = [
-  "1540968221243-29f5d70540bf",
-  "1596135187959-562c650d98bc",
-  "1628944682084-831f35256163",
-  "1590013330451-3946e83e0392",
-  "1590421959604-741d0eec0a2e",
-  "1572613000712-eadc57acbecd",
-  "1570097192570-4b49a6736f9f",
-  "1620789550663-2b10e0080354",
-  "1617775623669-20bff4ffaa5c",
-  "1548600916-dc8492f8e845",
-  "1573824969595-a76d4365a2e6",
-  "1633936929709-59991b5fdd72",
-];
-
 const TESTIMONIAL_IDS = [
   "photo-1560250097-0b93528c311a",
   "photo-1519085360753-af0119f7cbe7",
@@ -110,12 +95,39 @@ async function downloadToWebp(url, destPath, { width, height, quality = 82 } = {
   console.log(`  ✓ ${path.relative(publicDir, destPath)}`);
 }
 
-async function convertLocalToWebp(relativeSrc, relativeDest, width) {
+async function convertLocalToWebp(relativeSrc, relativeDest, options = {}) {
+  const opts = typeof options === "number" ? { width: options } : options;
+  const { width, height, quality = 82, fit = "inside" } = opts;
   const srcPath = path.join(publicDir, relativeSrc);
   const destPath = path.join(publicDir, relativeDest);
   await ensureDir(destPath);
-  await sharp(srcPath).resize(width, null, { fit: "inside", withoutEnlargement: true }).webp({ quality: 82 }).toFile(destPath);
+  let pipeline = sharp(srcPath);
+  if (width || height) {
+    pipeline = pipeline.resize(width, height, { fit, withoutEnlargement: fit === "inside" });
+  }
+  await pipeline.webp({ quality }).toFile(destPath);
   console.log(`  ✓ ${relativeDest}`);
+}
+
+async function optimizeCarouselLocals() {
+  const carouselDir = path.join(publicDir, "home", "carousel");
+  const entries = await readdir(carouselDir, { withFileTypes: true });
+  const rasterPattern = /\.(jpe?g|png)$/i;
+  let count = 0;
+
+  for (const entry of entries) {
+    if (!entry.isFile() || !rasterPattern.test(entry.name)) continue;
+    const ext = path.extname(entry.name);
+    const base = entry.name.slice(0, -ext.length);
+    await convertLocalToWebp(
+      path.join("home", "carousel", entry.name),
+      path.join("home", "carousel", `${base}.webp`),
+      { width: 560, height: 800, fit: "cover", quality: 80 },
+    );
+    count += 1;
+  }
+
+  return count;
 }
 
 async function optimizeSvgs(dir) {
@@ -149,16 +161,9 @@ async function optimizeSvgs(dir) {
 async function main() {
   console.log("Optimizing homepage assets...\n");
 
-  console.log("Carousel → WebP");
-  for (let i = 0; i < CAROUSEL_IDS.length; i += 1) {
-    const id = CAROUSEL_IDS[i];
-    const dest = path.join(publicDir, "home", "carousel", `${String(i + 1).padStart(2, "0")}.webp`);
-    await downloadToWebp(
-      `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=560&h=800&q=80`,
-      dest,
-      { width: 560, height: 800 },
-    );
-  }
+  console.log("Carousel (local JPG/PNG) → WebP");
+  const carouselCount = await optimizeCarouselLocals();
+  console.log(`  ${carouselCount} carousel image(s) optimized`);
 
   console.log("\nTestimonials → WebP");
   for (const id of TESTIMONIAL_IDS) {
@@ -179,7 +184,7 @@ async function main() {
 
   console.log("\nLoader images → WebP");
   for (const item of LOADER_SOURCES) {
-    await convertLocalToWebp(item.src, item.dest, item.width);
+    await convertLocalToWebp(item.src, item.dest, { width: item.width });
   }
 
   console.log("\nOptimizing SVGs with SVGO");
