@@ -15,7 +15,8 @@ function isDottedMarketingRoute(pathname: string) {
     pathname === "/about" ||
     pathname === "/contact" ||
     pathname === "/news" ||
-    pathname === "/case-studies"
+    pathname === "/case-studies" ||
+    pathname.startsWith("/case-studies/")
   ) {
     return true;
   }

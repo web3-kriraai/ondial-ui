@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 import { MarketingDottedPageShell } from "@/components/layout/marketing-dotted-page-shell";
-import { CaseStudyCustomerSuccessGridSection } from "@/components/marketing/case-study-customer-success-grid-section";
-import { CaseStudyFeaturedStorySection } from "@/components/marketing/case-study-featured-story-section";
+import { CaseStudyCtaSection } from "@/components/marketing/case-study-cta-section";
 import { CaseStudyHeroSection } from "@/components/marketing/case-study-hero-section";
-import { CaseStudyIndustryFilterSection } from "@/components/marketing/case-study-industry-filter-section";
-import { CaseStudyRoiCalculatorSection } from "@/components/marketing/case-study-roi-calculator-section";
+import { CaseStudyQuoteSection } from "@/components/marketing/case-study-quote-section";
+import { CaseStudyStoriesSection } from "@/components/marketing/case-study-stories-section";
+import { CaseStudyTickerSection } from "@/components/marketing/case-study-ticker-section";
 
 export const metadata: Metadata = {
   title: { absolute: "AI Voice Agent Case Studies & Success Stories | OnDial" },
@@ -35,11 +35,13 @@ export const metadata: Metadata = {
 export default function CaseStudiesPage() {
   return (
     <MarketingDottedPageShell>
-      <CaseStudyHeroSection />
-      <CaseStudyFeaturedStorySection />
-      <CaseStudyCustomerSuccessGridSection />
-      <CaseStudyRoiCalculatorSection />
-      <CaseStudyIndustryFilterSection />
+      <main className="flex flex-1 flex-col">
+        <CaseStudyHeroSection />
+        <CaseStudyTickerSection />
+        <CaseStudyQuoteSection />
+        <CaseStudyStoriesSection />
+        <CaseStudyCtaSection />
+      </main>
     </MarketingDottedPageShell>
   );
 }

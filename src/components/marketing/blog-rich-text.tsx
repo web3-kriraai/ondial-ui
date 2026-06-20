@@ -14,7 +14,7 @@ type BlogRichTextProps = {
 const linkClassName =
   "font-medium text-[#534AB7] underline-offset-4 transition-colors hover:text-[#463E9E] hover:underline";
 
-const proseClassName = cn(
+export const proseClassName = cn(
   "prose prose-slate prose-base max-w-none dark:prose-invert",
   "prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-foreground",
   "prose-h1:text-3xl prose-h1:sm:text-4xl",

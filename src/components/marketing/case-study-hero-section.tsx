@@ -1,284 +1,114 @@
 "use client";
 
-import { CalendarCheck, DollarSign, PhoneCall, TrendingUp } from "lucide-react";
-import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
-import { useRef, type CSSProperties, type ElementType } from "react";
+import { ArrowDown, ArrowRight, Building2, Globe2, Sparkles, Star } from "lucide-react";
+import Link from "next/link";
+import type { CSSProperties, ElementType } from "react";
 
+import { CaseStudyHeroVisual } from "@/components/marketing/case-study-hero-visual";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
-import {
-  marketingEyebrowClass,
-  marketingSectionContainerClass,
-} from "@/config/marketing-layout";
-import {
-  CASE_STUDY_HERO_CONTENT,
-  CASE_STUDY_HERO_METRICS,
-  type CaseStudyHeroMetric,
-  type CaseStudyHeroMetricId,
-} from "@/data/case-study-hero-content";
+import { marketingSectionContainerClass } from "@/config/marketing-layout";
+import { CASE_STUDY_PAGE_HERO } from "@/data/case-study-page-content";
 import { cn } from "@/lib/utils";
 
-const easeOut = [0.22, 1, 0.36, 1] as const;
-
-const metricIcon: Record<CaseStudyHeroMetricId, ElementType> = {
-  revenue: DollarSign,
-  calls: PhoneCall,
-  "answer-rate": TrendingUp,
-  bookings: CalendarCheck,
-};
-
-const metricTone: Record<CaseStudyHeroMetricId, { icon: string; glow: string }> = {
-  revenue: {
-    icon: "bg-[#E1F5EE] text-[#085041]",
-    glow: "shadow-[0_20px_48px_-28px_rgb(8_80_65/0.28)]",
-  },
-  calls: {
-    icon: "bg-[#EEEDFE] text-[#534AB7]",
-    glow: "shadow-[0_20px_48px_-28px_rgb(83_74_183/0.28)]",
-  },
-  "answer-rate": {
-    icon: "bg-[#E6F1FB] text-[#0C447C]",
-    glow: "shadow-[0_20px_48px_-28px_rgb(12_68_124/0.24)]",
-  },
-  bookings: {
-    icon: "bg-[#FAEEDA] text-[#633806]",
-    glow: "shadow-[0_20px_48px_-28px_rgb(217_119_6/0.24)]",
-  },
-};
-
-const FLOAT_POSITIONS: Record<
-  CaseStudyHeroMetricId,
-  { top: string; left?: string; right?: string; floatDelay: number; rotate: number }
-> = {
-  revenue: { top: "8%", left: "2%", floatDelay: 0, rotate: -4 },
-  calls: { top: "54%", left: "6%", floatDelay: 0.55, rotate: 3 },
-  "answer-rate": { top: "14%", right: "2%", floatDelay: 0.25, rotate: 4 },
-  bookings: { top: "58%", right: "5%", floatDelay: 0.8, rotate: -3 },
-};
-
-const stageVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
-  },
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 24, scale: 0.92 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.55, ease: easeOut },
-  },
-};
-
-function MetricCard({
-  metric,
-  className,
-  show,
-  prefersReducedMotion,
-  floating = false,
-}: {
-  metric: CaseStudyHeroMetric;
-  className?: string;
-  show: boolean;
-  prefersReducedMotion: boolean | null;
-  floating?: boolean;
-}) {
-  const Icon = metricIcon[metric.id];
-  const tone = metricTone[metric.id];
-  const position = FLOAT_POSITIONS[metric.id];
-
-  const cardClassName = cn(
-    "flex min-w-38 flex-col gap-3 rounded-2xl border border-border/60 bg-white p-4 sm:min-w-42 sm:p-[1.15rem]",
-    "shadow-[0_1px_0_rgb(255_255_255/0.95)_inset,0_16px_40px_-24px_rgb(15_23_42/0.14)]",
-    "transition-[box-shadow] duration-300 ease-out motion-reduce:transition-none",
-    "hover:shadow-[0_1px_0_rgb(255_255_255/0.98)_inset,0_24px_48px_-22px_rgb(15_23_42/0.16)]",
-    tone.glow,
-  );
-
-  const cardContent = (
-    <>
-      <span
-        className={cn("grid h-10 w-10 place-items-center rounded-xl", tone.icon)}
-        aria-hidden
-      >
-        <Icon className="h-4.5 w-4.5" strokeWidth={1.75} />
-      </span>
-      <div className="text-left">
-        <p className="m-0 text-[clamp(1.35rem,2.5vw,1.75rem)] font-bold leading-none tracking-tight text-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]">
-          {metric.value}
-        </p>
-        <p className="m-0 mt-1.5 text-sm font-semibold leading-snug text-foreground">
-          {metric.label}
-        </p>
-      </div>
-    </>
-  );
-
-  if (floating) {
-    return (
-      <motion.div
-        variants={cardVariants}
-        className={cn("absolute z-5", className)}
-        style={
-          {
-            top: position.top,
-            left: position.left,
-            right: position.right,
-            rotate: `${position.rotate}deg`,
-          } as CSSProperties
-        }
-      >
-        <motion.div
-          animate={
-            show && !prefersReducedMotion ? { y: [0, -8, 0] } : { y: 0 }
-          }
-          transition={
-            show && !prefersReducedMotion
-              ? {
-                  y: {
-                    duration: 4.2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: position.floatDelay,
-                  },
-                }
-              : undefined
-          }
-          className={cardClassName}
-        >
-          {cardContent}
-        </motion.div>
-      </motion.div>
-    );
-  }
-
-  return (
-    <motion.article
-      variants={cardVariants}
-      className={cn(
-        cardClassName,
-        "transition-[transform,box-shadow] duration-300 ease-out",
-        "hover:-translate-y-1",
-        className,
-      )}
-    >
-      {cardContent}
-    </motion.article>
-  );
-}
+const heroHighlights: { id: string; icon: ElementType; label: string }[] = [
+  { id: "businesses", icon: Building2, label: "500+ businesses" },
+  { id: "industries", icon: Globe2, label: "20+ industries" },
+  { id: "csat", icon: Star, label: "4.9★ average CSAT" },
+];
 
 export function CaseStudyHeroSection() {
-  const prefersReducedMotion = useReducedMotion();
-  const stageRef = useRef<HTMLDivElement>(null);
-  const stageInView = useInView(stageRef, { once: true, amount: 0.2 });
-  const show = prefersReducedMotion || stageInView;
-
-  const [titleLineOne, titleLineTwo, titleLineThree] = CASE_STUDY_HERO_CONTENT.titleLines;
+  const scrollToStories = () => {
+    document.getElementById("case-studies-stories")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section
-      id="case-study-hero"
-      className="relative overflow-hidden bg-transparent pb-[clamp(2.5rem,4vw,2rem)] pt-[clamp(2.25rem,5vw,3.5rem)]"
-      style={ONDIAL_ACCENT_STYLE}
-      aria-labelledby="case-study-hero-title"
+      id="case-studies-hero"
+      className="relative w-full overflow-x-clip py-11 sm:overflow-visible sm:py-14 lg:py-16"
+      style={ONDIAL_ACCENT_STYLE as CSSProperties}
+      aria-labelledby="case-studies-hero-title"
     >
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div
-          className="absolute left-1/2 top-[12%] h-[min(36rem,90vw)] w-[min(36rem,90vw)] -translate-x-1/2 rounded-full opacity-80"
-          style={{
-            background:
-              "radial-gradient(circle, hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.08) 0%, transparent 68%)",
-          }}
-        />
-        <div
-          className="absolute -left-[10%] top-[28%] h-64 w-64 rounded-full blur-3xl"
-          style={{ background: "rgb(225 245 238 / 0.55)" }}
-        />
-        <div
-          className="absolute -right-[8%] top-[22%] h-72 w-72 rounded-full blur-3xl"
-          style={{ background: "rgb(238 237 254 / 0.65)" }}
-        />
-      </div>
+      <div
+        className={cn(
+          marketingSectionContainerClass,
+          "grid grid-cols-1 items-start gap-10 lg:grid-cols-[1fr_540px] lg:gap-6 lg:items-start",
+        )}
+      >
+        <div className="flex min-w-0 flex-col">
+          <span className="mb-6 inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-[#E7E3F5] bg-background px-3.5 py-1.5 font-mono text-[11.5px] font-semibold tracking-[0.08em] text-[#7C3AED] uppercase shadow-[0_1px_2px_rgb(21_16_31/0.04),0_8px_24px_-8px_rgb(21_16_31/0.10)]">
+            <Sparkles className="size-3.5 shrink-0" aria-hidden strokeWidth={1.75} />
+            {CASE_STUDY_PAGE_HERO.tag}
+          </span>
 
-      <div className={marketingSectionContainerClass}>
-        <div
-          ref={stageRef}
-          className="relative mx-auto min-h-[clamp(28rem,72vw,36rem)] max-w-6xl lg:min-h-136 xl:min-h-144"
-        >
-          <motion.div
-            className="pointer-events-none absolute inset-0 hidden lg:block"
-            variants={stageVariants}
-            initial="hidden"
-            animate={show ? "visible" : "hidden"}
-            aria-hidden
+          <h1
+            id="case-studies-hero-title"
+            className="mb-5 text-balance text-[clamp(2.5rem,5.6vw,3.75rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-[#15101F] sm:mb-[22px]"
           >
-            {CASE_STUDY_HERO_METRICS.map((metric) => (
-              <MetricCard
-                key={metric.id}
-                metric={metric}
-                show={show}
-                prefersReducedMotion={prefersReducedMotion}
-                floating
-                className="pointer-events-auto"
-              />
-            ))}
-          </motion.div>
-
-          <header className="relative z-10 mx-auto flex max-w-2xl flex-col items-center px-2 text-center lg:pt-[clamp(3rem,8vw,5rem)]">
-            <p className={cn(marketingEyebrowClass, "mb-4")}>
-              {CASE_STUDY_HERO_CONTENT.eyebrow}
-            </p>
-
-            <h1
-              id="case-study-hero-title"
-              className="m-0 text-balance text-[clamp(2.125rem,5.5vw,3.75rem)] font-semibold leading-[1.12] tracking-tight text-foreground"
-            >
-              <TextReveal as="span" className="block" delay={0.05} stagger={0.07} inViewAmount={0.45}>
-                {titleLineOne}
-              </TextReveal>
-              <TextReveal as="span" className="block" delay={0.1} stagger={0.07} inViewAmount={0.45}>
-                {titleLineTwo}
-              </TextReveal>
-              <TextReveal
-                as="span"
-                className="block leading-snug text-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l))]"
-                delay={0.15}
-                stagger={0.07}
-                inViewAmount={0.45}
-              >
-                {titleLineThree}
-              </TextReveal>
-            </h1>
-
-            <TextReveal
-              as="p"
-              className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg"
-              delay={0.22}
-              stagger={0.028}
-              inViewAmount={0.4}
-            >
-              {CASE_STUDY_HERO_CONTENT.description}
+            <TextReveal as="span" className="block" trigger="inView" stagger={0.06}>
+              {CASE_STUDY_PAGE_HERO.title}
             </TextReveal>
-          </header>
+            <TextReveal as="span" className="block" trigger="inView" stagger={0.06}>
+              Real results
+            </TextReveal>
+            <TextReveal
+              as="span"
+              className="block text-[#7C3AED]"
+              trigger="inView"
+              stagger={0.06}
+            >
+              with OnDial.
+            </TextReveal>
+          </h1>
 
-          <motion.div
-            className="relative z-10 mt-10 grid grid-cols-2 gap-3 px-1 sm:gap-4 lg:hidden"
-            variants={stageVariants}
-            initial="hidden"
-            animate={show ? "visible" : "hidden"}
+          <TextReveal
+            as="p"
+            className="mb-7 max-w-[480px] text-[17px] leading-[1.6] text-[#4B4566] sm:mb-[30px]"
+            trigger="inView"
+            delay={0.1}
+            stagger={0.028}
           >
-            {CASE_STUDY_HERO_METRICS.map((metric) => (
-              <MetricCard
-                key={metric.id}
-                metric={metric}
-                show={show}
-                prefersReducedMotion={prefersReducedMotion}
-              />
-            ))}
-          </motion.div>
+            {CASE_STUDY_PAGE_HERO.description}
+          </TextReveal>
+
+          <div className="mb-8 flex flex-wrap gap-2.5 sm:mb-[34px]">
+            {heroHighlights.map((item) => {
+              const Icon = item.icon;
+              return (
+                <span
+                  key={item.id}
+                  className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-[#E7E3F5] bg-background px-3.5 py-2 text-[13.5px] font-semibold text-[#4B4566] shadow-[0_1px_2px_rgb(21_16_31/0.04),0_8px_24px_-8px_rgb(21_16_31/0.10)]"
+                >
+                  <Icon className="size-3.5 shrink-0 text-[#7C3AED]" aria-hidden strokeWidth={2} />
+                  {item.label}
+                </span>
+              );
+            })}
+          </div>
+
+          <div className="flex w-full flex-col gap-3.5 sm:flex-row sm:flex-wrap sm:items-center">
+            <Link
+              href="/contact"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#7C3AED] px-[22px] py-3.5 text-[15px] font-bold text-white shadow-[0_12px_32px_-8px_rgb(42_14_99/0.18),0_2px_8px_rgb(21_16_31/0.06)] transition-[transform,background-color] duration-150 hover:-translate-y-0.5 hover:bg-[#6D28D9] sm:w-auto"
+            >
+              {CASE_STUDY_PAGE_HERO.primaryCta}
+              <span className="ml-0.5 grid size-[26px] place-items-center rounded-full bg-white/18">
+                <ArrowRight className="size-4" aria-hidden strokeWidth={2.4} />
+              </span>
+            </Link>
+            <button
+              type="button"
+              onClick={scrollToStories}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#E7E3F5] bg-background px-[22px] py-3.5 text-[15px] font-bold text-[#15101F] transition-[transform,border-color,color] duration-150 hover:-translate-y-0.5 hover:border-[#7C3AED] hover:text-[#7C3AED] sm:w-auto"
+            >
+              {CASE_STUDY_PAGE_HERO.secondaryCta}
+              <ArrowDown className="size-4" aria-hidden strokeWidth={2.4} />
+            </button>
+          </div>
+        </div>
+
+        <div className="relative mx-auto w-full min-w-0 max-w-[520px] lg:mx-0 lg:max-w-none">
+          <CaseStudyHeroVisual />
         </div>
       </div>
     </section>

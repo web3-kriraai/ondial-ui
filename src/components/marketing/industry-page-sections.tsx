@@ -1329,7 +1329,7 @@ export function IndustryPageSections({ content, industryName }: {
         {/* ── Headline + CTAs ── */}
         <FadeSection className="pt-12 sm:pt-16 pb-8">
           <TextReveal
-            as="h1"
+            as="h2"
             className="text-balance text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-[2.5rem] mb-4"
             delay={0.05}
             stagger={0.05}

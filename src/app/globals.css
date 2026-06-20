@@ -188,3 +188,12 @@ number-flow-react::part(suffix) {
   font-size: 0.75em;
   color: var(--muted-foreground); /* Using muted-foreground for better contrast on dark */
 }
+
+@keyframes scrollTicker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
