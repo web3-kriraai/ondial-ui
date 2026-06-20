@@ -4,7 +4,7 @@ import { AboutCtaSection } from "@/components/marketing/about-cta-section";
 import { AboutHeroSection } from "@/components/marketing/about-hero-section";
 import { AboutWhatWeDoSection } from "@/components/marketing/about-what-we-do-section";
 import { AboutWhyChooseSection } from "@/components/marketing/about-why-choose-section";
-import { HomeFaqSection } from "@/components/marketing/home-faq-section";
+import { MarketingFaqSection } from "@/components/marketing/home-faq-section";
 import { MarketingDottedPageShell } from "@/components/layout/marketing-dotted-page-shell";
 
 
@@ -40,7 +40,7 @@ export default function AboutPage() {
       <AboutWhatWeDoSection />
       <AboutWhyChooseSection />
       <AboutCtaSection />
-      <HomeFaqSection />
+      <MarketingFaqSection pageKey="about" />
     </MarketingDottedPageShell>
   );
 }

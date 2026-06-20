@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import type { IndustryCallDirection, IndustryPageContent, IndustryDemoScenario } from "@/data/industry-hero-content";
 import { useDemoSync } from "@/components/providers/demo-sync-context";
+import { IndustryFaqSection } from "@/components/marketing/home-faq-section";
 import { IndustryStatsBento } from "@/components/marketing/industry-stats-bento";
 import { IndustryServicesCarousel } from "@/components/marketing/industry-services-carousel";
 import { TextReveal } from "@/components/ui/text-reveal";
@@ -1312,9 +1313,10 @@ function SectionHead({ title, sub }: { title: React.ReactNode; sub: string }) {
 }
 
 /* ─── Main ───────────────────────────────────────────────── */
-export function IndustryPageSections({ content, industryName }: {
+export function IndustryPageSections({ content, industryName, industrySlug }: {
   content: IndustryPageContent;
   industryName: string;
+  industrySlug: string;
 }) {
   const prefersReducedMotion = useReducedMotion();
   const useCaseGridRef = useRef<HTMLDivElement>(null);
@@ -1671,6 +1673,7 @@ export function IndustryPageSections({ content, industryName }: {
         </FadeSection>
 
       </div>
+      <IndustryFaqSection industrySlug={industrySlug} />
     </div>
   );
 }

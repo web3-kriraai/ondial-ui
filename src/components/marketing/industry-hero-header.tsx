@@ -26,7 +26,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const variants = {
   bg: {
-    hidden:  { opacity: 1, scale: 1.07 },
+    hidden: { opacity: 1, scale: 1.07 },
     visible: { opacity: 1, scale: 1, transition: { duration: 1.4, ease } },
   },
   title: {
@@ -45,10 +45,10 @@ const variants = {
 
 /** Parallax depth config — positive = follows cursor, negative = opposes */
 const DEPTH = {
-  bg:      { x: -22, y: -13 },
-  title:   { x:  16, y:   9 },
-  fg:      { x:  10, y:   6 },
-  content: { x:   6, y:   4 },
+  bg: { x: -22, y: -13 },
+  title: { x: 16, y: 9 },
+  fg: { x: 10, y: 6 },
+  content: { x: 6, y: 4 },
 };
 
 const SPRING = { stiffness: 28, damping: 22, mass: 1.4 };
@@ -70,19 +70,19 @@ export function IndustryHeroHeader({
   const springY = useSpring(rawY, SPRING);
 
   /* Per-layer derived transforms */
-  const bgX      = useTransform(springX, v => v * DEPTH.bg.x);
-  const bgY      = useTransform(springY, v => v * DEPTH.bg.y);
-  const titleX   = useTransform(springX, v => v * DEPTH.title.x);
-  const titleY   = useTransform(springY, v => v * DEPTH.title.y);
-  const fgX      = useTransform(springX, v => v * DEPTH.fg.x);
-  const fgY      = useTransform(springY, v => v * DEPTH.fg.y);
+  const bgX = useTransform(springX, v => v * DEPTH.bg.x);
+  const bgY = useTransform(springY, v => v * DEPTH.bg.y);
+  const titleX = useTransform(springX, v => v * DEPTH.title.x);
+  const titleY = useTransform(springY, v => v * DEPTH.title.y);
+  const fgX = useTransform(springX, v => v * DEPTH.fg.x);
+  const fgY = useTransform(springY, v => v * DEPTH.fg.y);
   const contentX = useTransform(springX, v => v * DEPTH.content.x);
   const contentY = useTransform(springY, v => v * DEPTH.content.y);
 
   function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    rawX.set(((e.clientX - left) / width  - 0.5) * 2);
-    rawY.set(((e.clientY - top)  / height - 0.5) * 2);
+    rawX.set(((e.clientX - left) / width - 0.5) * 2);
+    rawY.set(((e.clientY - top) / height - 0.5) * 2);
   }
 
   function handleMouseLeave() {
@@ -117,7 +117,7 @@ export function IndustryHeroHeader({
           </motion.div>
 
           {/* 2 — Title: entrance only, no parallax */}
-          <motion.h1
+          <motion.p
             variants={variants.title}
             initial="hidden"
             animate={animateState}
@@ -125,7 +125,7 @@ export function IndustryHeroHeader({
             style={{ fontFamily: "var(--font-bebas-neue), 'Bebas Neue', sans-serif" }}
           >
             {title}
-          </motion.h1>
+          </motion.p>
 
           {/* 3 — Foreground: parallax close layer + rises-up entrance (renders after title → on top) */}
           {foregroundImage && (
@@ -183,10 +183,10 @@ export function IndustryHeroHeader({
               className="text-white grid place-items-center content-center gap-1 pb-5 min-h-[28%]"
             >
               <div className="w-[6ch] h-px bg-white mb-2" aria-hidden />
-              <p className="m-0 flex items-center gap-2 text-[clamp(0.9rem,1.6vw,1.1rem)]">
+              <h1 className="m-0 flex items-center gap-2 text-[clamp(0.9rem,1.6vw,1.1rem)]">
                 <Globe className="w-[1.1rem] h-[1.1rem] shrink-0" aria-hidden />
                 <span>{highlight}</span>
-              </p>
+              </h1>
               <p className="m-0 opacity-75 text-[clamp(0.8rem,1.4vw,0.95rem)]">
                 {subtitle}
               </p>

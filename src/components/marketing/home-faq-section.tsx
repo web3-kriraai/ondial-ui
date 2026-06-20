@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 
 import { TextReveal } from "@/components/ui/text-reveal";
 import { marketingSectionContainerClass } from "@/config/marketing-layout";
-import { HOME_FAQ_HEADING, HOME_FAQS } from "@/data/home-faqs";
+import { getSiteFaqSection, hasSiteFaqPage, type SiteFaqPageKey } from "@/data/site-faqs";
 import { cn } from "@/lib/utils";
 
 import styles from "./home-faq-section.module.css";
@@ -46,37 +46,47 @@ const answerTextVariants: Variants = {
   },
 };
 
-type HomeFaqSectionProps = {
-  /** Let a parent shell (e.g. dotted marketing surface) show through. */
+export type MarketingFaqSectionProps = {
+  pageKey?: SiteFaqPageKey;
   transparentSurface?: boolean;
+  sectionId?: string;
 };
 
-export function HomeFaqSection({ transparentSurface = false }: HomeFaqSectionProps) {
+export function MarketingFaqSection({
+  pageKey = "home",
+  transparentSurface = false,
+  sectionId = "faq",
+}: MarketingFaqSectionProps) {
   const prefersReducedMotion = useReducedMotion();
   const accordionRef = useRef<HTMLDivElement>(null);
   const accordionInView = useInView(accordionRef, { once: true, amount: 0.12 });
   const [openIndex, setOpenIndex] = useState(0);
 
+  const { title, description, items } = getSiteFaqSection(pageKey);
   const showAccordion = prefersReducedMotion || accordionInView;
+
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <section
-      id="faq"
+      id={sectionId}
       className={cn(styles.section, transparentSurface && styles.sectionTransparent)}
-      aria-labelledby="faq-title"
+      aria-labelledby={`${sectionId}-title`}
     >
       <div className={marketingSectionContainerClass}>
         <div className={styles.layout}>
           <header className={styles.intro}>
             <TextReveal
               as="h2"
-              id="faq-title"
+              id={`${sectionId}-title`}
               className={styles.title}
               delay={0.05}
               stagger={0.07}
               inViewAmount={0.55}
             >
-              {HOME_FAQ_HEADING.title}
+              {title}
             </TextReveal>
             <TextReveal
               as="p"
@@ -85,7 +95,7 @@ export function HomeFaqSection({ transparentSurface = false }: HomeFaqSectionPro
               stagger={0.035}
               inViewAmount={0.45}
             >
-              {HOME_FAQ_HEADING.description}
+              {description}
             </TextReveal>
           </header>
 
@@ -96,10 +106,10 @@ export function HomeFaqSection({ transparentSurface = false }: HomeFaqSectionPro
             initial="hidden"
             animate={showAccordion ? "visible" : "hidden"}
           >
-            {HOME_FAQS.map((item, index) => {
+            {items.map((item, index) => {
               const isOpen = openIndex === index;
-              const panelId = `faq-panel-${item.id}`;
-              const triggerId = `faq-trigger-${item.id}`;
+              const panelId = `${sectionId}-panel-${item.id}`;
+              const triggerId = `${sectionId}-trigger-${item.id}`;
 
               return (
                 <motion.div key={item.id} className={styles.item} variants={accordionItemVariants}>
@@ -156,5 +166,33 @@ export function HomeFaqSection({ transparentSurface = false }: HomeFaqSectionPro
         </div>
       </div>
     </section>
+  );
+}
+
+/** @deprecated Use MarketingFaqSection */
+export function HomeFaqSection({
+  pageKey = "home",
+  transparentSurface = false,
+}: Omit<MarketingFaqSectionProps, "sectionId">) {
+  return (
+    <MarketingFaqSection
+      pageKey={pageKey}
+      transparentSurface={transparentSurface}
+      sectionId="faq"
+    />
+  );
+}
+
+export function IndustryFaqSection({ industrySlug }: { industrySlug: string }) {
+  if (!hasSiteFaqPage(industrySlug)) {
+    return null;
+  }
+
+  return (
+    <MarketingFaqSection
+      pageKey={industrySlug}
+      transparentSurface
+      sectionId={`${industrySlug}-faq`}
+    />
   );
 }

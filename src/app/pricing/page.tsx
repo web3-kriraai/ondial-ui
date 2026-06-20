@@ -36,7 +36,7 @@ export default function PricingPage() {
       <BlogPageShell>
         <HomePricingSection />
         <PricingCalculatorSection />
-        <HomeFaqSection transparentSurface />
+        <HomeFaqSection pageKey="pricing" transparentSurface />
       </BlogPageShell>
     </main>
   );

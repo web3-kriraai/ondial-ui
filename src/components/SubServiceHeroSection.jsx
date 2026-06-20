@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from "framer-motion";
-import { useRef,Suspense } from "react"
+import { useRef, Suspense } from "react"
 import { ArrowRight, CheckCircle } from "lucide-react";
 import VariableProximity from "@/components/ui/VariableProximity"
 
@@ -33,23 +33,23 @@ export default function SubServiceHeroSection({
               transition={{ delay: 0.4, duration: 0.8 }}
             >
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-gray-900 leading-[1.2] sm:leading-[1.3] tracking-tight">
-              <div
-                ref={containerRef}
-                style={{ position: 'relative ' }}
-              >
-                <Suspense fallback={<span> With OnDial AI Voice Agents</span>}>
-                  <VariableProximity
-                    label={title}
-                    className={'variable-proximity-demo leading-[1.2] sm:leading-[1.3] tracking-tight bg-gradient-to-r from-[#500CFD] to-indigo-600 bg-clip-text text-transparent'}
-                    fromFontVariationSettings="'wght' 400, 'opsz' 9"
-                    toFontVariationSettings="'wght' 1000, 'opsz' 40"
-                    containerRef={containerRef}
-                    radius={100}
-                    falloff='linear'
-                  />
-                </Suspense>
-              </div>
-            </h1>
+                <div
+                  ref={containerRef}
+                  style={{ position: 'relative ' }}
+                >
+                  <Suspense fallback={<span> With OnDial AI Voice Agents</span>}>
+                    <VariableProximity
+                      label={title}
+                      className={'variable-proximity-demo leading-[1.2] sm:leading-[1.3] tracking-tight bg-gradient-to-r from-[#500CFD] to-indigo-600 bg-clip-text text-transparent'}
+                      fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                      toFontVariationSettings="'wght' 1000, 'opsz' 40"
+                      containerRef={containerRef}
+                      radius={100}
+                      falloff='linear'
+                    />
+                  </Suspense>
+                </div>
+              </h1>
             </motion.div>
 
             {/* Subtitle */}
@@ -111,8 +111,8 @@ export default function SubServiceHeroSection({
             transition={{ delay: 0.4, duration: 0.8 }}
           >
             <div className="w-full h-auto relative rounded-2xl overflow-hidden ps-20 py-10">
-              <img 
-                src="/img/vector/vector2.png" 
+              <img
+                src="/img/vector/vector2.png"
                 alt="AI Voice Agents for Healthcare"
                 className="w-full h-full object-cover"
               />

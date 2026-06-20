@@ -67,7 +67,11 @@ export default async function IndustryPage({ params }: Props) {
       <main className="flex flex-1 flex-col">
         <IndustryHeroHeader {...hero} />
         <AudioDemoPlayer tracks={hero.audioDemos} />
-        <IndustryPageSections content={pageContent} industryName={industry.name} />
+        <IndustryPageSections
+          content={pageContent}
+          industryName={industry.name}
+          industrySlug={industry.slug}
+        />
       </main>
     </DemoSyncProvider>
   );
