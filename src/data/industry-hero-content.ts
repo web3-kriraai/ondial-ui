@@ -313,6 +313,7 @@ export type IndustryDemoScenario = {
 };
 
 export type IndustryPageContent = {
+  question?: string;
   headline: string;
   headlineHighlight: string;
   subheadline: string;
@@ -544,9 +545,11 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
     serviceHeadline: "Core Real Estate AI Voice Services",
     serviceSubheadline: "Streamline property management, lead engagement, and client communication with AI-powered voice solutions.",
+    question: "Why AI Voice Agents in Real Estate Industry?",
   },
 
   "healthcare-and-medical-services": {
+    question: "Why AI Voice Agents in Healthcare & Medical Industry?",
     headline: "Every patient call",
     headlineHighlight: "answered",
     subheadline: "Your AI calling agent books appointments, sends reminders, and handles follow-ups - 24/7, so your staff can focus on care.",

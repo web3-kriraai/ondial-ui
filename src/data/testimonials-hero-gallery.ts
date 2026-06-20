@@ -31,7 +31,7 @@ export const TESTIMONIAL_HERO_COPY = {
   titleMuted: "from various industries",
   description: "Learn why professionals trust our solutions to complete their customer journeys.",
   ctaLabel: "Read Success Stories",
-  ctaHref: "/blog",
+  ctaHref: "/contact",
 } as const;
 
 export const TESTIMONIAL_ARTBOARD_WIDTH = 1200;
