@@ -4,6 +4,14 @@ import { Poppins } from "next/font/google";
 
 import { AppLayoutShell } from "@/components/layout/app-layout-shell";
 import { AppProviders } from "@/components/providers/app-providers";
+import { ORGANIZATION_SOCIAL_URLS } from "@/config/social";
+import {
+  ORGANIZATION_ADDRESS,
+  ORGANIZATION_CONTACT_POINTS,
+  ORGANIZATION_DESCRIPTION,
+  SITE_LOGO,
+  SITE_URL,
+} from "@/lib/seo/siteConfig";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -99,36 +107,15 @@ export default async function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "OnDial",
-              url: "https://www.ondial.ai",
-              logo: "https://www.ondial.ai/img/logo/og.png",
-              description: "OnDial provides enterprise-grade AI Voice Agents for inbound and outbound call automation, multilingual customer support, lead qualification, appointment scheduling, and business communication automation.",
-              sameAs: [
-                "https://twitter.com/ondialai",
-                "https://www.linkedin.com/company/ondialai",
-                "https://www.facebook.com/ondialai",
-                "https://www.instagram.com/ondialai",
-              ],
-              contactPoint: [
-                {
-                  "@type": "ContactPoint",
-                  telephone: "+91-9979620507",
-                  contactType: "customer service",
-                  areaServed: ["IN", "US"],
-                  availableLanguage: ["English", "Hindi"],
-                },
-                {
-                  "@type": "ContactPoint",
-                  telephone: "+91-8160835445",
-                  contactType: "sales",
-                  areaServed: ["IN", "US"],
-                  availableLanguage: ["English", "Hindi"],
-                },
-              ],
-              address: {
-                "@type": "PostalAddress",
-                addressCountry: "IN",
-                addressRegion: "Gujarat",
-              },
+              url: SITE_URL,
+              logo: SITE_LOGO,
+              description: ORGANIZATION_DESCRIPTION,
+              sameAs: [...ORGANIZATION_SOCIAL_URLS],
+              contactPoint: ORGANIZATION_CONTACT_POINTS.map((point) => ({
+                "@type": "ContactPoint",
+                ...point,
+              })),
+              address: ORGANIZATION_ADDRESS,
             }),
           }}
         />
@@ -139,7 +126,7 @@ export default async function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "OnDial",
-              url: "https://www.ondial.ai",
+              url: SITE_URL,
             }),
           }}
         />

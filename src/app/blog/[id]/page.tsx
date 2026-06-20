@@ -81,6 +81,10 @@ export default async function BlogPostPage({ params }: Props) {
 
   const siteUrl = await getSiteUrl();
   const shareUrl = `${siteUrl}/blog/${post.slug}`;
+  const imageAspectRatio =
+    post.imageWidth && post.imageHeight && post.imageHeight > 0
+      ? post.imageWidth / post.imageHeight
+      : 16 / 9;
 
   return (
     <BlogPageShell>
@@ -91,12 +95,15 @@ export default async function BlogPostPage({ params }: Props) {
           </BlogArticleMotion>
 
           <BlogArticleMotion delay={0.08}>
-            <div className="relative mb-8 aspect-2/1 w-full overflow-hidden rounded-2xl border border-border/40 bg-muted/30 shadow-[0_12px_40px_-20px_rgb(15_23_42/0.18)] sm:mb-10 sm:rounded-3xl">
+            <div
+              className="relative mb-8 w-full overflow-hidden rounded-2xl sm:mb-10 sm:rounded-3xl"
+              style={{ aspectRatio: imageAspectRatio }}
+            >
               <Image
                 src={post.image}
                 alt={post.title}
                 fill
-                className="object-cover"
+                className="object-contain object-center"
                 priority
                 loading="eager"
                 sizes="(max-width: 768px) 100vw, 896px"

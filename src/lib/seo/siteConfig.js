@@ -3,6 +3,8 @@
  * Canonical host MUST match next.config redirect (bare → www).
  */
 
+import { ORGANIZATION_SOCIAL_URLS } from '../../config/social';
+
 export const SITE_URL = 'https://www.ondial.ai';
 export const SITE_NAME = 'OnDial';
 export const SITE_LEGAL_NAME = 'OnDial AI';
@@ -28,12 +30,7 @@ export const ORGANIZATION_CONTACT_POINTS = [
   },
 ];
 
-export const ORGANIZATION_SAME_AS = [
-  'https://twitter.com/ondialai',
-  'https://www.linkedin.com/company/ondialai',
-  'https://www.facebook.com/ondialai',
-  'https://www.instagram.com/ondialai',
-];
+export const ORGANIZATION_SAME_AS = [...ORGANIZATION_SOCIAL_URLS];
 
 export const ORGANIZATION_ADDRESS = {
   '@type': 'PostalAddress',

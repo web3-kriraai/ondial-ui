@@ -43,7 +43,11 @@ export type ContentfulBlogSummary = {
   metaTitle: string | null;
   metaDescription: string | null;
   publishDate: string | null;
-  featuredImage: { url: string | null } | null;
+  featuredImage: {
+    url: string | null;
+    width: number | null;
+    height: number | null;
+  } | null;
   author: ContentfulAuthor | null;
 };
 
@@ -73,6 +77,8 @@ export type BlogPostSummary = {
   readTime: string;
   category: string;
   image: string;
+  imageWidth: number | null;
+  imageHeight: number | null;
   author: {
     name: string;
     slug: string | null;

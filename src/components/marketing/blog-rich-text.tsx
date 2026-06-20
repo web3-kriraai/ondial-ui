@@ -75,7 +75,7 @@ function RichTextEmbeddedAsset({ asset }: { asset: ContentfulAsset | undefined }
   return (
     <figure className="not-prose my-8 sm:my-10">
       <div
-        className="relative w-full overflow-hidden rounded-xl border border-border/50 bg-muted/20 shadow-sm sm:rounded-2xl"
+        className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl"
         style={{ aspectRatio }}
       >
         <Image

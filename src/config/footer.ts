@@ -2,6 +2,11 @@
  * Footer content — adjust labels, routes, and copy here.
  */
 
+import {
+  SOCIAL_INSTAGRAM_URL,
+  SOCIAL_LINKEDIN_URL,
+} from "@/config/social";
+
 export type FooterNavLink = {
   href: string;
   label: string;
@@ -42,12 +47,12 @@ export const FOOTER_PLATFORM_LINKS = FOOTER_RESOURCES_LINKS;
 
 export const FOOTER_SOCIAL_LINKS: readonly FooterNavLink[] = [
   {
-    href: "https://www.linkedin.com/company/ondial",
+    href: SOCIAL_LINKEDIN_URL,
     label: "LinkedIn",
     external: true,
   },
   {
-    href: "https://www.instagram.com/ondial",
+    href: SOCIAL_INSTAGRAM_URL,
     label: "Instagram",
     external: true,
   },

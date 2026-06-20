@@ -9,7 +9,7 @@ export const BLOG_LIST_FIELDS = `
   metaTitle
   metaDescription
   publishDate
-  featuredImage { url }
+  featuredImage { url width height }
 `;
 
 export const BLOG_SUMMARY_FIELDS = `
@@ -27,7 +27,7 @@ export const BLOG_DETAIL_FIELDS = `
   metaTitle
   metaDescription
   publishDate
-  featuredImage { url }
+  featuredImage { url width height }
   description {
     json
     links {

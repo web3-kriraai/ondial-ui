@@ -102,6 +102,8 @@ export function mapBlogSummary(blog: ContentfulBlogSummary): BlogPostSummary | n
     readTime: estimateReadTimeFromText(excerpt || blog.title),
     category: DEFAULT_CATEGORY,
     image: blog.featuredImage?.url || DEFAULT_IMAGE,
+    imageWidth: blog.featuredImage?.width ?? null,
+    imageHeight: blog.featuredImage?.height ?? null,
     author: {
       name: blog.author?.authorName?.trim() || DEFAULT_AUTHOR,
       slug: blog.author?.slug ? normalizeSlug(blog.author.slug) : null,
