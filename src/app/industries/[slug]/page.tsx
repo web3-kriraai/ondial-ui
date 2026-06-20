@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { IndustryHeroHeader } from "@/components/marketing/industry-hero-header";
-import { AudioDemoPlayer } from "@/components/marketing/audio-demo-player";
+// import { AudioDemoPlayer } from "@/components/marketing/audio-demo-player";
 import { IndustryPageSections } from "@/components/marketing/industry-page-sections";
 import { DemoSyncProvider } from "@/components/providers/demo-sync-context";
 import {
@@ -105,7 +105,7 @@ export default async function IndustryPage({ params }: Props) {
       <StructuredData data={[...industrySchemas, industryFaqSchema]} />
       <main className="flex flex-1 flex-col">
         <IndustryHeroHeader {...hero} />
-        <AudioDemoPlayer tracks={hero.audioDemos} />
+        {/* <AudioDemoPlayer tracks={hero.audioDemos} /> */}
         <IndustryPageSections
           content={pageContent}
           industryName={industry.name}
