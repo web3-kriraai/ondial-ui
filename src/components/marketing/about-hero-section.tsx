@@ -127,7 +127,7 @@ export function AboutHeroSection() {
                 >
                   <Image
                     src={flagImageUrl(language.countryCode)}
-                    alt=""
+                    alt={`${language.label} flag`}
                     width={18}
                     height={18}
                     className="h-4.5 w-4.5 rounded-full object-cover"

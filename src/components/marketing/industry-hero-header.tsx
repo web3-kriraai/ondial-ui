@@ -107,7 +107,7 @@ export function IndustryHeroHeader({
           >
             <motion.img
               src={backgroundImage}
-              alt=""
+              alt={`${title} industry background`}
               draggable={false}
               variants={variants.bg}
               initial="hidden"
@@ -135,7 +135,7 @@ export function IndustryHeroHeader({
             >
               <motion.img
                 src={foregroundImage}
-                alt=""
+                alt={`${title} industry foreground illustration`}
                 draggable={false}
                 variants={variants.fg}
                 initial="hidden"

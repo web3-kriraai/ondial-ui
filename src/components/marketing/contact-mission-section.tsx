@@ -151,7 +151,7 @@ function MissionRow({
                         <span className="relative size-7 overflow-hidden rounded-full bg-muted">
                           <Image
                             src={person.avatarSrc}
-                            alt=""
+                            alt={`${person.name} avatar`}
                             fill
                             className="object-cover "
                             sizes="28px"

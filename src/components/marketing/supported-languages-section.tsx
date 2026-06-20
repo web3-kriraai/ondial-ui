@@ -399,7 +399,7 @@ export function SupportedLanguagesSection() {
                           >
                             <LanguageFlag
                               countryCode={accent.countryCode}
-                              alt=""
+                              alt={`${accent.label} accent flag`}
                               className={styles.accentFlag}
                               size={14}
                             />

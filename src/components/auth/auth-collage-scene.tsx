@@ -127,7 +127,7 @@ export function AuthCollageScene({
           >
             <Image
               src={KIWI_CARD_IMAGE}
-              alt=""
+              alt="User interface feature preview"
               fill
               priority
               unoptimized
@@ -159,7 +159,7 @@ export function AuthCollageScene({
                 >
                   <Image
                     src={src}
-                    alt=""
+                    alt={`Team member avatar ${index + 1}`}
                     fill
                     sizes="50px"
                     className="object-cover"

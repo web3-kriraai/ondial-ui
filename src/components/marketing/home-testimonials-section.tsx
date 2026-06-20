@@ -158,7 +158,7 @@ export function HomeTestimonialsSection() {
                 {tile.src ? (
                   <Image
                     src={tile.src}
-                    alt=""
+                    alt="Customer portrait"
                     width={80}
                     height={100}
                     sizes="80px"

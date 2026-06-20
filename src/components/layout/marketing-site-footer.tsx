@@ -193,7 +193,7 @@ export function MarketingSiteFooter({ className }: MarketingSiteFooterProps) {
         >
           <motion.div className={styles.brandCol} variants={columnVariants}>
             <Link href="/" prefetch className={styles.brandMark}>
-              <Image src="/fav.svg" alt="" width={32} height={32} className="size-8" loading="lazy" />
+              <Image src="/fav.svg" alt="OnDial Logo" width={32} height={32} className="size-8" loading="lazy" />
               <span className={styles.brandName}>{FOOTER_BRAND_NAME}</span>
             </Link>
             <p className={styles.tagline}>{FOOTER_BRAND_TAGLINE}</p>

@@ -119,7 +119,7 @@ function WorldMapBackdrop() {
     >
       <Image
         src={worldMap.src}
-        alt=""
+        alt="World map highlighting global connectivity"
         width={1000}
         height={400}
         priority

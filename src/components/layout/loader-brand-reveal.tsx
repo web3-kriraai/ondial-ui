@@ -46,7 +46,7 @@ export const LoaderBrandReveal = forwardRef<HTMLDivElement, LoaderBrandRevealPro
                       >
                         <Image
                           src={LOADER_CUBE_LOGO}
-                          alt=""
+                          alt="OnDial Brand Logo"
                           fill
                           sizes="80px"
                           className={styles.cubeFaceImage}
