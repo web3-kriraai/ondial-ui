@@ -126,6 +126,10 @@ function CaseStudyRichProse({
     <div className={proseClassName}>
       {detail.subtitle ? <p>{detail.subtitle}</p> : null}
 
+      {detail.metaDescription ? (
+        <p className="text-muted-foreground">{detail.metaDescription}</p>
+      ) : null}
+
       {(detail.domain || detail.scale) && (
         <>
           {detail.domain ? (
@@ -161,6 +165,7 @@ function CaseStudyRichProse({
       </ol>
 
       <h2>Technical deep dive</h2>
+      {detail.technicalIntro ? <p>{detail.technicalIntro}</p> : null}
       {detail.technicalSections.map((section) => (
         <div key={section.title}>
           <h3>{section.title}</h3>

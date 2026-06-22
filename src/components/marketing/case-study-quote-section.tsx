@@ -99,7 +99,7 @@ export function CaseStudyQuoteSection() {
                     </blockquote>
                     <footer className="flex items-center justify-center gap-3">
                       <span
-                        className="flex size-10 shrink-0 items-center justify-center rounded-xl font-mono text-[0.8125rem] font-bold"
+                        className="flex size-10 shrink-0 items-center justify-center rounded-xl mono text-[0.8125rem] font-bold"
                         style={{
                           background: review.avatarBg,
                           color: review.avatarColor,

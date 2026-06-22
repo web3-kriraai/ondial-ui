@@ -36,14 +36,14 @@ export function CaseStudyHeroSection() {
         )}
       >
         <div className="flex min-w-0 flex-col">
-          <span className="mb-6 inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-[#E7E3F5] bg-background px-3.5 py-1.5 font-mono text-[11.5px] font-semibold tracking-[0.08em] text-[#7C3AED] uppercase shadow-[0_1px_2px_rgb(21_16_31/0.04),0_8px_24px_-8px_rgb(21_16_31/0.10)]">
+          <span className="mb-6 inline-flex w-fit max-w-full items-center gap-2 rounded-full border border-[#E7E3F5] bg-background px-3.5 py-1.5  text-[11.5px] font-semibold tracking-[0.08em] text-[#7C3AED] uppercase shadow-[0_1px_2px_rgb(21_16_31/0.04),0_8px_24px_-8px_rgb(21_16_31/0.10)]">
             <Sparkles className="size-3.5 shrink-0" aria-hidden strokeWidth={1.75} />
             {CASE_STUDY_PAGE_HERO.tag}
           </span>
 
           <h1
             id="case-studies-hero-title"
-            className="mb-5 text-balance text-[clamp(2.5rem,5.6vw,3.75rem)] font-extrabold leading-[1.04] tracking-[-0.03em] text-[#15101F] sm:mb-[22px]"
+            className="mb-5 text-balance text-[clamp(2.5rem,5.6vw,3.75rem)] font-semibold leading-[1.04] tracking-[-0.03em] text-[#15101F] sm:mb-[22px]"
           >
             <TextReveal as="span" className="block" trigger="inView" stagger={0.06}>
               {CASE_STUDY_PAGE_HERO.title}

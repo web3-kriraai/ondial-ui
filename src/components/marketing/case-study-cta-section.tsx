@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 import { marketingEyebrowClass, marketingSectionContainerClass } from "@/config/marketing-layout";
 import { CASE_STUDY_CTA } from "@/data/case-study-page-content";
