@@ -2,9 +2,12 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { createClient } from "@supabase/supabase-js";
 
+// Force dynamic rendering — never cache at build time, always query Supabase live
+export const dynamic = "force-dynamic";
+
 const BASE_URL = "https://www.ondial.ai";
 
-/** Format publish_date as YYYY-MM-DD in IST — identical to generate-sitemap.ts */
+/** Format publish_date as YYYY-MM-DD in IST. */
 function formatPublishDate(publishDate: string): string {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Kolkata",

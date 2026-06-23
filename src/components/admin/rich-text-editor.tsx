@@ -717,7 +717,7 @@ export function RichTextEditor({
           "prose-th:bg-gray-50 prose-th:px-3 prose-th:py-2 prose-th:text-sm prose-th:font-semibold",
           "prose-td:px-3 prose-td:py-2 prose-td:text-sm prose-td:border-b prose-td:border-gray-100",
           // Editor chrome
-          "min-h-[32rem] px-6 py-5 outline-none focus:outline-none",
+          "min-h-[560px] px-6 py-5 outline-none focus:outline-none",
           "text-gray-800",
         ].join(" "),
       },
@@ -727,14 +727,14 @@ export function RichTextEditor({
 
   if (!editor) {
     return (
-      <div className="flex min-h-[32rem] items-center justify-center">
+      <div className="flex h-[680px] items-center justify-center">
         <Loader2 className="size-5 animate-spin text-gray-300" />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+    <div className="flex flex-col rounded-xl bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06)] h-[680px] overflow-y-auto overflow-x-hidden">
       <Toolbar editor={editor} />
       {/* Editor area with ProseMirror placeholder support */}
       <style>{`

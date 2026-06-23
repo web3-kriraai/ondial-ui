@@ -15,7 +15,6 @@ import {
   isPostBodyEmpty,
 } from "@/lib/blog/post-validation";
 import { invalidateBlogCache } from "@/lib/db/fetch-blogs";
-import { generateAndWriteSitemap } from "@/lib/sitemap/generate-sitemap";
 import type { PostRow, FaqSectionRow } from "@/lib/db/types";
 
 function slugTakenResponse() {
@@ -219,10 +218,6 @@ export async function POST(req: NextRequest) {
   if (body.status === "published") {
     revalidatePath("/blog", "page");
     revalidatePath(`/blog/${slug}`, "page");
-    // Regenerate sitemap — new published slug must appear
-    generateAndWriteSitemap().catch((e) =>
-      console.error("[sitemap] POST regeneration failed:", e),
-    );
   }
 
   return NextResponse.json(createdPost, { status: 201 });
@@ -306,10 +301,6 @@ export async function PATCH(req: NextRequest) {
   await invalidateBlogCache(updatedPost.slug);
   revalidatePath("/blog", "page");
   revalidatePath(`/blog/${updatedPost.slug}`, "page");
-  // Regenerate sitemap — handles publish, unpublish, content update, lastmod change
-  generateAndWriteSitemap().catch((e) =>
-    console.error("[sitemap] PATCH regeneration failed:", e),
-  );
 
   return NextResponse.json(updatedPost);
 }
@@ -350,10 +341,6 @@ export async function DELETE(req: NextRequest) {
     revalidatePath("/blog", "page");
     revalidatePath(`/blog/${existingPost.slug}`, "page");
   }
-  // Regenerate sitemap — deleted slug must be removed
-  generateAndWriteSitemap().catch((e) =>
-    console.error("[sitemap] DELETE regeneration failed:", e),
-  );
 
   return NextResponse.json({ success: true });
 }
