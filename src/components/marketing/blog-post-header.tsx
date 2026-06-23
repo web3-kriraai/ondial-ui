@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ChevronLeft, Calendar, Clock } from "lucide-react";
 
 import { BlogShareButton } from "@/components/marketing/blog-share-button";
-import type { BlogPostDetail } from "@/lib/contentful/types";
+import type { BlogPostDetail } from "@/lib/blog/types";
 
 type BlogPostHeaderProps = {
   post: BlogPostDetail;

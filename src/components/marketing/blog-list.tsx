@@ -14,7 +14,7 @@ const Pagination = dynamic(
   { ssr: false },
 );
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 8;
 const easeOut = [0.22, 1, 0.36, 1] as const;
 
 type BlogListProps = {

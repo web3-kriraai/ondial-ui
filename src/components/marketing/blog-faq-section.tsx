@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { useId, useRef, useState } from "react";
 
 import { useLoaderComplete } from "@/components/providers/loader-context";
-import type { BlogFaqSection as BlogFaqSectionType } from "@/lib/contentful/types";
+import type { BlogFaqSection as BlogFaqSectionType } from "@/lib/blog/types";
 import { cn } from "@/lib/utils";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;

@@ -35,6 +35,36 @@ const nextConfig: NextConfig = {
 
     return [
       {
+        source: "/admin",
+        destination: "/seo/posts",
+        permanent: false,
+      },
+      {
+        source: "/admin/login",
+        destination: "/seo/login",
+        permanent: false,
+      },
+      {
+        source: "/admin/posts",
+        destination: "/seo/posts",
+        permanent: false,
+      },
+      {
+        source: "/admin/posts/new",
+        destination: "/seo/posts/new",
+        permanent: false,
+      },
+      {
+        source: "/admin/posts/:id",
+        destination: "/seo/posts/:id",
+        permanent: false,
+      },
+      {
+        source: "/admin/authors",
+        destination: "/seo/authors",
+        permanent: false,
+      },
+      {
         source: "/industries",
         destination: "/",
         permanent: true,
@@ -88,6 +118,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "downloads.ctfassets.net",
+      },
+      // Cloudinary CDN
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
       },
     ],
   },

@@ -10,12 +10,7 @@ import { BlogArticleMotion } from "@/components/marketing/blog-article-motion";
 import { BlogFaqSection } from "@/components/marketing/blog-faq-section";
 import { BlogPostHeader } from "@/components/marketing/blog-post-header";
 import { BlogRichText } from "@/components/marketing/blog-rich-text";
-import {
-  fetchBlogBySlug,
-  fetchAllBlogSummaries,
-  mapBlogDetail,
-  mapBlogSummaries,
-} from "@/lib/contentful";
+import { fetchBlogBySlug, fetchAllBlogSummaries, mapBlogDetail, mapBlogSummaries } from "@/lib/db";
 import {
   buildBlogPostingSchema,
   buildBreadcrumbSchema,
@@ -134,22 +129,25 @@ export default async function BlogPostPage({ params }: Props) {
             <BlogPostHeader post={post} shareUrl={shareUrl} />
           </BlogArticleMotion>
 
-          <BlogArticleMotion delay={0.08}>
-            <div
-              className="relative mb-8 w-full overflow-hidden rounded-2xl sm:mb-10 sm:rounded-3xl"
-              style={{ aspectRatio: imageAspectRatio }}
-            >
-              <Image
-                src={post.image}
-                alt={post.title}
-                fill
-                className="object-contain object-center"
-                priority
-                loading="eager"
-                sizes="(max-width: 768px) 100vw, 896px"
-              />
-            </div>
-          </BlogArticleMotion>
+          {/* Featured image — only shown when the post has one */}
+          {post.image && (
+            <BlogArticleMotion delay={0.08}>
+              <div
+                className="relative mb-8 w-full overflow-hidden rounded-2xl sm:mb-10 sm:rounded-3xl"
+                style={{ aspectRatio: imageAspectRatio }}
+              >
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  className="object-contain object-center"
+                  priority
+                  loading="eager"
+                  sizes="(max-width: 768px) 100vw, 896px"
+                />
+              </div>
+            </BlogArticleMotion>
+          )}
 
           <BlogArticleMotion delay={0.14}>
             <div className="blog-article-body">

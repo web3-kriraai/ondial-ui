@@ -49,6 +49,15 @@ function isAuthSplitRoute(pathname: string) {
   return pathname === "/login" || pathname === "/signup";
 }
 
+function isAdminRoute(pathname: string) {
+  return (
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/") ||
+    pathname === "/seo" ||
+    pathname.startsWith("/seo/")
+  );
+}
+
 function isBlogArticleRoute(pathname: string) {
   return pathname.startsWith("/blog/") && pathname !== "/blog";
 }
@@ -76,6 +85,12 @@ export function AppLayoutShell({ children, initialPathname }: AppLayoutShellProp
   const authSplit = isAuthSplitRoute(pathname);
   const dottedSurfaceRoute = isDottedMarketingRoute(pathname);
   const blogArticleRoute = isBlogArticleRoute(pathname);
+  const adminRoute = isAdminRoute(pathname);
+
+  // Admin routes get a completely bare layout — no marketing nav, no footer
+  if (adminRoute) {
+    return <>{children}</>;
+  }
 
   return (
     <ShellScrollProvider scrollerRef={shellScrollRef}>

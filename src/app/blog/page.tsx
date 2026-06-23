@@ -14,10 +14,7 @@ import {
   blogListingContainerClass,
   blogListingInnerClass,
 } from "@/config/marketing-layout";
-import {
-  fetchAllBlogSummaries,
-  mapBlogSummaries,
-} from "@/lib/contentful";
+import { fetchAllBlogSummaries, mapBlogSummaries } from "@/lib/db";
 import {
   buildBlogListSchema,
   buildBreadcrumbSchema,
@@ -57,7 +54,7 @@ async function getBlogPosts(): Promise<BlogPost[]> {
     const blogs = await fetchAllBlogSummaries();
     return mapBlogSummaries(blogs);
   } catch (error) {
-    console.error("[blog] Failed to load posts from Contentful:", error);
+    console.error("[blog] Failed to load posts:", error);
     return [];
   }
 }

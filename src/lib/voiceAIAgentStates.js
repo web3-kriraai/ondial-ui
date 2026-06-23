@@ -3,20 +3,19 @@ import { unstable_cache } from 'next/cache';
 import { deriveStateKeyFromSlug, normalizePublicSlug } from './voiceAIAgentPublishSlugs.js';
 import { normalizeKeyFeatureIconName, resolveKeyFeatureIconName } from './keyFeatureIcons.js';
 
-const CONTENTFUL_SPACE_ID_PAGE =
-  process.env.CONTENTFUL_SPACE_ID_PAGE || process.env.CONTENTFUL_SPACE_ID_PAGE || 's7w7jdx1ex4o';
-const CONTENTFUL_DELIVERY_TOKEN =
+const VOICE_PAGE_SPACE_ID =
+  process.env.CONTENTFUL_SPACE_ID_PAGE || 's7w7jdx1ex4o';
+const VOICE_PAGE_DELIVERY_TOKEN =
   process.env.CONTENTFUL_DELIVERY_TOKEN || 'Hlua3T8lrHbdso5QjISnNAdbTayqlHyorPDovPN8ln8';
-const CONTENTFUL_CMA_TOKEN = process.env.CONTENTFUL_CMA_TOKEN || '';
-const CONTENTFUL_ENVIRONMENT_ID = process.env.CONTENTFUL_ENVIRONMENT_ID || 'master';
+const VOICE_PAGE_ENVIRONMENT_ID = process.env.CONTENTFUL_ENVIRONMENT_ID || 'master';
 const CONTENT_TYPE_ID = 'bestAiVoiceAgentState';
 
 /** ISR / cache TTL for published voice landing pages (seconds). */
 export const VOICE_AI_PAGE_REVALIDATE_SECONDS = 3600;
 
 const client = createClient({
-  space: CONTENTFUL_SPACE_ID_PAGE,
-  accessToken: CONTENTFUL_DELIVERY_TOKEN,
+  space: VOICE_PAGE_SPACE_ID,
+  accessToken: VOICE_PAGE_DELIVERY_TOKEN,
 });
 
 export function voiceAIAgentPageCacheTag(slug) {
@@ -153,7 +152,7 @@ export async function listVoiceAIAgentStateSlugs() {
     });
     return entries.items.map((item) => item.sys.id);
   } catch (error) {
-    console.error('Error listing slugs from Contentful:', error);
+    console.error('Error listing voice page slugs:', error);
     return [];
   }
 }
@@ -179,7 +178,7 @@ async function getVoiceAIAgentStateRecordUncached(slug) {
     return { stateKey, stateLabel, record };
   } catch (error) {
     if (!isContentfulNotFoundError(error)) {
-      console.error(`Error fetching state ${normalized} from Contentful:`, error.message);
+      console.error(`Error fetching voice page ${normalized}:`, error.message);
     }
   }
 
@@ -270,65 +269,4 @@ export async function getVoiceAIAgentStatePagePayload(slug) {
       tags: [voiceAIAgentPageCacheTag(normalized)],
     }
   )();
-}
-
-/**
- * Publishes a state record to Contentful (entry id = public URL slug).
- * @param {string} stateKey Metadata label key (snake_case), e.g. united_kingdom_english
- * @param {object} record The state record object
- */
-export async function publishStateToContentful(stateKey, record) {
-  const cmaToken = CONTENTFUL_CMA_TOKEN || 'CFPAT-bc9_tYxSjamzqKmJmV4rj_oLZSI9tbFGIfkWIjsy_s0';
-
-  try {
-    const { createClient: createCMAClient } = await import('contentful-management');
-    const cmaClient = createCMAClient({ accessToken: cmaToken });
-
-    const slug = normalizePublicSlug(record.slug);
-    if (!slug) throw new Error('Record has no slug');
-
-    let entry;
-    try {
-      entry = await cmaClient.entry.get({
-        spaceId: CONTENTFUL_SPACE_ID_PAGE,
-        environmentId: CONTENTFUL_ENVIRONMENT_ID,
-        entryId: slug,
-      });
-    } catch {
-      // create below
-    }
-
-    const fields = {
-      states: {
-        'en-US': record,
-      },
-    };
-
-    if (entry) {
-      entry = await cmaClient.entry.update(
-        { spaceId: CONTENTFUL_SPACE_ID_PAGE, environmentId: CONTENTFUL_ENVIRONMENT_ID, entryId: slug },
-        { ...entry, fields }
-      );
-    } else {
-      entry = await cmaClient.entry.createWithId(
-        {
-          spaceId: CONTENTFUL_SPACE_ID_PAGE,
-          environmentId: CONTENTFUL_ENVIRONMENT_ID,
-          contentTypeId: CONTENT_TYPE_ID,
-          entryId: slug,
-        },
-        { fields }
-      );
-    }
-
-    await cmaClient.entry.publish(
-      { spaceId: CONTENTFUL_SPACE_ID_PAGE, environmentId: CONTENTFUL_ENVIRONMENT_ID, entryId: slug },
-      entry
-    );
-
-    return { ok: true, stateKey, slug };
-  } catch (error) {
-    console.error(`Failed to publish ${record?.slug} to Contentful:`, error.message);
-    return { ok: false, error: error.message };
-  }
 }

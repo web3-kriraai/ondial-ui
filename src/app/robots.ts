@@ -21,6 +21,8 @@ export default function robots(): MetadataRoute.Robots {
           "/dashboard",
           "/dashboard/",
           "/super-admin/",
+          "/seo/",
+          "/admin/",
         ],
       },
       // Allow all major AI search / LLM crawlers explicitly

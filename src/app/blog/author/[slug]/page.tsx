@@ -10,10 +10,7 @@ import {
   blogListingContainerClass,
   blogListingInnerClass,
 } from "@/config/marketing-layout";
-import {
-  fetchBlogsByAuthor,
-  mapBlogSummaries,
-} from "@/lib/contentful";
+import { fetchBlogsByAuthor, mapBlogSummaries } from "@/lib/db";
 import StructuredData from "@/components/StructuredData";
 import { buildProfilePageSchema, buildBreadcrumbSchema } from "@/lib/seo/schemaBuilders";
 

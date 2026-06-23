@@ -1,5 +1,5 @@
-/** Contentful custom entry id max length */
-export const CONTENTFUL_ENTRY_ID_MAX_LENGTH = 64;
+/** CMS entry id max length for voice landing pages */
+export const VOICE_PAGE_ENTRY_ID_MAX_LENGTH = 64;
 
 /** URL path segment: lowercase letters, numbers, hyphens; 3–80 chars */
 export const PUBLIC_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -51,8 +51,8 @@ export function validatePublicSlug(slug) {
   if (!s) return 'slug is required';
   if (s.length < 3) return 'slug must be at least 3 characters';
   if (s.length > 80) return 'slug must be at most 80 characters';
-  if (s.length > CONTENTFUL_ENTRY_ID_MAX_LENGTH) {
-    return `slug must be at most ${CONTENTFUL_ENTRY_ID_MAX_LENGTH} characters for Contentful`;
+  if (s.length > VOICE_PAGE_ENTRY_ID_MAX_LENGTH) {
+    return `slug must be at most ${VOICE_PAGE_ENTRY_ID_MAX_LENGTH} characters`;
   }
   if (!PUBLIC_SLUG_PATTERN.test(s)) {
     return 'slug must use lowercase letters, numbers, and hyphens only (e.g. best-english-voice-agent-united-kingdom)';
@@ -63,7 +63,7 @@ export function validatePublicSlug(slug) {
   return null;
 }
 
-/** snake_case key for Contentful metadata / labels */
+/** snake_case key for voice page metadata / labels */
 export function deriveStateKeyFromSlug(slug) {
   const s = normalizePublicSlug(slug);
   if (!s) return null;

@@ -1,6 +1,7 @@
 import type { Document } from "@contentful/rich-text-types";
 
-export type ContentfulAsset = {
+/** Legacy rich-text asset link shape (migrated posts). */
+export type RichTextAsset = {
   sys: { id: string };
   url: string | null;
   title: string | null;
@@ -10,7 +11,7 @@ export type ContentfulAsset = {
   height: number | null;
 };
 
-export type ContentfulAuthor = {
+export type BlogAuthorRecord = {
   authorName: string | null;
   slug: string | null;
   authorDesignation?: string | null;
@@ -18,16 +19,17 @@ export type ContentfulAuthor = {
   authorImage: { url: string | null } | null;
 };
 
-export type ContentfulRichText = {
+/** Contentful Rich Text document JSON (legacy migrated post bodies). */
+export type RichTextDocument = {
   json: Document;
   links?: {
     assets?: {
-      block?: ContentfulAsset[];
+      block?: RichTextAsset[];
     };
   };
 };
 
-export type ContentfulFaqSection = {
+export type BlogFaqRecord = {
   title: string | null;
   faqsCollection: {
     items: Array<{
@@ -37,7 +39,8 @@ export type ContentfulFaqSection = {
   } | null;
 };
 
-export type ContentfulBlogSummary = {
+/** Intermediate shape between Supabase rows and UI mappers. */
+export type BlogRecordSummary = {
   title: string | null;
   slug: string | null;
   metaTitle: string | null;
@@ -48,12 +51,12 @@ export type ContentfulBlogSummary = {
     width: number | null;
     height: number | null;
   } | null;
-  author: ContentfulAuthor | null;
+  author: BlogAuthorRecord | null;
 };
 
-export type ContentfulBlogDetail = ContentfulBlogSummary & {
-  description: ContentfulRichText | null;
-  faqs: ContentfulFaqSection | null;
+export type BlogRecordDetail = BlogRecordSummary & {
+  description: RichTextDocument | null;
+  faqs: BlogFaqRecord | null;
 };
 
 export type BlogFaqItem = {
@@ -89,6 +92,6 @@ export type BlogPostSummary = {
 export type BlogPostDetail = BlogPostSummary & {
   authorDesignation: string | null;
   authorDescription: string | null;
-  body: ContentfulRichText | null;
+  body: RichTextDocument | null;
   faqs: BlogFaqSection | null;
 };

@@ -1,14 +1,17 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import parse, { type HTMLReactParserOptions, type DOMNode, Element } from "html-react-parser";
 import { documentToReactComponents, type Options } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import type { Block, Document, Inline } from "@contentful/rich-text-types";
 
-import type { ContentfulAsset, ContentfulRichText } from "@/lib/contentful/types";
+import type { RichTextAsset, RichTextDocument } from "@/lib/blog/types";
 import { cn } from "@/lib/utils";
 
 type BlogRichTextProps = {
-  document: ContentfulRichText;
+  document: RichTextDocument;
 };
 
 const linkClassName =
@@ -33,7 +36,7 @@ export const proseClassName = cn(
   "prose-code:rounded prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:text-[0.875em] prose-code:before:content-none prose-code:after:content-none",
 );
 
-function buildAssetMap(assets: ContentfulAsset[] | undefined) {
+function buildAssetMap(assets: RichTextAsset[] | undefined) {
   return new Map((assets ?? []).map((asset) => [asset.sys.id, asset]));
 }
 
@@ -57,7 +60,7 @@ function RichTextLink({
   );
 }
 
-function RichTextEmbeddedAsset({ asset }: { asset: ContentfulAsset | undefined }) {
+function RichTextEmbeddedAsset({ asset }: { asset: RichTextAsset | undefined }) {
   if (!asset?.url) return null;
 
   const isImage = asset.contentType?.startsWith("image/") ?? true;
@@ -95,7 +98,7 @@ function RichTextEmbeddedAsset({ asset }: { asset: ContentfulAsset | undefined }
   );
 }
 
-function createRenderOptions(assetMap: Map<string, ContentfulAsset>): Options {
+function createRenderOptions(assetMap: Map<string, RichTextAsset>): Options {
   return {
     renderMark: {
       [MARKS.BOLD]: (text: ReactNode) => <strong>{text}</strong>,
@@ -161,7 +164,92 @@ function createRenderOptions(assetMap: Map<string, ContentfulAsset>): Options {
   };
 }
 
+function renderImageFigure(attribs: Record<string, string>) {
+  const { src, alt, width, height } = attribs;
+  if (!src) return null;
+  const w = parseInt(width ?? "0", 10);
+  const h = parseInt(height ?? "0", 10);
+  const aspectRatio = w > 0 && h > 0 ? w / h : 16 / 9;
+  return (
+    <figure className="not-prose my-8 sm:my-10">
+      <div
+        className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl"
+        style={{ aspectRatio }}
+      >
+        <Image
+          src={src}
+          alt={alt ?? "Blog image"}
+          fill
+          className="object-contain object-center"
+          sizes="(max-width: 768px) 100vw, 896px"
+          unoptimized={!src.startsWith("https://res.cloudinary.com")}
+        />
+      </div>
+    </figure>
+  );
+}
+
+/**
+ * html-react-parser options that replace every <img> in TipTap HTML with the
+ * same <figure> + Next.js <Image fill> pattern used by RichTextEmbeddedAsset.
+ *
+ * TipTap outputs inline images inside <p> tags, e.g. <p><img …/></p>.
+ * We replace the whole <p> in that case so prose margin/padding on the <p>
+ * never creates a white border around the image.
+ */
+const htmlParserOptions: HTMLReactParserOptions = {
+  replace(domNode: DOMNode) {
+    if (!(domNode instanceof Element)) return;
+
+    // Case 1: <p> whose only meaningful child is an <img> — replace the whole <p>
+    if (domNode.name === "p") {
+      const realChildren = domNode.children.filter(
+        (c) => !(c.type === "text" && (c as { data: string }).data.trim() === ""),
+      );
+      if (
+        realChildren.length === 1 &&
+        realChildren[0] instanceof Element &&
+        realChildren[0].name === "img"
+      ) {
+        // Return empty fragment when src is missing — prevents <img src=""> in DOM
+        return renderImageFigure(realChildren[0].attribs as Record<string, string>) ?? <></>;
+      }
+      return; // normal paragraph — let prose handle it
+    }
+
+    // Case 2: standalone <img> — return empty fragment if src is missing so
+    // html-react-parser doesn't fall back to rendering <img src=""> natively.
+    if (domNode.name === "img") {
+      const src = (domNode.attribs as Record<string, string>).src;
+      if (!src) return <></>;
+      return renderImageFigure(domNode.attribs as Record<string, string>);
+    }
+  },
+};
+
 export function BlogRichText({ document }: BlogRichTextProps) {
+  const doc = document as unknown as { type?: string; content?: unknown };
+
+  // TipTap HTML format — parse the HTML and replace <img> with
+  // the same Next.js Image + aspect-ratio pattern as Contentful assets.
+  if (doc?.type === "html" && typeof doc.content === "string") {
+    return (
+      <div className={proseClassName}>
+        {parse(doc.content as string, htmlParserOptions)}
+      </div>
+    );
+  }
+
+  // Legacy markdown format
+  if (doc?.type === "markdown" && typeof doc.content === "string") {
+    return (
+      <div className={proseClassName}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{doc.content as string}</ReactMarkdown>
+      </div>
+    );
+  }
+
+  // Legacy rich-text JSON format (migrated posts)
   const assetMap = buildAssetMap(document.links?.assets?.block);
   const options = createRenderOptions(assetMap);
 
