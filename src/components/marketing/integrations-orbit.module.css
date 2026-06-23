@@ -1,0 +1,72 @@
+/* Orbit visual only — loaded with IntegrationsOrbitVisual (lazy / below-fold). */
+
+.semiOrbitWrap {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.semiOrbitStage {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.orbitPivot {
+  position: relative;
+  flex-shrink: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.semiOrbitGuides {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: color-mix(in oklab, var(--border) 92%, transparent);
+  overflow: visible;
+}
+
+.semiOrbitGuides image {
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .semiOrbitWrap {
+    width: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+    overflow: visible;
+  }
+
+  .semiOrbitStage {
+    width: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+    overflow: visible;
+  }
+
+  .orbitPivotQuarter {
+    margin-inline: 0;
+  }
+
+  .semiOrbitWrap[data-orbit-layout="quarter"] .semiOrbitGuides {
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .semiOrbitWrap,
+  .semiOrbitStage {
+    overflow: visible;
+  }
+}

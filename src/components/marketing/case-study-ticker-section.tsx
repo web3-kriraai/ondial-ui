@@ -1,5 +1,3 @@
-"use client";
-
 import { CASE_STUDY_TICKER } from "@/data/case-study-page-content";
 import { cn } from "@/lib/utils";
 

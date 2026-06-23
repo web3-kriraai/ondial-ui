@@ -300,15 +300,15 @@ export function computeCountryCalculatorMonthlyPrice(
   );
 }
 
-export function formatCountryMonthlyPrice(
-  country: PricingCountryDefinition,
-  amount: number,
-): string {
-  return `${country.currency.symbol}${amount.toLocaleString(country.currency.locale, {
-    minimumFractionDigits: country.currency.monthlyFractionDigits,
-    maximumFractionDigits: country.currency.monthlyFractionDigits,
-  })}`;
-}
+// function formatCountryMonthlyPrice(
+//   country: PricingCountryDefinition,
+//   amount: number,
+// ): string {
+//   return `${country.currency.symbol}${amount.toLocaleString(country.currency.locale, {
+//     minimumFractionDigits: country.currency.monthlyFractionDigits,
+//     maximumFractionDigits: country.currency.monthlyFractionDigits,
+//   })}`;
+// }
 
 export function formatCountryAddonPrice(
   country: PricingCountryDefinition,

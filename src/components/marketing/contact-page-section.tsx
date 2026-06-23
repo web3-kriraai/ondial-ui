@@ -62,7 +62,7 @@ function ChannelItem({ channel }: { channel: (typeof CONTACT_CHANNELS)[number] }
       </span>
       <span className="flex min-w-0 flex-1 flex-col gap-[0.1rem]">
         <span className="text-sm font-bold text-foreground">{channel.title}</span>
-        {channel.lines.map((line) => (
+        {channel.lines?.map((line) => (
           <span key={line} className="text-[0.8125rem] leading-[1.4] text-foreground">
             {line}
           </span>
@@ -264,11 +264,10 @@ export function ContactPageSection() {
           </TextReveal>
         </header>
 
-        <div className="relative overflow-hidden rounded-3xl">
-          <div
-            className="pointer-events-none absolute inset-[-30%_auto_auto_50%] h-[min(24rem,70%)] w-[min(36rem,90%)] -translate-x-1/2 rounded-full"
-            aria-hidden
-          />
+        <div className="relative rounded-3xl">
+          <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl" aria-hidden>
+            <div className="absolute inset-[-30%_auto_auto_50%] h-[min(24rem,70%)] w-[min(36rem,90%)] -translate-x-1/2 rounded-full" />
+          </div>
 
           <div className="relative z-1 grid items-start gap-[clamp(1.5rem,4vw,2.25rem)] lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-[clamp(2rem,4vw,2.75rem)]">
             <div className="rounded-[1.125rem] border border-black/[0.07] bg-[rgb(15_23_42/0.015)] p-[clamp(1.15rem,3vw,1.5rem)]">
@@ -424,7 +423,7 @@ export function ContactPageSection() {
                     )}
 
                     <div className="min-h-[65px] flex flex-col gap-1">
-                      <div className="w-[302px] h-[67px] overflow-hidden rounded-xl border border-black/[0.08] bg-background">
+                      <div className="w-[302px] h-[67px] overflow-hidden rounded-xl border border-black/8 bg-background">
                         <Turnstile
                           siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
                           onSuccess={(token) => {
@@ -479,7 +478,7 @@ export function ContactPageSection() {
               )}
             </div>
 
-            <aside className="flex flex-col gap-[1.15rem]">
+            <aside className="sticky top-6 flex flex-col gap-[1.15rem] self-start lg:top-18">
               <header className="flex flex-col gap-[0.6rem]">
                 <h2 className="m-0 text-[clamp(1.25rem,2.8vw,1.625rem)] font-bold leading-[1.3] tracking-[-0.02em] text-foreground">
                   {CONTACT_SIDE.asideTitle}

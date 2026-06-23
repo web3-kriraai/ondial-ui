@@ -364,7 +364,7 @@ function DesktopMagneticNav({ items, pathname, reduceMotion }: DesktopMagneticNa
               else linkRefs.current.delete(item.href);
             }}
             href={item.href}
-            prefetch
+            prefetch={false}
             className={desktopLinkClassName(highlighted)}
             aria-current={active ? "page" : undefined}
             onMouseEnter={() => setHoveredHref(item.href)}
@@ -410,7 +410,7 @@ const drawerEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 function NavSignupCta({ item, className }: { item: MainNavItem; className?: string }) {
   return (
     <div className={cn(navCtaShell, className)}>
-      <Link href={item.href} prefetch className={navCtaLink}>
+      <Link href={item.href} prefetch={false} className={navCtaLink}>
         {item.label}
       </Link>
     </div>
@@ -538,7 +538,7 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
       <Link
         key={slug}
         href={href}
-        prefetch
+        prefetch={false}
         className={cn(
           "flex min-h-9 items-center rounded-xl px-3 text-[0.8125rem] font-medium text-muted-foreground transition-colors",
           subActive
@@ -593,7 +593,7 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
                     {menu.overviewHref && menu.overviewLabel ? (
                       <Link
                         href={menu.overviewHref}
-                        prefetch
+                        prefetch={false}
                         className={cn(
                           "mb-1 flex min-h-9 items-center rounded-xl px-3 text-[0.8125rem] font-semibold text-foreground",
                           pathname === menu.overviewHref && "bg-background ring-1 ring-foreground/10",
@@ -620,7 +620,7 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
         <motion.div key={item.href} variants={linkItemVariants} className="min-w-0">
           <Link
             href={item.href}
-            prefetch
+            prefetch={false}
             className={mobileLinkClassName(active)}
             aria-current={active ? "page" : undefined}
           >
@@ -764,58 +764,58 @@ export function SiteNavbar({ items = MAIN_NAV, end, className }: SiteNavbarProps
           className
         )}
       >
-      <div className="pointer-events-none relative z-[1] mx-auto flex w-full justify-end px-2 sm:px-3 lg:justify-center">
-        <div className="pointer-events-auto relative z-[2] flex w-fit max-w-[min(100%,calc(100vw-1.25rem))] shrink-0 items-center gap-2 sm:gap-2.5">
-          <div
-            className={cn(
-              "flex w-fit max-w-full shrink-0 items-center rounded-full p-0.5 sm:p-1",
-              "gap-0.5 sm:gap-1",
-              glassBar
-            )}
-          >
-            <nav
-              aria-label="Primary"
-              className="hidden min-h-0 flex-row flex-wrap items-stretch justify-center gap-1 sm:gap-1.5 lg:flex"
+        <div className="pointer-events-none relative z-[1] mx-auto flex w-full justify-end px-2 sm:px-3 lg:justify-center">
+          <div className="pointer-events-auto relative z-[2] flex w-fit max-w-[min(100%,calc(100vw-1.25rem))] shrink-0 items-center gap-2 sm:gap-2.5">
+            <div
+              className={cn(
+                "flex w-fit max-w-full shrink-0 items-center rounded-full p-0.5 sm:p-1",
+                "gap-0.5 sm:gap-1",
+                glassBar
+              )}
             >
-              <DesktopMagneticNav
-                items={allDesktopItems}
-                pathname={pathname}
-                reduceMotion={reduceMotion}
-              />
-            </nav>
-
-            <div className="flex shrink-0 items-center gap-2 lg:contents">
-              {end}
-              <button
-                type="button"
-                className={cn(
-                  "relative z-[100] inline-flex touch-manipulation lg:hidden",
-                  "size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-0 bg-transparent text-white ring-0",
-                  "hover:bg-white/10 hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)]",
-                  "active:scale-[0.96] motion-reduce:active:scale-100",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                )}
-                aria-expanded={menuBusy}
-                aria-controls={menuBusy ? menuId : undefined}
-                aria-label={menuBusy ? "Close menu" : "Open menu"}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (mobileOpen) beginCloseDrawer();
-                  else if (!menuLatchOpen) beginOpenDrawer();
-                }}
+              <nav
+                aria-label="Primary"
+                className="hidden min-h-0 flex-row flex-wrap items-stretch justify-center gap-1 sm:gap-1.5 lg:flex"
               >
-                {menuBusy ? (
-                  <X className="size-5 stroke-[1.75]" aria-hidden />
-                ) : (
-                  <Menu className="size-5 stroke-[1.75]" aria-hidden />
-                )}
-              </button>
-            </div>
-          </div>
+                <DesktopMagneticNav
+                  items={allDesktopItems}
+                  pathname={pathname}
+                  reduceMotion={reduceMotion}
+                />
+              </nav>
 
-          {ctaItem ? <NavSignupCta item={ctaItem} className="hidden lg:flex" /> : null}
+              <div className="flex shrink-0 items-center gap-2 lg:contents">
+                {end}
+                <button
+                  type="button"
+                  className={cn(
+                    "relative z-[100] inline-flex touch-manipulation lg:hidden",
+                    "size-10 min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border-0 bg-transparent text-white ring-0",
+                    "hover:bg-white/10 hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)]",
+                    "active:scale-[0.96] motion-reduce:active:scale-100",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  )}
+                  aria-expanded={menuBusy}
+                  aria-controls={menuBusy ? menuId : undefined}
+                  aria-label={menuBusy ? "Close menu" : "Open menu"}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (mobileOpen) beginCloseDrawer();
+                    else if (!menuLatchOpen) beginOpenDrawer();
+                  }}
+                >
+                  {menuBusy ? (
+                    <X className="size-5 stroke-[1.75]" aria-hidden />
+                  ) : (
+                    <Menu className="size-5 stroke-[1.75]" aria-hidden />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {ctaItem ? <NavSignupCta item={ctaItem} className="hidden lg:flex" /> : null}
+          </div>
         </div>
-      </div>
       </header>
       {mobileDrawer}
     </>

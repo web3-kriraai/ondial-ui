@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Lottie, { type LottieRefCurrentProps } from "lottie-react";
 
 import arrowRightAnimation from "@/assets/animations/arrow-right.json";
-import showcaseStyles from "@/components/marketing/showcase-section.module.css";
+import pillStyles from "@/components/marketing/showcase-pill-cta.module.css";
 import { cn } from "@/lib/utils";
 
 const ctaIconVariants = {
@@ -51,21 +51,21 @@ export function AboutHeroCta({ href, label, className, linkClassName }: AboutHer
     >
       <Link
         href={href}
-        className={cn(showcaseStyles.pillCta, linkClassName)}
+        className={cn(pillStyles.pillCta, linkClassName)}
         prefetch
         onFocus={playArrow}
         onBlur={resetArrow}
         onClick={playArrow}
       >
         {label}
-        <motion.span className={showcaseStyles.pillCtaIcon} aria-hidden variants={ctaIconVariants}>
-          <motion.div className={showcaseStyles.pillCtaLottieWrap} variants={ctaArrowVariants}>
+        <motion.span className={pillStyles.pillCtaIcon} aria-hidden variants={ctaIconVariants}>
+          <motion.div className={pillStyles.pillCtaLottieWrap} variants={ctaArrowVariants}>
             <Lottie
               lottieRef={lottieRef}
               animationData={arrowRightAnimation}
               autoplay={false}
               loop={false}
-              className={showcaseStyles.pillCtaLottie}
+              className={pillStyles.pillCtaLottie}
             />
           </motion.div>
         </motion.span>

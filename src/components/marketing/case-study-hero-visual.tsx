@@ -3,7 +3,7 @@
 import { ArrowUpRight, Building2, Phone, Star, TrendingUp, Users } from "lucide-react";
 import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import type { CSSProperties, ElementType, ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 
 import {
   CASE_STUDIES,

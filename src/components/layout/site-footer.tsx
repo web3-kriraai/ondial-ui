@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { MarketingSiteFooter } from "@/components/layout/marketing-site-footer";
+import { LazyMarketingFooter } from "@/components/layout/lazy-marketing-footer";
 import { cn } from "@/lib/utils";
 
 export type FooterLinkItem = {
@@ -20,5 +20,5 @@ export type SiteFooterProps = {
 };
 
 export function SiteFooter({ className, showCtaCard = true }: SiteFooterProps) {
-  return <MarketingSiteFooter className={cn(className)} showCtaCard={showCtaCard} />;
+  return <LazyMarketingFooter className={cn(className)} showCtaCard={showCtaCard} />;
 }

@@ -1,37 +1,10 @@
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  CalendarCheck,
-  Check,
-  Clock,
-  Phone,
-  Star,
-  TrendingDown,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
+import { ArrowUpRight, Check } from "lucide-react";
 import type { ReactNode } from "react";
 
 import type { CaseStudyItem } from "@/data/case-study-page-content";
 import { getCaseStudyHref } from "@/data/case-study-page-content";
 import { cn } from "@/lib/utils";
-
-const IMPACT_ICON_META: Record<string, { icon: LucideIcon; wrapClass: string }> = {
-  "phone-check": {
-    icon: Phone,
-    wrapClass:
-      "bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l)/0.12)] text-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-18%))]",
-  },
-  "trending-down": { icon: TrendingDown, wrapClass: "bg-[#e1f5ee] text-[#085041]" },
-  users: { icon: Users, wrapClass: "bg-[#faeeda] text-[#633806]" },
-  clock: { icon: Clock, wrapClass: "bg-[#fce8e8] text-[#a32d2d]" },
-  star: {
-    icon: Star,
-    wrapClass:
-      "bg-[hsl(var(--section-accent-h)_var(--section-accent-s)_var(--section-accent-l)/0.12)] text-[hsl(var(--section-accent-h)_var(--section-accent-s)_calc(var(--section-accent-l)-18%))]",
-  },
-  "calendar-check": { icon: CalendarCheck, wrapClass: "bg-[#e1f5ee] text-[#085041]" },
-};
 
 export function CaseStudySectionHead({
   eyebrow,
@@ -56,56 +29,6 @@ export function CaseStudySectionHead({
       </h2>
       <p className="text-[0.96875rem] leading-relaxed text-[#4B4566] sm:text-[15.5px]">{subtitle}</p>
     </div>
-  );
-}
-
-export function CaseStudyFeaturedChart() {
-  return (
-    <svg viewBox="0 0 220 180" width="220" aria-hidden className="max-w-full">
-      <rect x="10" y="10" width="200" height="160" rx="8" fill="#F8F7FF" stroke="#CECBF6" strokeWidth="0.5" />
-      <text x="110" y="28" textAnchor="middle" fontSize="9" fontWeight="500" fill="#534AB7">
-        Monthly leads qualified
-      </text>
-      <line x1="25" y1="140" x2="205" y2="140" stroke="#CECBF6" strokeWidth="0.5" />
-      <line x1="25" y1="140" x2="25" y2="35" stroke="#CECBF6" strokeWidth="0.5" />
-      <polyline
-        points="40,128 75,120 110,108 145,85 180,62"
-        fill="none"
-        stroke="#AFA9EC"
-        strokeWidth="1.5"
-        strokeDasharray="4 2"
-      />
-      <polyline points="40,128 75,118 110,95 145,68 180,38" fill="none" stroke="#534AB7" strokeWidth="2" />
-      <circle cx="180" cy="38" r="4" fill="#534AB7" />
-      <rect x="130" y="30" width="68" height="14" rx="3" fill="#EEEDFE" />
-      <text x="164" y="41" textAnchor="middle" fontSize="8" fill="#3C3489">
-        +40% viewings
-      </text>
-      {[
-        { x: 36, label: "Jan" },
-        { x: 71, label: "Feb" },
-        { x: 106, label: "Mar" },
-        { x: 141, label: "Apr" },
-        { x: 175, label: "May" },
-      ].map(({ x, label }) => (
-        <text key={label} x={x} y="153" fontSize="8" fill="#888780">
-          {label}
-        </text>
-      ))}
-    </svg>
-  );
-}
-
-export function CaseStudyImpactIcon({ name }: { name: string; color?: string }) {
-  const meta = IMPACT_ICON_META[name] ?? IMPACT_ICON_META.star!;
-  const Icon = meta.icon;
-  return (
-    <span
-      className={cn("mx-auto mb-3 grid size-10 place-items-center rounded-xl", meta.wrapClass)}
-      aria-hidden
-    >
-      <Icon className="size-4.5" strokeWidth={1.75} />
-    </span>
   );
 }
 

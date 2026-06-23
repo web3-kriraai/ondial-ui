@@ -106,7 +106,7 @@ function FooterLink({ item }: { item: FooterNavLink }) {
   return (
     <MotionLink
       href={item.href}
-      prefetch
+      prefetch={false}
       className={className}
       whileHover={prefersReducedMotion ? undefined : { x: 3 }}
       transition={{ type: "spring", stiffness: 420, damping: 28 }}
@@ -192,7 +192,7 @@ export function MarketingSiteFooter({ className }: MarketingSiteFooterProps) {
           animate={showColumns ? "visible" : "hidden"}
         >
           <motion.div className={styles.brandCol} variants={columnVariants}>
-            <Link href="/" prefetch className={styles.brandMark}>
+            <Link href="/" prefetch={false} className={styles.brandMark}>
               <Image src="/fav.svg" alt="OnDial Logo" width={32} height={32} className="size-8" loading="lazy" />
               <span className={styles.brandName}>{FOOTER_BRAND_NAME}</span>
             </Link>
@@ -239,7 +239,7 @@ export function MarketingSiteFooter({ className }: MarketingSiteFooterProps) {
             {FOOTER_BOTTOM_LEGAL_LINKS.map((item, index) => (
               <span key={item.href} className={styles.bottomLegalItem}>
                 {index > 0 ? <span className={styles.bottomLegalSep} aria-hidden>|</span> : null}
-                <Link href={item.href} prefetch className={styles.bottomLegalLink}>
+                <Link href={item.href} prefetch={false} className={styles.bottomLegalLink}>
                   {item.label}
                 </Link>
               </span>

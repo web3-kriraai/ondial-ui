@@ -5,14 +5,6 @@ import Script from "next/script";
 
 import { AppLayoutShell } from "@/components/layout/app-layout-shell";
 import { AppProviders } from "@/components/providers/app-providers";
-import { ORGANIZATION_SOCIAL_URLS } from "@/config/social";
-import {
-  ORGANIZATION_ADDRESS,
-  ORGANIZATION_CONTACT_POINTS,
-  ORGANIZATION_DESCRIPTION,
-  SITE_LOGO,
-  SITE_URL,
-} from "@/lib/seo/siteConfig";
 import StructuredData from "@/components/StructuredData";
 import { organizationSchema } from "@/lib/seo/organizationSchema";
 import { websiteSchema } from "@/lib/seo/websiteSchema";
@@ -114,9 +106,9 @@ export default async function RootLayout({
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-S0BEQDE207"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

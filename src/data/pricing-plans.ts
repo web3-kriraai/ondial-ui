@@ -116,9 +116,6 @@ export const PRICING_CALCULATOR_ADDONS = {
   },
 } as const;
 
-/** @deprecated Use PRICING_MINUTES_CALCULATOR */
-export const PRICING_CREDIT_CALCULATOR = PRICING_MINUTES_CALCULATOR;
-
 export function computeMinutesMonthlyPrice(minutes: number): number {
   const { minMinutes, maxMinutes, minutesPerDollar } = PRICING_MINUTES_CALCULATOR;
   const clampedMinutes = Math.min(maxMinutes, Math.max(minMinutes, minutes));

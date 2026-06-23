@@ -49,17 +49,17 @@ export const LANGUAGES_GRID_VISIBLE = FEATURED_LANGUAGES.length;
 
 export type LanguageDisplayGroup = "featured" | "india" | "global";
 
-const INDIAN_LANGUAGE_IDS = new Set([
-  "hindi",
-  "tamil",
-  "telugu",
-  "bengali",
-  "marathi",
-  "gujarati",
-  "kannada",
-  "malayalam",
-  "punjabi",
-]);
+// const INDIAN_LANGUAGE_IDS = new Set([
+//   "hindi",
+//   "tamil",
+//   "telugu",
+//   "bengali",
+//   "marathi",
+//   "gujarati",
+//   "kannada",
+//   "malayalam",
+//   "punjabi",
+// ]);
 
 export const LANGUAGE_GROUP_ORDER: readonly LanguageDisplayGroup[] = ["featured", "india", "global"];
 
@@ -69,20 +69,3 @@ export const LANGUAGE_GROUP_LABELS: Record<LanguageDisplayGroup, string | null> 
   global: "Global languages",
 };
 
-export function getLanguageDisplayGroup(id: string): LanguageDisplayGroup {
-  if (id === "english") return "featured";
-  if (INDIAN_LANGUAGE_IDS.has(id)) return "india";
-  return "global";
-}
-
-export function getGroupedLanguages(): {
-  group: LanguageDisplayGroup;
-  label: string | null;
-  languages: FeaturedLanguage[];
-}[] {
-  return LANGUAGE_GROUP_ORDER.map((group) => ({
-    group,
-    label: LANGUAGE_GROUP_LABELS[group],
-    languages: FEATURED_LANGUAGES.filter((lang) => getLanguageDisplayGroup(lang.id) === group),
-  })).filter((entry) => entry.languages.length > 0);
-}

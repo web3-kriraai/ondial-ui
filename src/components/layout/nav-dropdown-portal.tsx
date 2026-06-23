@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-import styles from "./nav-mega-dropdown.module.css";
+import styles from "./nav-mega-dropdown-panel.module.css";
 
 const PANEL_GAP_PX = 4;
 const BRIDGE_PX = 14;

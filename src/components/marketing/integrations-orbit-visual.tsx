@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { INTEGRATION_PARTNERS, type IntegrationPartner } from "@/data/integrations";
 import { cn } from "@/lib/utils";
 
-import styles from "./integrations-section.module.css";
+import styles from "./integrations-orbit.module.css";
 
 const RING_DEFS = [
   { id: "inner", radiusRatio: 0.38, phase: 0 },
@@ -179,18 +179,39 @@ export function IntegrationsOrbitVisual() {
 
   const [arcLayout, setArcLayout] = useState<OrbitArcLayout>("semi");
   const [orbitDiameterPx, setOrbitDiameterPx] = useState(SSR_ORBIT_DIAMETER_PX);
-  const [ready, setReady] = useState(false);
+  const [layoutReady, setLayoutReady] = useState(false);
+  const [iconsReady, setIconsReady] = useState(false);
 
   const placedIcons = useMemo(() => buildPlacedIcons(arcLayout), [arcLayout]);
   iconsRef.current = placedIcons;
   layoutRef.current = arcLayout;
 
   useEffect(() => {
-    setReady(true);
+    setLayoutReady(true);
   }, []);
 
+  useEffect(() => {
+    if (!layoutReady) return;
+
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIconsReady(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "120px 0px", threshold: 0.01 },
+    );
+
+    observer.observe(svg);
+    return () => observer.disconnect();
+  }, [layoutReady]);
+
   useLayoutEffect(() => {
-    if (!ready) return;
+    if (!layoutReady) return;
 
     const mq = window.matchMedia(MOBILE_ORBIT_MQ);
     const sync = () => {
@@ -201,10 +222,10 @@ export function IntegrationsOrbitVisual() {
     sync();
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
-  }, [ready]);
+  }, [layoutReady]);
 
   useLayoutEffect(() => {
-    if (!ready) return;
+    if (!layoutReady) return;
 
     const svg = svgRef.current;
     if (!svg) return;
@@ -231,19 +252,19 @@ export function IntegrationsOrbitVisual() {
       cancelAnimationFrame(measureRaf);
       observer.disconnect();
     };
-  }, [arcLayout, ready]);
+  }, [arcLayout, layoutReady]);
 
   useLayoutEffect(() => {
-    if (!ready) return;
+    if (!iconsReady) return;
 
     for (const icon of placedIcons) {
       const el = slotsRef.current.get(icon.partner.id);
       if (el) applySvgIconTransform(el, icon, scrollPhaseRef.current, arcLayout);
     }
-  }, [placedIcons, arcLayout, ready]);
+  }, [placedIcons, arcLayout, iconsReady]);
 
   useLayoutEffect(() => {
-    if (!ready) return;
+    if (!iconsReady) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const startedAt = performance.now();
@@ -260,10 +281,10 @@ export function IntegrationsOrbitVisual() {
     };
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [arcLayout, ready]);
+  }, [arcLayout, iconsReady]);
 
-  const renderLayout = ready ? arcLayout : "semi";
-  const renderDiameterPx = ready ? orbitDiameterPx : SSR_ORBIT_DIAMETER_PX;
+  const renderLayout = layoutReady ? arcLayout : "semi";
+  const renderDiameterPx = layoutReady ? orbitDiameterPx : SSR_ORBIT_DIAMETER_PX;
   const isQuarter = renderLayout === "quarter";
   const outerR = Math.ceil(outerRadiusFromDiameter(renderDiameterPx));
   const stageHeightPx = isQuarter ? outerR : Math.ceil(renderDiameterPx / 2);
@@ -318,31 +339,31 @@ export function IntegrationsOrbitVisual() {
               );
             })}
 
-            {ready
+            {iconsReady
               ? placedIcons.map((icon) => {
-                  const wide = icon.partner.logoFit === "wide";
-                  const w = wide ? ICON_WIDE_VB.w : ICON_VB;
-                  const h = wide ? ICON_WIDE_VB.h : ICON_VB;
+                const wide = icon.partner.logoFit === "wide";
+                const w = wide ? ICON_WIDE_VB.w : ICON_VB;
+                const h = wide ? ICON_WIDE_VB.h : ICON_VB;
 
-                  return (
-                    <g
-                      key={icon.partner.id}
-                      ref={(el) => {
-                        if (el) slotsRef.current.set(icon.partner.id, el);
-                        else slotsRef.current.delete(icon.partner.id);
-                      }}
-                    >
-                      <image
-                        href={icon.partner.logoSrc}
-                        x={-w / 2}
-                        y={-h / 2}
-                        width={w}
-                        height={h}
-                        preserveAspectRatio="xMidYMid meet"
-                      />
-                    </g>
-                  );
-                })
+                return (
+                  <g
+                    key={icon.partner.id}
+                    ref={(el) => {
+                      if (el) slotsRef.current.set(icon.partner.id, el);
+                      else slotsRef.current.delete(icon.partner.id);
+                    }}
+                  >
+                    <image
+                      href={icon.partner.logoSrc}
+                      x={-w / 2}
+                      y={-h / 2}
+                      width={w}
+                      height={h}
+                      preserveAspectRatio="xMidYMid meet"
+                    />
+                  </g>
+                );
+              })
               : null}
           </svg>
         </div>

@@ -1,18 +1,13 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import dynamic from "next/dynamic";
 import { useCallback, useState } from "react";
 
 import { useShellScroll } from "@/components/layout/shell-scroll-context";
 import { BlogCard, type BlogPost } from "@/components/marketing/blog-card";
+import { Pagination } from "@/components/ui/pagination";
 import { blogListingGridClass } from "@/config/marketing-layout";
 import { getPageSlice } from "@/lib/pagination";
-
-const Pagination = dynamic(
-  () => import("@/components/ui/pagination").then((module) => module.Pagination),
-  { ssr: false },
-);
 
 const ITEMS_PER_PAGE = 8;
 const easeOut = [0.22, 1, 0.36, 1] as const;

@@ -66,7 +66,7 @@ const FAQ_ITEMS: Record<SiteFaqPageKey, readonly SiteFaqItem[]> = {
     {
       id: "how-do-they-work",
       question: "How do AI Voice Agents work for businesses?",
-      answer: "They integrate with your communication systems to process voice input, understand intent, and respond naturally-helping automate customer support, sales calls, and lead qualification.",
+      answer: "They integrate with your communication systems to process voice input, understand intent, and respond naturally—helping automate customer support, sales calls, and lead qualification.",
     },
     {
       id: "multilingual",
@@ -113,7 +113,7 @@ const FAQ_ITEMS: Record<SiteFaqPageKey, readonly SiteFaqItem[]> = {
     {
       id: "how-do-they-work",
       question: "How do AI Voice Agents work for businesses?",
-      answer: "They integrate with your communication systems to process voice input, understand intent, and respond naturally-helping automate customer support, sales calls, and lead qualification.",
+      answer: "They integrate with your communication systems to process voice input, understand intent, and respond naturally—helping automate customer support, sales calls, and lead qualification.",
     },
     {
       id: "multilingual",
@@ -217,7 +217,7 @@ const FAQ_ITEMS: Record<SiteFaqPageKey, readonly SiteFaqItem[]> = {
     {
       id: "are-ai-voice-agents-secure-for-medical-communication",
       question: "Are AI voice agents secure for medical communication?",
-      answer: "Yes. OnDial solutions are HIPAA-compliant and designed with strict data privacy and security protocols.",
+      answer: "Yes. Ondial solutions are HIPAA-compliant and designed with strict data privacy and security protocols.",
     },
     {
       id: "can-ai-voice-agents-reduce-missed-appointments",
@@ -232,12 +232,12 @@ const FAQ_ITEMS: Record<SiteFaqPageKey, readonly SiteFaqItem[]> = {
     {
       id: "do-ai-voice-agents-support-multiple-languages",
       question: "Do AI voice agents support multiple languages?",
-      answer: "Yes. OnDial AI voice solutions support multilingual communication, ensuring patients receive messages in their preferred language.",
+      answer: "Yes. Ondial AI voice solutions support multilingual communication, ensuring patients receive messages in their preferred language.",
     },
     {
       id: "can-hospitals-integrate-ai-voice-agents-with-existing-systems",
       question: "Can hospitals integrate AI voice agents with existing systems?",
-      answer: "Yes. OnDial integrates seamlessly with hospital management systems, EHRs, and scheduling tools.",
+      answer: "Yes. Ondial integrates seamlessly with hospital management systems, EHRs, and scheduling tools.",
     },
     {
       id: "how-do-ai-voice-agents-assist-in-insurance-claim-processing",
@@ -247,12 +247,12 @@ const FAQ_ITEMS: Record<SiteFaqPageKey, readonly SiteFaqItem[]> = {
     {
       id: "are-ai-voice-agents-cost-effective-for-small-clinics",
       question: "Are AI voice agents cost-effective for small clinics?",
-      answer: "Yes. OnDial solutions scale easily, making them affordable and effective for both small clinics and large hospitals.",
+      answer: "Yes. Ondial solutions scale easily, making them affordable and effective for both small clinics and large hospitals.",
     },
     {
       id: "what-makes-ondial-the-best-choice-for-healthcare-medical-services",
-      question: "What makes OnDial the best choice for healthcare & medical services?",
-      answer: "Our expertise, secure infrastructure, and proven success in healthcare automation make OnDial a trusted partner for medical organizations.",
+      question: "What makes Ondial the best choice for healthcare & medical services?",
+      answer: "Our expertise, secure infrastructure, and proven success in healthcare automation make Ondial a trusted partner for medical organizations.",
     },
   ],
   "ai-voice-agents-finance-banking": [

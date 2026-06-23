@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { forwardRef, type FocusEvent } from "react";
 
-import styles from "./nav-mega-dropdown.module.css";
+import styles from "./nav-mega-dropdown-trigger.module.css";
 
 type NavMegaDropdownProps = {
   label: string;

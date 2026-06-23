@@ -11,6 +11,7 @@ export type CaseStudyMetric = {
 
 export type CaseStudyRichDetail = {
   subtitle: string;
+  metaDescription?: string;
   readMinutes: number;
   domain?: string;
   scale?: string;
@@ -19,6 +20,7 @@ export type CaseStudyRichDetail = {
   problemParagraphs: string[];
   solutionParagraphs: string[];
   howItWorksSteps: string[];
+  technicalIntro?: string;
   technicalSections: { title: string; paragraphs: string[] }[];
   techStack: { label: string; detail: string }[];
   resultsTable: { metric: string; before: string; after: string }[];
@@ -53,7 +55,7 @@ export type CaseStudyItem = {
 
 export const CASE_STUDY_PAGE_HERO = {
   tag: "Customer success stories",
-  title: "Real businesses.",
+  title: "Real businesses",
   titleHighlight: "Real results with OnDial.",
   description:
     "See how companies across 20+ industries use OnDial's AI voice call automation to reduce costs, qualify more leads, and deliver better customer experiences - at scale.",
@@ -122,21 +124,15 @@ export const CASE_STUDIES: CaseStudyItem[] = [
     problem: "Fifty thousand daily calls overwhelmed human agents with repetitive balance and outage questions, causing fifteen-minute wait times and high customer abandonment.",
     solution: "Deployed a conversational routing and response architecture to intercept, understand, and resolve tier-one queries in local dialects autonomously.",
     metrics: [
-      { value: "60%", label: "Drop in live agent load" },
-      { value: "0 sec", label: "Customer wait time" },
-      { value: "40%", label: "Operational cost reduction" },
+      { value: "60% Drop", label: "Live Agent Load", },
+      { value: "0 Seconds", label: "Customer Wait Time", },
+      { value: "40% Reduction", label: "Operational Costs", },
     ],
-    tags: [
-      "Tier-one call deflection",
-      "Multilingual NLP routing",
-      "Billing API integration",
-      "Proactive outage mapping",
-      "SIP trunk ingestion",
-      "Context-preserving handoff",
-    ],
+    tags: [],
     richDetail: {
       subtitle: "Replaced a legacy routing menu with native conversational interfaces to automate fifty thousand daily tier-one support inquiries instantly.",
-      readMinutes: 14,
+      metaDescription: "An AI voice agent for telecom providers eliminated fifteen-minute hold times and reduced human agent load by sixty percent through instant native-language query resolution.",
+      readMinutes: 13,
       domain: "Inbound Customer Support and Automated Query Resolution",
       scale: "50,000+ daily inbound calls across diverse regional demographics speaking Hindi, Kannada, and Santali.",
       overviewParagraphs: [
@@ -159,13 +155,14 @@ export const CASE_STUDIES: CaseStudyItem[] = [
         "Adoption required zero structural changes to how subscribers initiated contact. They simply dial the exact same toll-free number they always have. The only difference is the immediate, human-like greeting and the absence of hold music. For the internal staff, the system operates as a highly efficient triage layer sitting in front of their existing telephony software. When an interaction surpasses the system's operational boundaries, it initiates a secure transfer to the appropriate human desk, appending a complete text transcript of the interaction.",
       ],
       howItWorksSteps: [
-        "Incoming dial",
-        "SIP trunk interception",
-        "Intent and dialect classification",
-        "API billing state retrieval",
-        "Transactional resolution",
-        "Human desk transfer (if needed)",
+        "Incoming Dial",
+        "SIP Trunk Interception",
+        "Intent and Dialect Classification",
+        "API Billing State Retrieval",
+        "Transactional Resolution",
+        "Human Desk Transfer (if needed)",
       ],
+      technicalIntro: "The core technical challenge was achieving ultra-low latency acoustic processing while simultaneously querying multiple legacy back-office databases. A naive implementation would sequentially process the speech, parse the text, query the database, and then generate the audio response, resulting in unnatural, five-second conversational delays. We engineered an asynchronous execution framework that anticipates intent and pre-fetches billing states during the caller's initial spoken utterance, reducing perceived latency to under eight hundred milliseconds. This section details the specific architectural components that enable an AI voice agent for telecom to function at enterprise scale.",
       technicalSections: [
         {
           title: "Telephony SIP Trunk Integration",
@@ -200,96 +197,91 @@ export const CASE_STUDIES: CaseStudyItem[] = [
       ],
       techStack: [
         {
-          label: "Audio ingestion",
-          detail: "Custom SIP trunking architecture — bypassed legacy PBX for zero-loss digital audio capture.",
+          label: "Audio Ingestion",
+          detail: "Custom SIP Trunking Architecture - bypassed legacy PBX systems to ensure zero-loss digital audio capture",
         },
         {
-          label: "Acoustic processing",
-          detail: "Deepgram custom language engines calibrated for regional Indian dialects including Santali.",
+          label: "Acoustic Processing",
+          detail: "Deepgram Custom Language Engines - chosen for their ability to be heavily calibrated for regional Indian dialects like Santali",
         },
         {
-          label: "Logic execution",
-          detail: "Node.js asynchronous microservices for parallel API polling without blocking the audio stream.",
+          label: "Logic Execution",
+          detail: "Node.js Asynchronous Microservices - required to handle parallel API polling for billing states without blocking the audio stream",
         },
         {
-          label: "Telecommunication integration",
-          detail: "Twilio Programmable Voice for carrier-grade reliability at 50,000+ daily connections.",
+          label: "Telecommunication Integration",
+          detail: "Twilio Programmable Voice - provided the underlying carrier-grade reliability necessary for handling fifty thousand daily concurrent connections",
         },
         {
-          label: "Database integration",
-          detail: "RESTful API polling via Axios for secure subscriber billing data transmission.",
+          label: "Database Integration",
+          detail: "RESTful API Polling via Axios - utilized for secure, encrypted transmission of sensitive subscriber billing data",
         },
         {
-          label: "Agent dashboard injection",
-          detail: "Webhook event listeners pushing transcripts into existing Zendesk interfaces.",
+          label: "Agent Dashboard Injection",
+          detail: "Webhook Event Listeners - engineered to instantly push conversational transcripts directly into the existing Zendesk agent interfaces",
         },
       ],
       resultsTable: [
         {
-          metric: "Live agent load",
-          before: "100% tier-one on human desks",
-          after: "60% drop — routine billing absorbed",
+          metric: "Live Agent Load",
+          before: "60% Drop",
+          after: "Allowed human agents to abandon basic tier-one tasks permanently.",
         },
         {
-          metric: "Customer wait time",
-          before: "15-minute hold queue",
-          after: "0 seconds — instant responses",
+          metric: "Customer Wait Time",
+          before: "0 Seconds",
+          after: "Replaced a fifteen-minute hold queue with instant, concurrent processing.",
         },
         {
-          metric: "Operational costs",
-          before: "Heavy outsourced BPO contracts",
-          after: "40% reduction in contact center OPEX",
+          metric: "Operational Costs",
+          before: "40% Reduction",
+          after: "Decreased reliance on outsourced business process outsourcing contracts.",
         },
         {
-          metric: "Regional resolution",
-          before: "English/Hindi IVR only",
-          after: "100% dialect match (Hindi, Kannada, Santali)",
+          metric: "Regional Resolution",
+          before: "100% Match",
+          after: "Successfully classified and processed all targeted local dialects.",
         },
       ],
       resultHighlights: [
-        "Live agent load decreased by 60% — routine billing, recharge, and network questions were entirely absorbed by the automated architecture.",
-        "Customer wait time dropped to 0 seconds — the fifteen-minute queue was completely eliminated.",
-        "Operational costs reduced by 40% — tier-one volume drop allowed scaling back outsourced contact center contracts.",
-        "Regional dialect comprehension achieved a 100% resolution rate for Santali and rural Kannada callers.",
+        "Live agent load decreased by 60% - Routine billing, recharge, and network questions were entirely absorbed by the automated architecture, fundamentally altering the contact center's daily volume.",
+        "Customer wait time dropped to 0 seconds - The fifteen-minute queue was completely eliminated, guaranteeing instant responses for every single subscriber regardless of the time of day.",
+        "Operational costs reduced by 40% (derived) - The massive drop in tier-one volume allowed the operator to drastically scale back their expensive, outsourced contact center contracts.",
+        "Regional dialect comprehension achieved a 100% resolution rate - Subscribers speaking Santali and rural Kannada experienced frictionless interactions without being forced into English menus.",
       ],
       resultsClosing: "Achieving these metrics completely redefined the operator's approach to subscriber management. The leadership team immediately repurposed the surplus human capacity toward proactive retention campaigns, contacting subscribers whose usage patterns indicated a high likelihood of churn. Because the architecture handled all the operational noise, the remaining human agents experienced a massive drop in daily fatigue and hostility from callers. The business transformed its contact center from a reactive cost center into a proactive revenue generation unit, proving that intelligent automation directly enables higher-order strategic work.",
       workflowSteps: [
         {
           step: 1,
-          title: "L1 intent and volume auditing",
-          description: "Analyzed ten thousand hours of contact center recordings to map colloquialisms and technical terms for intent classification.",
+          title: "L1 Intent and Volume Auditing",
+          description: "The engineering team began by analyzing ten thousand hours of historical contact center audio recordings to identify the exact phrasing subscribers used. This phase mapped the specific colloquialisms and technical terms associated with localized network failures. Isolating these exact speech patterns allowed us to build an intent classification matrix grounded in actual subscriber behavior.",
         },
         {
           step: 2,
-          title: "Dialect acoustic calibration",
-          description: "Fed thousands of custom audio samples to handle code-switching between Kannada, Santali, and English technical terms.",
+          title: "Dialect Acoustic Calibration",
+          description: "Generic speech recognition completely fails on regional Indian dialects, requiring us to feed thousands of custom audio samples into the acoustic processing layers. We focused heavily on training the system to recognize code-switching, where callers rapidly alternate between Kannada and English. This rigorous calibration ensured the system could accurately transcribe complex technical complaints spoken in deep rural dialects.",
         },
         {
           step: 3,
-          title: "Core billing API integration",
-          description: "Established encrypted connections to the legacy Business Support System with asynchronous polling architecture.",
+          title: "Core Billing API Integration",
+          description: "Our backend engineers established secure, encrypted connections directly into the operator's legacy Business Support System. We designed an asynchronous polling architecture that could retrieve account balances and payment histories without overloading the legacy servers. This deep integration transformed the system from a simple routing tool into an autonomous, transactional resolution engine.",
         },
         {
           step: 4,
-          title: "Shadow mode latency testing",
-          description: "Passively listened to live agent calls to prove sub-second billing data retrieval under peak loads.",
+          title: "Shadow Mode Latency Testing",
+          description: "Before processing live subscriber interactions, we deployed the architecture in a parallel testing environment that passively listened to live agent calls. We monitored the system's ability to fetch the correct billing data faster than the human agent could type the query. This passive testing phase proved the architecture could maintain sub-second latency targets under peak network loads.",
         },
         {
           step: 5,
-          title: "Phased geographic rollout",
-          description: "Deployed iteratively from a single rural district, tuning intent thresholds before full regional expansion.",
+          title: "Phased Geographic Rollout",
+          description: "The final deployment occurred iteratively, beginning with a single rural district before expanding to the entire regional network. We closely monitored transfer rates and transcript accuracy, making micro-adjustments to the intent classification thresholds. This controlled expansion prevented any catastrophic routing failures and allowed internal staff to smoothly adapt to the new dashboard transcript injection.",
         },
       ],
       whatsNext: [
         {
-          title: "Next operational phase",
+          title: "What comes next",
           paragraphs: [
             "Deploying this architecture creates a fundamental shift in how this telecom operator manages its subscriber lifecycle. By successfully automating the vast majority of inbound tier-one support, the organization now possesses the necessary bandwidth to pursue complex outbound operational sequences. The system's ability to instantly fetch billing states and comprehend regional dialects lays the exact groundwork needed for autonomous payment collections and proactive contract renewals. The next immediate operational phase involves triggering outbound conversational sequences to subscribers exactly forty-eight hours before their prepaid data caps expire.",
-          ],
-        },
-        {
-          title: "Engineering roadmap",
-          paragraphs: [
             "From an engineering perspective, the underlying data architecture is now primed to handle predictive network maintenance. Because the system continuously cross-references caller IDs with geospatial data, the next iteration will aggregate these inbound failure reports to predict cascading hardware failures before the central telemetry systems even register a drop in voltage. The operator can now map localized acoustic complaints directly to specific network nodes, creating a real-time, subscriber-generated heatmap of physical infrastructure health. This transition from reactive tier-one support to predictive network intelligence represents the definitive future of telecommunications operations. Organizations that master this conversational data ingestion will operate at a velocity that manual contact centers simply cannot match.",
           ],
         },
@@ -315,21 +307,15 @@ export const CASE_STUDIES: CaseStudyItem[] = [
     problem: "Human adjusters spent sixty percent of their operational shift verbally relaying database statuses to frustrated policyholders instead of processing financial payouts.",
     solution: "Deployed a conversational acoustic interface directly into the claims management database to intercept and resolve tier-one policyholder inquiries autonomously.",
     metrics: [
-      { value: "70%", label: "Drop in status inquiry calls" },
-      { value: "0 sec", label: "Claimant wait time" },
-      { value: "60%", label: "Adjuster capacity increase" },
+      { value: "70% Drop", label: "Live Agent Load", },
+      { value: "0 Seconds", label: "Claimant Wait Time", },
+      { value: "60% Increase", label: "Adjuster Processing Capacity", },
     ],
-    tags: [
-      "FNOL automation",
-      "Claims status inquiries",
-      "Guidewire integration",
-      "Multilingual intent routing",
-      "Audio compliance redaction",
-      "Adjuster handoff protocol",
-    ],
+    tags: [],
     richDetail: {
       subtitle: "Replaced static numeric routing with a conversational acoustic architecture to instantly resolve tier-one policyholder inquiries and automate First Notice of Loss data collection.",
-      readMinutes: 14,
+      metaDescription: "Voice AI for insurance claims eliminated hold times and reduced human adjuster call load by seventy percent through instant native language query resolution.",
+      readMinutes: 15,
       domain: "Claims Status Inquiries and First Notice of Loss",
       scale: "20,000 inbound calls daily across diverse regional demographics speaking Hindi, Marathi, and Santali.",
       overviewParagraphs: [
@@ -352,13 +338,14 @@ export const CASE_STUDIES: CaseStudyItem[] = [
         "Adoption required zero structural changes to how policyholders initiated contact with the carrier. They simply dial the exact same toll-free claims number they always have. The only difference is the immediate, human-like greeting and the absolute absence of hold music. For the internal adjusting staff, the system operates as a highly efficient triage layer sitting in front of their existing telephony software. When an interaction surpasses the system's operational boundaries, it initiates a secure transfer to the appropriate human desk, appending a complete text transcript of the interaction to the claim file.",
       ],
       howItWorksSteps: [
-        "Incoming claimant call",
-        "Number recognition and authentication",
-        "Claims management database query",
-        "Acoustic status generation",
-        "Human adjuster escalation (if complex)",
-        "Business result",
+        "Incoming Claimant Call",
+        "Number Recognition and Authentication",
+        "Claims Management Database Query",
+        "Acoustic Status Generation",
+        "Human Adjuster Escalation (if complex)",
+        "Business Result",
       ],
+      technicalIntro: "The core technical challenge was achieving ultra-low latency acoustic processing while securely querying highly regulated PII across legacy insurance databases. A naive implementation would sequentially process the speech, parse the text, query the claims management database, and then generate the audio response, resulting in unnatural, six-second conversational delays that frustrate callers. We engineered an asynchronous execution framework that anticipates intent and pre-fetches policy states during the caller's initial spoken utterance, reducing perceived latency to under eight hundred milliseconds. This section details the specific architectural components that enable Voice AI for insurance claims to function at enterprise scale under strict regulatory compliance.",
       technicalSections: [
         {
           title: "Telephony SIP Trunk Ingestion",
@@ -399,96 +386,91 @@ export const CASE_STUDIES: CaseStudyItem[] = [
       ],
       techStack: [
         {
-          label: "Audio ingestion",
-          detail: "Custom SIP trunking for zero-loss capture from mobile networks at accident scenes.",
+          label: "Audio Ingestion",
+          detail: "Custom SIP Trunking Architecture - bypassed legacy PBX systems to ensure zero-loss digital audio capture from mobile networks",
         },
         {
-          label: "Acoustic processing",
-          detail: "Deepgram engines calibrated for regional dialects and rapid code-switching.",
+          label: "Acoustic Processing",
+          detail: "Deepgram Custom Language Engines - chosen for their ability to be heavily calibrated for regional Indian dialects and rapid code-switching",
         },
         {
-          label: "Logic execution",
-          detail: "Node.js microservices for parallel policy state polling without blocking audio.",
+          label: "Logic Execution",
+          detail: "Node.js Asynchronous Microservices - required to handle parallel API polling for policy states without blocking the primary audio stream",
         },
         {
-          label: "Telecommunication integration",
-          detail: "Twilio Programmable Voice for massive call spikes during weather events.",
+          label: "Telecommunication Integration",
+          detail: "Twilio Programmable Voice - provided the underlying carrier-grade reliability necessary for handling massive call spikes during weather events",
         },
         {
-          label: "Database integration",
-          detail: "RESTful API polling for secure claimant financial data from Guidewire/Duck Creek.",
+          label: "Database Integration",
+          detail: "RESTful API Polling via Axios - utilized for secure, encrypted transmission of sensitive claimant financial data",
         },
         {
-          label: "Agent dashboard injection",
-          detail: "Webhooks pushing transcripts directly into Guidewire adjuster interfaces.",
+          label: "Agent Dashboard Injection",
+          detail: "Webhook Event Listeners - engineered to instantly push conversational transcripts directly into the existing Guidewire interface",
         },
       ],
       resultsTable: [
         {
-          metric: "Live agent load",
-          before: "60% of shift on status calls",
-          after: "70% drop — routine inquiries automated",
+          metric: "Live Agent Load",
+          before: "70% Drop",
+          after: "Routine status and garage approval questions stopped reaching human desks entirely.",
         },
         {
-          metric: "Claimant wait time",
-          before: "20-minute hold queue",
-          after: "0 seconds — instant status responses",
+          metric: "Claimant Wait Time",
+          before: "0 Seconds",
+          after: "Policyholders received instant conversational responses instead of hold music.",
         },
         {
-          metric: "FNOL processing speed",
-          before: "Manual transcription delays",
-          after: "30% faster — entities injected at first call",
+          metric: "FNOL Processing Speed",
+          before: "30% Faster (derived)",
+          after: "Initial loss reports were injected directly into the database without manual transcription delays.",
         },
         {
-          metric: "Adjuster capacity",
-          before: "Status updates dominated shifts",
-          after: "60% increase for fraud and payout work",
+          metric: "Adjuster Processing Capacity",
+          before: "60% Increase",
+          after: "Human staff reclaimed their operational hours strictly for complex fraud and payout work.",
         },
       ],
       resultHighlights: [
-        "Live agent load decreased by 70% — settlement checks, garage approvals, and policy questions absorbed by automation.",
-        "Claimant wait time dropped to 0 seconds — the twenty-minute hold queue was completely eliminated.",
-        "FNOL processing speed increased by 30% — entity extraction at first call removed manual data entry delays.",
-        "Adjuster processing capacity increased by 60% — human staff focused on fraud investigations and settlements.",
+        "Live agent load decreased by 70% - Routine settlement checks, garage approvals, and basic policy questions were entirely absorbed by the automated architecture, fundamentally altering the claims floor volume.",
+        "Claimant wait time dropped to 0 seconds - The twenty-minute hold queue was completely eliminated, guaranteeing instant responses for every single policyholder regardless of the time of day.",
+        "FNOL processing speed increased by 30% (derived) - Extracting entities directly from the initial phone call and injecting them into the database removed the massive delay associated with manual data entry.",
+        "Adjuster processing capacity increased by 60% - With the phones completely silent regarding basic status updates, human staff processed physical settlements and fraud investigations significantly faster.",
       ],
       resultsClosing: "Achieving these metrics completely redefined the carrier's approach to policyholder management. The leadership team immediately repurposed the surplus human capacity toward aggressive subrogation recovery, actively pursuing funds owed by third-party carriers that were previously ignored due to lack of staff time. Because the architecture handled all the operational noise and panicked yelling, the remaining human adjusters experienced a massive drop in daily fatigue and psychological burnout. The business transformed its claims department from a severely backlogged cost center into a highly efficient, rapid-settlement operation, proving that intelligent acoustic automation directly enables higher-order financial strategy.",
       workflowSteps: [
         {
           step: 1,
-          title: "FNOL acoustic pattern mapping",
-          description: "Analyzed fifteen thousand hours of recordings to map panic-induced speech patterns during vehicle collisions.",
+          title: "FNOL Acoustic Pattern Mapping",
+          description: "The engineering team began by analyzing fifteen thousand hours of historical contact center audio recordings to identify the exact phrasing policyholders used during an emergency. This phase mapped the specific colloquialisms and panic-induced speech patterns associated with vehicle collisions. Isolating these exact speech patterns allowed us to build an entity extraction matrix grounded in actual human distress rather than sterile laboratory conditions.",
         },
         {
           step: 2,
-          title: "Legacy database API abstraction",
-          description: "Built middleware translating legacy XML responses into JSON for the conversational engine.",
+          title: "Legacy Database API Abstraction",
+          description: "Our backend engineers established secure, encrypted connections directly into the carrier's heavily guarded core claims management database. We designed a middleware layer that could translate the complex, legacy XML responses into clean JSON payloads for the conversational engine. This deep structural integration transformed the system from a simple routing tool into an autonomous, data-fetching resolution engine.",
         },
         {
           step: 3,
-          title: "Core intent classification build",
-          description: "Trained acoustic layers on regional legal terminology and new vs. reopened claim routing.",
+          title: "Core Intent Classification Build",
+          description: "Generic speech recognition fails on regional Indian legal terminology, requiring us to feed thousands of custom audio samples into the acoustic processing layers. We focused heavily on training the system to recognize the subtle acoustic differences between a caller asking to file a new claim versus a caller asking to reopen a closed file. This rigorous calibration ensured the system could accurately route complex financial requests spoken in deep rural dialects without human intervention.",
         },
         {
           step: 4,
-          title: "Shadow mode verification",
-          description: "Passively compared system settlement data retrieval speed against live adjuster performance.",
+          title: "Shadow Mode Verification",
+          description: "Before processing live claimant interactions, we deployed the architecture in a parallel testing environment that passively listened to live adjuster calls. We monitored the system's ability to fetch the correct settlement data faster than the human adjuster could type the query into their terminal. This passive testing phase proved the architecture could maintain absolute factual accuracy regarding financial payouts under peak network loads.",
         },
         {
           step: 5,
-          title: "Phased regional deployment",
-          description: "Started with rural automotive claims desk before expanding to health and property networks.",
+          title: "Phased Regional Deployment",
+          description: "The final deployment occurred iteratively, beginning with a single rural automotive claims desk before expanding to the entire regional health and property network. We closely monitored transfer rates and transcript accuracy, making critical micro-adjustments to the entity extraction thresholds. This controlled expansion prevented any catastrophic data misrouting and allowed internal staff to smoothly adapt to the new dashboard transcript injection workflow.",
         },
       ],
       whatsNext: [
         {
-          title: "Next operational phase",
+          title: "What comes next",
           paragraphs: [
             "Deploying this architecture creates a fundamental shift in how this insurance carrier manages its claims lifecycle. By successfully automating the vast majority of inbound tier-one support, the organization now possesses the necessary technical bandwidth to pursue complex outbound operational sequences. The system's ability to instantly fetch policy states and comprehend regional dialects lays the exact groundwork needed for autonomous settlement offers and proactive surveyor dispatch notifications. The next immediate operational phase involves triggering outbound conversational sequences to policyholders exactly one hour after a garage submits a repair estimate, instantly requesting verbal authorization to proceed.",
-          ],
-        },
-        {
-          title: "Engineering roadmap",
-          paragraphs: [
             "From an engineering perspective, the underlying data architecture is now primed to handle predictive fraud detection using pure acoustic analysis. Because the system continuously processes raw digital audio packets, the next iteration will aggregate these inbound vocal markers to detect micro-tremors and acoustic stress patterns commonly associated with fabricated claims. The carrier can now map localized acoustic stress directly to specific policy files, creating a real-time, machine-generated flag for the special investigations unit before a payout is ever authorized. This transition from reactive tier-one support to predictive acoustic intelligence represents the definitive future of insurance operations. Organizations that master this conversational data ingestion will operate at a velocity and security level that manual contact centers simply cannot match.",
           ],
         },
@@ -513,21 +495,15 @@ export const CASE_STUDIES: CaseStudyItem[] = [
     problem: "Human collection agents physically could not dial enough phone numbers to contact thousands of overdue borrowers on the exact day their payments failed.",
     solution: "Deployed an autonomous outbound conversational architecture to fetch delinquent account lists, verify borrower identities, and negotiate payment timelines in regional dialects.",
     metrics: [
-      { value: "40%", label: "Early EMI recovery increase" },
-      { value: "100K", label: "Daily outbound calls" },
-      { value: "80%", label: "Agent attrition drop (derived)" },
+      { value: "40% Increase", label: "Early EMI Recovery", },
+      { value: "100,000 Calls", label: "Daily Outbound Volume", },
+      { value: "80% Drop (d)", label: "Agent Attrition Rate", },
     ],
-    tags: [
-      "Outbound EMI recovery",
-      "DOB authentication",
-      "Payment link generation",
-      "AMD detection",
-      "SIP trunk rotation",
-      "Regulatory compliance scripts",
-    ],
+    tags: [],
     richDetail: {
       subtitle: "Replaced manual outbound dialing with an autonomous conversational architecture to contact one hundred thousand delinquent accounts daily and secure immediate payments.",
-      readMinutes: 14,
+      metaDescription: "Voice AI for debt collection increased early stage EMI recovery by forty percent and eliminated human agent burnout by automating one hundred thousand daily outbound reminder calls.",
+      readMinutes: 16,
       domain: "Early Stage Debt Recovery and Automated Payment Collections",
       scale: "100,000 daily outbound calls executing across diverse geographic zones spanning Hindi, Marathi, and Kannada speakers.",
       overviewParagraphs: [
@@ -550,13 +526,14 @@ export const CASE_STUDIES: CaseStudyItem[] = [
         "Adoption required zero structural changes to the firm's core banking software. The internal data teams simply output their daily delinquency reports via standard secure file transfer protocols. The autonomous system handles the entire dialing, speaking, and texting workflow entirely outside of the firm's legacy servers. For the internal adjusting staff, the system operates as a massive, invisible filtration layer. When a borrower firmly disputes a charge or demands a complex payment plan, the system initiates a secure transfer to the specialized human desk, appending a complete text transcript of the verification process.",
       ],
       howItWorksSteps: [
-        "Daily delinquency ingestion",
-        "Concurrent outbound dialing",
-        "Secure identity authentication",
-        "Dialect-specific payment negotiation",
-        "Dynamic SMS link generation",
-        "Human escalation for disputes",
+        "Daily Delinquency Ingestion",
+        "Concurrent Outbound Dialing",
+        "Secure Identity Authentication",
+        "Dialect Specific Payment Negotiation",
+        "Dynamic SMS Link Generation",
+        "Business Result",
       ],
+      technicalIntro: "The core technical challenge was achieving massive concurrent outbound throughput while perfectly adhering to national telecom dialing regulations and strict financial data privacy laws. A naive implementation would simply blast generic audio files to thousands of numbers simultaneously, resulting in massive carrier blocking and severe regulatory penalties for unauthorized debt disclosure. We engineered a deeply asynchronous outbound execution framework that dynamically generates unique conversational audio for every single call based on live API queries, ensuring absolute legal compliance before any financial data is spoken. This section details the specific architectural components that enable Voice AI for debt collection to function at extreme scale without triggering spam filters.",
       technicalSections: [
         {
           title: "Telephony SIP Trunk Provisioning and Rotation",
@@ -597,96 +574,91 @@ export const CASE_STUDIES: CaseStudyItem[] = [
       ],
       techStack: [
         {
-          label: "Outbound dialing",
-          detail: "Custom SIP trunking with dynamic caller ID rotation across hundreds of verified numbers.",
+          label: "Audio Ingestion and Outbound Dialing",
+          detail: "Custom SIP Trunking Architecture - bypassed standard aggregators to ensure absolute control over caller ID rotation and carrier compliance",
         },
         {
-          label: "Acoustic processing",
-          detail: "Deepgram calibrated for regional Indian numeric and date formatting in authentication.",
+          label: "Acoustic Processing",
+          detail: "Deepgram Custom Language Engines - chosen specifically for their ability to be heavily calibrated for regional Indian numeric and date formatting",
         },
         {
-          label: "Logic execution",
-          detail: "Node.js microservices for parallel payment link generation during live calls.",
+          label: "Logic Execution",
+          detail: "Node.js Asynchronous Microservices - required to handle parallel API polling for payment link generation without blocking the primary outbound audio stream",
         },
         {
-          label: "Telecommunication integration",
-          detail: "Twilio Programmable Voice for massive concurrent outbound call volumes.",
+          label: "Telecommunication Integration",
+          detail: "Twilio Programmable Voice - provided the underlying carrier-grade reliability necessary for processing massive concurrent call volumes",
         },
         {
-          label: "Database integration",
-          detail: "RESTful API polling for secure borrower delinquency data from loan management system.",
+          label: "Database Integration",
+          detail: "RESTful API Polling via Axios - utilized for secure, encrypted transmission of sensitive borrower delinquency data",
         },
         {
-          label: "Payment gateway injection",
-          detail: "Webhooks retrieving unique Razorpay transaction URLs in real time during calls.",
+          label: "Payment Gateway Injection",
+          detail: "Webhook Event Listeners - engineered to instantly request and retrieve unique transaction URLs from the Razorpay infrastructure",
         },
       ],
       resultsTable: [
         {
-          metric: "Early EMI recovery",
-          before: "Day-seven contact average",
-          after: "40% increase — day-one reminders and SMS links",
+          metric: "Early EMI Recovery",
+          before: "40% Increase",
+          after: "Capital was secured on day one rather than rolling over into severe ninety-day default.",
         },
         {
-          metric: "Daily outbound volume",
-          before: "Manual dialer backlog",
-          after: "100,000 calls — full portfolio coverage daily",
+          metric: "Daily Outbound Volume",
+          before: "100,000 Calls",
+          after: "The institution achieved complete daily contact coverage without expanding their physical office space.",
         },
         {
-          metric: "Connection efficiency",
-          before: "80% time on voicemails",
-          after: "300% gain — live conversations only",
+          metric: "Connection Efficiency",
+          before: "300% Gain (d)",
+          after: "Compute power was strictly reserved for live human conversations rather than listening to voicemails.",
         },
         {
-          metric: "Agent attrition rate",
-          before: "High burnout from hostility",
-          after: "80% drop — humans shielded from early-stage calls",
+          metric: "Agent Attrition Rate",
+          before: "80% Drop (d)",
+          after: "Human collectors were completely shielded from the extreme hostility of routine reminder calls.",
         },
       ],
       resultHighlights: [
-        "Early stage EMI recovery increased by 40% — secure SMS payment links drove immediate settlements.",
-        "Daily outbound volume stabilized at 100,000 calls — entire delinquent portfolio contacted within 24 hours.",
-        "Connection efficiency achieved a 300% gain — AMD filtering reserved compute for live human negotiations.",
-        "Agent attrition rate dropped by 80% — automated system absorbed borrower hostility and repetitive dialing.",
+        "Early stage EMI recovery increased by 40% - Automated outbound payment reminders directly compelled thousands of borrowers to clear their dues immediately upon receiving the secure SMS link.",
+        "Daily outbound volume stabilized at 100,000 calls - The massive backlog of uncontacted delinquent accounts was completely eliminated, ensuring absolute regulatory compliance regarding timely notification.",
+        "Connection efficiency achieved a 300% gain (derived) - By mathematically filtering out answering machines and disconnected numbers, the system ensured every second of active processing was spent negotiating with a live human being.",
+        "Agent attrition rate dropped by 80% (derived) - With the automated system absorbing the brunt of borrower hostility and repetitive dialing, the remaining human staff experienced a massive improvement in their daily working conditions.",
       ],
       resultsClosing: "Achieving these metrics completely redefined the financial institution's approach to portfolio risk management. The leadership team immediately repurposed their surplus human collection staff toward highly complex, late-stage asset recovery, actively pursuing high-value loans that were previously ignored due to lack of available personnel. Because the architecture handled the massive daily volume of minor delinquencies, the remaining human collectors experienced a massive drop in psychological burnout and aggressive confrontations. The business transformed its contact center from a severely overwhelmed dialing sweatshop into a highly targeted, strategic recovery unit, proving that intelligent acoustic automation directly enables superior financial outcomes.",
       workflowSteps: [
         {
           step: 1,
-          title: "Historical borrower pattern mapping",
-          description: "Mapped demographic availability windows to optimize outbound dialing schedules by region.",
+          title: "Historical Borrower Pattern Mapping",
+          description: "The engineering team began by analyzing tens of thousands of rows of historical collection data to identify the exact times of day borrowers were most likely to answer their phones. This phase mapped the specific demographic availability across different regional territories. Isolating these exact behavioral patterns allowed us to build an outbound dialing schedule grounded in actual human availability rather than random sequential batching.",
         },
         {
           step: 2,
-          title: "Telephony infrastructure provisioning",
-          description: "Registered hundreds of verified institutional caller IDs for carrier compliance and whitelisting.",
+          title: "Telephony Infrastructure Provisioning",
+          description: "Our backend engineers established the massive digital infrastructure required to push thousands of concurrent audio streams. We navigated complex national telecom regulations to register hundreds of verified institutional caller IDs. This rigorous carrier whitelisting transformed the system from a potential spam liability into a fully compliant, verified institutional communication channel.",
         },
         {
           step: 3,
-          title: "Core banking API abstraction",
-          description: "Built middleware fetching live balances and writing payment commitments back to the central ledger.",
+          title: "Core Banking API Abstraction",
+          description: "We established secure, highly encrypted connections directly into the institution's primary loan management database. We designed a middleware layer that could securely fetch live balance data and instantly write payment commitments back into the central ledger. This deep structural integration ensured the conversational engine always possessed the absolute most current financial data before initiating a dial.",
         },
         {
           step: 4,
-          title: "Acoustic validation and calibration",
-          description: "Trained models on regional date-of-birth pronunciation for legally compliant authentication.",
+          title: "Acoustic Validation and Calibration",
+          description: "Generic speech recognition completely fails on regional Indian date formatting and numeric pronunciation, requiring us to feed thousands of custom audio samples into the acoustic processing layers. We focused heavily on training the system to accurately parse the exact year of birth spoken in deep rural dialects. This rigorous calibration ensured the system could achieve absolute legal authentication without frustrating the borrower into hanging up.",
         },
         {
           step: 5,
-          title: "Phased outbound campaign deployment",
-          description: "Started with 5,000 low-risk accounts before expanding to the full national portfolio.",
+          title: "Phased Outbound Campaign Deployment",
+          description: "The final deployment occurred iteratively, beginning with a small cohort of five thousand low-risk delinquent accounts before expanding to the entire national portfolio. We closely monitored connection rates and identity verification accuracy, making critical micro-adjustments to the answering machine detection thresholds. This controlled expansion prevented any catastrophic carrier blocking and allowed internal compliance teams to thoroughly audit the recorded verification transcripts.",
         },
       ],
       whatsNext: [
         {
-          title: "Next operational phase",
+          title: "What comes next",
           paragraphs: [
             "Deploying this architecture creates a fundamental shift in how this financial institution manages its entire credit lifecycle. By successfully automating the vast majority of early stage debt recovery, the organization now possesses the necessary technical bandwidth to pursue complex predictive risk modeling. The system's ability to instantly authenticate borrowers and comprehend regional dialects lays the exact groundwork needed for autonomous loan restructuring and proactive financial counseling. The next immediate operational phase involves triggering outbound conversational sequences to highly leveraged borrowers exactly five days before their scheduled payment, offering dynamic micro-extensions to prevent the delinquency from ever occurring.",
-          ],
-        },
-        {
-          title: "Engineering roadmap",
-          paragraphs: [
             "From an engineering perspective, the underlying data architecture is now primed to handle predictive default scoring using pure acoustic analysis. Because the system continuously processes raw digital audio from thousands of stressed borrowers, the next iteration will aggregate these inbound vocal markers to detect hesitation, defensive pacing, and acoustic stress patterns commonly associated with severe financial distress. The lender can now map localized acoustic behavioral data directly to specific loan files, creating a real-time, machine-generated risk flag for the credit underwriting department before a secondary loan is ever approved. This transition from reactive debt collection to predictive acoustic intelligence represents the definitive future of consumer finance operations. Organizations that master this conversational data ingestion will operate at a velocity and security level that manual contact centers simply cannot survive against.",
           ],
         },
@@ -712,21 +684,15 @@ export const CASE_STUDIES: CaseStudyItem[] = [
     problem: "Manual confirmation calls consumed excessive administrative time while still leaving 15% of clinical appointment slots empty.",
     solution: "An intelligent outbound voice system executed conversational confirmations and real-time rescheduling directly within the patient record.",
     metrics: [
-      { value: "42%", label: "No-show reduction" },
-      { value: "35 hrs", label: "Staff time recovered weekly" },
-      { value: "18%", label: "Same-week reschedules increase" },
+      { value: "42% reduction", label: "Patient No-Shows", },
+      { value: "35 hours/week", label: "Staff Time Recovered", },
+      { value: "18% increase", label: "Same-Week Reschedules", },
     ],
-    tags: [
-      "Appointment confirmations",
-      "EHR integration",
-      "Real-time rescheduling",
-      "HIPAA-compliant telephony",
-      "Multilingual acoustic processing",
-      "No-show reduction",
-    ],
+    tags: [],
     richDetail: {
       subtitle: "Regional outpatient clinics replaced manual confirmation calls with intelligent voice agents to reclaim 35 administrative hours weekly.",
-      readMinutes: 13,
+      metaDescription: "Automated appointment reminders for healthcare decreased missed visits by 42% while securely integrating with existing EHR scheduling workflows.",
+      readMinutes: 14,
       domain: "Patient Scheduling and Communication",
       scale: "12,000 patient appointments processed monthly across four regional facilities.",
       overviewParagraphs: [
@@ -749,13 +715,14 @@ export const CASE_STUDIES: CaseStudyItem[] = [
         "The integration into the daily workflow required zero structural changes to the clinic operations. The front desk staff continued using their existing calendar software. They booked appointments exactly as they always had. The only change occurred invisibly in the background. At 4:00 PM every day, the communication engine swept the database for all unconfirmed appointments occurring within the next forty-eight hours. It generated the call list, grouped families together to avoid multiple calls to the same household, and executed the outreach. The staff arrived the next morning to a calendar populated with green confirmation checkmarks and re-allocated slots.",
       ],
       howItWorksSteps: [
-        "Patient roster extraction",
-        "Outbound voice initiation",
-        "Intent recognition",
-        "Slot reallocation",
-        "EHR record update",
-        "Protected clinical revenue",
+        "[Patient Roster Extraction]",
+        "[Outbound Voice Initiation]",
+        "[Intent Recognition]",
+        "[Slot Reallocation]",
+        "[EHR Record Update]",
+        "[Protected Clinical Revenue]",
       ],
+      technicalIntro: "Deploying autonomous voice infrastructure within a regulated medical environment introduces severe architectural constraints. The primary technical challenge involved managing the extreme latency sensitivity of human conversation while simultaneously executing secure database queries. If a system takes three seconds to respond to a patient, the patient assumes the call dropped and hangs up. A naive implementation would sequence the acoustic processing, the intent extraction, and the database query linearly. This creates unacceptable delays. The architecture required aggressive parallelization of language processing and calendar querying to achieve a sub-800 millisecond response time. The team engineered the entire data flow to prioritize speed and cryptographic security concurrently, ensuring every automated appointment reminders for healthcare interaction felt entirely natural.",
       technicalSections: [
         {
           title: "HIPAA-Compliant Telephony Gateway",
@@ -796,96 +763,91 @@ export const CASE_STUDIES: CaseStudyItem[] = [
       ],
       techStack: [
         {
-          label: "Audio transport",
-          detail: "WebRTC via secure SIP trunks for low-latency encrypted streaming from telephony provider.",
+          label: "Audio Transport",
+          detail: "WebRTC via secure SIP trunks — selected to enforce low-latency encrypted audio streaming directly from the telephony provider",
         },
         {
-          label: "Event queue",
-          detail: "Apache Kafka for asynchronous buffering between voice layer and legacy medical database.",
+          label: "Event Queue",
+          detail: "Apache Kafka — chosen for its ability to handle asynchronous message buffering between the voice layer and the legacy medical database",
         },
         {
-          label: "EHR integration",
-          detail: "HL7/FHIR middleware translating JSON payloads into clinical calendar formats.",
+          label: "EHR Integration",
+          detail: "HL7/FHIR middleware — strictly required to translate modern JSON payloads into the rigid clinical formats demanded by healthcare IT systems",
         },
         {
-          label: "Intent classification",
-          detail: "Custom reasoning layer parsing conversational hesitations and complex temporal statements.",
+          label: "Intent Classification",
+          detail: "Custom-trained reasoning layer — built specifically to parse conversational hesitations and complex temporal statements rather than generic keyword matching",
         },
         {
-          label: "Acoustic processing",
-          detail: "Deepgram for low word error rate on localized accents and rapid transcription.",
+          label: "Acoustic Processing",
+          detail: "Deepgram — deployed for its extremely low word error rate on localized accents and rapid transcription speed",
         },
         {
-          label: "Database mirroring",
-          detail: "Redis holding seven days of calendar availability in memory for sub-second live queries.",
+          label: "Database Mirroring",
+          detail: "Redis — implemented to hold the next seven days of calendar availability in memory for sub-second query responses during live calls",
         },
       ],
       resultsTable: [
         {
-          metric: "Patient no-shows",
-          before: "15% empty calendar slots",
-          after: "42% reduction — stabilized at 8%",
+          metric: "Empty Calendar Slots",
+          before: "Dropped from 15% to 8%",
+          after: "Reclaimed unbilled clinical hours automatically",
         },
         {
-          metric: "Staff time recovered",
-          before: "Two FTEs on manual dialing",
-          after: "35 hours/week redirected to intake",
+          metric: "Staff Time Recovered",
+          before: "35 hours/week",
+          after: "Shifted human focus from dialing to in-person care",
         },
         {
-          metric: "Same-week reschedules",
-          before: "Patients hung up without rebooking",
-          after: "18% increase via automated voice",
+          metric: "Same-Week Reschedules",
+          before: "18% increase",
+          after: "Filled canceled slots immediately without manual intervention",
         },
         {
-          metric: "Database sync latency",
-          before: "Manual data entry errors",
-          after: "<2 seconds — automated EHR updates",
+          metric: "Database Sync Latency",
+          before: "< 2 seconds (d)",
+          after: "Eliminated secondary manual data entry tasks",
         },
       ],
       resultHighlights: [
-        "Patient no-shows reduced by 42% — high-risk appointments converted into guaranteed arrivals.",
-        "Manual calling hours eliminated by 100% — front desk abandoned outbound confirmation dialing.",
-        "Same-week reschedules increased by 18% — patients accepted immediate alternative slots via voice.",
-        "Staff time recovered by 35 hours/week — nearly one full-time role reallocated to patient intake.",
+        "Patient No-Shows by 42% — The facility stabilized its daily financial forecast by converting high-risk appointments into guaranteed arrivals.",
+        "Manual Calling Hours by 100% — The front desk completely abandoned the physical phone for outbound confirmations.",
+        "Same-Week Reschedules by 18% — Patients engaged with the automated voice and accepted immediate alternative slots instead of hanging up and forgetting.",
+        "Staff Time Recovered by 35 hours/week — Administrators reallocated nearly an entire full-time equivalent role to patient intake and insurance verification.",
       ],
       resultsClosing: "Beyond the raw numbers, the deployment radically altered the atmosphere of the clinic. Receptionists no longer started their mornings staring at a printout of four hundred phone numbers. The constant, ambient stress of falling behind on communication disappeared. Providers noticed the change immediately. They experienced smoother daily flows and higher patient volumes without the chaotic gaps that defined their previous schedules. The administration gained total visibility into the communication lifecycle. They could view exact dashboards showing how many patients confirmed, how many rescheduled, and which time slots required immediate waitlist activation. This fundamental shift replaced reactive scrambling with proactive calendar management. The facility finally operated a scheduling apparatus that matched the scale of its clinical ambitions.",
       workflowSteps: [
         {
           step: 1,
-          title: "Historic no-show pattern analysis",
-          description: "Mapped appointment types and demographics generating highest absence rates to target high-risk slots.",
+          title: "Historic No-Show Pattern Analysis",
+          description: "The team extracted six months of calendar data to isolate the failure points. They mapped exactly which appointment types, times of day, and demographic brackets generated the highest absence rates. This data dictated the outbound calling schedule, ensuring the system targeted high-risk slots exactly forty-eight hours prior to the procedure.",
         },
         {
           step: 2,
-          title: "Voice flow architecture design",
-          description: "Mapped conversational decision trees from top human receptionists with strict escalation constraints.",
+          title: "Voice Flow Architecture Design",
+          description: "Engineers mapped the conversational decision trees based on recordings of the most effective human receptionists. They established the strict routing constraints for handling complex requests. The team decided exactly when the logic engine would stop attempting to resolve a conflict and escalate the call to the physical front desk to prevent patient frustration.",
         },
         {
           step: 3,
-          title: "EHR integration and payload mapping",
-          description: "Built secure middleware for bidirectional data flow without overwriting critical clinical notes.",
+          title: "EHR Integration and Payload Mapping",
+          description: "The hardest technical phase involved connecting the modern voice infrastructure to the legacy medical calendar. Developers built the secure middleware bridge to handle the bidirectional data flow. They tested thousands of simulated appointments to ensure the system never overwrote critical clinical notes when updating a time slot.",
         },
         {
           step: 4,
-          title: "Shadow mode call validation",
-          description: "Processed historical transcripts in restricted environment for acoustic accuracy and intent extraction review.",
+          title: "Shadow Mode Call ValidationBefore touching a real patient, the system ran in a restricted shadow environment. It processed historical transcripts and generated the responses it would have spoken.",
+          description: "Clinical administrators reviewed these logs for acoustic accuracy, tone empathy, and correct intent extraction. This phase proved the system could handle colloquial accents without failure.",
         },
         {
           step: 5,
-          title: "Live outbound phased rollout",
-          description: "Started with follow-up consultations at one department, expanding across four facilities over four weeks.",
+          title: "Live Outbound Phased RolloutThe deployment began with a single department, handling only follow-up consultations. Over four weeks,",
+          description: "the team expanded the volume across all four regional facilities. They monitored the intent extraction confidence scores daily, slightly tuning the language parameters until the automated rescheduling success rate stabilized at its maximum threshold.",
         },
       ],
       whatsNext: [
         {
-          title: "Next operational phase",
+          title: "What comes next",
           paragraphs: [
             "The successful deployment of this voice architecture fundamentally reshaped how the clinic views patient communication. The facility now possesses a scalable infrastructure capable of handling virtually infinite concurrent outbound calls. This capability opens the door for complex preventative care outreach. Instead of merely confirming existing appointments, the clinic can instruct the system to audit the database for patients who missed their annual screenings or chronic care follow-ups. The system can proactively contact these individuals, discuss their care gaps, and secure an appointment on the spot. This transitions the technology from a defensive scheduling tool into an active revenue generation engine.",
-          ],
-        },
-        {
-          title: "Engineering roadmap",
-          paragraphs: [
             "The engineering foundation built for the scheduling component directly supports deeper clinical integrations. The team is currently mapping the data pathways to handle pre-procedure instruction delivery. Soon, the system will call a patient scheduled for an endoscopy, verbally walk them through their dietary restrictions, and require verbal acknowledgment of the preparation steps. This reduces the risk of day-of-procedure cancellations caused by patient non-compliance. Healthcare communication is rapidly moving away from passive text alerts toward continuous, intelligent conversational engagement. Organizations that master this transition will capture patient loyalty and operational efficiency that manual clinics simply cannot match.",
           ],
         },
@@ -910,21 +872,15 @@ export const CASE_STUDIES: CaseStudyItem[] = [
     problem: "Manual call center agents could not dial fast enough to reach borrowers before early-stage missed payments escalated into formal delinquencies.",
     solution: "An intelligent outbound voice system executed conversational payment reminders and instantly logged promise-to-pay dates within the borrower's file.",
     metrics: [
-      { value: "28%", label: "30-day delinquency reduction" },
-      { value: "400 hrs", label: "Staff time recovered weekly" },
-      { value: "22%", label: "Promise-to-pay capture increase" },
+      { value: "28% reduction", label: "30-Day Delinquencies", },
+      { value: "400 hours/week", label: "Staff Time Recovered", },
+      { value: "22% increase", label: "Promise-to-Pay Capture", },
     ],
-    tags: [
-      "Payment reminders",
-      "Promise-to-pay capture",
-      "Core banking integration",
-      "PCI-compliant gateway",
-      "Delinquency intent parsing",
-      "Automated negotiation",
-    ],
+    tags: [],
     richDetail: {
       subtitle: "A national retail bank replaced manual outbound calling with intelligent voice agents to reclaim 400 administrative hours weekly.",
-      readMinutes: 13,
+      metaDescription: "Automated payment alerts and loan reminders decreased 30-day delinquencies by 28% while securely integrating directly into core banking workflows.",
+      readMinutes: 14,
       domain: "Loan Collections and Payment Reminders",
       scale: "50,000 retail loan accounts processed monthly across a national portfolio.",
       overviewParagraphs: [
@@ -947,13 +903,14 @@ export const CASE_STUDIES: CaseStudyItem[] = [
         "Integration into the existing collections workflow happened invisibly. The human agents continued working inside their standard CRM software. The only shift occurred in the background routing logic. At 8:00 AM, the voice engine swept the database for all accounts exactly one to five days past due. It executed the outreach, captured the commitments, and tagged the files. When agents arrived on the floor, their queues contained only accounts that explicitly requested human assistance or had failed the automated negotiation.",
       ],
       howItWorksSteps: [
-        "Account roster extraction",
-        "Outbound voice initiation",
-        "Intent recognition",
-        "Promise-to-pay capture",
-        "Core banking update",
-        "Protected liquidity",
+        "[Account Roster Extraction]",
+        "[Outbound Voice Initiation]",
+        "[Intent Recognition]",
+        "[Promise-to-Pay Capture]",
+        "[Core Banking Update]",
+        "[Protected Liquidity]",
       ],
+      technicalIntro: "Deploying autonomous voice infrastructure within a highly regulated retail bank introduces extreme architectural friction. The core technical challenge required balancing the strict latency constraints of human conversation with the heavy cryptographic demands of financial data transit. If a system pauses for three seconds to encrypt a payload, the borrower assumes the call dropped. A standard implementation would sequence the natural language processing and the core banking query linearly. The architecture demanded aggressive parallelization of intent parsing and secure database querying to maintain a sub-800 millisecond conversational cadence. The team engineered every data pathway to prioritize speed while enforcing absolute compliance with regional banking regulations.",
       technicalSections: [
         {
           title: "PCI-Compliant Telephony Gateway",
@@ -994,96 +951,87 @@ export const CASE_STUDIES: CaseStudyItem[] = [
       ],
       techStack: [
         {
-          label: "Audio transport",
-          detail: "WebRTC via secure SIP trunks for low-latency encrypted streaming from tier-one providers.",
+          label: "Audio Transport",
+          detail: "WebRTC via secure SIP trunks — selected to enforce low-latency encrypted audio streaming directly from tier-one telephony providers",
         },
         {
-          label: "Event queue",
-          detail: "Apache Kafka for fault-tolerant buffering between cloud voice layer and on-premise banking database.",
+          label: "Event Queue",
+          detail: "Apache Kafka — chosen specifically for its fault-tolerant message buffering between the cloud voice layer and the on-premise banking database.Core Banking Integration: RESTful JSON middleware — strictly required to translate modern API payloads into the legacy formats demanded by the bank's mainframe",
         },
         {
-          label: "Core banking integration",
-          detail: "RESTful JSON middleware translating payloads into legacy mainframe formats.",
+          label: "Intent Classification",
+          detail: "Custom-trained reasoning layer — built to parse complex financial temporal statements rather than relying on brittle generic keywords",
         },
         {
-          label: "Intent classification",
-          detail: "Custom reasoning layer parsing complex financial temporal statements from collections transcripts.",
+          label: "Acoustic Processing",
+          detail: "Deepgram — deployed for its extremely low word error rate on regional dialects and rapid numerical extraction speed",
         },
         {
-          label: "Acoustic processing",
-          detail: "Deepgram for low word error rate on regional dialects and rapid numerical extraction.",
-        },
-        {
-          label: "Database mirroring",
-          detail: "Redis holding risk parameters in memory for sub-second negotiation query responses.",
+          label: "Database Mirroring",
+          detail: "Redis — implemented to hold risk parameters in memory for sub-second query responses during live negotiation calls",
         },
       ],
       resultsTable: [
         {
-          metric: "30-day delinquencies",
-          before: "Early-stage buckets overflowing",
-          after: "28% reduction — accounts interdicted before default",
+          metric: "30-Day Delinquencies",
+          before: "28% reduction",
+          after: "Prevented early-stage missed payments from aging",
         },
         {
-          metric: "Staff time recovered",
-          before: "Agents on early-stage dialing",
-          after: "400 hours/week for dispute resolution",
+          metric: "Staff Time Recovered",
+          before: "400 hours/week",
+          after: "Reallocated human agents to high-value dispute resolution",
         },
         {
-          metric: "Promise-to-pay capture",
-          before: "Borrowers hung up on agents",
-          after: "22% increase via non-judgmental automated voice",
+          metric: "Promise-to-Pay Capture",
+          before: "22% increase",
+          after: "Converted ignored contacts into formal commitments",
         },
         {
-          metric: "Ledger update latency",
-          before: "Manual transcription errors",
-          after: "<3 seconds — automated core banking updates",
+          metric: "Ledger Update Latency",
+          before: "< 3 seconds (d)",
+          after: "Eliminated secondary data transcription errors",
         },
       ],
       resultHighlights: [
-        "30-day delinquencies reduced by 28% — early-stage accounts kept out of formal default status.",
-        "Manual calling hours eliminated for early-stage — collections floor abandoned physical dialing under 15 days past due.",
-        "Promise-to-pay capture increased by 22% — borrowers committed to schedules at higher rates than with human agents.",
-        "Staff time recovered by 400 hours/week — dozens of FTE roles reallocated to fraud investigation and late-stage recovery.",
+        "30-Day Delinquencies by 28% — The bank stabilized its quarterly risk provisioning by successfully interdicting late accounts before they required formal default status.",
+        "Manual Calling Hours by 100% for early-stage — The collections floor entirely abandoned physical dialing for accounts under fifteen days past due.",
+        "Promise-to-Pay Capture by 22% — Borrowers engaged with the non-judgmental automated voice and committed to payment schedules at higher rates than with human agents.",
+        "Staff Time Recovered by 400 hours/week — Operations leadership reallocated dozens of full-time equivalent roles to complex fraud investigation and late-stage recovery.",
       ],
       resultsClosing: "Beyond the extracted metrics, the deployment fundamentally altered the culture of the collections department. Agents no longer started their shifts dreading endless lists of unreachable early-stage accounts. The ambient noise of constant dialing and voicemails vanished from the floor. Risk managers noticed the behavioral shift immediately. They experienced highly predictable daily recovery flows and lower employee turnover. The risk committee gained total visibility into the early-stage pipeline. They could view exact dashboards showing commitment rates, extension requests, and payment intent grouped by loan product. This transition replaced reactive collection dialing with proactive liquidity management. The bank finally operated a recovery apparatus that mathematically matched the scale of its lending ambitions.",
       workflowSteps: [
         {
           step: 1,
-          title: "Historic delinquency pattern analysis",
-          description: "Mapped loan products and segments ignoring standard text messages to target high-risk profiles.",
+          title: "Historic Delinquency Pattern Analysis",
+          description: "The risk team extracted twelve months of payment data to map exactly which loan products and demographic segments ignored standard text messages. This data dictated the outbound calling matrix, ensuring the voice engine targeted high-risk profiles precisely forty-eight hours after a missed due date.",
         },
         {
           step: 2,
-          title: "Voice flow architecture design",
-          description: "Mapped negotiation trees per legal compliance requirements with strict identity verification routing.",
+          title: "Voice Flow Architecture Design",
+          description: "Engineers mapped the negotiation decision trees based on the compliance requirements of the legal department. They established strict routing constraints for verifying borrower identity. The team decided exactly when the logic engine would halt a negotiation and route the call to a human manager to prevent regulatory violations.",
         },
         {
           step: 3,
-          title: "Core banking integration and payload mapping",
-          description: "Built secure middleware for asynchronous promise-to-pay logging without overwriting payment history.",
+          title: "Core Banking Integration and Payload Mapping",
+          description: "The heaviest engineering phase involved connecting the cloud communication layer to the on-premise ledger. Developers built the secure middleware to handle the asynchronous data exchange. They ran thousands of simulated arrears scenarios to guarantee the system never overwrote historical payment data when logging a new promise-to-pay date.",
         },
         {
           step: 4,
-          title: "Shadow mode call validation",
-          description: "Processed historical recordings for numerical accuracy, empathetic tone, and intent extraction verification.",
+          title: "Shadow Mode Call ValidationBefore dialing a real borrower, the system processed historical call recordings in a restricted shadow environment. It generated the conversational responses it would have spoken.",
+          description: "Quality assurance teams reviewed these transcripts for numerical accuracy, empathetic tone, and exact intent extraction. This phase proved the acoustic models could handle heavy regional accents perfectly.",
         },
         {
           step: 5,
-          title: "Live outbound phased rollout",
-          description: "Started with unsecured personal loans, expanding across the national portfolio over six weeks.",
+          title: "Live Outbound Phased Rollout",
+          description: "The activation began with a single retail product line, targeting only unsecured personal loans. Over six weeks, the operations unit expanded the volume across the entire national portfolio. They monitored the intent extraction confidence scores daily, slightly adjusting the financial dictionary until the automated commitment capture rate exceeded the baseline human average.",
         },
       ],
       whatsNext: [
         {
-          title: "Next operational phase",
+          title: "What comes next",
           paragraphs: [
             "The deployment of this automated architecture fundamentally shifted how the bank manages its retail lending risk. The institution now possesses a highly elastic infrastructure capable of scaling outbound communications instantly during periods of economic volatility. This capability opens the door for proactive financial health checks. Instead of waiting for a payment to fail, the bank can instruct the system to contact borrowers whose accounts show predictive signs of liquidity stress. The system can proactively offer pre-approved restructuring options before a delinquency ever occurs. This transitions the technology from a reactive debt collection tool into a proactive asset protection engine.",
-          ],
-        },
-        {
-          title: "Engineering roadmap",
-          paragraphs: [
             "The engineering foundation constructed for the collections module directly supports broader banking integrations. The team is currently configuring the data pathways to handle inbound routing for loan origination inquiries. Soon, a prospective borrower will call the bank, verbally state their income and requested loan amount, and receive an instant, automated preliminary rate quote. This eliminates the friction of web forms and human loan officers for basic retail products. Banking communication is rapidly shifting away from static portals toward continuous, intelligent acoustic interaction. Financial institutions that master this architectural pivot will command lower operational costs and capture borrower loyalty that legacy banks simply cannot replicate.",
           ],
         },
@@ -1154,69 +1102,6 @@ export const CASE_STUDY_QUOTES: CaseStudyQuoteItem[] = [
     avatarColor: "#0C447C",
   },
 ];
-
-export const CASE_STUDY_IMPACT = {
-  eyebrow: "Aggregate impact",
-  title: "What OnDial customers achieve",
-  subtitle: "Measured across 500+ businesses and 10M+ automated calls on the OnDial platform.",
-  items: [
-    { icon: "phone-check", color: "#534AB7", value: "80%", label: "Fewer missed calls on average" },
-    { icon: "trending-down", color: "#1D9E75", value: "60%", label: "Reduction in call center costs" },
-    { icon: "users", color: "#EF9F27", value: "3×", label: "More leads qualified per month" },
-    { icon: "clock", color: "#A32D2D", value: "<2s", label: "Average AI answer time" },
-    { icon: "star", color: "#534AB7", value: "4.9★", label: "Average customer CSAT score" },
-    { icon: "calendar-check", color: "#1D9E75", value: "40%", label: "More appointments booked" },
-  ],
-} as const;
-
-export const CASE_STUDY_TIMELINE = {
-  eyebrow: "Typical customer journey",
-  title: "From sign-up to results in days",
-  subtitle:
-    "Most OnDial customers see measurable outcomes within the first week. Here is what the journey looks like.",
-  steps: [
-    {
-      phase: "Day 1",
-      time: "Setup",
-      title: "Connect CRM and choose a template",
-      description:
-        "Integrate with HubSpot, Salesforce, or Zoho in minutes. Pick an industry-ready call template - no custom code required.",
-      pill: "Live in under 30 minutes",
-      pillBg: "#EEEDFE",
-      pillColor: "#3C3489",
-    },
-    {
-      phase: "Day 2",
-      time: "First calls",
-      title: "AI agent starts handling calls",
-      description:
-        "Inbound and outbound calls go live. The AI greets callers, handles inquiries, books appointments, and logs everything to your CRM automatically.",
-      pill: "First lead captured within hours",
-      pillBg: "#E1F5EE",
-      pillColor: "#085041",
-    },
-    {
-      phase: "Week 1",
-      time: "Optimise",
-      title: "Review analytics and tune the agent",
-      description:
-        "Use the real-time dashboard to review call transcripts, sentiment scores, and conversion rates. Adjust scripts and routing based on what you see.",
-      pill: "Average 40% improvement in week one",
-      pillBg: "#FAEEDA",
-      pillColor: "#633806",
-    },
-    {
-      phase: "Month 1",
-      time: "Scale",
-      title: "Scale without scaling headcount",
-      description:
-        "Handle 10× the call volume with the same team. Add new use cases - outbound campaigns, follow-ups, multilingual support - without extra setup.",
-      pill: "Full ROI typically seen within 30 days",
-      pillBg: "#E1F5EE",
-      pillColor: "#085041",
-    },
-  ],
-} as const;
 
 export const CASE_STUDY_CTA = {
   eyebrow: "Get started",
