@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import styles from "./showcase-section.module.css";
+import styles from "./showcase-carousel.module.css";
 
 type CarouselSlideImageProps = {
   src: string;

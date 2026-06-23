@@ -257,17 +257,17 @@ function ScriptCard({
   );
 }
 
-function RepIcon({ className, style }: { className?: string; style?: CSSProperties }) {
+function RepIcon({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
       className={className}
-      style={style}
       fill="none"
       stroke="currentColor"
       strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden
     >
       <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
       <circle cx="12" cy="7" r="4" />
@@ -343,23 +343,27 @@ function ScalingHiringIllustration({ className }: IllustrationProps) {
                 {bars.map((bar, i) => (
                   <div key={bar.label} className="flex h-full min-w-0 flex-1 items-end justify-center">
                     <div
-                      className={cn("w-[82%] max-w-[38px] rounded-t-lg flex flex-col-reverse items-center justify-start gap-0.5 pb-1", styles.bar)}
-                      style={{
-                        height: `${bar.h * 100}%`,
-                        backgroundColor: bar.fill,
-                        animationDelay: `${i * 0.1}s, ${0.65 + i * 0.1}s`,
-                      }}
+                      className="relative w-[82%] max-w-[38px]"
+                      style={{ height: `${bar.h * 100}%` }}
                     >
-                      {/* Stacking representative user icons showing scale-by-hiring */}
-                      {Array.from({ length: i + 1 }).map((_, iconIdx) => (
-                        <RepIcon
-                          key={iconIdx}
-                          className={cn("size-[7px] text-white shrink-0", styles.repIcon)}
-                          style={{
-                            animationDelay: `${i * 0.1 + 0.2 + iconIdx * 0.1}s`,
-                          }}
-                        />
-                      ))}
+                      <div
+                        className={cn("absolute inset-0 rounded-t-lg", styles.barFill)}
+                        style={{
+                          backgroundColor: bar.fill,
+                          animationDelay: `${i * 0.1}s`,
+                        }}
+                      />
+                      <div
+                        className={cn(
+                          "relative flex h-full flex-col-reverse items-center justify-start gap-0.5 pb-1",
+                          styles.barIcons,
+                        )}
+                        style={{ animationDelay: `${0.5 + i * 0.08}s` }}
+                      >
+                        {Array.from({ length: i + 1 }).map((_, iconIdx) => (
+                          <RepIcon key={iconIdx} className="size-[7px] shrink-0 text-white" />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -395,7 +399,7 @@ function ScalingHiringIllustration({ className }: IllustrationProps) {
             "rounded-full bg-[#fef9c3] px-2 py-0.5 text-[6.5px] font-semibold leading-none text-[#92400e]",
             styles.legend,
           )}
-          style={{ animationDelay: "0.9s, 1.4s" }}
+          // style={{ animationDelay: "0.9s, 1.4s" }}
         >
           Cost ↑ Quality flat →
         </span>

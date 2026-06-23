@@ -367,16 +367,3 @@ export function CaseStudyDetailPageContent({ item, related }: CaseStudyDetailPag
     </div>
   );
 }
-
-/* Legacy exports kept for any external imports */
-export function CaseStudyDetailHero({ item }: { item: CaseStudyItem }) {
-  return <CaseStudyPostHeader item={item} />;
-}
-
-export function CaseStudyDetailBody({ item }: { item: CaseStudyItem }) {
-  return item.richDetail ? (
-    <CaseStudyRichProse item={item} detail={item.richDetail} />
-  ) : (
-    <CaseStudySimpleProse item={item} />
-  );
-}

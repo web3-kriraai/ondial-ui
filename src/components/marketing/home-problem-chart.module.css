@@ -79,7 +79,7 @@
 }
 
 /* --- Scaling Hiring Animation Classes --- */
-.bar {
+.barFill {
   transform-origin: bottom center;
   animation: problemBarGrow 0.65s cubic-bezier(0.22, 1, 0.36, 1) both,
              problemBarBreathe 4s ease-in-out infinite alternate;
@@ -404,18 +404,18 @@
     transform: scale(1) translateY(0);
   }
 }
-@keyframes repIconPulse {
+/* @keyframes repIconPulse {
   0%, 100% { transform: scale(1) translateY(0); }
   50% { transform: scale(1.05) translateY(-1px); }
-}
-.repIcon {
+} */
+/* .repIcon {
   animation: 
     repIconBounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both,
     repIconPulse 3s ease-in-out infinite alternate;
-}
+} */
 
 @media (prefers-reduced-motion: reduce) {
-  .bar,
+  .barFill,
   .lineTrack,
   .dotWrapperFloat,
   .dot,

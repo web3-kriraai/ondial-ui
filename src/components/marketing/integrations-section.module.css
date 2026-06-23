@@ -35,43 +35,17 @@
   pointer-events: none;
 }
 
-.semiOrbitWrap {
-  width: 100%;
-  max-width: 100%;
+/* Placeholder height while orbit SVGs are deferred */
+.orbitLazyRoot {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  min-height: clamp(16rem, 42vw, 22rem);
 }
 
-.semiOrbitStage {
-  display: flex;
-  width: 100%;
-  max-width: 100%;
-  justify-content: center;
-  align-items: flex-end;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.orbitPivot {
-  position: relative;
-  flex-shrink: 0;
-  pointer-events: none;
-  overflow: visible;
-}
-
-.semiOrbitGuides {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  color: color-mix(in oklab, var(--border) 92%, transparent);
-  overflow: visible;
-}
-
-.semiOrbitGuides image {
-  pointer-events: none;
+.orbitLazyRoot[data-orbit-lazy="loaded"] {
+  min-height: 0;
 }
 
 /* Mobile: centered copy (top) + full-width semi-circle orbit (bottom) */
@@ -115,33 +89,6 @@
     justify-content: flex-end;
     overflow: visible;
   }
-
-  .semiOrbitWrap {
-    width: 100%;
-    align-items: flex-end;
-    justify-content: flex-end;
-  }
-
-  .semiOrbitStage {
-    width: 100%;
-    align-items: flex-end;
-    justify-content: flex-end;
-    overflow: visible;
-  }
-
-  .semiOrbitWrap {
-    overflow: visible;
-  }
-
-  .orbitPivotQuarter {
-    margin-inline: 0;
-  }
-
-  .semiOrbitWrap[data-orbit-layout="quarter"] .semiOrbitGuides {
-    z-index: 0;
-    pointer-events: none;
-  }
-
 }
 
 /* Desktop: side-by-side grid */
@@ -161,11 +108,6 @@
   }
 
   .orbitColumn {
-    overflow: visible;
-  }
-
-  .semiOrbitWrap,
-  .semiOrbitStage {
     overflow: visible;
   }
 }

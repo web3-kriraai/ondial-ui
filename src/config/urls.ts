@@ -3,7 +3,7 @@
  * Values come from NEXT_PUBLIC_* env vars (inlined at build time).
  */
 
-function trimTrailingSlash(url: string): string {
+export function trimTrailingSlash(url: string): string {
   return url.replace(/\/$/, "");
 }
 

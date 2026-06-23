@@ -151,7 +151,4 @@ export const NEWS_PAGE_CONTENT = {
   },
 } as const;
 
-/** @deprecated Use NEWS_PAGE_CONTENT */
-export const NEWS_HERO_CONTENT = NEWS_PAGE_CONTENT;
-
 export type NewsStory = NewsBentoBox;

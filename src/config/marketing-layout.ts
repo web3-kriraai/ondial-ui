@@ -4,10 +4,8 @@ export const marketingSectionBgClass = "bg-background";
 /** Soft off-white surface for dotted marketing routes - warm tint, not pure white. */
 export const dottedPageSurfaceClass = "bg-[oklch(0.985_0.006_280)]";
 
-export const blogPageSurfaceClass = dottedPageSurfaceClass;
-
-export const aboutPageSurfaceClass = dottedPageSurfaceClass;
-
+/** Soft off-white surface for dotted marketing routes - warm tint, not pure white. */
+export const blogPageSurfaceClass = "bg-[oklch(0.985_0.006_280)]";
 /** Matches `SiteShell` main overlap - blog bg must bleed into this zone behind the navbar. */
 export const marketingNavClearanceClass =
   "top-[calc(-1*(env(safe-area-inset-top)+4.25rem))]";

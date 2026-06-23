@@ -34,16 +34,7 @@ export const FOOTER_BOTTOM_LEGAL_LINKS: readonly FooterNavLink[] = [
   { href: "/privacy", label: "Privacy Policy" },
 ] as const;
 
-export type FooterLegalLink = (typeof FOOTER_BOTTOM_LEGAL_LINKS)[number];
-
-/** @deprecated Use FOOTER_BOTTOM_LEGAL_LINKS */
-export const FOOTER_LEGAL_LINKS = FOOTER_BOTTOM_LEGAL_LINKS;
-
-/** @deprecated Use FOOTER_QUICK_LINKS */
-export const FOOTER_COMPANY_LINKS = FOOTER_QUICK_LINKS;
-
-/** @deprecated Use FOOTER_RESOURCES_LINKS */
-export const FOOTER_PLATFORM_LINKS = FOOTER_RESOURCES_LINKS;
+// type FooterLegalLink = (typeof FOOTER_BOTTOM_LEGAL_LINKS)[number];
 
 export const FOOTER_SOCIAL_LINKS: readonly FooterNavLink[] = [
   {

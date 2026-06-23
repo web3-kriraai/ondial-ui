@@ -7,7 +7,7 @@ const icons = (await import("simple-icons")).default ?? (await import("simple-ic
 
 function writeSi(key, file) {
   const icon = icons[key];
-  const svg = `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>${icon.title}</title><path fill="#${icon.hex}" d="${icon.path}"/></svg>`;
+  const svg = `<svg role="img" loading="lazy" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>${icon.title}</title><path fill="#${icon.hex}" d="${icon.path}"/></svg>`;
   fs.writeFileSync(path.join(outDir, file), svg);
   console.log("fixed", file);
 }

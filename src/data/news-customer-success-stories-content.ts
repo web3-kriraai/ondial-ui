@@ -42,8 +42,3 @@ export const NEWS_UPDATE_ITEMS: readonly NewsUpdateItem[] = [
   },
 ] as const;
 
-/** @deprecated Use NEWS_UPDATE_ITEMS */
-export const CUSTOMER_SUCCESS_STORIES = NEWS_UPDATE_ITEMS;
-
-/** @deprecated Use NEWS_UPDATES_HEADING */
-export const SUCCESS_STORIES_HEADING = NEWS_UPDATES_HEADING;

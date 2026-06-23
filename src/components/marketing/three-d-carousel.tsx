@@ -8,7 +8,7 @@ import { Bebas_Neue } from "next/font/google";
 import { CarouselSlideImage } from "@/components/marketing/carousel-slide-image";
 import { HOME_CAROUSEL_PRELOAD_IMAGE, HOME_CAROUSEL_SLIDES } from "@/config/home-carousel";
 
-import styles from "./showcase-section.module.css";
+import styles from "./showcase-carousel.module.css";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],

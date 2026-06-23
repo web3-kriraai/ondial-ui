@@ -36,6 +36,7 @@ function BrandLogo({ name, logoSrc }: { name: string; logoSrc?: string }) {
     return (
       <Image
         src={logoSrc}
+        loading="lazy"
         alt={`${name} logo`}
         width={140}
         height={40}

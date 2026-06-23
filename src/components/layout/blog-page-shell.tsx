@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import { MarketingDotBackground } from "@/components/layout/marketing-dot-background";
 import {
-  blogPageSurfaceClass,
+  dottedPageSurfaceClass,
   marketingNavClearanceClass,
 } from "@/config/marketing-layout";
 import { cn } from "@/lib/utils";
@@ -22,7 +22,7 @@ export function BlogPageShell({ children, className }: BlogPageShellProps) {
         className={cn(
           "pointer-events-none absolute inset-x-0 bottom-0 -z-10",
           marketingNavClearanceClass,
-          blogPageSurfaceClass,
+          dottedPageSurfaceClass,
         )}
       >
         <MarketingDotBackground className="inset-0" />
