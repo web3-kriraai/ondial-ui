@@ -35,6 +35,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical: `https://www.ondial.ai/blog/author/${slug}`,
       },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-video-preview": -1,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+        },
+      },
     };
   } catch {
     return {
@@ -42,6 +53,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: `Posts by ${slug}.`,
       alternates: {
         canonical: `https://www.ondial.ai/blog/author/${slug}`,
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-video-preview": -1,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+        },
       },
     };
   }

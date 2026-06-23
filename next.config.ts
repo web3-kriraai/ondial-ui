@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /**
+   * Force metadata (incl. robots) into <head> before HTML is sent.
+   * Required for async generateMetadata on blog posts — without this,
+   * SEO crawlers see meta robots outside <head> due to streaming metadata.
+   */
+  htmlLimitedBots: /.*/,
+  /**
    * Hides the floating route dev indicator. It uses pointer capture and can throw
    * `releasePointerCapture` in the console when navigating quickly in dev (Next devtools bundle).
    */
