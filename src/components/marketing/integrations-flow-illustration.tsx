@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./home-features-illustrations.module.css";
+import styles from "./integrations-illustration.module.css";
 
 type IntegrationsFlowIllustrationProps = {
   className?: string;

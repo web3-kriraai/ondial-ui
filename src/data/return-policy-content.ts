@@ -53,7 +53,7 @@ export const RETURN_POLICY_CONTACT = {
   description:
     "If you have any concerns regarding returns, refunds, or cancellations, please contact us:",
   email: "support@ondial.ai",
-  website: "https://ondial.ai",
+  website: "https://www.ondial.ai",
   websiteLabel: "ondial.ai",
   responseTime: "Within 24–48 business hours",
   closing:

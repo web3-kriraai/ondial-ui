@@ -108,6 +108,6 @@ export const TERMS_AND_CONDITIONS_CONTACT = {
   title: "Contact Us",
   description: "For any questions about these Terms & Conditions, please contact us:",
   email: "contact@ondial.ai",
-  website: "https://ondial.ai",
+  website: " https://www.ondial.ai",
   websiteLabel: "ondial.ai",
 } as const;

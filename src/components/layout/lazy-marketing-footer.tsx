@@ -1,6 +1,3 @@
-"use client";
-
-import { DeferredSection } from "@/components/marketing/deferred-section";
 import { MarketingSiteFooter } from "@/components/layout/marketing-site-footer";
 
 type LazyMarketingFooterProps = {
@@ -8,11 +5,7 @@ type LazyMarketingFooterProps = {
   showCtaCard?: boolean;
 };
 
-/** Footer mounts when it nears the viewport. */
+/** Footer in initial HTML — important for crawlers, internal links, and View Source. */
 export function LazyMarketingFooter({ className, showCtaCard = true }: LazyMarketingFooterProps) {
-  return (
-    <DeferredSection minHeight="20rem">
-      <MarketingSiteFooter className={className} showCtaCard={showCtaCard} />
-    </DeferredSection>
-  );
+  return <MarketingSiteFooter className={className} showCtaCard={showCtaCard} />;
 }

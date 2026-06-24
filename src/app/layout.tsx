@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { Poppins } from "next/font/google";
-import Script from "next/script";
-
 import { AppLayoutShell } from "@/components/layout/app-layout-shell";
 import { AppProviders } from "@/components/providers/app-providers";
 import StructuredData from "@/components/StructuredData";
@@ -102,21 +100,6 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex h-dvh min-h-0 flex-col overflow-hidden font-sans">
-        {/* Google tag (gtag.js) */}
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-S0BEQDE207"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-S0BEQDE207');
-          `}
-        </Script>
-
         {/* Schema.org JSON-LD */}
         <StructuredData data={[organizationSchema, websiteSchema, softwareApplicationSchema]} />
 

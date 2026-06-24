@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import Lottie, { type LottieRefCurrentProps } from "lottie-react";
+import type { LottieRefCurrentProps } from "lottie-react";
 
 import arrowRightAnimation from "@/assets/animations/arrow-right.json";
 import pillStyles from "@/components/marketing/showcase-pill-cta.module.css";
+import { LazyLottie, type LazyLottieHandle } from "@/components/ui/lazy-lottie";
 import { cn } from "@/lib/utils";
 
 const ctaIconVariants = {
@@ -33,13 +34,10 @@ type AboutHeroCtaProps = {
 
 export function AboutHeroCta({ href, label, className, linkClassName }: AboutHeroCtaProps) {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const lazyLottieRef = useRef<LazyLottieHandle>(null);
 
-  const playArrow = () => lottieRef.current?.play();
-
-  const resetArrow = () => {
-    lottieRef.current?.stop();
-    lottieRef.current?.goToAndStop(0, true);
-  };
+  const playArrow = () => lazyLottieRef.current?.play();
+  const resetArrow = () => lazyLottieRef.current?.reset();
 
   return (
     <motion.div
@@ -60,12 +58,14 @@ export function AboutHeroCta({ href, label, className, linkClassName }: AboutHer
         {label}
         <motion.span className={pillStyles.pillCtaIcon} aria-hidden variants={ctaIconVariants}>
           <motion.div className={pillStyles.pillCtaLottieWrap} variants={ctaArrowVariants}>
-            <Lottie
+            <LazyLottie
+              ref={lazyLottieRef}
               lottieRef={lottieRef}
               animationData={arrowRightAnimation}
               autoplay={false}
               loop={false}
               className={pillStyles.pillCtaLottie}
+              loadTrigger="interaction"
             />
           </motion.div>
         </motion.span>

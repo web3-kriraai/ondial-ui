@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 
 import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteNavbar } from "@/components/layout/site-navbar";
 import { ShellScrollProvider } from "@/components/layout/shell-scroll-context";
 import { SiteShell } from "@/components/layout/site-shell";
 import { ShellScrollIndicator } from "@/components/layout/shell-scroll-indicator";
@@ -95,6 +96,7 @@ export function AppLayoutShell({ children, initialPathname }: AppLayoutShellProp
   return (
     <ShellScrollProvider scrollerRef={shellScrollRef}>
       <SiteShell
+        header={<SiteNavbar />}
         shellScrollerRef={shellScrollRef}
         bleedUnderNav={authSplit}
         scrollerClassName={dottedSurfaceRoute ? blogPageSurfaceClass : undefined}

@@ -192,22 +192,7 @@ export function IntegrationsOrbitVisual() {
 
   useEffect(() => {
     if (!layoutReady) return;
-
-    const svg = svgRef.current;
-    if (!svg) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setIconsReady(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "120px 0px", threshold: 0.01 },
-    );
-
-    observer.observe(svg);
-    return () => observer.disconnect();
+    setIconsReady(true);
   }, [layoutReady]);
 
   useLayoutEffect(() => {

@@ -1,0 +1,78 @@
+/* ── Multilingual globe ── */
+@keyframes lang-globe-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lang-connector-flow {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+@keyframes lang-pill-glow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 rgb(12 68 124 / 0));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 4px rgb(12 68 124 / 0.12));
+  }
+}
+
+@keyframes lang-center-pulse {
+
+  0%,
+  100% {
+    opacity: 0.92;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes lang-cursor-blink {
+
+  0%,
+  45% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.globeSpin {
+  transform-box: view-box;
+  transform-origin: 110px 78px;
+  animation: lang-globe-spin 22s linear infinite;
+}
+
+.langConnector {
+  animation: lang-connector-flow 1.1s linear infinite;
+}
+
+.langPill {
+  animation: lang-pill-glow 2.4s ease-in-out infinite;
+}
+
+.langCenterBadge {
+  animation: lang-center-pulse 2.8s ease-in-out infinite;
+}
+
+.langCursor {
+  animation: lang-cursor-blink 0.9s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globeSpin, .langConnector, .langPill, .langCenterBadge, .langCursor {
+    animation: none !important;
+  }
+  .langCursor { opacity: 0; }
+}

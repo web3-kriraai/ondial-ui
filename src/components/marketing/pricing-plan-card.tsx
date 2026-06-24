@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import Lottie, { type LottieRefCurrentProps } from "lottie-react";
+import type { LottieRefCurrentProps } from "lottie-react";
 
 import arrowRightAnimation from "@/assets/animations/arrow-right.json";
+import { LazyLottie, type LazyLottieHandle } from "@/components/ui/lazy-lottie";
 import { cn } from "@/lib/utils";
 
 /** Next Link + variant propagation for the CTA hover (same as /pricing carousel) */
@@ -49,6 +50,7 @@ export function PricingPlanCard({
   carouselDesktop = true,
 }: PricingPlanCardProps) {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const lazyLottieRef = useRef<LazyLottieHandle>(null);
 
   const scale = carouselDesktop ? 1 : carouselActive ? 1 : 0.98;
 
@@ -127,14 +129,9 @@ export function PricingPlanCard({
               initial="initial"
               whileHover="hover"
               whileTap={{ scale: 0.98 }}
-              onMouseEnter={() => lottieRef.current?.play()}
-              onMouseLeave={() => {
-                lottieRef.current?.stop();
-                lottieRef.current?.goToAndStop(0, true);
-              }}
-              onClick={() => {
-                lottieRef.current?.play();
-              }}
+              onMouseEnter={() => lazyLottieRef.current?.play()}
+              onMouseLeave={() => lazyLottieRef.current?.reset()}
+              onClick={() => lazyLottieRef.current?.play()}
               className="group relative mx-auto mt-auto flex w-full max-w-[240px] cursor-pointer items-center justify-center overflow-hidden rounded-full border border-black/20 bg-white py-3 text-sm font-bold text-black transition-colors duration-300 hover:border-black hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <div className="relative z-10 flex items-center">
@@ -179,11 +176,13 @@ export function PricingPlanCard({
                     }}
                     className="h-6 w-6 brightness-0 invert"
                   >
-                    <Lottie
+                    <LazyLottie
+                      ref={lazyLottieRef}
                       lottieRef={lottieRef}
                       animationData={arrowRightAnimation}
                       autoplay={false}
                       loop={false}
+                      loadTrigger="interaction"
                     />
                   </motion.div>
                 </div>

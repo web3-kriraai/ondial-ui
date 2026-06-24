@@ -1,6 +1,6 @@
 "use client";
 
-import flowStyles from "./home-features-illustrations.module.css";
+import flowStyles from "./lead-qualification-illustration.module.css";
 
 type LeadQualificationIllustrationProps = {
   className?: string;

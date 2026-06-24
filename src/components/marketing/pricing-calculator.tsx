@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Lottie, { type LottieRefCurrentProps } from "lottie-react";
+import type { LottieRefCurrentProps } from "lottie-react";
 
 import arrowRightAnimation from "@/assets/animations/arrow-right.json";
 import calculatorIconAnimation from "@/assets/animations/calculator-icon.json";
 import { BlogPageHero } from "@/components/marketing/blog-page-hero";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
+import { LazyLottie, type LazyLottieHandle } from "@/components/ui/lazy-lottie";
 import { marketingSectionContainerClass } from "@/config/marketing-layout";
 import { PRICING_CALCULATOR_HEADING } from "@/data/pricing-plans";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ import { MobilePricingShape } from "./pricing-calculator/mobile-pricing-shape";
 
 export function PricingCalculator() {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
+  const lazyArrowRef = useRef<LazyLottieHandle>(null);
   const [minutes, setMinutes] = useState(5700);
   const [channels, setChannels] = useState(13);
   const [numbers, setNumbers] = useState(1);
@@ -24,10 +26,9 @@ export function PricingCalculator() {
 
   useEffect(() => {
     if (isHovered) {
-      lottieRef.current?.play();
+      lazyArrowRef.current?.play();
     } else {
-      lottieRef.current?.stop();
-      lottieRef.current?.goToAndStop(0, true);
+      lazyArrowRef.current?.reset();
     }
   }, [isHovered]);
 
@@ -47,7 +48,12 @@ export function PricingCalculator() {
               className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-2.5 text-balance text-3xl font-semibold tracking-tight text-foreground sm:gap-3 sm:text-4xl lg:text-[2.625rem] lg:leading-tight"
             >
               <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center self-center brightness-0 sm:h-9 sm:w-9">
-                <Lottie animationData={calculatorIconAnimation} autoplay loop={false} />
+                <LazyLottie
+                  animationData={calculatorIconAnimation}
+                  autoplay
+                  loop={false}
+                  loadTrigger="visible"
+                />
               </span>
               <TextReveal
                 as="span"
@@ -92,12 +98,11 @@ export function PricingCalculator() {
               <div
                 onMouseEnter={() => {
                   setIsHovered(true);
-                  lottieRef.current?.play();
+                  lazyArrowRef.current?.play();
                 }}
                 onMouseLeave={() => {
                   setIsHovered(false);
-                  lottieRef.current?.stop();
-                  lottieRef.current?.goToAndStop(0, true);
+                  lazyArrowRef.current?.reset();
                 }}
                 className={cn(
                   "flex h-11 w-11 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-black text-white shadow-xl transition-all active:scale-95 lg:h-16 lg:w-16",
@@ -105,11 +110,13 @@ export function PricingCalculator() {
                 )}
               >
                 <div className="-rotate-45 h-8 w-8 brightness-0 invert lg:h-10 lg:w-10">
-                  <Lottie
+                  <LazyLottie
+                    ref={lazyArrowRef}
                     lottieRef={lottieRef}
                     animationData={arrowRightAnimation}
                     autoplay={false}
                     loop={false}
+                    loadTrigger="interaction"
                   />
                 </div>
               </div>

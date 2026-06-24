@@ -27,7 +27,7 @@ export async function getSiteUrl(): Promise<string> {
   const host = headersList.get("x-forwarded-host") ?? headersList.get("host");
 
   if (!host) {
-    return "https://ondial.com";
+    return "https://www.ondial.ai";
   }
 
   const protocol = headersList.get("x-forwarded-proto") ?? "https";

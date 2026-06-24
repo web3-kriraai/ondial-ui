@@ -4,7 +4,7 @@ import NumberFlow, { continuous, type Trend } from "@number-flow/react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Minus, Plus } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, memo } from "react";
 
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { usePricingCountry } from "@/components/marketing/pricing-country-context";
@@ -127,6 +127,33 @@ function useValueTrend(value: number): Trend | undefined {
   return trendRef.current;
 }
 
+const SliderTicks = memo(function SliderTicks({ ratio }: { ratio: number }) {
+  return (
+    <>
+      {Array.from({ length: TICK_COUNT }, (_, index) => {
+        const tickRatio = index / (TICK_COUNT - 1);
+        const tickDistance = Math.abs(tickRatio - ratio) * (TICK_COUNT - 1);
+        const isNear = tickDistance > 0 && tickDistance <= 2.5;
+
+        return (
+          <div
+            key={index}
+            className={cn(
+              "absolute bottom-0 -translate-x-1/2 rounded-full bg-[#94a3b8]/80 transition-[height,opacity] duration-200 ease-out",
+              "w-px",
+            )}
+            style={{
+              left: `${tickRatio * 100}%`,
+              height: isNear ? "1.125rem" : "0.875rem",
+              opacity: isNear ? 0.95 : 0.55,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+});
+
 type MinutesTickSliderProps = {
   value: number;
   onChange: (value: number) => void;
@@ -202,11 +229,39 @@ function MinutesTickSlider({ value, onChange, onDragChange }: MinutesTickSliderP
   const trackRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const pendingMinutesRef = useRef<number | null>(null);
+  const rafCommitRef = useRef<number | null>(null);
 
   const ratio = useMemo(
     () => (value - minMinutes) / (maxMinutes - minMinutes),
     [value, minMinutes, maxMinutes],
   );
+
+  const flushMinutes = useCallback(() => {
+    rafCommitRef.current = null;
+    const next = pendingMinutesRef.current;
+    if (next === null) return;
+    pendingMinutesRef.current = null;
+    onChange(next);
+  }, [onChange]);
+
+  const scheduleMinutesCommit = useCallback(
+    (nextMinutes: number) => {
+      if (nextMinutes === value && pendingMinutesRef.current === null) return;
+      pendingMinutesRef.current = nextMinutes;
+      if (rafCommitRef.current !== null) return;
+      rafCommitRef.current = window.requestAnimationFrame(flushMinutes);
+    },
+    [flushMinutes, value],
+  );
+
+  useEffect(() => {
+    return () => {
+      if (rafCommitRef.current !== null) {
+        window.cancelAnimationFrame(rafCommitRef.current);
+      }
+    };
+  }, []);
 
   const updateFromPointer = useCallback(
     (clientX: number) => {
@@ -218,10 +273,10 @@ function MinutesTickSlider({ value, onChange, onDragChange }: MinutesTickSliderP
       const nextMinutes = snapMinutes(rawMinutes);
 
       if (nextMinutes !== value) {
-        onChange(nextMinutes);
+        scheduleMinutesCommit(nextMinutes);
       }
     },
-    [minMinutes, maxMinutes, onChange, value],
+    [minMinutes, maxMinutes, scheduleMinutesCommit, value],
   );
 
   const handlePointerDown = useCallback(
@@ -247,10 +302,18 @@ function MinutesTickSlider({ value, onChange, onDragChange }: MinutesTickSliderP
   const endDrag = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     setIsDragging(false);
     onDragChange?.(false);
+    if (rafCommitRef.current !== null) {
+      window.cancelAnimationFrame(rafCommitRef.current);
+      rafCommitRef.current = null;
+    }
+    if (pendingMinutesRef.current !== null) {
+      onChange(pendingMinutesRef.current);
+      pendingMinutesRef.current = null;
+    }
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
-  }, [onDragChange]);
+  }, [onChange, onDragChange]);
 
   const pillTransition = useMemo(
     () =>
@@ -280,7 +343,7 @@ function MinutesTickSlider({ value, onChange, onDragChange }: MinutesTickSliderP
         aria-valuenow={value}
         aria-valuetext={`${formatMinutes(value)} minutes`}
         className={cn(
-          "relative touch-none pt-[3.25rem] outline-none sm:pt-[3.5rem]",
+          "relative touch-none pt-13 outline-none sm:pt-14",
           isDragging ? "cursor-grabbing" : "cursor-pointer",
           "rounded-lg focus-visible:ring-2 focus-visible:ring-[#2F67D8]/30 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
         )}
@@ -341,26 +404,7 @@ function MinutesTickSlider({ value, onChange, onDragChange }: MinutesTickSliderP
         </motion.div>
 
         <div className="pointer-events-none relative h-9 w-full sm:h-10" aria-hidden>
-          {Array.from({ length: TICK_COUNT }, (_, index) => {
-            const tickRatio = index / (TICK_COUNT - 1);
-            const tickDistance = Math.abs(tickRatio - ratio) * (TICK_COUNT - 1);
-            const isNear = tickDistance > 0 && tickDistance <= 2.5;
-
-            return (
-              <div
-                key={index}
-                className={cn(
-                  "absolute bottom-0 -translate-x-1/2 rounded-full bg-[#94a3b8]/80 transition-[height,opacity] duration-200 ease-out",
-                  isNear ? "w-px" : "w-px",
-                )}
-                style={{
-                  left: `${tickRatio * 100}%`,
-                  height: isNear ? "1.125rem" : "0.875rem",
-                  opacity: isNear ? 0.95 : 0.55,
-                }}
-              />
-            );
-          })}
+          <SliderTicks ratio={ratio} />
 
           {/* Active spike - exact ratio position, matches pill center */}
           <motion.div
@@ -478,7 +522,7 @@ function CalculatorAddOnStepper({
   );
 }
 
-function CalculatorAddOns({
+const MemoCalculatorAddOns = memo(function CalculatorAddOns({
   channels,
   numbers,
   onChannelsChange,
@@ -515,9 +559,9 @@ function CalculatorAddOns({
       />
     </div>
   );
-}
+});
 
-function PlanBuyButton({
+const PlanBuyButton = memo(function PlanBuyButton({
   minutes,
   monthlyPrice,
   isDragging = false,
@@ -536,6 +580,13 @@ function PlanBuyButton({
   const label = isEnterprise ? plan.ctaLabel ?? "Contact Sales" : `Get ${plan.title}`;
   const labelMotion = prefersReducedMotion ? planLabelRevealReduced : planLabelReveal;
   const currencyLabel = `${country.currency.code} ${displayPrice.toFixed(country.currency.monthlyFractionDigits)}`;
+  const priceFormat = useMemo(
+    () => ({
+      minimumFractionDigits: country.currency.monthlyFractionDigits,
+      maximumFractionDigits: country.currency.monthlyFractionDigits,
+    }),
+    [country.currency.monthlyFractionDigits],
+  );
 
   return (
     <MotionLink
@@ -590,10 +641,7 @@ function PlanBuyButton({
               <NumberFlow
                 value={displayPrice}
                 trend={trend}
-                format={{
-                  minimumFractionDigits: country.currency.monthlyFractionDigits,
-                  maximumFractionDigits: country.currency.monthlyFractionDigits,
-                }}
+                format={priceFormat}
                 locales={country.currency.locale}
                 className={styles.planBuyButtonPriceFlow}
                 plugins={[continuous]}
@@ -630,9 +678,9 @@ function PlanBuyButton({
       </motion.span>
     </MotionLink>
   );
-}
+});
 
-function PriceCounter({
+const PriceCounter = memo(function PriceCounter({
   price,
   isDragging = false,
 }: {
@@ -644,6 +692,13 @@ function PriceCounter({
   const displayPrice = Math.round(price * 100) / 100;
   const trend = useValueTrend(displayPrice);
   const currencyLabel = `${country.currency.code} ${displayPrice.toFixed(country.currency.monthlyFractionDigits)}`;
+  const priceFormat = useMemo(
+    () => ({
+      minimumFractionDigits: country.currency.monthlyFractionDigits,
+      maximumFractionDigits: country.currency.monthlyFractionDigits,
+    }),
+    [country.currency.monthlyFractionDigits],
+  );
 
   return (
     <motion.div
@@ -677,10 +732,7 @@ function PriceCounter({
       <NumberFlow
         value={displayPrice}
         trend={trend}
-        format={{
-          minimumFractionDigits: country.currency.monthlyFractionDigits,
-          maximumFractionDigits: country.currency.monthlyFractionDigits,
-        }}
+        format={priceFormat}
         locales={country.currency.locale}
         className={styles.priceFlow}
         plugins={[continuous]}
@@ -690,7 +742,7 @@ function PriceCounter({
       />
     </motion.div>
   );
-}
+});
 
 export function PricingCalculatorSection() {
   const prefersReducedMotion = useReducedMotion();
@@ -754,7 +806,7 @@ export function PricingCalculatorSection() {
           </motion.p>
 
           <motion.div
-            className="mt-4 flex w-full justify-center sm:mt-5"
+            className={cn("mt-4 flex w-full justify-center sm:mt-5", styles.priceDisplayAnchor)}
             variants={sectionReveal}
           >
             <PriceCounter price={monthlyPrice} isDragging={isDragging} />
@@ -791,7 +843,7 @@ export function PricingCalculatorSection() {
               onChange={setMinutes}
               onDragChange={setIsDragging}
             />
-            <CalculatorAddOns
+            <MemoCalculatorAddOns
               channels={channels}
               numbers={numbers}
               onChannelsChange={setChannels}

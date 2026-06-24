@@ -31,7 +31,7 @@ function linkIsActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-type NavDropdownPortalProps = {
+export type NavDropdownPortalProps = {
   open: boolean;
   menu: NavMenuConfig | null;
   triggerEl: HTMLElement | null;

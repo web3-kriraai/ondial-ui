@@ -1,0 +1,247 @@
+/* ── Lead qualification funnel ── */
+@keyframes lead-funnel-glow {
+
+  0%,
+  100% {
+    opacity: 0.88;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes lead-funnel-mid {
+
+  0%,
+  18% {
+    opacity: 0.82;
+  }
+
+  35%,
+  55% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.88;
+  }
+}
+
+@keyframes lead-funnel-bot {
+
+  0%,
+  45% {
+    opacity: 0.8;
+  }
+
+  62%,
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.88;
+  }
+}
+
+@keyframes lead-particle-fade-side {
+
+  0%,
+  52% {
+    opacity: 1;
+  }
+
+  68%,
+  100% {
+    opacity: 0.15;
+  }
+}
+
+@keyframes lead-particle-hot {
+
+  0%,
+  58% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  70%,
+  86% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes lead-hot-glow {
+
+  0%,
+  58% {
+    stroke: #e6c07a;
+  }
+
+  70%,
+  86% {
+    stroke: #efa830;
+    filter: drop-shadow(0 0 3px rgb(239 168 48 / 0.55));
+  }
+
+  100% {
+    stroke: #e6c07a;
+  }
+}
+
+@keyframes lead-ask-chip {
+
+  0%,
+  22% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  30%,
+  48% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  56%,
+  100% {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes lead-hot-tag {
+
+  0%,
+  62% {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+
+  72%,
+  88% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes lead-route-line {
+
+  0%,
+  60% {
+    opacity: 0;
+  }
+
+  70%,
+  92% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes lead-qualified-popup {
+
+  0%,
+  68% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  78% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  86%,
+  94% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.leadFunnelTop {
+  animation: lead-funnel-glow 5s ease-in-out infinite;
+}
+
+.leadFunnelMid {
+  animation: lead-funnel-mid 5s ease-in-out infinite;
+}
+
+.leadFunnelBot {
+  animation: lead-funnel-bot 5s ease-in-out infinite;
+}
+
+.leadParticle1,
+.leadParticle3 {
+  animation: lead-particle-fade-side 5s ease-in-out infinite;
+}
+
+.leadParticle2 {
+  animation: lead-particle-hot 5s ease-in-out infinite;
+}
+
+.leadHotGlow {
+  animation: lead-hot-glow 5s ease-in-out infinite;
+}
+
+.leadAskChip {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lead-ask-chip 5s ease-in-out infinite;
+}
+
+.leadHotTag {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lead-hot-tag 5s ease-in-out infinite;
+}
+
+@keyframes lead-route-dash {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+.leadRoute {
+  animation:
+    lead-route-dash 0.9s linear infinite,
+    lead-route-line 5s ease-in-out infinite;
+}
+
+.leadRouteDot {
+  animation: lead-route-line 5s ease-in-out infinite;
+}
+
+.leadQualifiedPopup {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: lead-qualified-popup 5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leadFunnelTop, .leadFunnelMid, .leadFunnelBot, .leadParticle1, .leadParticle2, .leadParticle3,
+  .leadHotGlow, .leadAskChip, .leadHotTag, .leadRoute, .leadRouteDot, .leadQualifiedPopup {
+    animation: none !important;
+  }
+  .leadQualifiedPopup { opacity: 1; transform: translateY(0); }
+}

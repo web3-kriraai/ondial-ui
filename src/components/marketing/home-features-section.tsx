@@ -3,7 +3,7 @@
 import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { useRef } from "react";
 
-import { FeatureIllustration } from "@/components/marketing/home-features-illustrations";
+import { FeatureIllustration } from "@/components/marketing/feature-illustration";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
 import {
@@ -128,7 +128,10 @@ export function HomeFeaturesSection() {
                   style={{ backgroundColor: card.illustrationBg }}
                   aria-hidden
                 >
-                  <FeatureIllustration id={card.illustration} wide={isWide} />
+                  <FeatureIllustration
+                    id={card.illustration}
+                    wide={isWide}
+                  />
                 </div>
                 <div className={styles.footer}>
                   <span className={cn(styles.pill, pillClass[card.pill.tone])}>{card.pill.label}</span>
