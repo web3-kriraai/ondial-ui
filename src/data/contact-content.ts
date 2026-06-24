@@ -63,9 +63,9 @@ export const CONTACT_CHANNELS: readonly ContactChannel[] = [
   {
     id: "phone",
     title: "Phone",
-    lines: ["+91 90345 67890", "+91 98765 43210"],
+    lines: ["+91 99796 20507", "+91 81608 35445"],
     // detail: "Mon-Fri from 8am to 6pm",
-    href: "tel:+919034567890",
+    href: "tel:+919979620507",
   },
   {
     id: "email",

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { ChevronDown, HelpCircle, ArrowRight } from "lucide-react";
+import { FaqAccordionPanel } from "@/components/marketing/faq-accordion-panel";
 import StructuredData from "./StructuredData";
 
 const GRID_PATTERN_BG =
@@ -178,9 +179,11 @@ export default function FAQSection({
                 >
                   <button
                     type="button"
+                    id={`faq-trigger-${index}`}
                     onClick={() => toggleFAQ(index)}
                     className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-5 cursor-pointer"
                     aria-expanded={isOpen}
+                    aria-controls={`faq-panel-${index}`}
                   >
                     <h3
                       className={`flex-1 text-sm font-medium leading-snug transition-colors duration-300 sm:text-base ${
@@ -198,21 +201,17 @@ export default function FAQSection({
                     </motion.div>
                   </button>
 
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      height: isOpen ? "auto" : 0,
-                      opacity: isOpen ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.25, ease: "easeInOut" }}
-                    className="overflow-hidden"
+                  <FaqAccordionPanel
+                    isOpen={isOpen}
+                    panelId={`faq-panel-${index}`}
+                    triggerId={`faq-trigger-${index}`}
                   >
                     <div className="border-t border-gray-100/80 px-5 pb-4 pt-3 sm:px-6 sm:pb-5 sm:pt-4">
                       <p className="text-sm leading-relaxed text-gray-500">
                         {faq.answer}
                       </p>
                     </div>
-                  </motion.div>
+                  </FaqAccordionPanel>
                 </motion.div>
               );
             })}

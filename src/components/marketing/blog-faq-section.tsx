@@ -1,9 +1,10 @@
 "use client";
 
-import { AnimatePresence, motion, useInView, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useId, useRef, useState } from "react";
 
+import { FaqAccordionPanel } from "@/components/marketing/faq-accordion-panel";
 import { useLoaderComplete } from "@/components/providers/loader-context";
 import type { BlogFaqSection as BlogFaqSectionType } from "@/lib/blog/types";
 import { cn } from "@/lib/utils";
@@ -115,30 +116,15 @@ export function BlogFaqSection({ faqs }: BlogFaqSectionProps) {
                 </motion.span>
               </button>
 
-              <AnimatePresence initial={false}>
-                {isOpen ? (
-                  <motion.div
-                    id={panelId}
-                    role="region"
-                    aria-labelledby={triggerId}
-                    initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
-                    transition={{ duration: 0.34, ease: easeOut }}
-                    className="overflow-hidden"
-                  >
-                    <motion.p
-                      initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={prefersReducedMotion ? undefined : { opacity: 0, y: 4 }}
-                      transition={{ duration: 0.28, ease: easeOut, delay: prefersReducedMotion ? 0 : 0.04 }}
-                      className="cursor-default px-4 pb-4 whitespace-pre-line text-sm leading-relaxed text-muted-foreground sm:px-5 sm:pb-5"
-                    >
-                      {item.answer}
-                    </motion.p>
-                  </motion.div>
-                ) : null}
-              </AnimatePresence>
+              <FaqAccordionPanel
+                isOpen={isOpen}
+                panelId={panelId}
+                triggerId={triggerId}
+              >
+                <p className="cursor-default px-4 pb-4 whitespace-pre-line text-sm leading-relaxed text-muted-foreground sm:px-5 sm:pb-5">
+                  {item.answer}
+                </p>
+              </FaqAccordionPanel>
             </motion.div>
           );
         })}

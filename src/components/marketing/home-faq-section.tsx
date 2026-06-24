@@ -1,13 +1,15 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { AnimatePresence, motion, useInView, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { useRef, useState } from "react";
 
 import { TextReveal } from "@/components/ui/text-reveal";
 import { marketingSectionContainerClass } from "@/config/marketing-layout";
 import { getSiteFaqSection, hasSiteFaqPage, type SiteFaqPageKey } from "@/data/site-faqs";
 import { cn } from "@/lib/utils";
+
+import { FaqAccordionPanel } from "@/components/marketing/faq-accordion-panel";
 
 import styles from "./home-faq-section.module.css";
 
@@ -29,19 +31,6 @@ const accordionItemVariants: Variants = {
     transition: {
       duration: 0.5,
       ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const answerTextVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.35,
-      ease: [0.22, 1, 0.36, 1],
-      delay: 0.05,
     },
   },
 };
@@ -136,29 +125,14 @@ export function MarketingFaqSection({
                     </motion.span>
                   </button>
 
-                  <AnimatePresence initial={false}>
-                    {isOpen ? (
-                      <motion.div
-                        id={panelId}
-                        role="region"
-                        aria-labelledby={triggerId}
-                        className={styles.answerWrap}
-                        initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
-                        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                      >
-                        <motion.p
-                          className={styles.answer}
-                          variants={answerTextVariants}
-                          initial={prefersReducedMotion ? false : "hidden"}
-                          animate="visible"
-                        >
-                          {item.answer}
-                        </motion.p>
-                      </motion.div>
-                    ) : null}
-                  </AnimatePresence>
+                  <FaqAccordionPanel
+                    isOpen={isOpen}
+                    panelId={panelId}
+                    triggerId={triggerId}
+                    className={styles.answerWrap}
+                  >
+                    <p className={styles.answer}>{item.answer}</p>
+                  </FaqAccordionPanel>
                 </motion.div>
               );
             })}

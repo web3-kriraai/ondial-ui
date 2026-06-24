@@ -19,6 +19,7 @@ import { TextReveal } from "@/components/ui/text-reveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import CountryPicker, { getConfig } from "@/components/ui/country-picker";
 import {
   marketingDottedSectionShellClass,
   marketingEyebrowClass,
@@ -100,6 +101,7 @@ export function ContactPageSection() {
   const [submitError, setSubmitError] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [countryCode, setCountryCode] = useState("+91");
 
   const clearError = (field: string) => {
     if (errors[field]) {
@@ -132,24 +134,36 @@ export function ContactPageSection() {
       newErrors.email = "Please enter a valid email address";
     }
 
-    const countryCode = CONTACT_FORM.fields.phone.countryCode;
     let cleanPhone = phone.replace(/[\s\-()]/g, '');
-    const cleanCountryCode = countryCode.replace('+', '').trim();
-    if (cleanPhone.startsWith('+')) {
-      if (cleanPhone.startsWith(countryCode)) {
-        cleanPhone = cleanPhone.slice(countryCode.length);
-      }
-    } else if (cleanPhone.startsWith(cleanCountryCode)) {
-      cleanPhone = cleanPhone.slice(cleanCountryCode.length);
-    }
-    cleanPhone = cleanPhone.replace(/\D/g, '');
 
     if (!phone) {
       newErrors.phone = "Phone number is required";
     } else {
-      const phoneRegex = /^\d{8,14}$/;
-      if (!phoneRegex.test(cleanPhone)) {
-        newErrors.phone = "Please enter a valid phone number";
+      const cfg = getConfig(countryCode);
+      let digitsOnly = cleanPhone.replace(/\D/g, '');
+      const cleanPrefix = countryCode.replace('+', '');
+
+      if (digitsOnly.startsWith(cleanPrefix) && digitsOnly.length > cfg.max) {
+        digitsOnly = digitsOnly.slice(cleanPrefix.length);
+      } else if (digitsOnly.startsWith('0') && digitsOnly.length > cfg.max) {
+        digitsOnly = digitsOnly.slice(1);
+      }
+
+      if (digitsOnly.length < cfg.min) {
+        newErrors.phone = `${cfg.name} phone numbers should have at least ${cfg.min} digits`;
+      } else if (digitsOnly.length > cfg.max) {
+        newErrors.phone = `${cfg.name} phone numbers should have maximum ${cfg.max} digits`;
+      } else {
+        if (countryCode === "+91") {
+          const indianMobileRegex = /^[6-9]\d{9}$/;
+          if (!indianMobileRegex.test(digitsOnly)) {
+            newErrors.phone = "Please enter a valid 10-digit Indian phone number (starts with 6-9)";
+          }
+        }
+      }
+
+      if (!newErrors.phone) {
+        cleanPhone = digitsOnly;
       }
     }
 
@@ -343,25 +357,26 @@ export function ContactPageSection() {
                       </span>
                     </Label>
                     <div className={cn(
-                      "flex items-stretch overflow-hidden rounded-xl border border-black/8 bg-background",
+                      "flex items-stretch rounded-xl border border-black/8 bg-background relative",
                       errors.phone && "border-red-500! focus-within:border-red-500! focus-within:ring-[3px] focus-within:ring-red-500/15"
                     )}>
-                      <span
-                        className="inline-flex items-center whitespace-nowrap border-r border-black/8 px-[0.85rem] text-sm font-semibold text-foreground"
-                        aria-hidden
-                      >
-                        {CONTACT_FORM.fields.phone.countryCode}
-                      </span>
+                      <CountryPicker
+                        value={countryCode}
+                        onChange={(code) => {
+                          setCountryCode(code);
+                          clearError("phone");
+                        }}
+                      />
                       <Input
                         id="contact-phone"
                         name="phone"
                         type="tel"
                         required
                         autoComplete="tel"
-                        placeholder={CONTACT_FORM.fields.phone.placeholder}
+                        placeholder={`e.g. ${'9'.repeat(getConfig(countryCode).max)}`}
                         className={cn(
                           fieldInputClass,
-                          "rounded-none! border-none! shadow-none! focus-visible:shadow-none!",
+                          "rounded-r-xl! rounded-l-none! border-none! shadow-none! focus-visible:shadow-none!",
                         )}
                         onChange={() => clearError("phone")}
                       />

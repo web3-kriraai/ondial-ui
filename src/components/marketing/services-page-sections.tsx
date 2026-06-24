@@ -42,10 +42,11 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { AnimatePresence, motion, useInView, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 import { AboutHeroCta } from "@/components/marketing/about-hero-cta";
+import { FaqAccordionPanel } from "@/components/marketing/faq-accordion-panel";
 import enterpriseStyles from "@/components/marketing/enterprise-page-sections.module.css";
 import { AuthCollagePanel } from "@/components/auth/auth-collage-panel";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
@@ -584,22 +585,13 @@ export function ServicesFaqSection() {
                     <ChevronDown className="size-4" strokeWidth={2.25} />
                   </motion.span>
                 </button>
-                <AnimatePresence initial={false}>
-                  {isOpen ? (
-                    <motion.div
-                      id={panelId}
-                      role="region"
-                      aria-labelledby={triggerId}
-                      initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
-                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <p className={enterpriseStyles.faqAnswer}>{item.answer}</p>
-                    </motion.div>
-                  ) : null}
-                </AnimatePresence>
+                <FaqAccordionPanel
+                  isOpen={isOpen}
+                  panelId={panelId}
+                  triggerId={triggerId}
+                >
+                  <p className={enterpriseStyles.faqAnswer}>{item.answer}</p>
+                </FaqAccordionPanel>
               </div>
             );
           })}
