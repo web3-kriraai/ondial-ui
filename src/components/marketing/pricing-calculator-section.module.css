@@ -9,6 +9,11 @@
   will-change: transform, opacity;
 }
 
+.priceDisplayAnchor {
+  align-items: center;
+  min-height: clamp(2rem, 5vw, 3rem);
+}
+
 .priceCurrency {
   font-size: clamp(1.125rem, 2.4vw, 1.5rem);
   font-weight: 600;
@@ -24,6 +29,8 @@
   line-height: 1;
   color: var(--foreground);
   font-variant-numeric: tabular-nums;
+  min-width: 6.5ch;
+  text-align: center;
 }
 
 /* Odometer digit roll + soft edge mask */
@@ -113,6 +120,9 @@
   line-height: inherit;
   color: inherit;
   font-variant-numeric: tabular-nums;
+  display: inline-block;
+  min-width: 6.5ch;
+  text-align: center;
 }
 
 .planBuyButtonPriceFlow :global(number-flow-react) {
@@ -297,7 +307,7 @@
   padding: 1rem 0;
 }
 
-.addOnRow + .addOnRow {
+.addOnRow+.addOnRow {
   border-top: 1px solid rgb(148 163 184 / 0.12);
 }
 

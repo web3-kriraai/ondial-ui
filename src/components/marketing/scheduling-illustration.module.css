@@ -1,0 +1,264 @@
+/* ── Scheduling calendar flow ── */
+@keyframes sched-month-out {
+
+  0%,
+  6% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  16%,
+  88% {
+    transform: translateX(-115%);
+    opacity: 0;
+  }
+
+  96%,
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes sched-month-in {
+
+  0%,
+  6% {
+    transform: translateX(115%);
+    opacity: 0;
+  }
+
+  16%,
+  88% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  96%,
+  100% {
+    transform: translateX(-20%);
+    opacity: 0;
+  }
+}
+
+@keyframes sched-grid-swipe {
+
+  0%,
+  6% {
+    transform: translateX(140px);
+    opacity: 0.55;
+  }
+
+  16%,
+  22% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  88%,
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes sched-scan-line {
+
+  0%,
+  20% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  26% {
+    opacity: 0.9;
+  }
+
+  48% {
+    transform: translateY(48px);
+    opacity: 0.9;
+  }
+
+  54%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sched-checking-chip {
+
+  0%,
+  22% {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.92);
+  }
+
+  28%,
+  50% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  56%,
+  100% {
+    opacity: 0;
+    transform: translateY(-3px) scale(0.96);
+  }
+}
+
+@keyframes sched-avail-ring {
+
+  0%,
+  32% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+
+  40%,
+  52% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+}
+
+@keyframes sched-selected-day {
+
+  0%,
+  50% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  58% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+
+  66%,
+  90% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  96%,
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes sched-date-11 {
+
+  0%,
+  50% {
+    opacity: 0;
+  }
+
+  58%,
+  90% {
+    opacity: 1;
+  }
+
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes sched-booked-popup {
+
+  0%,
+  58% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  68% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  76%,
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  96%,
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.schedMonthA {
+  animation: sched-month-out 5.5s ease-in-out infinite;
+}
+
+.schedMonthB {
+  animation: sched-month-in 5.5s ease-in-out infinite;
+}
+
+.schedGridSwipe {
+  animation: sched-grid-swipe 5.5s ease-in-out infinite;
+}
+
+.schedScan {
+  animation: sched-scan-line 5.5s ease-in-out infinite;
+}
+
+.schedCheckingChip {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sched-checking-chip 5.5s ease-in-out infinite;
+}
+
+.schedAvail10 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sched-avail-ring 5.5s ease-in-out 0s infinite;
+}
+
+.schedAvail11 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sched-avail-ring 5.5s ease-in-out 0.12s infinite;
+}
+
+.schedAvail12 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sched-avail-ring 5.5s ease-in-out 0.24s infinite;
+}
+
+.schedSelected {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sched-selected-day 5.5s ease-in-out infinite;
+}
+
+.schedDate11 {
+  animation: sched-date-11 5.5s ease-in-out infinite;
+}
+
+.schedBookedPopup {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: sched-booked-popup 5.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schedMonthA, .schedMonthB, .schedGridSwipe, .schedScan, .schedCheckingChip,
+  .schedAvail10, .schedAvail11, .schedAvail12, .schedSelected, .schedDate11, .schedBookedPopup {
+    animation: none !important;
+  }
+  .schedSelected { transform: scale(1); opacity: 1; }
+  .schedDate11 { opacity: 1; }
+  .schedBookedPopup { opacity: 1; transform: translateY(0); }
+}

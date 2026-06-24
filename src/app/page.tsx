@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-
-import { HomePageBelowFold } from "@/components/marketing/home-page-below-fold";
+import { HomeFeaturesSection } from "@/components/marketing/home-features-section";
 import { HomeProblemSection } from "@/components/marketing/home-problem-section";
+import { ComplianceTrustSection } from "@/components/marketing/compliance-trust-section";
+import { HomeFaqSection } from "@/components/marketing/home-faq-section";
+import { HomeTestimonialsSection } from "@/components/marketing/home-testimonials-section";
+import { IntegrationsSection } from "@/components/marketing/integrations-section";
+// import { SocialProofLogosSection } from "@/components/marketing/social-proof-logos-section";
 import { ShowcaseSection } from "@/components/marketing/showcase-section";
+import { SupportedLanguagesSection } from "@/components/marketing/supported-languages-section";
 import StructuredData from "@/components/StructuredData";
 import { buildWebPageSchema } from "@/lib/seo/schemaBuilders";
 import { SITE_URL } from "@/lib/seo/siteConfig";
@@ -62,8 +67,14 @@ export default function HomePage() {
       <StructuredData data={[homePageSchema, homeFaqSchema]} />
       <main className="flex flex-1 flex-col">
         <ShowcaseSection />
+        {/* <SocialProofLogosSection /> */}
         <HomeProblemSection />
-        <HomePageBelowFold />
+        <HomeFeaturesSection />
+        <ComplianceTrustSection />
+        <IntegrationsSection />
+        <SupportedLanguagesSection />
+        <HomeTestimonialsSection />
+        <HomeFaqSection />
       </main>
     </>
   );

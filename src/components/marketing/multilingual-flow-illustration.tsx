@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import langStyles from "./home-features-illustrations.module.css";
+import langStyles from "./multilingual-illustration.module.css";
 
 const PILL_LANGUAGES: readonly (readonly string[])[] = [
   ["English", "Hindi", "Español", "Français"],

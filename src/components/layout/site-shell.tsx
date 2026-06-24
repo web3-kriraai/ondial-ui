@@ -1,16 +1,17 @@
+"use client";
+
 import type { ReactNode, Ref } from "react";
 import Link from "next/link";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { APP_NAME } from "@/lib/constants";
-import { SiteNavbar } from "@/components/layout/site-navbar";
 import { ShellBottomBlur } from "@/components/layout/shell-bottom-blur";
 import { cn } from "@/lib/utils";
 
 type SiteShellProps = {
   children: ReactNode;
   /**
-   * Primary navigation. Defaults to `SiteNavbar` (links from `MAIN_NAV`).
+   * Primary navigation (e.g. `<SiteNavbar />` from `app-layout-shell`).
    * Pass `null` to render no bar, or your own header (must include a landmark if you replace it).
    */
   header?: ReactNode | null;
@@ -44,7 +45,7 @@ export function SiteShell({
   scrollIndicator,
   bottomBlurEnabled = true,
 }: SiteShellProps) {
-  const nav = header === null ? null : header === undefined ? <SiteNavbar /> : header;
+  const nav = header ?? null;
   const foot = footer === null ? null : footer === undefined ? <SiteFooter /> : footer;
 
   /** Pulls main under the sticky header so page bg starts at the top; padding keeps content below the bar. */

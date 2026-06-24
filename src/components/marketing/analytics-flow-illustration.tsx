@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import styles from "./home-features-illustrations.module.css";
+import styles from "./analytics-illustration.module.css";
 
 const CHART_BASELINE = 116;
 

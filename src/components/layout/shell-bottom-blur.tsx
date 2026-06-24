@@ -47,8 +47,8 @@ export function ShellBottomBlur({ scrollContainerRef, enabled = true }: ShellBot
   return (
     <div
       className={cn(
-        "pointer-events-none fixed z-20 overflow-hidden rounded-b-4xl",
-        "bottom-2 left-2 right-2 sm:bottom-3 sm:left-3 sm:right-3 lg:bottom-3.75 lg:left-4 lg:right-4",
+        "pointer-events-none fixed z-20 overflow-hidden rounded-b-[1.5rem]",
+        "bottom-2 left-2 right-2 sm:bottom-3 sm:left-3 sm:right-3 lg:bottom-3.75 lg:left-3.5 lg:right-3.5",
         "h-[40dvh] min-h-36 max-h-92 pr-14 sm:pr-16",
         "transition-opacity duration-300 ease-out",
         visible ? "opacity-100" : "opacity-0",

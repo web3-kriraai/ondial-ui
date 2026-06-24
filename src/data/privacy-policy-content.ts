@@ -106,6 +106,6 @@ export const PRIVACY_POLICY_CONTACT = {
   description:
     "If you have any questions or concerns about this Privacy Policy, please contact us:",
   email: "contact@ondial.ai",
-  website: "https://ondial.ai",
+  website: "https://www.ondial.ai",
   websiteLabel: "ondial.ai",
 } as const;
