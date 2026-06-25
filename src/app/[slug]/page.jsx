@@ -12,7 +12,7 @@ import WhyChooseSection from '@/components/WhyChooseSection';
 import KeyBenefits from '@/components/BenefitsService';
 import AccentSection from '@/components/AccentSection';
 import VoiceAIAgentStateLanding from '@/components/VoiceAIAgentStateLanding';
-import { getVoiceAIAgentStatePagePayload } from '@/lib/voiceAIAgentStates';
+// import { getVoiceAIAgentStatePagePayload } from '@/lib/voiceAIAgentStates';
 import { normalizePublicSlug } from '@/lib/voiceAIAgentPublishSlugs';
 import StructuredData from '@/components/StructuredData';
 import {
@@ -42,10 +42,10 @@ async function getVoiceAIAgentDataFromJson(slug) {
 
     if (!languageData) {
       language = slug;
-      if (slug.startsWith('best-') && slug.includes('-voice-ai-agent')) {
-        const voiceAIAgentIndex = slug.indexOf('-voice-ai-agent');
-        if (voiceAIAgentIndex > 5) {
-          language = slug.substring(5, voiceAIAgentIndex);
+      if (slug.startsWith('best-') && slug.includes('-voice-agent')) {
+        const voiceAgentIndex = slug.indexOf('-voice-agent');
+        if (voiceAgentIndex > 5) {
+          language = slug.substring(5, voiceAgentIndex);
         }
       }
 
@@ -111,10 +111,11 @@ async function resolvePage(slug) {
   const normalized = normalizePublicSlug(slug);
   if (!normalized) return null;
 
-  const cms = await getVoiceAIAgentStatePagePayload(normalized);
-  if (cms?.heroData) {
-    return { kind: 'cms', data: cms };
-  }
+  // Contentful disabled — voice state pages use data/voice-ai-agent.json only.
+  // const cms = await getVoiceAIAgentStatePagePayload(normalized);
+  // if (cms?.heroData) {
+  //   return { kind: 'cms', data: cms };
+  // }
 
   const json = await getVoiceAIAgentDataFromJson(normalized);
   if (json?.heroData) {
@@ -169,10 +170,10 @@ export async function generateMetadata({ params }) {
 
 function JsonVoiceAIAgentPage({ data, slug }) {
   let language = data.language || slug;
-  if (slug.startsWith('best-') && slug.includes('-voice-ai-agent')) {
-    const voiceAIAgentIndex = slug.indexOf('-voice-ai-agent');
-    if (voiceAIAgentIndex > 5) {
-      language = slug.substring(5, voiceAIAgentIndex);
+  if (slug.startsWith('best-') && slug.includes('-voice-agent')) {
+    const voiceAgentIndex = slug.indexOf('-voice-agent');
+    if (voiceAgentIndex > 5) {
+      language = slug.substring(5, voiceAgentIndex);
     }
   }
 

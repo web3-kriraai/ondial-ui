@@ -1,6 +1,6 @@
 import NotFound from '@/components/NotFound';
 import VoiceAIAgentStateLanding from '@/components/VoiceAIAgentStateLanding';
-import { getVoiceAIAgentStatePagePayload } from '@/lib/voiceAIAgentStates';
+// import { getVoiceAIAgentStatePagePayload } from '@/lib/voiceAIAgentStates';
 import { normalizePublicSlug } from '@/lib/voiceAIAgentPublishSlugs';
 import StructuredData from '@/components/StructuredData';
 import {
@@ -12,7 +12,9 @@ export const revalidate = 3600;
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const data = await getVoiceAIAgentStatePagePayload(slug);
+  // Contentful disabled.
+  // const data = await getVoiceAIAgentStatePagePayload(slug);
+  const data = null;
 
   const defaultMeta = {
     title: 'Voice AI Agent | OnDial',
@@ -56,7 +58,9 @@ export async function generateMetadata({ params }) {
 export default async function VoiceAIAgentStatePage({ params }) {
   const { slug } = await params;
   const normalized = normalizePublicSlug(slug);
-  const data = await getVoiceAIAgentStatePagePayload(normalized);
+  // Contentful disabled — use /{slug} with data/voice-ai-agent.json instead.
+  // const data = await getVoiceAIAgentStatePagePayload(normalized);
+  const data = null; 
 
   if (!data?.heroData) {
     return <NotFound />;

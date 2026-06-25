@@ -1,22 +1,22 @@
-import { createClient } from 'contentful';
+// import { createClient } from 'contentful';
 import { unstable_cache } from 'next/cache';
 import { deriveStateKeyFromSlug, normalizePublicSlug } from './voiceAIAgentPublishSlugs.js';
 import { normalizeKeyFeatureIconName, resolveKeyFeatureIconName } from './keyFeatureIcons.js';
 
-const VOICE_PAGE_SPACE_ID =
-  process.env.CONTENTFUL_SPACE_ID_PAGE || 's7w7jdx1ex4o';
-const VOICE_PAGE_DELIVERY_TOKEN =
-  process.env.CONTENTFUL_DELIVERY_TOKEN || 'Hlua3T8lrHbdso5QjISnNAdbTayqlHyorPDovPN8ln8';
-const VOICE_PAGE_ENVIRONMENT_ID = process.env.CONTENTFUL_ENVIRONMENT_ID || 'master';
-const CONTENT_TYPE_ID = 'bestAiVoiceAgentState';
+// const VOICE_PAGE_SPACE_ID =
+//   process.env.CONTENTFUL_SPACE_ID_PAGE || 's7w7jdx1ex4o';
+// const VOICE_PAGE_DELIVERY_TOKEN =
+//   process.env.CONTENTFUL_DELIVERY_TOKEN || 'Hlua3T8lrHbdso5QjISnNAdbTayqlHyorPDovPN8ln8';
+// const VOICE_PAGE_ENVIRONMENT_ID = process.env.CONTENTFUL_ENVIRONMENT_ID || 'master';
+// const CONTENT_TYPE_ID = 'bestAiVoiceAgentState';
 
 /** ISR / cache TTL for published voice landing pages (seconds). */
 export const VOICE_AI_PAGE_REVALIDATE_SECONDS = 3600;
 
-const client = createClient({
-  space: VOICE_PAGE_SPACE_ID,
-  accessToken: VOICE_PAGE_DELIVERY_TOKEN,
-});
+// const client = createClient({
+//   space: VOICE_PAGE_SPACE_ID,
+//   accessToken: VOICE_PAGE_DELIVERY_TOKEN,
+// });
 
 export function voiceAIAgentPageCacheTag(slug) {
   return `voice-ai-page:${normalizePublicSlug(slug)}`;
@@ -128,33 +128,35 @@ function labelFromSlug(slug) {
     .join(' ');
 }
 
-function isContentfulNotFoundError(error) {
-  if (!error) return false;
-
-  const name = String(error?.name || '').toLowerCase();
-  const message = String(error?.message || '').toLowerCase();
-  const status = Number(error?.status ?? error?.statusCode ?? error?.sys?.id);
-  const detailsType = String(error?.details?.type || '').toLowerCase();
-
-  if (name === 'notfound') return true;
-  if (status === 404) return true;
-  if (detailsType.includes('notfound')) return true;
-  if (message.includes('resource could not be found')) return true;
-
-  return false;
-}
+// function isContentfulNotFoundError(error) {
+//   if (!error) return false;
+//
+//   const name = String(error?.name || '').toLowerCase();
+//   const message = String(error?.message || '').toLowerCase();
+//   const status = Number(error?.status ?? error?.statusCode ?? error?.sys?.id);
+//   const detailsType = String(error?.details?.type || '').toLowerCase();
+//
+//   if (name === 'notfound') return true;
+//   if (status === 404) return true;
+//   if (detailsType.includes('notfound')) return true;
+//   if (message.includes('resource could not be found')) return true;
+//
+//   return false;
+// }
 
 export async function listVoiceAIAgentStateSlugs() {
-  try {
-    const entries = await client.getEntries({
-      content_type: CONTENT_TYPE_ID,
-      select: 'sys.id',
-    });
-    return entries.items.map((item) => item.sys.id);
-  } catch (error) {
-    console.error('Error listing voice page slugs:', error);
-    return [];
-  }
+  // Contentful disabled — slugs come from data/voice-ai-agent.json or static routes.
+  return [];
+  // try {
+  //   const entries = await client.getEntries({
+  //     content_type: CONTENT_TYPE_ID,
+  //     select: 'sys.id',
+  //   });
+  //   return entries.items.map((item) => item.sys.id);
+  // } catch (error) {
+  //   console.error('Error listing voice page slugs:', error);
+  //   return [];
+  // }
 }
 
 /**
@@ -162,27 +164,29 @@ export async function listVoiceAIAgentStateSlugs() {
  * @returns {Promise<null | { stateKey: string, stateLabel: string, record: object }>}
  */
 async function getVoiceAIAgentStateRecordUncached(slug) {
-  const normalized = normalizePublicSlug(slug);
-  if (!normalized) return null;
-
-  try {
-    const entry = await client.getEntry(normalized);
-    const stateData = entry?.fields?.states;
-    if (!stateData) return null;
-
-    const record = typeof stateData === 'object' && stateData['en-US'] ? stateData['en-US'] : stateData;
-    const stateKey = deriveStateKeyFromSlug(normalized) || normalized.replace(/-/g, '_');
-    const stateLabel =
-      formatStateLabelFromKey(stateKey) || labelFromSlug(normalized) || normalized;
-
-    return { stateKey, stateLabel, record };
-  } catch (error) {
-    if (!isContentfulNotFoundError(error)) {
-      console.error(`Error fetching voice page ${normalized}:`, error.message);
-    }
-  }
-
+  // Contentful disabled.
   return null;
+  // const normalized = normalizePublicSlug(slug);
+  // if (!normalized) return null;
+  //
+  // try {
+  //   const entry = await client.getEntry(normalized);
+  //   const stateData = entry?.fields?.states;
+  //   if (!stateData) return null;
+  //
+  //   const record = typeof stateData === 'object' && stateData['en-US'] ? stateData['en-US'] : stateData;
+  //   const stateKey = deriveStateKeyFromSlug(normalized) || normalized.replace(/-/g, '_');
+  //   const stateLabel =
+  //     formatStateLabelFromKey(stateKey) || labelFromSlug(normalized) || normalized;
+  //
+  //   return { stateKey, stateLabel, record };
+  // } catch (error) {
+  //   if (!isContentfulNotFoundError(error)) {
+  //     console.error(`Error fetching voice page ${normalized}:`, error.message);
+  //   }
+  // }
+  //
+  // return null;
 }
 
 export async function getVoiceAIAgentStateRecord(slug) {
@@ -258,15 +262,17 @@ async function getVoiceAIAgentStatePagePayloadUncached(slug) {
  * Normalized payload for the state landing page (enriched for shared UI components).
  */
 export async function getVoiceAIAgentStatePagePayload(slug) {
-  const normalized = normalizePublicSlug(slug);
-  if (!normalized) return null;
-
-  return unstable_cache(
-    () => getVoiceAIAgentStatePagePayloadUncached(normalized),
-    ['voice-ai-agent-state-payload', normalized],
-    {
-      revalidate: VOICE_AI_PAGE_REVALIDATE_SECONDS,
-      tags: [voiceAIAgentPageCacheTag(normalized)],
-    }
-  )();
+  // Contentful disabled — pages load from data/voice-ai-agent.json via app/[slug]/page.jsx.
+  return null;
+  // const normalized = normalizePublicSlug(slug);
+  // if (!normalized) return null;
+  //
+  // return unstable_cache(
+  //   () => getVoiceAIAgentStatePagePayloadUncached(normalized),
+  //   ['voice-ai-agent-state-payload', normalized],
+  //   {
+  //     revalidate: VOICE_AI_PAGE_REVALIDATE_SECONDS,
+  //     tags: [voiceAIAgentPageCacheTag(normalized)],
+  //   }
+  // )();
 }
