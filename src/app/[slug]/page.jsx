@@ -12,7 +12,7 @@ import WhyChooseSection from '@/components/WhyChooseSection';
 import KeyBenefits from '@/components/BenefitsService';
 import AccentSection from '@/components/AccentSection';
 import VoiceAIAgentStateLanding from '@/components/VoiceAIAgentStateLanding';
-// import { getVoiceAIAgentStatePagePayload } from '@/lib/voiceAIAgentStates';
+import { getVoiceAIAgentStatePagePayload } from '@/lib/voiceAIAgentStates';
 import { normalizePublicSlug } from '@/lib/voiceAIAgentPublishSlugs';
 import StructuredData from '@/components/StructuredData';
 import {
@@ -111,11 +111,10 @@ async function resolvePage(slug) {
   const normalized = normalizePublicSlug(slug);
   if (!normalized) return null;
 
-  // Contentful disabled — voice state pages use data/voice-ai-agent.json only.
-  // const cms = await getVoiceAIAgentStatePagePayload(normalized);
-  // if (cms?.heroData) {
-  //   return { kind: 'cms', data: cms };
-  // }
+  const cms = await getVoiceAIAgentStatePagePayload(normalized);
+  if (cms?.heroData) {
+    return { kind: 'cms', data: cms };
+  }
 
   const json = await getVoiceAIAgentDataFromJson(normalized);
   if (json?.heroData) {
