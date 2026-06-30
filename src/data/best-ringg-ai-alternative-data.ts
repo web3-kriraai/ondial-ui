@@ -42,6 +42,8 @@ import {
 } from 'lucide-react';
 
 export const ringgAlternativePageData = {
+  competitor: { name: 'Ringg AI' },
+
   meta: {
     title: "Best Ringg AI Alternative | Best OnDial's AI Voice Agents",
     description:

@@ -1,6 +1,7 @@
 import {
   PRICING_CALCULATOR_ADDONS,
   PRICING_MINUTES_CALCULATOR,
+  PRICING_PLAN_MINUTE_TIERS,
   PRICING_PLANS,
   type PricingPlan,
 } from "@/data/pricing-plans";
@@ -38,7 +39,7 @@ export type PricingCountryDefinition = {
     phoneNumberPrice: number;
   };
   calculator: {
-    /** Minutes of usage covered by 1 unit of local currency (same idea as minutesPerDollar). */
+    /** @deprecated Usage cost now uses tiered rates from `rates`; kept for reference only. */
     minutesPerCurrencyUnit: number;
   };
 };
@@ -83,9 +84,9 @@ export const PRICING_COUNTRIES: readonly PricingCountryDefinition[] = [
       locale: "en-IN",
     },
     rates: {
-      essential: 4.6,
-      growth: 4.15,
-      scale: 3.75,
+      essential: 5,
+      growth: 4.5,
+      scale: 4,
       enterprise: null,
     },
     addons: {
@@ -108,14 +109,14 @@ export const PRICING_COUNTRIES: readonly PricingCountryDefinition[] = [
       locale: "en-GB",
     },
     rates: {
-      essential: 0.043,
-      growth: 0.039,
-      scale: 0.035,
+      essential: 0.042,
+      growth: 0.038,
+      scale: 0.034,
       enterprise: null,
     },
     addons: {
-      channelPrice: 3.9,
-      phoneNumberPrice: 3.9,
+      channelPrice: 3.8,
+      phoneNumberPrice: 3.8,
     },
     calculator: {
       minutesPerCurrencyUnit: 19,
@@ -135,7 +136,7 @@ export const PRICING_COUNTRIES: readonly PricingCountryDefinition[] = [
     rates: {
       essential: 0.2,
       growth: 0.18,
-      scale: 0.16,
+      scale: 0.17,
       enterprise: null,
     },
     addons: {
@@ -158,14 +159,14 @@ export const PRICING_COUNTRIES: readonly PricingCountryDefinition[] = [
       locale: "en-CA",
     },
     rates: {
-      essential: 0.075,
-      growth: 0.068,
-      scale: 0.061,
+      essential: 0.078,
+      growth: 0.071,
+      scale: 0.064,
       enterprise: null,
     },
     addons: {
-      channelPrice: 6.5,
-      phoneNumberPrice: 6.5,
+      channelPrice: 6.96,
+      phoneNumberPrice: 6.96,
     },
     calculator: {
       minutesPerCurrencyUnit: 11,
@@ -183,14 +184,14 @@ export const PRICING_COUNTRIES: readonly PricingCountryDefinition[] = [
       locale: "en-AU",
     },
     rates: {
-      essential: 0.085,
-      growth: 0.077,
-      scale: 0.069,
+      essential: 0.080,
+      growth: 0.073,
+      scale: 0.065,
       enterprise: null,
     },
     addons: {
-      channelPrice: 7.5,
-      phoneNumberPrice: 7.5,
+      channelPrice: 7.11,
+      phoneNumberPrice: 7.11,
     },
     calculator: {
       minutesPerCurrencyUnit: 9.5,
@@ -266,6 +267,21 @@ export function getCountryCalculatorAddons(countryId: PricingCountryId) {
   };
 }
 
+export function getCountryCalculatorRateForMinutes(
+  country: PricingCountryDefinition,
+  minutes: number,
+): number {
+  const tier = PRICING_PLAN_MINUTE_TIERS.find(
+    (entry) => minutes >= entry.minMinutes && minutes <= entry.maxMinutes,
+  );
+
+  if (!tier) {
+    return country.rates.scale;
+  }
+
+  return country.rates[tier.planId];
+}
+
 export function computeCountryCalculatorMonthlyPrice(
   countryId: PricingCountryId,
   {
@@ -291,7 +307,8 @@ export function computeCountryCalculatorMonthlyPrice(
     Math.max(addonConfig.numbers.min, numbers),
   );
 
-  const usageCost = clampedMinutes / country.calculator.minutesPerCurrencyUnit;
+  const ratePerMinute = getCountryCalculatorRateForMinutes(country, clampedMinutes);
+  const usageCost = clampedMinutes * ratePerMinute;
 
   return (
     usageCost +

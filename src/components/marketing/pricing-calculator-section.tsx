@@ -602,11 +602,11 @@ const PlanBuyButton = memo(function PlanBuyButton({
         prefersReducedMotion
           ? undefined
           : {
-              scale: 1.02,
-              y: -1,
-              boxShadow: "0 10px 28px rgb(0 0 0 / 0.14)",
-              transition: { duration: 0.2 },
-            }
+            scale: 1.02,
+            y: -1,
+            boxShadow: "0 10px 28px rgb(0 0 0 / 0.14)",
+            transition: { duration: 0.2 },
+          }
       }
       whileTap={prefersReducedMotion ? undefined : { scale: 0.985 }}
       transition={springSnappy}
@@ -711,9 +711,9 @@ const PriceCounter = memo(function PriceCounter({
         prefersReducedMotion
           ? undefined
           : {
-              scale: isDragging ? 1.012 : 1,
-              opacity: isDragging ? 0.94 : 1,
-            }
+            scale: isDragging ? 1.012 : 1,
+            opacity: isDragging ? 0.94 : 1,
+          }
       }
       transition={
         prefersReducedMotion
@@ -751,6 +751,8 @@ export function PricingCalculatorSection() {
   const addonDefaults = useMemo(() => getCountryCalculatorAddons(countryId), [countryId]);
   const [channels, setChannels] = useState<number>(addonDefaults.channels.default);
   const [numbers, setNumbers] = useState<number>(addonDefaults.numbers.default);
+
+  console.log(addonDefaults, "addonDefaults");
 
   useEffect(() => {
     setChannels(addonDefaults.channels.default);

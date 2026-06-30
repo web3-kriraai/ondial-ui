@@ -95,13 +95,13 @@ export function SchedulingIllustration({ className }: SchedulingIllustrationProp
 
       <circle className={styles.schedSelected} cx="96" cy="94" r="11" fill="#085041" />
       <text className={styles.schedDate11} x="96" y="98" textAnchor="middle" fontSize="9" fill="#fff" fontWeight="500">
-        11
+        9
       </text>
 
       <g className={styles.schedBookedPopup}>
         <rect x="38" y="130" width="144" height="20" rx="4" fill="#E1F5EE" stroke="#A3D9BE" strokeWidth="0.5" />
         <text x="110" y="144" textAnchor="middle" fontSize="9" fill="#085041" fontWeight="500">
-          ✓ Booked - Wed 11th, 2:00 PM
+          ✓ Booked - Wed 9th, 2:00 PM
         </text>
       </g>
     </svg>

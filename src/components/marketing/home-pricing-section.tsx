@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { BlogPageHero } from "@/components/marketing/blog-page-hero";
 import { usePricingCountry } from "@/components/marketing/pricing-country-context";
@@ -40,7 +40,21 @@ export function HomePricingSection() {
   const { countryId, plans, addonFeatures, creditsFootnote } = usePricingCountry();
   const gridRef = useRef<HTMLDivElement>(null);
   const gridInView = useInView(gridRef, { once: true, amount: 0.05, margin: "0px 0px -80px 0px" });
-  const showCards = prefersReducedMotion || gridInView;
+  const [cardsRevealed, setCardsRevealed] = useState(() => Boolean(prefersReducedMotion));
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setCardsRevealed(true);
+    }
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    if (gridInView) {
+      setCardsRevealed(true);
+    }
+  }, [gridInView]);
+
+  const showCards = prefersReducedMotion || cardsRevealed;
 
   return (
     <section
@@ -76,7 +90,6 @@ export function HomePricingSection() {
 
       <div className={cn(marketingSectionContainerClass, "mt-8 sm:mt-10")}>
         <motion.div
-          key={countryId}
           ref={gridRef}
           className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 xl:gap-5"
           variants={gridVariants}

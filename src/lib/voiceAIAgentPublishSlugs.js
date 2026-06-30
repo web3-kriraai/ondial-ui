@@ -55,7 +55,7 @@ export function validatePublicSlug(slug) {
     return `slug must be at most ${VOICE_PAGE_ENTRY_ID_MAX_LENGTH} characters`;
   }
   if (!PUBLIC_SLUG_PATTERN.test(s)) {
-    return 'slug must use lowercase letters, numbers, and hyphens only (e.g. best-english-voice-agent-united-kingdom)';
+    return 'slug must use lowercase letters, numbers, and hyphens only (e.g. best-english-voice-ai-agent-united-kingdom)';
   }
   if (isReservedVoicePageSlug(s)) {
     return `slug "${s}" is reserved and cannot be used`;

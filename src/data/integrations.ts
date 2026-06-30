@@ -38,8 +38,10 @@ export const INTEGRATION_CATEGORIES: Record<
 };
 
 /**
- * Tools on the integrations orbit. List order maps to rings:
+ * Unique integration brands for the orbit. List order maps to rings:
  * first → inner (fewest), then middle, then outer (most).
+ * The orbit component duplicates each brand once per ring (opposite side of the
+ * circle) for tighter spacing — only one copy is visible at a time.
  */
 export const INTEGRATION_PARTNERS: readonly IntegrationPartner[] = [
   { id: "zoho", name: "Zoho", logoSrc: "/integrations/zoho.svg", category: "crm" },
@@ -90,6 +92,9 @@ export const INTEGRATION_PARTNERS: readonly IntegrationPartner[] = [
     category: "platform",
   },
 ] as const;
+
+/** Each brand appears this many times per ring (opposite slots — never visible together). */
+export const ORBIT_ICON_DENSITY = 2;
 
 export const INTEGRATIONS_API_CALLOUT = {
   title: "REST API & webhooks",

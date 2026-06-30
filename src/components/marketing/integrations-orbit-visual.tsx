@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
-import { INTEGRATION_PARTNERS, type IntegrationPartner } from "@/data/integrations";
+import { INTEGRATION_PARTNERS, ORBIT_ICON_DENSITY, type IntegrationPartner } from "@/data/integrations";
 import { cn } from "@/lib/utils";
 
 import styles from "./integrations-orbit.module.css";
@@ -16,12 +16,19 @@ const RING_DEFS = [
 const MOBILE_QUARTER_RING_RATIOS = [0.68, 0.84, 1] as const;
 const OUTER_RADIUS_RATIO = RING_DEFS[RING_DEFS.length - 1].radiusRatio;
 const RING_ICON_WEIGHTS = [3, 5, 8] as const;
+/** Mobile icon gap per ring [inner, middle, outer] — higher weight = more icons = kam gap. */
+const MOBILE_RING_ICON_WEIGHTS = [18, 15, 15] as const;
 const ORBIT_WIDTH_FILL = 0.98;
 const MOBILE_ORBIT_WIDTH_FILL = 1.04;
 const ORBIT_MAX_DIAMETER_PX = 920;
-const SCROLL_DURATION_MS = 48_000;
+const SCROLL_DURATION_MS = 55_000;
 const ARC_INSET = 0.06;
 const MOBILE_ORBIT_MQ = "(max-width: 767px)";
+/**
+ * Mobile overall icon copies per brand. Per-ring gap is set by MOBILE_RING_ICON_WEIGHTS.
+ * 2 = wider | 3 = default | 4 = tighter (mostly affects inner ring)
+ */
+const MOBILE_ORBIT_ICON_DENSITY = 3;
 const SSR_ORBIT_DIAMETER_PX = 560;
 
 const QUARTER_VIEW = 500;
@@ -32,7 +39,8 @@ const ICON_WIDE_VB = { w: 56, h: 34 };
 
 type OrbitArcLayout = "semi" | "quarter";
 
-function arcAngleOnVisibleArc(
+/** Angle on a full circle (π → 0 visible on top; 0 → −π travels below, clipped by the stage). */
+function arcAngleOnFullOrbit(
   layout: OrbitArcLayout,
   slotIndex: number,
   slotCount: number,
@@ -43,16 +51,10 @@ function arcAngleOnVisibleArc(
     return layout === "quarter" ? (3 * Math.PI) / 4 : Math.PI / 2;
   }
 
-  const [start, end] =
-    layout === "quarter"
-      ? [Math.PI * (1 - ARC_INSET), (Math.PI / 2) * (1 - ARC_INSET)]
-      : [Math.PI * (1 - ARC_INSET), Math.PI * ARC_INSET];
-
-  const span = start - end;
-  const segment = span / slotCount;
-  const raw = slotIndex + 0.5 + ringPhaseStep + scrollPhase * slotCount;
+  const raw = slotIndex + ringPhaseStep + scrollPhase * slotCount;
   const local = ((raw % slotCount) + slotCount) % slotCount;
-  return start - segment * local;
+  const t = (local + 0.5) / slotCount;
+  return Math.PI - t * 2 * Math.PI;
 }
 
 function orbitCenter(layout: OrbitArcLayout) {
@@ -100,11 +102,21 @@ function measureOrbitDiameter(viewportWidth: number, columnWidth: number): numbe
   );
 }
 
-function ringIconCounts(total: number): [number, number, number] {
-  const weightSum = RING_ICON_WEIGHTS[0] + RING_ICON_WEIGHTS[1] + RING_ICON_WEIGHTS[2];
-  let inner = Math.max(2, Math.round((total * RING_ICON_WEIGHTS[0]) / weightSum));
-  let middle = Math.max(3, Math.round((total * RING_ICON_WEIGHTS[1]) / weightSum));
+function ringIconCounts(total: number, layout: OrbitArcLayout): [number, number, number] {
+  const weights = layout === "quarter" ? MOBILE_RING_ICON_WEIGHTS : RING_ICON_WEIGHTS;
+  const weightSum = weights[0] + weights[1] + weights[2];
+  let inner = Math.max(2, Math.round((total * weights[0]) / weightSum));
+  let middle = Math.max(3, Math.round((total * weights[1]) / weightSum));
   let outer = total - inner - middle;
+
+  if (layout === "quarter") {
+    // Inner = most icons (kam gap), outer = fewest icons (zyada gap).
+    if (inner < middle) inner = middle + 1;
+    if (middle < outer) middle = outer + 1;
+    outer = total - inner - middle;
+    return [inner, middle, outer];
+  }
+
   if (outer <= middle) {
     middle = Math.max(2, middle - 1);
     outer = total - inner - middle;
@@ -117,6 +129,7 @@ function ringIconCounts(total: number): [number, number, number] {
 }
 
 type PlacedIcon = {
+  instanceId: string;
   partner: IntegrationPartner;
   slotIndex: number;
   slotCount: number;
@@ -124,26 +137,39 @@ type PlacedIcon = {
   radiusVb: number;
 };
 
+function orbitIconDensity(layout: OrbitArcLayout): number {
+  return layout === "quarter" ? MOBILE_ORBIT_ICON_DENSITY : ORBIT_ICON_DENSITY;
+}
+
 function buildPlacedIcons(layout: OrbitArcLayout): PlacedIcon[] {
-  const [innerN, middleN, outerN] = ringIconCounts(INTEGRATION_PARTNERS.length);
-  const counts = [innerN, middleN, outerN];
+  const density = orbitIconDensity(layout);
+  const orbitIconTotal = INTEGRATION_PARTNERS.length * density;
+  const [innerN, middleN, outerN] = ringIconCounts(orbitIconTotal, layout);
+  const ringSlotCounts = [innerN, middleN, outerN];
   const placed: PlacedIcon[] = [];
-  let offset = 0;
+  let brandOffset = 0;
 
   RING_DEFS.forEach((def, ringIndex) => {
-    const ringPartners = INTEGRATION_PARTNERS.slice(offset, offset + counts[ringIndex]);
-    offset += counts[ringIndex];
+    const slotCount = ringSlotCounts[ringIndex];
+    const brandCount = slotCount / density;
+    const ringBrands = INTEGRATION_PARTNERS.slice(brandOffset, brandOffset + brandCount);
+    brandOffset += brandCount;
     const radiusVb = ringRadiusVb(layout, ringIndex, def);
     const ringPhaseStep = def.phase === 0.5 ? 0.5 : 0;
+    const hiddenOffset = brandCount;
 
-    ringPartners.forEach((partner, index) => {
-      placed.push({
-        partner,
-        slotIndex: index,
-        slotCount: ringPartners.length,
-        ringPhaseStep,
-        radiusVb,
-      });
+    ringBrands.forEach((partner, index) => {
+      for (let copy = 0; copy < density; copy++) {
+        const slotIndex = index + copy * hiddenOffset;
+        placed.push({
+          instanceId: `${partner.id}__${def.id}__${slotIndex}`,
+          partner,
+          slotIndex,
+          slotCount,
+          ringPhaseStep,
+          radiusVb,
+        });
+      }
     });
   });
 
@@ -156,7 +182,7 @@ function applySvgIconTransform(
   scrollPhase: number,
   layout: OrbitArcLayout,
 ) {
-  const angleRad = arcAngleOnVisibleArc(
+  const angleRad = arcAngleOnFullOrbit(
     layout,
     icon.slotIndex,
     icon.slotCount,
@@ -243,7 +269,7 @@ export function IntegrationsOrbitVisual() {
     if (!iconsReady) return;
 
     for (const icon of placedIcons) {
-      const el = slotsRef.current.get(icon.partner.id);
+      const el = slotsRef.current.get(icon.instanceId);
       if (el) applySvgIconTransform(el, icon, scrollPhaseRef.current, arcLayout);
     }
   }, [placedIcons, arcLayout, iconsReady]);
@@ -259,7 +285,7 @@ export function IntegrationsOrbitVisual() {
       const icons = iconsRef.current;
       const layoutNow = layoutRef.current;
       for (const icon of icons) {
-        const el = slotsRef.current.get(icon.partner.id);
+        const el = slotsRef.current.get(icon.instanceId);
         if (el) applySvgIconTransform(el, icon, phase, layoutNow);
       }
       rafRef.current = requestAnimationFrame(tick);
@@ -332,10 +358,10 @@ export function IntegrationsOrbitVisual() {
 
                 return (
                   <g
-                    key={icon.partner.id}
+                    key={icon.instanceId}
                     ref={(el) => {
-                      if (el) slotsRef.current.set(icon.partner.id, el);
-                      else slotsRef.current.delete(icon.partner.id);
+                      if (el) slotsRef.current.set(icon.instanceId, el);
+                      else slotsRef.current.delete(icon.instanceId);
                     }}
                   >
                     <image

@@ -12,16 +12,19 @@
 .semiOrbitStage {
   display: flex;
   width: 100%;
+  height: 420px !important;
   max-width: 100%;
   justify-content: center;
   align-items: flex-end;
-  overflow: visible;
+  overflow: hidden;
   pointer-events: none;
 }
 
 .orbitPivot {
   position: relative;
   flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
   pointer-events: none;
   overflow: visible;
 }
@@ -44,14 +47,14 @@
     width: 100%;
     align-items: flex-end;
     justify-content: flex-end;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .semiOrbitStage {
     width: 100%;
     align-items: flex-end;
     justify-content: flex-end;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .orbitPivotQuarter {
@@ -65,8 +68,11 @@
 }
 
 @media (min-width: 768px) {
-  .semiOrbitWrap,
+  .semiOrbitWrap {
+    overflow: hidden;
+  }
+
   .semiOrbitStage {
-    overflow: visible;
+    overflow: hidden;
   }
 }

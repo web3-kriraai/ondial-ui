@@ -38,7 +38,6 @@
 /* Placeholder height while orbit SVGs are deferred */
 .orbitLazyRoot {
   display: flex;
-  width: 100%;
   align-items: center;
   justify-content: center;
   min-height: clamp(16rem, 42vw, 22rem);
@@ -83,11 +82,15 @@
     display: flex;
     width: 100vw;
     max-width: 100vw;
-    margin-inline: calc(50% - 50vw);
+    /* margin-inline: calc(50% - 50vw); */
     min-height: 0;
     align-items: flex-end;
     justify-content: flex-end;
     overflow: visible;
+  }
+
+  .orbitLazyRoot {
+    width: 100%;
   }
 }
 

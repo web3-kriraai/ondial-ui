@@ -21,6 +21,19 @@ import {
 
 const STORAGE_KEY = "ondial-pricing-country";
 
+function readStoredCountryId(): PricingCountryId {
+  if (typeof window === "undefined") {
+    return DEFAULT_PRICING_COUNTRY_ID;
+  }
+
+  const stored = window.localStorage.getItem(STORAGE_KEY);
+  if (stored && isPricingCountryId(stored)) {
+    return stored;
+  }
+
+  return detectDefaultPricingCountryId();
+}
+
 type PricingCountryContextValue = CountryPricingView & {
   countryId: PricingCountryId;
   setCountryId: (countryId: PricingCountryId) => void;
@@ -32,14 +45,17 @@ export function PricingCountryProvider({ children }: { children: ReactNode }) {
   const [countryId, setCountryIdState] = useState<PricingCountryId>(DEFAULT_PRICING_COUNTRY_ID);
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
+    setCountryIdState(readStoredCountryId());
 
-    if (stored && isPricingCountryId(stored)) {
-      setCountryIdState(stored);
-      return;
-    }
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key !== STORAGE_KEY || !event.newValue || !isPricingCountryId(event.newValue)) {
+        return;
+      }
+      setCountryIdState(event.newValue);
+    };
 
-    setCountryIdState(detectDefaultPricingCountryId());
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   const setCountryId = useCallback((nextCountryId: PricingCountryId) => {
