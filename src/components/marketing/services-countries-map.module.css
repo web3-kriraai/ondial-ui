@@ -12,7 +12,13 @@
   border-radius: 1.5rem;
   border: 1px solid rgb(0 0 0 / 0.06);
   background: rgb(252 252 254);
-  overflow: hidden;
+  /*
+   * No overflow: hidden here on purpose: the active-pin tooltip (.locationBubble)
+   * must be able to spill past this box's edges when a country sits near the
+   * map's border (e.g. New Zealand near the left edge). Corner rounding for
+   * the flush-edge children below is instead handled by those children
+   * themselves (see .flagStrip's own border-radius).
+   */
   box-shadow:
     0 1px 2px rgb(15 23 42 / 0.03),
     0 16px 48px -28px rgb(15 23 42 / 0.12);
@@ -300,6 +306,7 @@
   padding: 0.875rem 0;
   border-top: 1px solid rgb(0 0 0 / 0.05);
   background: rgb(252 252 254);
+  border-radius: 0 0 1.5rem 1.5rem;
   overflow: hidden;
   mask-image: linear-gradient(
     to right,
@@ -370,6 +377,10 @@
 
   .worldMapFigure {
     border-radius: 1rem;
+  }
+
+  .flagStrip {
+    border-radius: 0 0 1rem 1rem;
   }
 
   .locationBubble {
