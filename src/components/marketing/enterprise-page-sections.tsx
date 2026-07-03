@@ -61,7 +61,7 @@ const ENTERPRISE_ACCENT_STYLE = {
 
 const sectionShellClass = "w-full bg-transparent py-14 sm:py-16 lg:py-20";
 const headingClass =
-  "text-balance text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]";
+  "text-balance text-3xl pt-5 font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]";
 const descriptionClass =
   "mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg";
 const secondaryBtnClass =
@@ -450,7 +450,7 @@ export function EnterpriseComplianceSection() {
             </motion.article>
           ))}
         </AnimatedGrid>
-        <h3 className={cn(styles.governanceTitle, "mt-10 text-center sm:mt-12")}>
+        <h3 className={cn(styles.governanceTitle, "mt-10 pt-5 text-center sm:mt-12")}>
           {ENTERPRISE_COMPLIANCE.complianceTeamTitle}
         </h3>
         <AnimatedGrid className={styles.cardGrid4}>
@@ -562,7 +562,7 @@ export function EnterpriseComparisonSection() {
             </table>
           </div>
         </div>
-        <h3 className={cn(styles.cardTitle, "mt-10 text-center")}>
+        <h3 className={cn(styles.cardTitle, "mt-10 pt-5 text-center")}>
           {ENTERPRISE_COMPARISON.hybridTitle}
         </h3>
         <div className={styles.hybridGrid}>
@@ -623,7 +623,7 @@ export function EnterpriseDeploymentSection() {
             </motion.article>
           ))}
         </AnimatedGrid>
-        <p className={cn(styles.governanceTitle, "mt-10 text-center")}>
+        <p className={cn(styles.governanceTitle, "mt-10 text-center pt-5")}>
           {ENTERPRISE_DEPLOYMENT.industryTemplatesLabel}
         </p>
         <div className={styles.chipRow}>

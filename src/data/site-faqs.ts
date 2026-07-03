@@ -66,7 +66,7 @@ const FAQ_ITEMS: Record<SiteFaqPageKey, readonly SiteFaqItem[]> = {
     {
       id: "how-do-they-work",
       question: "How do AI Voice Agents work for businesses?",
-      answer: "They integrate with your communication systems to process voice input, understand intent, and respond naturally—helping automate customer support, sales calls, and lead qualification.",
+      answer: "They integrate with your communication systems to process voice input, understand intent, and respond naturally helping automate customer support, sales calls, and lead qualification.",
     },
     {
       id: "multilingual",
@@ -113,7 +113,7 @@ const FAQ_ITEMS: Record<SiteFaqPageKey, readonly SiteFaqItem[]> = {
     {
       id: "how-do-they-work",
       question: "How do AI Voice Agents work for businesses?",
-      answer: "They integrate with your communication systems to process voice input, understand intent, and respond naturally—helping automate customer support, sales calls, and lead qualification.",
+      answer: "They integrate with your communication systems to process voice input, understand intent, and respond naturally helping automate customer support, sales calls, and lead qualification.",
     },
     {
       id: "multilingual",
@@ -252,7 +252,7 @@ const FAQ_ITEMS: Record<SiteFaqPageKey, readonly SiteFaqItem[]> = {
     {
       id: "what-makes-ondial-the-best-choice-for-healthcare-medical-services",
       question: "What makes Ondial the best choice for healthcare & medical services?",
-      answer: "Our expertise, secure infrastructure, and proven success in healthcare automation make Ondial a trusted partner for medical organizations.",
+      answer: "Our expertise, secure infrastructure, and proven success in healthcare automation make OnDial a trusted partner for medical organizations.",
     },
   ],
   "ai-voice-agents-finance-banking": [

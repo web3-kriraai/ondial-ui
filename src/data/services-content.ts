@@ -30,7 +30,8 @@ export type ServicesIndustry = {
 
 export const SERVICES_HERO = {
   tag: "AI voice call automation",
-  title: "OnDial - Best AI call assistant",
+  titleLead: "OnDial",
+  titleAccent: "Best AI call assistant",
   description:
     "Transform the way your business communicates. From healthcare reminders to retail updates and financial alerts, OnDial's AI-powered call automation delivers speed, accuracy, and scalability across 20+ industries.",
   ctas: [
@@ -40,6 +41,7 @@ export const SERVICES_HERO = {
     { id: "industries", value: "20+", label: "Industries served" },
     { id: "languages", value: "100+", label: "Languages" },
     { id: "availability", value: "24/7", label: "Availability" },
+    { id: "latency", value: "<500ms", label: "Response time" },
   ] as const,
 } as const;
 
@@ -557,7 +559,7 @@ export const SERVICES_FAQ = {
       id: "security",
       question: "How does OnDial ensure data security and compliance?",
       answer:
-        "OnDial is built with enterprise-grade security. It offers end-to-end encryption, role-based access, and regular compliance audits. Depending on the industry, OnDial supports HIPAA for healthcare, PCI DSS for payments, and GDPR for data protection-making it one of the most secure AI voice automation platforms available.",
+        "OnDial is built with enterprise-grade security. It offers end-to-end encryption, role-based access, and regular compliance audits. Depending on the industry, OnDial supports HIPAA for healthcare, PCI DSS for payments, and GDPR for data protection—making it one of the most secure AI voice automation platforms available.",
     },
     {
       id: "smb",
@@ -600,12 +602,13 @@ export const SERVICES_FAQ = {
 
 export const SERVICES_FINAL_CTA = {
   eyebrow: "Get started today",
-  title: "Transform the Way You Communicate with Customers",
+  titleLine1: "Transform the Way You",
+  titleLine2: "Communicate with Customers",
   description:
     "Don't let missed calls or delays affect your business. OnDial's AI voice call automation is fast, secure, and scalable.",
   ctas: [
     { label: "Get Started Now", href: "/contact", variant: "primary" },
-    { label: "Talk to an Expert", href: "/contact", variant: "secondary" },
+    { label: "Explore industries", href: "#services-industries", variant: "secondary" },
   ] as const satisfies readonly ServicesCta[],
   trustItems: [
     "Free demo available",

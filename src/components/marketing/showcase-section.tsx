@@ -14,7 +14,7 @@ import styles from "./showcase-section.module.css";
 function ShowcaseCtas() {
   return (
     <div className={styles.ctaRow}>
-      <HeroDemoCtaButton href="/contact" label="Get Demo" />
+      <HeroDemoCtaButton href="/signup" label="Let's Try" />
     </div>
   );
 }

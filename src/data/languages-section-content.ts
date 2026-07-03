@@ -11,7 +11,7 @@ export const LANGUAGES_SECTION_HEADING = {
   titleTail: "",
   titleAccent: "Language & Region",
   subtitle:
-    "Bridge linguistic divides with AI Voice Agents that speak 100+ languages fluently—so every customer feels understood.",
+    "Bridge linguistic divides with AI Voice Agents that speak 100+ languages fluently so every customer feels understood.",
 } as const;
 
 export const LANGUAGES_SECTION_STATS = [

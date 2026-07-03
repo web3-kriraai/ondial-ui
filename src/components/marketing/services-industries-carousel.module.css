@@ -1,0 +1,308 @@
+.carouselRoot {
+  position: relative;
+  width: 100%;
+}
+
+.carouselInner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Skiper Carousal_005 — one full card, fixed height */
+.swiper {
+  width: 100%;
+  height: 460px;
+  padding-bottom: 2.75rem !important;
+  overflow: hidden;
+}
+
+.swiper :global(.swiper-wrapper) {
+  align-items: stretch;
+}
+
+.swiperSlide {
+  width: 100% !important;
+  height: 100%;
+  border-radius: 1.5625rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.swiper :global(.swiper-slide:not(.swiper-slide-active)) {
+  pointer-events: none;
+}
+
+.swiper :global(.swiper-pagination-bullet) {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  background-color: rgb(15 23 42 / 0.22) !important;
+  opacity: 1;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.swiper :global(.swiper-pagination-bullet-active) {
+  background-color: #0a0a0a !important;
+  transform: scale(1.2);
+}
+
+/* ——— Industry card (colored hero + white body) ——— */
+.industryCard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.5625rem;
+  border: 1px solid rgb(0 0 0 / 0.06);
+  background: #fff;
+  box-shadow:
+    0 2px 8px rgb(15 23 42 / 0.04),
+    0 24px 56px -28px rgb(15 23 42 / 0.16);
+}
+
+.industryCardHero {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 1rem 1.25rem 1.125rem;
+  background: linear-gradient(
+    135deg,
+    var(--card-soft) 0%,
+    color-mix(in srgb, var(--card-soft) 72%, var(--card-accent)) 100%
+  );
+  border-bottom: 1px solid color-mix(in srgb, var(--card-accent) 12%, transparent);
+}
+
+.industryCardWatermark {
+  position: absolute;
+  right: -0.5rem;
+  bottom: -1.25rem;
+  width: 7.5rem;
+  height: 7.5rem;
+  color: color-mix(in srgb, var(--card-accent) 14%, transparent);
+  pointer-events: none;
+}
+
+.industryCardHeroTop {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.875rem;
+}
+
+.industryIndex {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--card-accent);
+}
+
+.learnMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 22%, transparent);
+  background: rgb(255 255 255 / 0.82);
+  padding: 0.4375rem 0.8125rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--card-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  transition:
+    background-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+@media (hover: hover) {
+  .learnMoreBtn:hover {
+    background: #fff;
+    box-shadow: 0 6px 18px -10px color-mix(in srgb, var(--card-accent) 35%, transparent);
+    transform: translateY(-1px);
+  }
+}
+
+.industryCardHeroMain {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.industryCardIcon {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+  border-radius: 1rem;
+  background: rgb(255 255 255 / 0.88);
+  color: var(--card-accent);
+  box-shadow: 0 4px 14px -6px color-mix(in srgb, var(--card-accent) 30%, transparent);
+}
+
+.industryCardHeading {
+  min-width: 0;
+  flex: 1;
+}
+
+.industryCardTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--card-accent);
+}
+
+.industryCardSummary {
+  margin: 0.375rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--card-accent) 78%, #1a1a1a);
+}
+
+.industryCardBody {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  gap: 1rem;
+  padding: 1.125rem 1.25rem 1.25rem;
+  background: #fff;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .industryCardBody {
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: stretch;
+    padding: 1.25rem 1.375rem 1.375rem;
+  }
+}
+
+.industryDescription {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+@media (min-width: 768px) {
+  .industryDescription {
+    font-size: 0.875rem;
+    line-height: 1.72;
+    padding-right: 0.5rem;
+  }
+}
+
+.highlightsBox {
+  border-radius: 0.875rem;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 14%, rgb(0 0 0 / 0.06));
+  background: color-mix(in srgb, var(--card-soft) 38%, #fff);
+  padding: 1rem 1.0625rem;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.highlightsTitle {
+  margin: 0 0 0.625rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--card-accent);
+}
+
+.highlightsList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.highlightItem {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: rgb(15 23 42 / 0.75);
+}
+
+.highlightItem :global(svg) {
+  color: var(--card-accent);
+}
+
+.highlightItem + .highlightItem {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .highlightItem {
+    font-size: 0.75rem;
+    line-height: 1.55;
+  }
+}
+
+.navRow {
+  display: flex;
+  justify-content: center;
+  gap: 0.625rem;
+  margin-top: 0.375rem;
+}
+
+.navBtn {
+  display: grid;
+  place-items: center;
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: 9999px;
+  border: 1px solid rgb(0 0 0 / 0.08);
+  background: rgb(255 255 255 / 0.95);
+  color: var(--foreground);
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+@media (hover: hover) {
+  .navBtn:hover {
+    border-color: rgb(0 0 0 / 0.14);
+    box-shadow: 0 6px 16px -10px rgb(15 23 42 / 0.14);
+    transform: translateY(-1px);
+  }
+}
+
+@media (max-width: 640px) {
+  .swiper {
+    height: 500px;
+  }
+
+  .industryCardTitle {
+    font-size: 1.0625rem;
+  }
+
+  .industryCardBody {
+    grid-template-columns: 1fr;
+  }
+
+  .industryDescription {
+    max-height: 6.5rem;
+  }
+
+  .highlightsBox {
+    max-height: 9rem;
+  }
+}

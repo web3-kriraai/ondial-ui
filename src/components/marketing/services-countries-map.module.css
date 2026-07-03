@@ -1,0 +1,404 @@
+.mapRoot {
+  position: relative;
+  width: 100%;
+  max-width: 60rem;
+  margin-inline: auto;
+}
+
+.worldMapFigure {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  border-radius: 1.5rem;
+  border: 1px solid rgb(0 0 0 / 0.06);
+  background: rgb(252 252 254);
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 0.03),
+    0 16px 48px -28px rgb(15 23 42 / 0.12);
+}
+
+.worldMapSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 800 / 440;
+  margin-inline: auto;
+  overflow: visible;
+}
+
+.worldMapGeography {
+  stroke: rgb(255 255 255 / 0.9);
+  stroke-width: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.worldMapGeography:hover {
+  opacity: 0.85;
+}
+
+.mapStage {
+  position: relative;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.mapCanvas {
+  position: absolute;
+  inset: 1rem 1rem 0.5rem;
+}
+
+.statPill {
+  position: absolute;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 9999px;
+  border: 1px solid rgb(0 0 0 / 0.07);
+  background: rgb(255 255 255 / 0.96);
+  box-shadow: 0 10px 28px -18px rgb(15 23 42 / 0.22);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.statPill strong {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: hsl(var(--section-accent-h) var(--section-accent-s) calc(var(--section-accent-l) - 6%));
+}
+
+.statPillLeft {
+  top: 12%;
+  left: 5%;
+}
+
+.statPillCenter {
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.statPillRight {
+  top: 14%;
+  right: 5%;
+}
+
+.mapLocation {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(50 50 50);
+  transform: translate(-50%, -100%);
+}
+
+.mapLocationDot {
+  position: absolute;
+  z-index: 1;
+  width: 0.625rem;
+  height: 0.625rem;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.88);
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.95);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mapLocationDot:hover,
+.mapLocationDot:focus-visible {
+  transform: translate(-50%, -50%) scale(1.35);
+  z-index: 3;
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgb(255 255 255 / 0.98),
+    0 0 0 4px hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.22);
+}
+
+.mapLocationActive {
+  z-index: 6;
+}
+
+.locationBubble {
+  position: relative;
+  width: auto;
+  min-width: 10.5rem;
+  max-width: 13rem;
+  margin: 0 0 0.375rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(0 0 0 / 0.06);
+  background: rgb(255 255 255 / 1);
+  box-shadow:
+    0 4px 16px rgb(0 0 0 / 0.08),
+    0 0 0 1px rgb(255 255 255 / 0.8);
+  pointer-events: none;
+}
+
+.locationBubbleHead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.locationFlag {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 2px solid rgb(255 255 255);
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.08),
+    0 2px 6px rgb(15 23 42 / 0.1);
+  background: rgb(248 248 250);
+}
+
+.locationFlag img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.locationText {
+  min-width: 0;
+  text-align: left;
+}
+
+.locationBubble::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -0.5rem;
+  border-style: solid;
+  border-width: 0.5rem 0.5rem 0;
+  border-color: rgb(255 255 255) transparent transparent;
+}
+
+.locationBubbleActive {
+  animation: bubbleFloat 1s cubic-bezier(0.58, 0.1, 0.58, 0.7) infinite alternate;
+  backface-visibility: hidden;
+}
+
+@keyframes bubbleFloat {
+  0%,
+  5% {
+    transform: translate3d(0, 2px, 0) scale(1);
+  }
+
+  to {
+    box-shadow:
+      0 0 1px rgb(0 0 0 / 0.08),
+      0 5px 10px rgb(0 0 0 / 0.12);
+    transform: translate3d(0, -3px, 0) scale(1);
+  }
+}
+
+.locationName {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.locationDesc {
+  margin-top: 0.125rem;
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: rgb(100 100 110);
+  white-space: nowrap;
+}
+
+.pinButton {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: hsl(var(--section-accent-h) var(--section-accent-s) calc(var(--section-accent-l) - 12%));
+}
+
+.pinButton:hover,
+.pinButton:focus-visible {
+  outline: none;
+  color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l));
+}
+
+.pinIcon {
+  width: 1.875rem;
+  height: 1.875rem;
+  filter: drop-shadow(0 3px 6px rgb(15 23 42 / 0.22));
+}
+
+/*
+ * The pin tip lands on the container's bottom edge (see .mapLocation's
+ * translate(-50%, -100%)). The pulse ring and anchor dot are re-centered on
+ * that exact same edge so the visual "here" point stays unambiguous even
+ * while the decorative pin/bubble float above it.
+ */
+.pinPulse {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  transform: translate(-50%, 50%);
+  border-radius: 9999px;
+  border: 2px solid hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.45);
+  animation: pinPulse 2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pinPulse {
+  0% {
+    transform: translate(-50%, 50%) scale(0.7);
+    opacity: 0.75;
+  }
+
+  100% {
+    transform: translate(-50%, 50%) scale(1.6);
+    opacity: 0;
+  }
+}
+
+.anchorDot {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  transform: translate(-50%, 50%);
+  border-radius: 9999px;
+  background: hsl(var(--section-accent-h) var(--section-accent-s) calc(var(--section-accent-l) - 8%));
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.95);
+  pointer-events: none;
+}
+
+.flagStrip {
+  margin-top: 0;
+  padding: 0.875rem 0;
+  border-top: 1px solid rgb(0 0 0 / 0.05);
+  background: rgb(252 252 254);
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 6%,
+    black 94%,
+    transparent
+  );
+}
+
+.flagStripTrack {
+  display: flex;
+  gap: 0.625rem;
+  width: max-content;
+  animation: flagMarquee 80s linear infinite;
+}
+
+.flagStrip:hover .flagStripTrack {
+  animation-play-state: paused;
+}
+
+@keyframes flagMarquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.flagChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  flex-shrink: 0;
+  padding: 0.3125rem 0.625rem 0.3125rem 0.3125rem;
+  border-radius: 9999px;
+  border: 1px solid rgb(0 0 0 / 0.06);
+  background: rgb(255 255 255 / 0.95);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.flagChipIcon {
+  display: grid;
+  place-items: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 1px solid rgb(0 0 0 / 0.06);
+  background: rgb(255 255 255);
+}
+
+.flagChipIcon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .statPill {
+    display: none;
+  }
+
+  .worldMapFigure {
+    border-radius: 1rem;
+  }
+
+  .locationBubble {
+    min-width: 9rem;
+    max-width: 11rem;
+    padding: 0.4375rem 0.5rem;
+  }
+
+  .locationFlag {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .locationName {
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flagStripTrack {
+    animation: none;
+  }
+
+  .locationBubbleActive {
+    animation: none;
+  }
+
+  .pinPulse {
+    animation: none;
+    opacity: 0.35;
+  }
+}
