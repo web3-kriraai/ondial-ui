@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { BlogPageShell } from "@/components/layout/blog-page-shell";
 import {
+  ServicesCapabilitiesSection,
   ServicesCountriesSection,
   ServicesFaqSection,
   ServicesFinalCtaSection,
@@ -87,6 +88,7 @@ export default function ServicesPage() {
         <BlogPageShell>
           <ServicesHeroSection />
           <ServicesWhyChooseSection />
+          <ServicesCapabilitiesSection />
           <ServicesIndustriesSection />
           <ServicesHowItWorksSection />
           <ServicesCountriesSection />

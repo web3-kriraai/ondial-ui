@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HomeCapabilitiesSection } from "@/components/marketing/home-capabilities-section";
 import { HomeFeaturesSection } from "@/components/marketing/home-features-section";
 import { HomeProblemSection } from "@/components/marketing/home-problem-section";
 import { ComplianceTrustSection } from "@/components/marketing/compliance-trust-section";
@@ -70,6 +71,7 @@ export default function HomePage() {
         {/* <SocialProofLogosSection /> */}
         <HomeProblemSection />
         <HomeFeaturesSection />
+        <HomeCapabilitiesSection />
         <ComplianceTrustSection />
         <IntegrationsSection />
         <SupportedLanguagesSection />

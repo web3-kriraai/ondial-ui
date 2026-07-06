@@ -46,11 +46,13 @@ import { BlogPageHero } from "@/components/marketing/blog-page-hero";
 import { FaqAccordionPanel } from "@/components/marketing/faq-accordion-panel";
 import enterpriseStyles from "@/components/marketing/enterprise-page-sections.module.css";
 import { IndustryStatsBento } from "@/components/marketing/industry-stats-bento";
+import { ServicesCapabilitiesCarousel } from "@/components/marketing/services-capabilities-carousel";
 import { ServicesCountriesMap } from "@/components/marketing/services-countries-map";
 import { ServicesIndustriesCarousel } from "@/components/marketing/services-industries-carousel";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
 import { marketingDottedSectionShellClass, marketingEyebrowClass, marketingSectionContainerClass } from "@/config/marketing-layout";
+import { SERVICES_CAPABILITIES, SERVICES_CAPABILITIES_SECTION } from "@/data/services-capabilities-content";
 import {
   SERVICES_FAQ,
   SERVICES_FINAL_CTA,
@@ -382,6 +384,33 @@ export function ServicesWhyChooseSection() {
               />
             ))}
           </AnimatedGrid>
+        </div>
+      </section>
+    </>
+  );
+}
+
+export function ServicesCapabilitiesSection() {
+  return (
+    <>
+      <SectionDivider />
+      <section
+        id="services-capabilities"
+        className={cn(sectionShellClass, styles.section)}
+        style={SERVICES_ACCENT_STYLE}
+        aria-labelledby="services-capabilities-title"
+      >
+        <div className={pageHeaderShellClass}>
+          <SectionHeader
+            eyebrow={SERVICES_CAPABILITIES_SECTION.eyebrow}
+            title={SERVICES_CAPABILITIES_SECTION.title}
+            description={SERVICES_CAPABILITIES_SECTION.description}
+            titleId="services-capabilities-title"
+          />
+        </div>
+
+        <div className={cn(marketingSectionContainerClass, "mt-8 sm:mt-10")}>
+          <ServicesCapabilitiesCarousel capabilities={SERVICES_CAPABILITIES} />
         </div>
       </section>
     </>
