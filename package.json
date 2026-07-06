@@ -9,6 +9,7 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test:country-import": "npx tsx --test src/lib/countries/parse-country-page-import.test.ts",
+    "test:country-slug": "npx tsx --test src/lib/countries/slug.test.ts",
     "optimize:assets": "node scripts/optimize-assets.mjs"
   },
   "dependencies": {

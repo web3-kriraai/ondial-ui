@@ -67,6 +67,7 @@ type CountryPageFormSidebarProps = {
   slugChecking: boolean;
   onFieldChange: (key: string, value: string) => void;
   onSlugChange: (value: string) => void;
+  onSlugBlur: () => void;
 };
 
 export function CountryPageFormSidebar({
@@ -78,6 +79,7 @@ export function CountryPageFormSidebar({
   slugChecking,
   onFieldChange,
   onSlugChange,
+  onSlugBlur,
 }: CountryPageFormSidebarProps) {
   return (
     <aside className="flex w-full min-w-0 flex-col gap-4 xl:sticky xl:top-0 xl:w-[400px] xl:shrink-0 xl:self-start 2xl:w-[420px]">
@@ -140,6 +142,7 @@ export function CountryPageFormSidebar({
               type="text"
               value={form.slug}
               onChange={(e) => onSlugChange(e.target.value)}
+              onBlur={onSlugBlur}
               placeholder="united-states"
               aria-invalid={Boolean(slugError)}
               className={`flex-1 rounded-md border bg-gray-50 px-2.5 py-1.5 text-xs font-mono text-gray-700 outline-none transition-all focus:bg-white focus:ring-1 ${
@@ -153,7 +156,9 @@ export function CountryPageFormSidebar({
           {slugError ? (
             <InlineError id="slug-error" message={slugError} />
           ) : (
-            <p className="mt-1.5 text-[11px] text-gray-400">Lowercase letters, numbers, and hyphens only.</p>
+            <p className="mt-1.5 text-[11px] text-gray-400">
+              Lowercase letters, numbers, hyphens, and underscores. Spaces become hyphens.
+            </p>
           )}
         </div>
 

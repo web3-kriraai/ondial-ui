@@ -34,6 +34,7 @@ import {
   COUNTRY_SLUG_TAKEN_CODE,
   COUNTRY_SLUG_TAKEN_MESSAGE,
   normalizeCountrySlug,
+  sanitizeCountrySlugInput,
 } from "@/lib/countries/slug";
 import {
   buildCountryPageFormState,
@@ -154,7 +155,14 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
 
   function handleSlugInputChange(value: string) {
     setSlugManual(true);
-    setField("slug", normalizeCountrySlug(value));
+    setField("slug", sanitizeCountrySlugInput(value));
+  }
+
+  function handleSlugBlur() {
+    const normalized = normalizeCountrySlug(form.slug);
+    if (normalized !== form.slug) {
+      setField("slug", normalized);
+    }
   }
 
   function handleImportApply(
@@ -716,6 +724,7 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
               setField(key as keyof CountryPageFormState, value as CountryPageFormState[keyof CountryPageFormState])
             }
             onSlugChange={handleSlugInputChange}
+            onSlugBlur={handleSlugBlur}
           />
         </div>
       </div>
