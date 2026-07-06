@@ -45,7 +45,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title,
       description,
-      alternates: { canonical: canonicalUrl },
+      alternates: {
+        canonical: canonicalUrl,
+        types: { "application/rss+xml": "https://www.ondial.ai/feed.xml" },
+      },
       robots: {
         index: true,
         follow: true,

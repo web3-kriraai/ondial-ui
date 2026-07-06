@@ -28,7 +28,10 @@ export const metadata: Metadata = {
   title: { absolute: "Best AI Voice Agent Automation Blogs & Insights | OnDial" },
   description:
     "Stay updated with OnDial's blog on AI voice agents, automation, and customer experience. Learn strategies, trends, and tips to grow your business smarter.",
-  alternates: { canonical: "https://www.ondial.ai/blog" },
+  alternates: {
+    canonical: "https://www.ondial.ai/blog",
+    types: { "application/rss+xml": "https://www.ondial.ai/feed.xml" },
+  },
   robots: {
     index: true,
     follow: true,

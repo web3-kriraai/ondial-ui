@@ -36,6 +36,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://www.ondial.ai",
+    types: {
+      "application/rss+xml": "https://www.ondial.ai/feed.xml",
+    },
   },
   openGraph: {
     title: "Best AI Voice Agents to Automate Your Phone Calls | OnDial",
