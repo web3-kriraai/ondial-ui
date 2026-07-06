@@ -1,16 +1,5 @@
-.sectionDivider {
-  margin: 0 auto;
-  width: min(100%, 92rem);
-  border: none;
-  border-top: 1px solid rgb(0 0 0 / 0.06);
-}
-
 .section {
   position: relative;
-}
-
-.section:nth-of-type(even) {
-  background: rgb(0 0 0 / 0.014);
 }
 
 /* Rich text — renders admin-authored HTML (bold/italic/underline/links/lists)

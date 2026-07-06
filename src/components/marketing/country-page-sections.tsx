@@ -69,10 +69,6 @@ const cardVariants: Variants = {
   },
 };
 
-function SectionDivider() {
-  return <hr className={styles.sectionDivider} aria-hidden />;
-}
-
 function FadeInHeading({
   as: Tag = "h2",
   children,
@@ -295,7 +291,6 @@ export function CountryHeroSection({
 export function CountryOverviewSection({ overview }: { overview: CountryOverviewContent }) {
   return (
     <>
-      <SectionDivider />
       <section className={cn(sectionShellClass, styles.section)} style={COUNTRY_PAGE_ACCENT_STYLE} aria-labelledby="country-overview-title">
         <div className={pageHeaderShellClass}>
           <SectionHeader eyebrow="Market context" title={overview.title} titleId="country-overview-title" />
@@ -319,7 +314,6 @@ export function CountryOverviewSection({ overview }: { overview: CountryOverview
 export function CountryWhyChooseSection({ section }: { section: CountryBulletSection }) {
   return (
     <>
-      <SectionDivider />
       <section className={cn(sectionShellClass, styles.section)} style={COUNTRY_PAGE_ACCENT_STYLE} aria-labelledby="country-why-title">
         <div className={pageHeaderShellClass}>
           <SectionHeader
@@ -354,7 +348,6 @@ export function CountryWhyChooseSection({ section }: { section: CountryBulletSec
 export function CountryIndustrySolutionsSection({ content }: { content: CountryIndustrySolutionsContent }) {
   return (
     <>
-      <SectionDivider />
       <section className={cn(sectionShellClass, styles.section)} style={COUNTRY_PAGE_ACCENT_STYLE} aria-labelledby="country-industries-title">
         <div className={pageHeaderShellClass}>
           <SectionHeader
@@ -402,7 +395,6 @@ export function CountryIndustrySolutionsSection({ content }: { content: CountryI
 export function CountryLanguageSupportSection({ content }: { content: CountryLanguageSupportContent }) {
   return (
     <>
-      <SectionDivider />
       <section className={cn(sectionShellClass, styles.section)} style={COUNTRY_PAGE_ACCENT_STYLE} aria-labelledby="country-languages-title">
         <div className={pageHeaderShellClass}>
           <SectionHeader
@@ -442,7 +434,6 @@ export function CountryLanguageSupportSection({ content }: { content: CountryLan
 export function CountryUseCasesSection({ section }: { section: CountryBulletSection }) {
   return (
     <>
-      <SectionDivider />
       <section className={cn(sectionShellClass, styles.section)} style={COUNTRY_PAGE_ACCENT_STYLE} aria-labelledby="country-use-cases-title">
         <div className={pageHeaderShellClass}>
           <SectionHeader
@@ -479,7 +470,6 @@ export function CountryUseCasesSection({ section }: { section: CountryBulletSect
 export function CountryComplianceSection({ section }: { section: CountryBulletSection }) {
   return (
     <>
-      <SectionDivider />
       <section className={cn(sectionShellClass, styles.section)} style={COUNTRY_PAGE_ACCENT_STYLE} aria-labelledby="country-compliance-title">
         <div className={pageHeaderShellClass}>
           <SectionHeader
@@ -511,7 +501,6 @@ export function CountryComplianceSection({ section }: { section: CountryBulletSe
 export function CountryIntegrationsSection({ content }: { content: CountryIntegrationsContent }) {
   return (
     <>
-      <SectionDivider />
       <section className={cn(sectionShellClass, styles.section)} style={COUNTRY_PAGE_ACCENT_STYLE} aria-labelledby="country-integrations-title">
         <div className={pageHeaderShellClass}>
           <SectionHeader
@@ -550,7 +539,6 @@ export function CountryIntegrationsSection({ content }: { content: CountryIntegr
 export function CountryComparisonsSection({ content }: { content: CountryComparisonsContent }) {
   return (
     <>
-      <SectionDivider />
       <section className={cn(sectionShellClass, styles.section)} style={COUNTRY_PAGE_ACCENT_STYLE} aria-labelledby="country-comparisons-title">
         <div className={pageHeaderShellClass}>
           <SectionHeader eyebrow="Comparisons" title={content.title} titleId="country-comparisons-title" />
@@ -583,7 +571,6 @@ export function CountryFaqSection({ faqs, countryName }: { faqs: CountryFaqItem[
 
   return (
     <>
-      <SectionDivider />
       <section className={cn(sectionShellClass, styles.section)} style={COUNTRY_PAGE_ACCENT_STYLE} aria-labelledby="country-faq-title">
         <div className={marketingSectionContainerClass}>
           <SectionHeader

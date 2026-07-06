@@ -24,6 +24,7 @@ import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { CountryFaqEditor } from "@/components/admin/country-faq-editor";
 import { CountryIndustrySolutionsEditor } from "@/components/admin/country-industry-solutions-editor";
 import { CountryIntegrationsEditor } from "@/components/admin/country-integrations-editor";
+import { CountryPageImportPanel } from "@/components/admin/country-page-import-panel";
 import { CountryPageFormSidebar } from "@/components/admin/country-page-form-sidebar";
 import { InlineRichTextEditor } from "@/components/admin/inline-rich-text-editor";
 import { TitledBulletListEditor } from "@/components/admin/titled-bullet-list-editor";
@@ -34,18 +35,13 @@ import {
   COUNTRY_SLUG_TAKEN_MESSAGE,
   normalizeCountrySlug,
 } from "@/lib/countries/slug";
-import type {
-  CountryBulletSection,
-  CountryComparisonsContent,
-  CountryFaqItem,
-  CountryHeroContent,
-  CountryIndustrySolutionsContent,
-  CountryIntegrationsContent,
-  CountryLanguageItem,
-  CountryLanguageSupportContent,
-  CountryOverviewContent,
-  TitledBullet,
-} from "@/lib/countries/types";
+import {
+  buildCountryPageFormState,
+  countryPageFormHasContent,
+  mergeCountryPageImport,
+  type CountryPageFormState,
+} from "@/lib/countries/form-state";
+import type { CountryLanguageItem, TitledBullet } from "@/lib/countries/types";
 import type { CountryPageRow } from "@/lib/db/types";
 
 type CountryPageFormProps = {
@@ -53,56 +49,6 @@ type CountryPageFormProps = {
   countryPageId?: string;
   initialData?: CountryPageRow;
 };
-
-type FormState = {
-  country_name: string;
-  slug: string;
-  country_code: string;
-  meta_title: string;
-  meta_description: string;
-  status: CountryPageRow["status"];
-  hero: CountryHeroContent;
-  overview: CountryOverviewContent;
-  whyChooseUs: CountryBulletSection;
-  industrySolutions: CountryIndustrySolutionsContent;
-  languageSupport: CountryLanguageSupportContent;
-  useCases: CountryBulletSection;
-  complianceSecurity: CountryBulletSection;
-  integrations: CountryIntegrationsContent;
-  comparisons: CountryComparisonsContent;
-  faqs: CountryFaqItem[];
-};
-
-const EMPTY_HERO: CountryHeroContent = {
-  title: "",
-  description: "",
-  bullets: [],
-  primaryCta: { label: "Book Demo", href: "/contact" },
-  secondaryCta: { label: "Talk to Expert", href: "/contact" },
-};
-
-const EMPTY_BULLET_SECTION: CountryBulletSection = { title: "", intro: "", items: [] };
-
-function buildInitialForm(initialData?: CountryPageRow): FormState {
-  return {
-    country_name: initialData?.country_name ?? "",
-    slug: initialData?.slug ?? "",
-    country_code: initialData?.country_code ?? "",
-    meta_title: initialData?.meta_title ?? "",
-    meta_description: initialData?.meta_description ?? "",
-    status: initialData?.status ?? "draft",
-    hero: initialData?.hero ?? EMPTY_HERO,
-    overview: initialData?.overview ?? { title: "", paragraphs: [] },
-    whyChooseUs: initialData?.why_choose_us ?? { ...EMPTY_BULLET_SECTION },
-    industrySolutions: initialData?.industry_solutions ?? { title: "", intro: "", industries: [] },
-    languageSupport: initialData?.language_support ?? { title: "", intro: "", languages: [], note: "" },
-    useCases: initialData?.use_cases ?? { ...EMPTY_BULLET_SECTION },
-    complianceSecurity: initialData?.compliance_security ?? { ...EMPTY_BULLET_SECTION },
-    integrations: initialData?.integrations ?? { title: "", intro: "", groups: [], note: "" },
-    comparisons: initialData?.comparisons ?? { title: "", items: [] },
-    faqs: initialData?.faqs ?? [],
-  };
-}
 
 function languagesToBullets(languages: CountryLanguageItem[]): TitledBullet[] {
   return languages.map((language) => ({ title: language.name, description: language.description }));
@@ -193,9 +139,9 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
   const slugRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  const [form, setForm] = useState<FormState>(() => buildInitialForm(initialData));
+  const [form, setForm] = useState<CountryPageFormState>(() => buildCountryPageFormState(initialData));
 
-  function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
+  function setField<K extends keyof CountryPageFormState>(key: K, value: CountryPageFormState[K]) {
     setForm((prev) => {
       const next = { ...prev, [key]: value };
       if (key === "country_name" && !slugManual) {
@@ -209,6 +155,16 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
   function handleSlugInputChange(value: string) {
     setSlugManual(true);
     setField("slug", normalizeCountrySlug(value));
+  }
+
+  function handleImportApply(
+    imported: Partial<CountryPageFormState>,
+    options: { slugImported: boolean },
+  ) {
+    setForm((prev) => mergeCountryPageImport(prev, imported));
+    if (options.slugImported) setSlugManual(true);
+    setShowValidation(false);
+    showToast("success", "Import applied — review fields and save when ready.");
   }
 
   useEffect(() => {
@@ -438,6 +394,10 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
       <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
         <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 items-start gap-5 p-4 md:p-6 xl:grid-cols-[minmax(0,1fr)_400px] xl:gap-8 2xl:max-w-[1520px] 2xl:grid-cols-[minmax(0,1fr)_420px]">
           <div className="flex min-w-0 flex-col gap-4">
+            <CountryPageImportPanel
+              formHasContent={countryPageFormHasContent(form)}
+              onApply={handleImportApply}
+            />
             {/* Hero */}
             <div ref={heroRef}>
               <SectionCard icon={Sparkles} title="Hero" description="The top banner shown on the country page.">
@@ -752,7 +712,9 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
             countryNameError={countryNameError}
             slugError={slugError}
             slugChecking={slugChecking}
-            onFieldChange={(key, value) => setField(key as keyof FormState, value as FormState[keyof FormState])}
+            onFieldChange={(key, value) =>
+              setField(key as keyof CountryPageFormState, value as CountryPageFormState[keyof CountryPageFormState])
+            }
             onSlugChange={handleSlugInputChange}
           />
         </div>
