@@ -12,19 +12,23 @@ import {
   ServicesWhyChooseSection,
 } from "@/components/marketing/services-page-sections";
 import StructuredData from "@/components/StructuredData";
-import { SERVICES_FAQ, SERVICES_HERO } from "@/data/services-content";
+import { SERVICES_FAQ } from "@/data/services-content";
 import {
   buildBreadcrumbSchema,
   buildEnterpriseSoftwareApplicationSchema,
 } from "@/lib/seo/schemaBuilders";
 
+const SERVICES_META_TITLE = "AI Voice Call Automation Platform for Business | OnDial";
+const SERVICES_META_DESCRIPTION =
+  "Automate inbound and outbound calls with OnDial's AI voice call automation platform. Scale customer support, sales, and reminders across 20+ industries.";
+
 export const metadata: Metadata = {
-  title: { absolute: "OnDial – Best AI Call Assistant | AI Voice Automation" },
-  description: SERVICES_HERO.description,
+  title: { absolute: SERVICES_META_TITLE },
+  description: SERVICES_META_DESCRIPTION,
   alternates: { canonical: "https://www.ondial.ai/services" },
   openGraph: {
-    title: "OnDial – Best AI Call Assistant | AI Voice Automation",
-    description: SERVICES_HERO.description,
+    title: SERVICES_META_TITLE,
+    description: SERVICES_META_DESCRIPTION,
     url: "https://www.ondial.ai/services",
     siteName: "OnDial",
     images: [
@@ -40,8 +44,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "OnDial - Best AI Call Assistant | AI Voice Automation",
-    description: SERVICES_HERO.description,
+    title: SERVICES_META_TITLE,
+    description: SERVICES_META_DESCRIPTION,
     images: ["https://www.ondial.ai/img/logo/og.png"],
     creator: "@ondialai",
   },
@@ -51,7 +55,7 @@ const servicesSchemas = [
   (buildEnterpriseSoftwareApplicationSchema as any)({
     url: "/services",
     name: "OnDial AI Voice Call Automation",
-    description: SERVICES_HERO.description,
+    description: SERVICES_META_DESCRIPTION,
     featureList: [
       "Industry-specific AI call templates",
       "CRM and API integrations",
