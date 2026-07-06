@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Users, FileText, Rss } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Globe2, Rss } from "lucide-react";
 
 import { AdminNavLink } from "@/components/admin/admin-nav-link";
 import { AdminLogoutButton } from "@/components/admin/admin-logout-button";
-import { SEO_AUTHORS_PATH, SEO_POSTS_PATH } from "@/config/seo-admin";
+import { SEO_AUTHORS_PATH, SEO_COUNTRIES_PATH, SEO_POSTS_PATH } from "@/config/seo-admin";
 import { requireAdminAuth } from "@/lib/admin/session";
 
 export default async function SeoProtectedLayout({ children }: { children: ReactNode }) {
@@ -31,6 +31,10 @@ export default async function SeoProtectedLayout({ children }: { children: React
           <AdminNavLink href={SEO_AUTHORS_PATH}>
             <Users className="size-4 shrink-0" />
             Authors
+          </AdminNavLink>
+          <AdminNavLink href={SEO_COUNTRIES_PATH}>
+            <Globe2 className="size-4 shrink-0" />
+            Countries
           </AdminNavLink>
 
           <p className="mb-1.5 mt-4 px-2 text-[0.625rem] font-semibold uppercase tracking-widest text-white/25">

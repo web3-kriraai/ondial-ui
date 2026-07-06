@@ -27,6 +27,16 @@ function buildBlogUrlBlock(slug: string, publishDate: string): string {
   </url>`;
 }
 
+function buildCountryUrlBlock(slug: string, updatedAt: string): string {
+  return `
+  <url>
+    <loc>${BASE_URL}/countries/${slug}</loc>
+    <lastmod>${formatPublishDate(updatedAt)}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`;
+}
+
 async function loadNonBlogEntries(): Promise<string> {
   const templatePath = path.join(
     process.cwd(),
@@ -64,6 +74,16 @@ export async function GET() {
       return new Response("Failed to generate sitemap", { status: 500 });
     }
 
+    const { data: countryPages, error: countryPagesError } = await supabase
+      .from("country_pages")
+      .select("slug, updated_at")
+      .eq("status", "published");
+
+    if (countryPagesError) {
+      console.error("[sitemap] Country pages fetch failed:", countryPagesError.message);
+      return new Response("Failed to generate sitemap", { status: 500 });
+    }
+
     // Oldest → newest by publish date (matches original sitemap ordering)
     const sortedPosts = [...(posts ?? [])].sort(
       (a, b) =>
@@ -82,8 +102,17 @@ export async function GET() {
       )
       .join("");
 
+    const countryPagesXml = (countryPages ?? [])
+      .map((c) =>
+        buildCountryUrlBlock(
+          (c as { slug: string }).slug,
+          (c as { updated_at: string }).updated_at,
+        ),
+      )
+      .join("");
+
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${nonBlogXml}${blogXml}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${nonBlogXml}${blogXml}${countryPagesXml}
 </urlset>`;
 
     return new Response(xml.trim(), {

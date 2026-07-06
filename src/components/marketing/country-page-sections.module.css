@@ -1,0 +1,550 @@
+.sectionDivider {
+  margin: 0 auto;
+  width: min(100%, 92rem);
+  border: none;
+  border-top: 1px solid rgb(0 0 0 / 0.06);
+}
+
+.section {
+  position: relative;
+}
+
+.section:nth-of-type(even) {
+  background: rgb(0 0 0 / 0.014);
+}
+
+/* Rich text — renders admin-authored HTML (bold/italic/underline/links/lists)
+   from the SEO panel's inline editor. Tailwind preflight strips list-style
+   and link styling on injected children, so restore it explicitly here. */
+
+.richText :global(p) {
+  margin: 0;
+}
+
+.richText :global(p + p) {
+  margin-top: 0.75em;
+}
+
+.richText :global(strong) {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.richText :global(em) {
+  font-style: italic;
+}
+
+.richText :global(u) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.richText :global(a) {
+  color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l));
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+
+.richText :global(a:hover) {
+  color: hsl(var(--section-accent-h) var(--section-accent-s) calc(var(--section-accent-l) - 10%));
+}
+
+.richText :global(ul),
+.richText :global(ol) {
+  margin-top: 0.5em;
+  padding-left: 1.125em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+}
+
+.richText :global(ul) {
+  list-style: disc;
+}
+
+.richText :global(ol) {
+  list-style: decimal;
+}
+
+/* Hero */
+
+.heroBulletCard {
+  display: flex;
+  height: 100%;
+  min-height: 10.5rem;
+  flex-direction: column;
+  border-radius: 1.125rem;
+  border: 1px solid rgb(0 0 0 / 0.07);
+  background: rgb(255 255 255 / 0.85);
+  padding: 1.25rem;
+  backdrop-filter: blur(6px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+@media (hover: hover) {
+  .heroBulletCard:hover {
+    border-color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.28);
+    box-shadow: 0 16px 36px -24px hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.35);
+    transform: translateY(-2px);
+  }
+}
+
+.heroBulletIcon {
+  display: inline-flex;
+  height: 2rem;
+  width: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  background: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.12);
+  color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l));
+  margin-bottom: 0.75rem;
+}
+
+.heroBulletTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--foreground);
+}
+
+.heroBulletText {
+  margin-top: 0.375rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+
+/* Overview */
+
+.overviewList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+.overviewParagraph {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--muted-foreground);
+}
+
+@media (min-width: 640px) {
+  .overviewParagraph {
+    font-size: 1rem;
+  }
+}
+
+/* Generic bullet grid (why choose / compliance) */
+
+.bulletGridTwoCol {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .bulletGridTwoCol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.bulletGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .bulletGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .bulletGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.bulletCard {
+  border-radius: 1.25rem;
+  border: 1px solid rgb(0 0 0 / 0.07);
+  background: rgb(255 255 255 / 0.55);
+  padding: 1.5rem;
+  backdrop-filter: blur(6px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.bulletCard:hover {
+  border-color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.28);
+  box-shadow: 0 16px 36px -24px hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.35);
+  transform: translateY(-2px);
+}
+
+.bulletBadge {
+  display: inline-flex;
+  height: 2rem;
+  width: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  background: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.12);
+  color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l));
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 0.875rem;
+}
+
+.bulletTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--foreground);
+}
+
+.bulletText {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+}
+
+.sectionIntro {
+  max-width: 48rem;
+  margin: 0 auto 2rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+}
+
+/* Industry solutions */
+
+.industryGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .industryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.industryCard {
+  border-radius: 1.25rem;
+  border: 1px solid rgb(0 0 0 / 0.07);
+  background: rgb(255 255 255 / 0.6);
+  padding: 1.5rem;
+  backdrop-filter: blur(6px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cardIcon {
+  display: inline-flex;
+  height: 2rem;
+  width: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  background: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.12);
+  color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l));
+  margin-bottom: 0.875rem;
+}
+
+.industryCard:hover {
+  border-color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.28);
+  box-shadow: 0 16px 36px -24px hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.35);
+  transform: translateY(-2px);
+}
+
+.industryName {
+  font-size: 1.0625rem;
+  font-weight: 650;
+  color: var(--foreground);
+}
+
+.industryDescription {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+}
+
+.industryUseCasesTitle {
+  margin-top: 1.125rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l));
+}
+
+.industryUseCasesList {
+  margin-top: 0.625rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.industryUseCaseItem {
+  display: flex;
+  gap: 0.55rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+
+.industryUseCaseDot {
+  margin-top: 0.4rem;
+  height: 0.3rem;
+  width: 0.3rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l));
+}
+
+/* Language support */
+
+.languageGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .languageGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .languageGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.languageCard {
+  display: flex;
+  height: 100%;
+  min-height: 9.5rem;
+  flex-direction: column;
+  border-radius: 1.125rem;
+  border: 1px solid rgb(0 0 0 / 0.07);
+  background: rgb(255 255 255 / 0.75);
+  padding: 1.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.languageCard:hover {
+  border-color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.25);
+  box-shadow: 0 14px 30px -22px hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.35);
+  transform: translateY(-2px);
+}
+
+.languageName {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.languageDescription {
+  margin-top: 0.4rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+
+.languageNote {
+  margin-top: 1.5rem;
+  max-width: 48rem;
+  margin-inline: auto;
+  text-align: center;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+/* Use cases */
+
+.useCaseGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .useCaseGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.useCaseList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+.useCaseItem {
+  display: flex;
+  height: 100%;
+  gap: 1rem;
+  border-radius: 1.125rem;
+  border: 1px solid rgb(0 0 0 / 0.07);
+  background: rgb(255 255 255 / 0.75);
+  padding: 1.125rem 1.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.useCaseItem:hover {
+  border-color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.25);
+  box-shadow: 0 14px 30px -22px hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.35);
+  transform: translateY(-2px);
+}
+
+.useCaseNumber {
+  display: inline-flex;
+  height: 2rem;
+  width: 2rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.12);
+  color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l));
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.useCaseTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.useCaseText {
+  margin-top: 0.3rem;
+  font-size: 0.8438rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+/* Integrations */
+
+.integrationGroups {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .integrationGroups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.integrationGroup {
+  border-radius: 1.125rem;
+  border: 1px solid rgb(0 0 0 / 0.07);
+  background: rgb(255 255 255 / 0.55);
+  padding: 1.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.integrationGroup:hover {
+  border-color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.25);
+  box-shadow: 0 14px 30px -22px hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.35);
+  transform: translateY(-2px);
+}
+
+.integrationLabel {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l));
+}
+
+.integrationPills {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.integrationPill {
+  border-radius: 9999px;
+  border: 1px solid rgb(0 0 0 / 0.08);
+  background: rgb(255 255 255 / 0.8);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--foreground);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.integrationPill:hover {
+  border-color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.35);
+  background: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.06);
+}
+
+.integrationNote {
+  margin-top: 1.5rem;
+  max-width: 48rem;
+  margin-inline: auto;
+  text-align: center;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+/* Comparisons */
+
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .comparisonGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.comparisonCard {
+  border-radius: 1.25rem;
+  border: 1px solid rgb(0 0 0 / 0.07);
+  background: rgb(255 255 255 / 0.6);
+  padding: 1.5rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.comparisonCard:hover {
+  border-color: hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.28);
+  box-shadow: 0 16px 36px -24px hsl(var(--section-accent-h) var(--section-accent-s) var(--section-accent-l) / 0.35);
+  transform: translateY(-2px);
+}
+
+.comparisonTitle {
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--foreground);
+}
+
+.comparisonText {
+  margin-top: 0.625rem;
+  font-size: 0.8438rem;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+}

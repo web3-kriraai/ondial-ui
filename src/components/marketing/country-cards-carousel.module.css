@@ -1,0 +1,74 @@
+.carouselRoot {
+  position: relative;
+  width: 100%;
+}
+
+.viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+}
+
+.slide {
+  min-width: 0;
+  flex-shrink: 0;
+  flex-grow: 0;
+  padding: 0.375rem;
+}
+
+.slideOne {
+  flex-basis: 100%;
+}
+
+@media (min-width: 640px) {
+  .slideTwo {
+    flex-basis: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .slideThree {
+    flex-basis: 33.3333%;
+  }
+}
+
+.navRow {
+  display: flex;
+  justify-content: center;
+  gap: 0.625rem;
+  margin-top: 1.25rem;
+}
+
+.navBtn {
+  display: grid;
+  place-items: center;
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: 9999px;
+  border: 1px solid rgb(0 0 0 / 0.08);
+  background: rgb(255 255 255 / 0.95);
+  color: var(--foreground);
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.navBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .navBtn:not(:disabled):hover {
+    border-color: rgb(0 0 0 / 0.14);
+    box-shadow: 0 6px 16px -10px rgb(15 23 42 / 0.14);
+    transform: translateY(-1px);
+  }
+}

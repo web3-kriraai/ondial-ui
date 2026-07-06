@@ -2,3 +2,4 @@
 export const SEO_LOGIN_PATH = "/seo/login";
 export const SEO_POSTS_PATH = "/seo/posts";
 export const SEO_AUTHORS_PATH = "/seo/authors";
+export const SEO_COUNTRIES_PATH = "/seo/countries";

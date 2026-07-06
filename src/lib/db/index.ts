@@ -17,3 +17,11 @@ export type { BlogPostDetail, BlogPostSummary } from "@/lib/blog/types";
 export { isSupabaseConfigured } from "@/lib/db/client";
 
 export type { AuthorRow, PostRow, FaqSectionRow, FaqItemRow, PostWithAuthor, PostWithDetail } from "@/lib/db/types";
+
+export {
+  fetchAllCountryPageSummaries,
+  fetchAllCountryPageSlugs,
+  fetchCountryPageBySlug,
+} from "@/lib/db/fetch-country-pages";
+export type { CountryPageSummary } from "@/lib/db/fetch-country-pages";
+export type { CountryPageRow } from "@/lib/db/types";

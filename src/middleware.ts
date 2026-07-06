@@ -47,7 +47,8 @@ export async function middleware(request: NextRequest) {
   const isSeoProtectedPage =
     pathname === "/seo" ||
     pathname.startsWith("/seo/posts") ||
-    pathname.startsWith("/seo/authors");
+    pathname.startsWith("/seo/authors") ||
+    pathname.startsWith("/seo/countries");
 
   if (isSeoProtectedPage && !(await hasSeoSession(request))) {
     return NextResponse.redirect(new URL(SEO_LOGIN_PATH, request.url));

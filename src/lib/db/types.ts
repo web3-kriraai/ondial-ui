@@ -4,6 +4,17 @@
  * converted into the existing BlogPostSummary / BlogPostDetail UI types.
  */
 
+import type {
+  CountryBulletSection,
+  CountryComparisonsContent,
+  CountryFaqItem,
+  CountryHeroContent,
+  CountryIndustrySolutionsContent,
+  CountryIntegrationsContent,
+  CountryLanguageSupportContent,
+  CountryOverviewContent,
+} from "@/lib/countries/types";
+
 export type AuthorRow = {
   id: string;
   slug: string;
@@ -48,6 +59,28 @@ export type FaqItemRow = {
   question: string;
   answer: string;
   sort_order: number;
+};
+
+export type CountryPageRow = {
+  id: string;
+  slug: string;
+  country_name: string;
+  country_code: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  status: "draft" | "published" | "archived";
+  hero: CountryHeroContent;
+  overview: CountryOverviewContent | null;
+  why_choose_us: CountryBulletSection | null;
+  industry_solutions: CountryIndustrySolutionsContent | null;
+  language_support: CountryLanguageSupportContent | null;
+  use_cases: CountryBulletSection | null;
+  compliance_security: CountryBulletSection | null;
+  integrations: CountryIntegrationsContent | null;
+  comparisons: CountryComparisonsContent | null;
+  faqs: CountryFaqItem[] | null;
+  created_at: string;
+  updated_at: string;
 };
 
 /** Post joined with its author (used in list / summary queries) */
@@ -95,6 +128,12 @@ export type Database = {
         Row: FaqItemRow;
         Insert: Omit<FaqItemRow, "id">;
         Update: Partial<Omit<FaqItemRow, "id">>;
+        Relationships: [];
+      };
+      country_pages: {
+        Row: CountryPageRow;
+        Insert: Omit<CountryPageRow, "id" | "created_at" | "updated_at">;
+        Update: Partial<Omit<CountryPageRow, "id" | "created_at" | "updated_at">>;
         Relationships: [];
       };
     };
