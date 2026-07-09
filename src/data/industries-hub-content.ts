@@ -23,7 +23,7 @@ export type IndustriesHubIndustry = {
 export const INDUSTRIES_HUB_META = {
   title: "AI Voice Agent Solutions Built for Every Industry | OnDial",
   description:
-    "OnDial is the enterprise AI voice agent platform built for every industry. Automate inbound and outbound calls, scheduling, lead qualification, and CRM integration with 24/7 support in 100+ languages.",
+    "OnDial is the enterprise AI voice agent platform for every industry. Automate inbound and outbound calls, CRM integration, scheduling, and support 100+ languages.",
 } as const;
 
 export const INDUSTRIES_HUB_HERO = {
