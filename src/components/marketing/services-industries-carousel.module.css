@@ -1,12 +1,15 @@
 .carouselRoot {
   position: relative;
   width: 100%;
+  --carousel-shadow-inset: 1.25rem;
+  margin-block: calc(-1 * var(--carousel-shadow-inset));
 }
 
 .carouselInner {
   position: relative;
   width: 100%;
   overflow: hidden;
+  padding-block: var(--carousel-shadow-inset);
 }
 
 /* Skiper Carousal_005 — one full card, fixed height */
@@ -24,9 +27,9 @@
 .swiperSlide {
   width: 100% !important;
   height: 100%;
-  border-radius: 1.5625rem;
-  overflow: hidden;
   box-sizing: border-box;
+  padding: 0.625rem 0.75rem;
+  overflow: visible;
 }
 
 .swiper :global(.swiper-slide:not(.swiper-slide-active)) {
@@ -52,13 +55,21 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  overflow: hidden;
   border-radius: 1.5625rem;
-  border: 1px solid rgb(0 0 0 / 0.06);
-  background: #fff;
   box-shadow:
     0 2px 8px rgb(15 23 42 / 0.04),
     0 24px 56px -28px rgb(15 23 42 / 0.16);
+}
+
+.industryCardSurface {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  border: 1px solid rgb(0 0 0 / 0.06);
+  background: #fff;
 }
 
 .industryCardHero {

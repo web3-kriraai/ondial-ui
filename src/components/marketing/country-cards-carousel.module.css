@@ -1,11 +1,14 @@
 .carouselRoot {
   position: relative;
   width: 100%;
+  --carousel-shadow-inset: 1.25rem;
+  margin-block: calc(-1 * var(--carousel-shadow-inset));
 }
 
 .viewport {
   width: 100%;
   overflow: hidden;
+  padding-block: var(--carousel-shadow-inset);
 }
 
 .track {
@@ -17,7 +20,7 @@
   min-width: 0;
   flex-shrink: 0;
   flex-grow: 0;
-  padding: 0.375rem;
+  padding: 0.625rem 0.75rem;
 }
 
 .slideOne {

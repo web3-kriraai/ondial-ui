@@ -104,42 +104,44 @@ function IndustryCarouselCard({ industry, index }: IndustryCarouselCardProps) {
 
   return (
     <article className={styles.industryCard} style={cardStyle}>
-      <div className={styles.industryCardHero}>
-        <Icon className={styles.industryCardWatermark} strokeWidth={1.25} aria-hidden />
-        <div className={styles.industryCardHeroTop}>
-          <span className={styles.industryIndex} aria-hidden>
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          {industry.href ? (
-            <Link href={industry.href} prefetch className={styles.learnMoreBtn}>
-              Explore industry
-              <ArrowUpRight className="size-3.5" aria-hidden />
-            </Link>
-          ) : null}
-        </div>
-        <div className={styles.industryCardHeroMain}>
-          <span className={styles.industryCardIcon} aria-hidden>
-            <Icon className="size-8" strokeWidth={1.75} />
-          </span>
-          <div className={styles.industryCardHeading}>
-            <h3 className={styles.industryCardTitle}>{industry.name}</h3>
-            <p className={styles.industryCardSummary}>{industry.summary}</p>
+      <div className={styles.industryCardSurface}>
+        <div className={styles.industryCardHero}>
+          <Icon className={styles.industryCardWatermark} strokeWidth={1.25} aria-hidden />
+          <div className={styles.industryCardHeroTop}>
+            <span className={styles.industryIndex} aria-hidden>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            {industry.href ? (
+              <Link href={industry.href} prefetch className={styles.learnMoreBtn}>
+                Explore industry
+                <ArrowUpRight className="size-3.5" aria-hidden />
+              </Link>
+            ) : null}
+          </div>
+          <div className={styles.industryCardHeroMain}>
+            <span className={styles.industryCardIcon} aria-hidden>
+              <Icon className="size-8" strokeWidth={1.75} />
+            </span>
+            <div className={styles.industryCardHeading}>
+              <h3 className={styles.industryCardTitle}>{industry.name}</h3>
+              <p className={styles.industryCardSummary}>{industry.summary}</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className={styles.industryCardBody}>
-        <p className={styles.industryDescription}>{industry.description}</p>
-        <div className={styles.highlightsBox}>
-          <h4 className={styles.highlightsTitle}>Key capabilities</h4>
-          <ul className={styles.highlightsList}>
-            {industry.highlights.map((highlight) => (
-              <li key={highlight} className={styles.highlightItem}>
-                <Check className="mt-0.5 size-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
-                <span>{highlight}</span>
-              </li>
-            ))}
-          </ul>
+        <div className={styles.industryCardBody}>
+          <p className={styles.industryDescription}>{industry.description}</p>
+          <div className={styles.highlightsBox}>
+            <h4 className={styles.highlightsTitle}>Key capabilities</h4>
+            <ul className={styles.highlightsList}>
+              {industry.highlights.map((highlight) => (
+                <li key={highlight} className={styles.highlightItem}>
+                  <Check className="mt-0.5 size-3.5 shrink-0" strokeWidth={2.5} aria-hidden />
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </article>

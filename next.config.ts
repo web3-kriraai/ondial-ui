@@ -70,11 +70,6 @@ const nextConfig: NextConfig = {
         destination: "/seo/authors",
         permanent: false,
       },
-      {
-        source: "/industries",
-        destination: "/",
-        permanent: true,
-      },
       ...industrySlugRedirects.map(([source, destination]) => ({
         source: `/industries/${source}`,
         destination: `/industries/${destination}`,

@@ -1,11 +1,14 @@
 .carouselRoot {
   position: relative;
   width: 100%;
+  --carousel-shadow-inset: 1.25rem;
+  margin-block: calc(-1 * var(--carousel-shadow-inset));
 }
 
 .viewport {
   width: 100%;
   overflow: hidden;
+  padding-block: var(--carousel-shadow-inset);
 }
 
 .track {
@@ -14,7 +17,7 @@
 }
 
 .slide {
-  padding: 0.5rem;
+  padding: 0.625rem 0.75rem;
 }
 
 .capabilityCard {

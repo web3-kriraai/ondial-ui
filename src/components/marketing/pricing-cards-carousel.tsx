@@ -99,9 +99,12 @@ export function PricingCardsCarousel({ cards }: PricingCardsCarouselProps) {
   }, [emblaApi, syncSwipeHint]);
 
   return (
-    <div className="relative">
-      <div className="overflow-hidden px-1 sm:px-2 lg:px-0" ref={viewportRef}>
-        <div className="flex touch-pan-y [touch-action:pan-y_pinch-zoom] py-4">
+    <div className="relative -my-5">
+      <div
+        className="overflow-hidden px-1 py-5 sm:px-2 lg:px-0"
+        ref={viewportRef}
+      >
+        <div className="flex touch-pan-y [touch-action:pan-y_pinch-zoom]">
           {cards.map((card, index) => (
             <CarouselPricingCard
               key={card.title}

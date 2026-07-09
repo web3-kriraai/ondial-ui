@@ -140,9 +140,9 @@ export default function ServicesSlider() {
         </div>
       </div>
 
-      <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip overflow-y-hidden">
+      <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip">
         <div
-          className="overflow-x-clip overflow-y-hidden px-4 sm:px-6 lg:px-8 xl:px-12"
+          className="-my-5 overflow-x-clip px-4 py-5 sm:px-6 lg:px-8 xl:px-12"
           ref={setViewportRef}
         >
           <div className="flex touch-pan-y gap-4 [touch-action:pan-y_pinch-zoom] lg:gap-5">
