@@ -6,7 +6,13 @@ type LiveCallsIllustrationProps = {
 
 export function LiveCallsIllustration({ className }: LiveCallsIllustrationProps) {
   return (
-    <svg viewBox="0 0 440 160" className={className} aria-hidden xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 440 160"
+      preserveAspectRatio="xMidYMid meet"
+      className={className}
+      aria-hidden
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g>
         <rect x="30" y="14" width="90" height="132" rx="10" fill="#fff" stroke="#CECBF6" strokeWidth="1" />
         <circle cx="75" cy="26" r="4" fill="#CECBF6" />

@@ -43,6 +43,12 @@
     <priority>0.8</priority>
   </url>
 <url>
+    <loc>https://www.ondial.ai/features</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<url>
     <loc>https://www.ondial.ai/multilingual-ai-voice-agent</loc>
     <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
