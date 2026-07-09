@@ -4,6 +4,7 @@ import { BlogPageShell } from "@/components/layout/blog-page-shell";
 import {
   FeaturesHubAnalyticsSection,
   FeaturesHubAutomationSection,
+  FeaturesHubCapabilitiesSection,
   FeaturesHubCategoriesSection,
   FeaturesHubFaqSection,
   FeaturesHubFinalCtaSection,
@@ -97,6 +98,7 @@ export default function FeaturesPage() {
           <FeaturesHubHeroSection />
           <FeaturesHubQuickAnswerSection />
           <FeaturesHubOverviewSection />
+          <FeaturesHubCapabilitiesSection />
           <FeaturesHubCategoriesSection />
           <FeaturesHubIntegrationsSection />
           <FeaturesHubSecuritySection />

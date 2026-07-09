@@ -15,6 +15,7 @@ import { HubMatteCard } from "@/components/marketing/hub-matte-card";
 import { resolveHubMatteIcon } from "@/components/marketing/hub-matte-card";
 import matteStyles from "@/components/marketing/hub-matte-card.module.css";
 import { PricingCardsCarousel } from "@/components/marketing/pricing-cards-carousel";
+import { ServicesCapabilitiesCarousel } from "@/components/marketing/services-capabilities-carousel";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
 import {
@@ -40,6 +41,10 @@ import {
   type FeaturesHubCta,
 } from "@/data/features-hub-content";
 import { PRICING_PLANS } from "@/data/pricing-plans";
+import {
+  SERVICES_CAPABILITIES,
+  SERVICES_CAPABILITIES_SECTION,
+} from "@/data/services-capabilities-content";
 import { getMatteThemeByHref } from "@/lib/industries/hub-matte-theme";
 import { cn } from "@/lib/utils";
 
@@ -267,6 +272,32 @@ export function FeaturesHubOverviewSection() {
         </div>
       </section>
     </>
+  );
+}
+
+export function FeaturesHubCapabilitiesSection() {
+  const { eyebrow, title, description } = SERVICES_CAPABILITIES_SECTION;
+
+  return (
+    <section
+      id="platform-capabilities"
+      className={sectionShellClass}
+      style={PAGE_ACCENT_STYLE}
+      aria-labelledby="features-capabilities-title"
+    >
+      <div className={marketingSectionContainerClass}>
+        <SectionHeader
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
+          titleId="features-capabilities-title"
+        />
+        <ServicesCapabilitiesCarousel
+          capabilities={SERVICES_CAPABILITIES}
+          className={styles.sectionBody}
+        />
+      </div>
+    </section>
   );
 }
 
