@@ -10,6 +10,7 @@ import { IntegrationsSection } from "@/components/marketing/integrations-section
 import { ShowcaseSection } from "@/components/marketing/showcase-section";
 import { SupportedLanguagesSection } from "@/components/marketing/supported-languages-section";
 import StructuredData from "@/components/StructuredData";
+import { HOME_PAGE_SCHEMAS } from "@/lib/seo/homePageSchemas";
 import { buildWebPageSchema } from "@/lib/seo/schemaBuilders";
 import { SITE_URL } from "@/lib/seo/siteConfig";
 import { getSiteFaqSection } from "@/data/site-faqs";
@@ -46,6 +47,7 @@ const homePageSchema = (buildWebPageSchema as any)({
   description:
     "Discover OnDial's AI Voice Agents - multilingual, 24/7 phone call automation for inbound and outbound business communication.",
   image: `${SITE_URL}/img/logo/og.png`,
+  breadcrumb: true,
 });
 
 const homeFaq = getSiteFaqSection("home");
@@ -65,7 +67,7 @@ const homeFaqSchema = {
 export default function HomePage() {
   return (
     <>
-      <StructuredData data={[homePageSchema, homeFaqSchema]} />
+      <StructuredData data={[homePageSchema, homeFaqSchema, ...HOME_PAGE_SCHEMAS]} />
       <main className="flex flex-1 flex-col">
         <ShowcaseSection />
         {/* <SocialProofLogosSection /> */}
