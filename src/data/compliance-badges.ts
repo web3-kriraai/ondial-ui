@@ -1,11 +1,15 @@
 export const COMPLIANCE_HEADING = {
   eyebrow: "Compliance & security",
-  titleLead: "Trust built for",
+  titleLead: "Enterprise-grade security for",
   titleAccent: "AI voice agents",
   description:
-    "Calling agents handle sensitive conversations - compliance is a top objection, especially in healthcare and finance. OnDial meets the standards your buyers ask about first.",
+    "Protect every AI-powered conversation with enterprise-grade security, privacy, and compliance. OnDial meets global standards including HIPAA, GDPR, PCI DSS, SOC 2, and ISO 27001, helping businesses deploy AI voice agents with confidence.",
   footnote:
     "AI-specific controls for voice transcripts, call recordings, and agent workflows - so regulated teams can deploy with confidence.",
+  cta: {
+    label: "Book a demo",
+    href: "/contact",
+  },
 } as const;
 
 export type ComplianceBadgeId = "hipaa" | "gdpr" | "pci-dss" | "soc-2" | "iso-security";

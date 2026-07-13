@@ -1,5 +1,6 @@
 "use client";
 
+import { AppLink as Link } from "@/components/ui/app-link";
 import { navChevronSpring } from "@/lib/nav-dropdown-motion";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
@@ -9,6 +10,7 @@ import { forwardRef, type FocusEvent } from "react";
 import styles from "./nav-mega-dropdown-trigger.module.css";
 
 type NavMegaDropdownProps = {
+  href: string;
   label: string;
   active: boolean;
   highlighted: boolean;
@@ -17,12 +19,13 @@ type NavMegaDropdownProps = {
   onPointerEnter: () => void;
   onPointerLeave: () => void;
   onFocus: () => void;
-  onBlur?: (event: FocusEvent<HTMLButtonElement>) => void;
+  onBlur?: (event: FocusEvent<HTMLAnchorElement>) => void;
 };
 
-export const NavMegaDropdown = forwardRef<HTMLButtonElement, NavMegaDropdownProps>(
+export const NavMegaDropdown = forwardRef<HTMLAnchorElement, NavMegaDropdownProps>(
   function NavMegaDropdown(
     {
+      href,
       label,
       active,
       highlighted,
@@ -41,9 +44,10 @@ export const NavMegaDropdown = forwardRef<HTMLButtonElement, NavMegaDropdownProp
         onMouseEnter={onPointerEnter}
         onMouseLeave={onPointerLeave}
       >
-        <button
+        <Link
           ref={ref}
-          type="button"
+          href={href}
+          prefetch={false}
           data-nav-dropdown-trigger
           className={triggerClassName}
           aria-expanded={open}
@@ -64,7 +68,7 @@ export const NavMegaDropdown = forwardRef<HTMLButtonElement, NavMegaDropdownProp
               />
             </motion.span>
           </span>
-        </button>
+        </Link>
       </div>
     );
   },

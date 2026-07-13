@@ -1,6 +1,7 @@
 import {
   INDUSTRIES_NAV_COLUMNS,
   INDUSTRIES_NAV_ITEMS,
+  INDUSTRIES_OVERVIEW_HREF,
   type IndustryNavItem,
 } from "@/config/industries-nav";
 import {
@@ -54,6 +55,8 @@ export const NAV_MENUS: Record<NavMenuKind, NavMenuConfig> = {
     kind: "industries",
     items: INDUSTRIES_NAV_ITEMS,
     columns: INDUSTRIES_NAV_COLUMNS,
+    overviewHref: INDUSTRIES_OVERVIEW_HREF,
+    overviewLabel: "View all industries",
     footerHint: "20 industries supported",
     panelMaxWidthPx: 1152,
     ariaLabel: "Industries",

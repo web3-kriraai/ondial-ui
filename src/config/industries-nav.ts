@@ -33,6 +33,9 @@ export type IndustryNavItem = {
   slug: string;
 };
 
+/** Hub page for the Industries mega menu overview link. */
+export const INDUSTRIES_OVERVIEW_HREF = "/industries";
+
 export const INDUSTRIES_NAV_ITEMS: readonly IndustryNavItem[] = DEFAULT_INDUSTRIES.map((industry) => ({
   href: `/industries/${industry.slug}`,
   label: INDUSTRY_NAV_LABELS[industry.slug] ?? industry.name,

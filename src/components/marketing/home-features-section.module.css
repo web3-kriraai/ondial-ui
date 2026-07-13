@@ -164,6 +164,25 @@
   color: var(--muted-foreground);
 }
 
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: hsl(var(--section-accent-h) var(--section-accent-s) calc(var(--section-accent-l) - 8%));
+  text-decoration: none;
+  transition: color 0.18s ease, gap 0.18s ease;
+}
+
+.cardLink:hover,
+.cardLink:focus-visible {
+  color: hsl(var(--section-accent-h) var(--section-accent-s) calc(var(--section-accent-l) - 16%));
+  gap: 0.45rem;
+  outline: none;
+}
+
 @media (min-width: 640px) {
   .cardTitle {
     font-size: 1rem;

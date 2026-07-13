@@ -265,6 +265,7 @@ export function DesktopMagneticNav({ items, pathname, reduceMotion }: DesktopMag
                 if (node) linkRefs.current.set(item.href, node);
                 else linkRefs.current.delete(item.href);
               }}
+              href={item.href}
               label={item.label}
               active={active}
               highlighted={highlighted || menuOpen}

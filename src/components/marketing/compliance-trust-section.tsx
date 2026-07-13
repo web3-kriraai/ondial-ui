@@ -4,6 +4,7 @@ import { BadgeCheck, CreditCard, GlobeLock, ShieldCheck } from "lucide-react";
 import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { useRef, type ElementType } from "react";
 
+import { HeroDemoCtaButton } from "@/components/marketing/hero-demo-cta-button";
 import { ONDIAL_ACCENT_STYLE } from "@/components/marketing/split-screen-section";
 import { TextReveal } from "@/components/ui/text-reveal";
 import {
@@ -143,6 +144,13 @@ export function ComplianceTrustSection() {
         >
           {COMPLIANCE_HEADING.footnote}
         </TextReveal>
+
+        <div className={styles.ctaWrap}>
+          <HeroDemoCtaButton
+            href={COMPLIANCE_HEADING.cta.href}
+            label={COMPLIANCE_HEADING.cta.label}
+          />
+        </div>
       </div>
     </section>
   );

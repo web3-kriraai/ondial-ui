@@ -256,7 +256,7 @@ export const INDUSTRY_SEO_METADATA: Record<string, { title: string; description:
   "ai-voice-agents-real-estate": {
     title: "AI Voice Agent for Real Estate Services | OnDial",
     description:
-      "Boost property sales and customer support with OnDial's AI Voice Agent for Real Estate Services. Automate inquiries, qualify leads, and deliver 24/7 smart assistance.",
+      "AI voice agents for real estate automate lead qualification, property inquiries, and tour booking 24/7 to boost conversions, save time, and never miss a lead.",
   },
   "ai-voice-agents-retail-e-commerce": {
     title: "AI Voice Agent for Retail & E-commerce Services | OnDial",

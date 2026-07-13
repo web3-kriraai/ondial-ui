@@ -16,6 +16,9 @@ export type HomeFeatureCard = {
   pill: { label: string; tone: FeaturePillTone };
   title: string;
   description: string;
+  /** Optional destination for a card-level CTA (e.g. multilingual hub). */
+  href?: string;
+  hrefLabel?: string;
 };
 
 export const HOME_FEATURES_HEADING = {
@@ -110,6 +113,8 @@ export const HOME_FEATURE_CARDS: readonly HomeFeatureCard[] = [
     pill: { label: "Serve 100+ languages", tone: "blue" },
     title: "Multilingual AI Communication",
     description: "Multilingual AI Voice Agents that auto-detects language, responds naturally, and works instantly with no extra setup.",
+    href: "/multilingual-ai-voice-agent",
+    hrefLabel: "Explore multilingual AI",
   },
   {
     id: "lead-qualification",

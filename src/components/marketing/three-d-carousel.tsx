@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { Bebas_Neue } from "next/font/google";
 
 import { CarouselSlideImage } from "@/components/marketing/carousel-slide-image";
+import { AppLink as Link } from "@/components/ui/app-link";
 import { HOME_CAROUSEL_PRELOAD_IMAGE, HOME_CAROUSEL_SLIDES } from "@/config/home-carousel";
 
 import styles from "./showcase-carousel.module.css";
@@ -364,7 +365,19 @@ export function ThreeDCarousel() {
 
               <div className={styles.carouselCardOverlay}>
                 <div className={styles.carouselCardHeader}>
-                  <h3 className={styles.carouselCardTitle}>{slide.title}</h3>
+                  <h3 className={styles.carouselCardTitle}>
+                    <Link
+                      href={slide.href}
+                      prefetch
+                      className={styles.carouselCardTitleLink}
+                      aria-label={slide.subtitle}
+                      onMouseDown={(event) => event.stopPropagation()}
+                      onTouchStart={(event) => event.stopPropagation()}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      {slide.title}
+                    </Link>
+                  </h3>
                 </div>
                 <div className={styles.carouselCardFooter}>
                   <p className={styles.carouselCardSubtitle}>{slide.subtitle}</p>

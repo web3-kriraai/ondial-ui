@@ -136,6 +136,18 @@
   }
 }
 
+.ctaWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .ctaWrap {
+    margin-top: 1.75rem;
+  }
+}
+
 .cardMotionReduce {
   transform: none !important;
 }

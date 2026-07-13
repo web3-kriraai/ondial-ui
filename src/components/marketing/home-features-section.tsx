@@ -1,6 +1,8 @@
 "use client";
 
+import { AppLink as Link } from "@/components/ui/app-link";
 import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 
 import { FeatureIllustration } from "@/components/marketing/feature-illustration";
@@ -137,6 +139,12 @@ export function HomeFeaturesSection() {
                   <span className={cn(styles.pill, pillClass[card.pill.tone])}>{card.pill.label}</span>
                   <h3 className={styles.cardTitle}>{card.title}</h3>
                   <p className={styles.cardDescription}>{card.description}</p>
+                  {card.href ? (
+                    <Link href={card.href} prefetch className={styles.cardLink}>
+                      {card.hrefLabel ?? "Learn more"}
+                      <ArrowUpRight className="size-3.5" aria-hidden />
+                    </Link>
+                  ) : null}
                 </div>
               </motion.article>
             );
