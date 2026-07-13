@@ -2,7 +2,6 @@
 
 import {
   Antenna,
-  ArrowUpRight,
   BarChart3,
   Bot,
   Building2,
@@ -111,19 +110,25 @@ function IndustryCarouselCard({ industry, index }: IndustryCarouselCardProps) {
             <span className={styles.industryIndex} aria-hidden>
               {String(index + 1).padStart(2, "0")}
             </span>
-            {industry.href ? (
-              <Link href={industry.href} prefetch className={styles.learnMoreBtn}>
-                Explore industry
-                <ArrowUpRight className="size-3.5" aria-hidden />
-              </Link>
-            ) : null}
           </div>
           <div className={styles.industryCardHeroMain}>
             <span className={styles.industryCardIcon} aria-hidden>
               <Icon className="size-8" strokeWidth={1.75} />
             </span>
             <div className={styles.industryCardHeading}>
-              <h3 className={styles.industryCardTitle}>{industry.name}</h3>
+              <h3 className={styles.industryCardTitle}>
+                {industry.href ? (
+                  <Link
+                    href={industry.href}
+                    prefetch
+                    className={styles.industryCardTitleLink}
+                  >
+                    {industry.name}
+                  </Link>
+                ) : (
+                  industry.name
+                )}
+              </h3>
               <p className={styles.industryCardSummary}>{industry.summary}</p>
             </div>
           </div>
