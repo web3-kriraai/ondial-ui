@@ -6,9 +6,6 @@ import { InlineRichTextEditor } from "@/components/admin/inline-rich-text-editor
 import { StringListEditor } from "@/components/admin/string-list-editor";
 import type { CountryIntegrationGroup, CountryIntegrationsContent } from "@/lib/countries/types";
 
-const FIELD =
-  "w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition-all placeholder:text-gray-400 focus:border-[#534AB7] focus:ring-2 focus:ring-[#534AB7]/10";
-
 const MICRO_LABEL = "mb-1 block text-[11px] font-semibold uppercase tracking-wide text-gray-400";
 
 const EMPTY_GROUP: CountryIntegrationGroup = { label: "", items: [] };
@@ -38,12 +35,11 @@ export function CountryIntegrationsEditor({ value, onChange }: CountryIntegratio
     <div className="flex flex-col gap-3">
       <div>
         <label className={MICRO_LABEL}>Section title</label>
-        <input
-          type="text"
-          value={value.title}
-          onChange={(e) => onChange({ ...value, title: e.target.value })}
+        <InlineRichTextEditor
+          content={value.title}
+          onChange={(html) => onChange({ ...value, title: html })}
           placeholder="Enterprise Integrations"
-          className={FIELD}
+          variant="title"
         />
       </div>
       <div>
@@ -83,12 +79,11 @@ export function CountryIntegrationsEditor({ value, onChange }: CountryIntegratio
               <div className="space-y-2.5 p-3">
                 <div>
                   <label className={MICRO_LABEL}>Group label</label>
-                  <input
-                    type="text"
-                    value={group.label}
-                    onChange={(e) => updateGroup(i, { label: e.target.value })}
+                  <InlineRichTextEditor
+                    content={group.label}
+                    onChange={(html) => updateGroup(i, { label: html })}
                     placeholder="e.g. CRM and customer platforms"
-                    className={FIELD}
+                    variant="title"
                   />
                 </div>
                 <div>
@@ -98,6 +93,7 @@ export function CountryIntegrationsEditor({ value, onChange }: CountryIntegratio
                     onChange={(items) => updateGroup(i, { items })}
                     placeholder="e.g. Salesforce"
                     addLabel="Add integration"
+                    richText
                   />
                 </div>
               </div>

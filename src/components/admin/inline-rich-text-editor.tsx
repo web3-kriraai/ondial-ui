@@ -8,16 +8,17 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import { Bold, Italic, Link2, Link2Off, List, Underline as UnderlineIcon } from "lucide-react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 interface InlineRichTextEditorProps {
   content: string;
   onChange: (html: string) => void;
   placeholder?: string;
   minHeight?: number;
+  /**
+   * `body` — descriptions / intros (bold, italic, underline, link, lists).
+   * `title` — headings & short labels (same marks, no lists, compact height).
+   */
+  variant?: "body" | "title";
 }
-
-// ─── Toolbar button ───────────────────────────────────────────────────────────
 
 function Btn({
   onClick,
@@ -35,7 +36,7 @@ function Btn({
       type="button"
       title={title}
       onMouseDown={(e) => {
-        e.preventDefault(); // keep editor focus
+        e.preventDefault();
         onClick();
       }}
       className={`flex h-6 w-6 items-center justify-center rounded transition-colors ${
@@ -50,8 +51,6 @@ function Btn({
 function Sep() {
   return <div className="mx-0.5 h-4 w-px shrink-0 bg-gray-200" />;
 }
-
-// ─── Link dialog ──────────────────────────────────────────────────────────────
 
 function LinkDialog({ editor, onClose }: { editor: Editor; onClose: () => void }) {
   const [url, setUrl] = useState(editor.getAttributes("link").href ?? "");
@@ -116,9 +115,7 @@ function LinkDialog({ editor, onClose }: { editor: Editor; onClose: () => void }
   );
 }
 
-// ─── Toolbar ──────────────────────────────────────────────────────────────────
-
-function Toolbar({ editor }: { editor: Editor }) {
+function Toolbar({ editor, showLists }: { editor: Editor; showLists: boolean }) {
   const [showLink, setShowLink] = useState(false);
 
   return (
@@ -146,34 +143,39 @@ function Toolbar({ editor }: { editor: Editor }) {
             <Link2Off className="size-3" />
           </Btn>
         )}
-        <Sep />
-        <Btn
-          title="Bullet list"
-          active={editor.isActive("bulletList")}
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-        >
-          <List className="size-3" />
-        </Btn>
+        {showLists ? (
+          <>
+            <Sep />
+            <Btn
+              title="Bullet list"
+              active={editor.isActive("bulletList")}
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+            >
+              <List className="size-3" />
+            </Btn>
+          </>
+        ) : null}
       </div>
       {showLink && <LinkDialog editor={editor} onClose={() => setShowLink(false)} />}
     </div>
   );
 }
 
-// ─── Main editor ──────────────────────────────────────────────────────────────
-
 /**
- * Compact rich-text field for short marketing copy (descriptions, intros,
- * FAQ answers). Unlike RichTextEditor (blog posts), this has no headings,
- * images, tables, or alignment — just enough formatting for a sentence or
- * two — and auto-grows instead of scrolling in a fixed panel.
+ * Compact rich-text field for short marketing copy (titles, descriptions,
+ * intros, FAQ answers). Unlike RichTextEditor (blog posts), this has no
+ * headings, images, tables, or alignment — just enough formatting for a
+ * sentence or two — and auto-grows instead of scrolling in a fixed panel.
  */
 export function InlineRichTextEditor({
   content,
   onChange,
   placeholder = "Write a short description…",
-  minHeight = 64,
+  minHeight,
+  variant = "body",
 }: InlineRichTextEditorProps) {
+  const isTitle = variant === "title";
+  const resolvedMinHeight = minHeight ?? (isTitle ? 36 : 64);
   const onChangeRef = useRef(onChange);
   useEffect(() => {
     onChangeRef.current = onChange;
@@ -193,6 +195,9 @@ export function InlineRichTextEditor({
         codeBlock: false,
         blockquote: false,
         horizontalRule: false,
+        bulletList: isTitle ? false : undefined,
+        orderedList: isTitle ? false : undefined,
+        listItem: isTitle ? false : undefined,
       }),
       LinkExt.configure({
         openOnClick: false,
@@ -215,8 +220,9 @@ export function InlineRichTextEditor({
           "prose-a:text-[#534AB7] prose-a:no-underline hover:prose-a:underline",
           "prose-li:my-0 prose-li:marker:text-[#534AB7]",
           "px-3 py-2 outline-none focus:outline-none text-sm text-gray-900",
+          isTitle ? "font-medium" : "",
         ].join(" "),
-        style: `min-height: ${minHeight}px`,
+        style: `min-height: ${resolvedMinHeight}px`,
       },
     },
     immediatelyRender: false,
@@ -226,14 +232,14 @@ export function InlineRichTextEditor({
     return (
       <div
         className="rounded-lg border border-gray-200 bg-gray-50/50"
-        style={{ minHeight: minHeight + 40 }}
+        style={{ minHeight: resolvedMinHeight + 40 }}
       />
     );
   }
 
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200 bg-white transition-all focus-within:border-[#534AB7] focus-within:ring-2 focus-within:ring-[#534AB7]/10">
-      <Toolbar editor={editor} />
+      <Toolbar editor={editor} showLists={!isTitle} />
       <style>{`
         .ProseMirror p.is-editor-empty:first-child::before {
           content: attr(data-placeholder);

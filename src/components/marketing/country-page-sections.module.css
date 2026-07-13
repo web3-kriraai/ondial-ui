@@ -57,6 +57,46 @@
   list-style: decimal;
 }
 
+/* Headings / labels authored as TipTap HTML (<p>, <strong>, etc.). */
+.richTextHeading :global(p) {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.richTextHeading :global(p + p) {
+  margin-top: 0.2em;
+}
+
+.richTextHeading :global(strong) {
+  font-weight: 700;
+  color: inherit;
+}
+
+.richTextHeading :global(em),
+.richTextHeading :global(u),
+.richTextHeading :global(a) {
+  font: inherit;
+}
+
+.richTextInline {
+  display: inline;
+}
+
+.richTextInline :global(p) {
+  display: inline;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.richTextInline :global(p + p)::before {
+  content: " ";
+}
+
 /* Hero */
 
 .heroBulletCard {

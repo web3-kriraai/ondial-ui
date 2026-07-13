@@ -71,12 +71,12 @@ const cardVariants: Variants = {
 
 function FadeInHeading({
   as: Tag = "h2",
-  children,
+  html,
   className,
   id,
 }: {
   as?: "h1" | "h2";
-  children: string;
+  html: string;
   className?: string;
   id?: string;
 }) {
@@ -86,36 +86,38 @@ function FadeInHeading({
   const show = prefersReducedMotion || inView;
   const MotionTag = Tag === "h1" ? motion.h1 : motion.h2;
 
+  if (!html) return null;
+
   return (
     <MotionTag
       ref={ref}
       id={id}
-      className={className}
+      className={cn(styles.richText, styles.richTextHeading, className)}
       initial={false}
       animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </MotionTag>
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 }
 
-function FadeInParagraph({ children, className }: { children: string; className?: string }) {
+function FadeInParagraph({ html, className }: { html: string; className?: string }) {
   const prefersReducedMotion = useReducedMotion();
-  const ref = useRef<HTMLParagraphElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.35 });
   const show = prefersReducedMotion || inView;
 
+  if (!html) return null;
+
   return (
-    <motion.p
+    <motion.div
       ref={ref}
-      className={className}
+      className={cn(styles.richText, className)}
       initial={false}
       animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
       transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1], delay: show ? 0.08 : 0 }}
-    >
-      {children}
-    </motion.p>
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 }
 
@@ -196,9 +198,7 @@ function SectionHeader({
   return (
     <header className="mx-auto max-w-3xl text-center">
       <p className={cn("mb-4", marketingEyebrowClass)}>{eyebrow}</p>
-      <FadeInHeading as="h2" id={titleId} className={headingClass}>
-        {title}
-      </FadeInHeading>
+      <FadeInHeading as="h2" id={titleId} className={headingClass} html={title} />
       {description ? <RichTextReveal html={description} className={descriptionClass} /> : null}
     </header>
   );
@@ -254,10 +254,9 @@ export function CountryHeroSection({
           as="h1"
           id="country-hero-title"
           className="mx-auto max-w-4xl text-balance pt-0 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-[2.625rem] lg:leading-tight"
-        >
-          {hero.title}
-        </FadeInHeading>
-        <FadeInParagraph className={descriptionClass}>{hero.description}</FadeInParagraph>
+          html={hero.title}
+        />
+        <FadeInParagraph className={descriptionClass} html={hero.description} />
 
         <CountryCtaButtons
           primaryCta={hero.primaryCta}
@@ -273,7 +272,7 @@ export function CountryHeroSection({
                 <span className={styles.heroBulletIcon} aria-hidden>
                   <Sparkles className="size-4" strokeWidth={1.85} />
                 </span>
-                <h3 className={styles.heroBulletTitle}>{bullet.title}</h3>
+                <RichText html={bullet.title} className={cn(styles.heroBulletTitle, styles.richTextHeading)} />
                 <RichText html={bullet.description} className={styles.heroBulletText} />
               </article>
             ))}
@@ -330,7 +329,7 @@ export function CountryWhyChooseSection({ section }: { section: CountryBulletSec
                 <span className={styles.bulletBadge} aria-hidden>
                   {index + 1}
                 </span>
-                <h3 className={styles.bulletTitle}>{item.title}</h3>
+                <RichText html={item.title} className={cn(styles.bulletTitle, styles.richTextHeading)} />
                 <RichText html={item.description} className={styles.bulletText} />
               </motion.article>
             ))}
@@ -364,7 +363,7 @@ export function CountryIndustrySolutionsSection({ content }: { content: CountryI
                 <span className={styles.cardIcon} aria-hidden>
                   <Building2 className="size-4" strokeWidth={1.85} />
                 </span>
-                <h3 className={styles.industryName}>{industry.name}</h3>
+                <RichText html={industry.name} className={cn(styles.industryName, styles.richTextHeading)} />
                 <RichText html={industry.description} className={styles.industryDescription} />
                 {industry.useCases.length > 0 ? (
                   <>
@@ -373,7 +372,7 @@ export function CountryIndustrySolutionsSection({ content }: { content: CountryI
                       {industry.useCases.map((useCase, useCaseIndex) => (
                         <li key={useCaseIndex} className={styles.industryUseCaseItem}>
                           <span className={styles.industryUseCaseDot} aria-hidden />
-                          {useCase}
+                          <RichText html={useCase} className={styles.richTextInline} />
                         </li>
                       ))}
                     </ul>
@@ -414,7 +413,9 @@ export function CountryLanguageSupportSection({ content }: { content: CountryLan
                     strokeWidth={2}
                     aria-hidden
                   />
-                  <h3 className={styles.languageName}>{language.name}</h3>
+                  <h3 className={styles.languageName}>
+                    <RichText html={language.name} className={styles.richTextHeading} />
+                  </h3>
                 </div>
                 <RichText html={language.description} className={styles.languageDescription} />
               </article>
@@ -451,7 +452,7 @@ export function CountryUseCasesSection({ section }: { section: CountryBulletSect
                   {index + 1}
                 </span>
                 <div>
-                  <h3 className={styles.useCaseTitle}>{item.title}</h3>
+                  <RichText html={item.title} className={cn(styles.useCaseTitle, styles.richTextHeading)} />
                   <RichText html={item.description} className={styles.useCaseText} />
                 </div>
               </motion.article>
@@ -483,7 +484,7 @@ export function CountryComplianceSection({ section }: { section: CountryBulletSe
           <AnimatedGrid className={styles.bulletGridTwoCol}>
             {section.items.map((item, index) => (
               <motion.article key={index} className={styles.bulletCard} variants={cardVariants}>
-                <h3 className={styles.bulletTitle}>{item.title}</h3>
+                <RichText html={item.title} className={cn(styles.bulletTitle, styles.richTextHeading)} />
                 <RichText html={item.description} className={styles.bulletText} />
               </motion.article>
             ))}
@@ -514,11 +515,11 @@ export function CountryIntegrationsSection({ content }: { content: CountryIntegr
           <AnimatedGrid className={styles.integrationGroups}>
             {content.groups.map((group, index) => (
               <motion.div key={index} className={styles.integrationGroup} variants={cardVariants}>
-                <p className={styles.integrationLabel}>{group.label}</p>
+                <RichText html={group.label} className={cn(styles.integrationLabel, styles.richTextHeading)} />
                 <div className={styles.integrationPills}>
                   {group.items.map((item, itemIndex) => (
                     <span key={itemIndex} className={styles.integrationPill}>
-                      {item}
+                      <RichText html={item} className={styles.richTextInline} />
                     </span>
                   ))}
                 </div>
@@ -550,7 +551,7 @@ export function CountryComparisonsSection({ content }: { content: CountryCompari
                 <span className={styles.cardIcon} aria-hidden>
                   <Scale className="size-4" strokeWidth={1.85} />
                 </span>
-                <h3 className={styles.comparisonTitle}>{item.title}</h3>
+                <RichText html={item.title} className={cn(styles.comparisonTitle, styles.richTextHeading)} />
                 <RichText html={item.description} className={styles.comparisonText} />
               </motion.article>
             ))}
@@ -595,7 +596,7 @@ export function CountryFaqSection({ faqs, countryName }: { faqs: CountryFaqItem[
                     onClick={() => setOpenIndex(isOpen ? null : index)}
                   >
                     <span className={cn(enterpriseStyles.faqQuestion, isOpen && enterpriseStyles.faqQuestionOpen)}>
-                      {item.question}
+                      <RichText html={item.question} className={styles.richTextInline} />
                     </span>
                     <motion.span
                       className={cn(enterpriseStyles.faqToggle, isOpen && enterpriseStyles.faqToggleOpen)}

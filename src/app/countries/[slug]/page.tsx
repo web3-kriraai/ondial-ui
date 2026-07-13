@@ -34,8 +34,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       return { title: "Country", robots: { index: false } };
     }
 
-    const title = countryPage.meta_title || countryPage.hero.title;
-    const description = countryPage.meta_description || countryPage.hero.description;
+    const title = countryPage.meta_title || stripHtml(countryPage.hero.title);
+    const description = countryPage.meta_description || stripHtml(countryPage.hero.description);
     const canonicalUrl = `https://www.ondial.ai/countries/${slug}`;
 
     return {
@@ -90,8 +90,8 @@ export default async function CountryPage({ params }: Props) {
     notFound();
   }
 
-  const title = countryPage.meta_title || countryPage.hero.title;
-  const description = countryPage.meta_description || countryPage.hero.description;
+  const title = countryPage.meta_title || stripHtml(countryPage.hero.title);
+  const description = countryPage.meta_description || stripHtml(countryPage.hero.description);
 
   const countrySchemas = [
     buildServiceSchema({

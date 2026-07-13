@@ -3,11 +3,7 @@
 import { Plus, Trash2 } from "lucide-react";
 
 import { InlineRichTextEditor } from "@/components/admin/inline-rich-text-editor";
-import { StringListEditor } from "@/components/admin/string-list-editor";
 import type { CountryIndustryItem, CountryIndustrySolutionsContent } from "@/lib/countries/types";
-
-const FIELD =
-  "w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition-all placeholder:text-gray-400 focus:border-[#534AB7] focus:ring-2 focus:ring-[#534AB7]/10";
 
 const MICRO_LABEL = "mb-1 block text-[11px] font-semibold uppercase tracking-wide text-gray-400";
 
@@ -38,12 +34,11 @@ export function CountryIndustrySolutionsEditor({ value, onChange }: CountryIndus
     <div className="flex flex-col gap-3">
       <div>
         <label className={MICRO_LABEL}>Section title</label>
-        <input
-          type="text"
-          value={value.title}
-          onChange={(e) => onChange({ ...value, title: e.target.value })}
+        <InlineRichTextEditor
+          content={value.title}
+          onChange={(html) => onChange({ ...value, title: html })}
           placeholder="Industry Solutions"
-          className={FIELD}
+          variant="title"
         />
       </div>
       <div>
@@ -83,12 +78,11 @@ export function CountryIndustrySolutionsEditor({ value, onChange }: CountryIndus
               <div className="space-y-2.5 p-3">
                 <div>
                   <label className={MICRO_LABEL}>Industry name</label>
-                  <input
-                    type="text"
-                    value={industry.name}
-                    onChange={(e) => updateIndustry(i, { name: e.target.value })}
+                  <InlineRichTextEditor
+                    content={industry.name}
+                    onChange={(html) => updateIndustry(i, { name: html })}
                     placeholder="e.g. Healthcare and Life Sciences"
-                    className={FIELD}
+                    variant="title"
                   />
                 </div>
                 <div>
@@ -102,12 +96,47 @@ export function CountryIndustrySolutionsEditor({ value, onChange }: CountryIndus
                 </div>
                 <div>
                   <label className={MICRO_LABEL}>Concrete use cases</label>
-                  <StringListEditor
-                    items={industry.useCases}
-                    onChange={(useCases) => updateIndustry(i, { useCases })}
-                    placeholder="e.g. Automated appointment reminders…"
-                    addLabel="Add use case"
-                  />
+                  <div className="flex flex-col gap-2">
+                    {industry.useCases.map((useCase, useCaseIndex) => (
+                      <div key={useCaseIndex} className="flex items-start gap-1.5">
+                        <div className="min-w-0 flex-1">
+                          <InlineRichTextEditor
+                            content={useCase}
+                            onChange={(html) =>
+                              updateIndustry(i, {
+                                useCases: industry.useCases.map((item, idx) =>
+                                  idx === useCaseIndex ? html : item,
+                                ),
+                              })
+                            }
+                            placeholder="e.g. Automated appointment reminders…"
+                            variant="title"
+                            minHeight={32}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            updateIndustry(i, {
+                              useCases: industry.useCases.filter((_, idx) => idx !== useCaseIndex),
+                            })
+                          }
+                          title="Remove"
+                          className="mt-1 flex shrink-0 items-center justify-center rounded-md p-1.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
+                        >
+                          <Trash2 className="size-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => updateIndustry(i, { useCases: [...industry.useCases, ""] })}
+                      className="flex items-center justify-center gap-1.5 rounded-md border border-dashed border-gray-200 py-1.5 text-[11px] font-medium text-gray-500 transition-colors hover:border-[#534AB7]/30 hover:bg-[#534AB7]/5 hover:text-[#534AB7]"
+                    >
+                      <Plus className="size-3" />
+                      Add use case
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

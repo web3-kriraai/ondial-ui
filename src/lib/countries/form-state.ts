@@ -1,3 +1,4 @@
+import { stripHtml } from "@/lib/strip-html";
 import type {
   CountryBulletSection,
   CountryComparisonsContent,
@@ -98,9 +99,9 @@ export function mergeCountryPageImport(
 export function countryPageFormHasContent(form: CountryPageFormState): boolean {
   return Boolean(
     form.country_name.trim() ||
-      form.hero.title.trim() ||
-      form.hero.description.trim() ||
-      form.overview.title.trim() ||
+      stripHtml(form.hero.title) ||
+      stripHtml(form.hero.description) ||
+      stripHtml(form.overview.title) ||
       form.overview.paragraphs.length > 0 ||
       form.whyChooseUs.items.length > 0 ||
       form.industrySolutions.industries.length > 0 ||

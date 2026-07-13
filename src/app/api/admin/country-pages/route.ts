@@ -10,6 +10,7 @@ import {
   isCountrySlugUniqueViolation,
   normalizeCountrySlug,
 } from "@/lib/countries/slug";
+import { stripHtml } from "@/lib/strip-html";
 import type {
   CountryBulletSection,
   CountryComparisonsContent,
@@ -57,7 +58,7 @@ function validateCountryPagePayload(fields: {
   if (!fields.country_name || !fields.country_name.trim()) {
     return NextResponse.json({ error: COUNTRY_NAME_REQUIRED_MESSAGE, code: "COUNTRY_NAME_REQUIRED" }, { status: 400 });
   }
-  if (!fields.hero || !fields.hero.title?.trim() || !fields.hero.description?.trim()) {
+  if (!fields.hero || !stripHtml(fields.hero.title) || !stripHtml(fields.hero.description)) {
     return NextResponse.json({ error: HERO_REQUIRED_MESSAGE, code: "HERO_REQUIRED" }, { status: 400 });
   }
   return null;

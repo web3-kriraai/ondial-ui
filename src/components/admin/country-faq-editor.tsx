@@ -5,9 +5,6 @@ import { Plus, Trash2 } from "lucide-react";
 import { InlineRichTextEditor } from "@/components/admin/inline-rich-text-editor";
 import type { CountryFaqItem } from "@/lib/countries/types";
 
-const FIELD =
-  "w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none transition-all placeholder:text-gray-400 focus:border-[#534AB7] focus:ring-2 focus:ring-[#534AB7]/10";
-
 const MICRO_LABEL = "mb-1 block text-[11px] font-semibold uppercase tracking-wide text-gray-400";
 
 type CountryFaqEditorProps = {
@@ -68,12 +65,11 @@ export function CountryFaqEditor({ items, onChange }: CountryFaqEditorProps) {
           <div className="space-y-3 p-4">
             <div>
               <label className={MICRO_LABEL}>Question</label>
-              <input
-                type="text"
-                value={faq.question}
-                onChange={(e) => updateFaq(i, "question", e.target.value)}
+              <InlineRichTextEditor
+                content={faq.question}
+                onChange={(html) => updateFaq(i, "question", html)}
                 placeholder="e.g. Is using an AI voice agent legal in this country?"
-                className={FIELD}
+                variant="title"
               />
             </div>
             <div>

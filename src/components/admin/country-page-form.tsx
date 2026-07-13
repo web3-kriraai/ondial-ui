@@ -30,6 +30,7 @@ import { InlineRichTextEditor } from "@/components/admin/inline-rich-text-editor
 import { TitledBulletListEditor } from "@/components/admin/titled-bullet-list-editor";
 import { SEO_COUNTRIES_PATH } from "@/config/seo-admin";
 import { SEO_FETCH_INIT } from "@/lib/admin/seo-fetch";
+import { stripHtml } from "@/lib/strip-html";
 import {
   COUNTRY_SLUG_TAKEN_CODE,
   COUNTRY_SLUG_TAKEN_MESSAGE,
@@ -233,9 +234,9 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
       : null
     : null;
   const slugError = slugFormatError ?? (showValidation ? slugAvailabilityError : null);
-  const heroTitleError = showValidation && !form.hero.title.trim() ? "Hero title is required." : null;
+  const heroTitleError = showValidation && !stripHtml(form.hero.title) ? "Hero title is required." : null;
   const heroDescriptionError =
-    showValidation && !form.hero.description.trim() ? "Hero description is required." : null;
+    showValidation && !stripHtml(form.hero.description) ? "Hero description is required." : null;
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -243,7 +244,7 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
 
     const hasCountryNameError = !form.country_name.trim();
     const hasSlugFormatError = !normalizedSlug;
-    const hasHeroError = !form.hero.title.trim() || !form.hero.description.trim();
+    const hasHeroError = !stripHtml(form.hero.title) || !stripHtml(form.hero.description);
     const hasSlugAvailabilityError = Boolean(slugAvailabilityError);
 
     if (hasCountryNameError || hasSlugFormatError || hasHeroError || hasSlugAvailabilityError) {
@@ -411,35 +412,29 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
               <SectionCard icon={Sparkles} title="Hero" description="The top banner shown on the country page.">
                 <div className="flex flex-col gap-3">
                   <div>
-                    <label className={LABEL} htmlFor="hero_title">
+                    <label className={LABEL}>
                       Title <span className="text-red-400">*</span>
                     </label>
-                    <input
-                      id="hero_title"
-                      type="text"
-                      value={form.hero.title}
-                      onChange={(e) => setField("hero", { ...form.hero, title: e.target.value })}
+                    <InlineRichTextEditor
+                      content={form.hero.title}
+                      onChange={(html) => setField("hero", { ...form.hero, title: html })}
                       placeholder="Enterprise AI Voice Agent Solutions for Businesses in…"
-                      aria-invalid={Boolean(heroTitleError)}
-                      className={fieldClass(Boolean(heroTitleError))}
+                      variant="title"
                     />
                     {heroTitleError ? <InlineError id="hero-title-error" message={heroTitleError} /> : null}
                   </div>
                   <div>
-                    <label className={LABEL} htmlFor="hero_description">
+                    <label className={LABEL}>
                       Description <span className="text-red-400">*</span>
                     </label>
-                    <textarea
-                      id="hero_description"
-                      value={form.hero.description}
-                      onChange={(e) => setField("hero", { ...form.hero, description: e.target.value })}
+                    <InlineRichTextEditor
+                      content={form.hero.description}
+                      onChange={(html) => setField("hero", { ...form.hero, description: html })}
                       placeholder="One or two sentences summarizing the offer for this country…"
-                      rows={3}
-                      aria-invalid={Boolean(heroDescriptionError)}
-                      className={`${fieldClass(Boolean(heroDescriptionError))} resize-y`}
+                      minHeight={72}
                     />
                     <p className="mt-1 text-[11px] text-gray-400">
-                      Plain text only — this also fills the SEO meta description when one isn&apos;t set below.
+                      Formatting is shown on the page. Plain text is used for SEO meta description when one isn&apos;t set below.
                     </p>
                     {heroDescriptionError ? (
                       <InlineError id="hero-description-error" message={heroDescriptionError} />
@@ -513,12 +508,11 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
             {/* Overview */}
             <SectionCard icon={FileText} title="Country overview" description="Market context paragraphs." optional>
               <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={form.overview.title}
-                  onChange={(e) => setField("overview", { ...form.overview, title: e.target.value })}
+                <InlineRichTextEditor
+                  content={form.overview.title}
+                  onChange={(html) => setField("overview", { ...form.overview, title: html })}
                   placeholder="Country Overview: The Contact Center and CX Market"
-                  className={FIELD}
+                  variant="title"
                 />
                 <div>
                   <label className={MICRO_LABEL}>Paragraphs</label>
@@ -569,12 +563,11 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
             {/* Why choose us */}
             <SectionCard icon={ThumbsUp} title="Why choose us" description="Country-specific differentiators." optional>
               <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={form.whyChooseUs.title}
-                  onChange={(e) => setField("whyChooseUs", { ...form.whyChooseUs, title: e.target.value })}
+                <InlineRichTextEditor
+                  content={form.whyChooseUs.title}
+                  onChange={(html) => setField("whyChooseUs", { ...form.whyChooseUs, title: html })}
                   placeholder="Why Businesses in [Country] Choose OnDial"
-                  className={FIELD}
+                  variant="title"
                 />
                 <InlineRichTextEditor
                   content={form.whyChooseUs.intro ?? ""}
@@ -601,12 +594,11 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
             {/* Language support */}
             <SectionCard icon={Languages} title="Language support" description="Languages covered in this country." optional>
               <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={form.languageSupport.title}
-                  onChange={(e) => setField("languageSupport", { ...form.languageSupport, title: e.target.value })}
+                <InlineRichTextEditor
+                  content={form.languageSupport.title}
+                  onChange={(html) => setField("languageSupport", { ...form.languageSupport, title: html })}
                   placeholder="Language Support"
-                  className={FIELD}
+                  variant="title"
                 />
                 <InlineRichTextEditor
                   content={form.languageSupport.intro ?? ""}
@@ -636,12 +628,11 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
             {/* Use cases */}
             <SectionCard icon={ListChecks} title="Country-specific use cases" description="Numbered use-case list." optional>
               <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={form.useCases.title}
-                  onChange={(e) => setField("useCases", { ...form.useCases, title: e.target.value })}
+                <InlineRichTextEditor
+                  content={form.useCases.title}
+                  onChange={(html) => setField("useCases", { ...form.useCases, title: html })}
                   placeholder="Country-Specific Use Cases"
-                  className={FIELD}
+                  variant="title"
                 />
                 <InlineRichTextEditor
                   content={form.useCases.intro ?? ""}
@@ -660,12 +651,11 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
             {/* Compliance & security */}
             <SectionCard icon={ShieldCheck} title="Compliance and security" description="Regulatory alignment points." optional>
               <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={form.complianceSecurity.title}
-                  onChange={(e) => setField("complianceSecurity", { ...form.complianceSecurity, title: e.target.value })}
+                <InlineRichTextEditor
+                  content={form.complianceSecurity.title}
+                  onChange={(html) => setField("complianceSecurity", { ...form.complianceSecurity, title: html })}
                   placeholder="Compliance and Security"
-                  className={FIELD}
+                  variant="title"
                 />
                 <InlineRichTextEditor
                   content={form.complianceSecurity.intro ?? ""}
@@ -692,12 +682,11 @@ export function CountryPageForm({ mode, countryPageId, initialData }: CountryPag
             {/* Comparisons */}
             <SectionCard icon={Scale} title="Comparisons" description="AI voice agent vs traditional options." optional>
               <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={form.comparisons.title}
-                  onChange={(e) => setField("comparisons", { ...form.comparisons, title: e.target.value })}
+                <InlineRichTextEditor
+                  content={form.comparisons.title}
+                  onChange={(html) => setField("comparisons", { ...form.comparisons, title: html })}
                   placeholder="AI Voice Agent vs Traditional Options"
-                  className={FIELD}
+                  variant="title"
                 />
                 <TitledBulletListEditor
                   items={form.comparisons.items}

@@ -2,6 +2,8 @@
 
 import { Plus, Trash2 } from "lucide-react";
 
+import { InlineRichTextEditor } from "@/components/admin/inline-rich-text-editor";
+
 const FIELD =
   "w-full rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs text-gray-900 outline-none transition-all placeholder:text-gray-400 focus:border-[#534AB7] focus:ring-2 focus:ring-[#534AB7]/10";
 
@@ -10,6 +12,8 @@ type StringListEditorProps = {
   onChange: (items: string[]) => void;
   placeholder?: string;
   addLabel?: string;
+  /** When true, each item uses the inline rich-text editor. */
+  richText?: boolean;
 };
 
 export function StringListEditor({
@@ -17,6 +21,7 @@ export function StringListEditor({
   onChange,
   placeholder = "e.g. Salesforce",
   addLabel = "Add",
+  richText = false,
 }: StringListEditorProps) {
   function updateItem(index: number, value: string) {
     onChange(items.map((item, i) => (i === index ? value : item)));
@@ -33,19 +38,31 @@ export function StringListEditor({
   return (
     <div className="flex flex-col gap-1.5">
       {items.map((item, i) => (
-        <div key={i} className="flex items-center gap-1.5">
-          <input
-            type="text"
-            value={item}
-            onChange={(e) => updateItem(i, e.target.value)}
-            placeholder={placeholder}
-            className={FIELD}
-          />
+        <div key={i} className="flex items-start gap-1.5">
+          {richText ? (
+            <div className="min-w-0 flex-1">
+              <InlineRichTextEditor
+                content={item}
+                onChange={(html) => updateItem(i, html)}
+                placeholder={placeholder}
+                variant="title"
+                minHeight={32}
+              />
+            </div>
+          ) : (
+            <input
+              type="text"
+              value={item}
+              onChange={(e) => updateItem(i, e.target.value)}
+              placeholder={placeholder}
+              className={FIELD}
+            />
+          )}
           <button
             type="button"
             onClick={() => removeItem(i)}
             title="Remove"
-            className="flex shrink-0 items-center justify-center rounded-md p-1.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
+            className="mt-0.5 flex shrink-0 items-center justify-center rounded-md p-1.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
           >
             <Trash2 className="size-3.5" />
           </button>
