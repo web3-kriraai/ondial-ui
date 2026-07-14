@@ -244,9 +244,9 @@ export const DEFAULT_INDUSTRIES: Industry[] = [
 /** Per-industry SEO meta titles and descriptions for `generateMetadata`. */
 export const INDUSTRY_SEO_METADATA: Record<string, { title: string; description: string }> = {
   "ai-voice-agents-healthcare-medical": {
-    title: "AI Voice Agent for Healthcare and Medical services | OnDial",
+    title: "AI Voice Agent for Healthcare and Medical Services | OnDial",
     description:
-      "Enhance healthcare and medical services with OnDial's AI-powered solutions. Improve patient care, streamline operations & drive efficiency.",
+      "Enhance healthcare and medical services with OnDial's AI-powered voice solutions. Improve patient care, streamline operations, and drive efficiency.",
   },
   "ai-voice-agents-finance-banking": {
     title: "AI Voice Agent for Finance & Banking Services | OnDial",

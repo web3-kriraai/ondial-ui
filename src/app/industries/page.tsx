@@ -21,7 +21,7 @@ import {
 } from "@/components/marketing/industries-hub-page-sections";
 import StructuredData from "@/components/StructuredData";
 import { INDUSTRIES_HUB_FAQ, INDUSTRIES_HUB_META } from "@/data/industries-hub-content";
-import { buildBreadcrumbSchema, buildEnterpriseSoftwareApplicationSchema } from "@/lib/seo/schemaBuilders";
+import { INDUSTRIES_HUB_PAGE_SCHEMAS } from "@/lib/seo/industriesHubSchemas";
 
 const { title: META_TITLE, description: META_DESCRIPTION } = INDUSTRIES_HUB_META;
 
@@ -54,26 +54,6 @@ export const metadata: Metadata = {
   },
 };
 
-const industriesHubSchemas = [
-  (buildEnterpriseSoftwareApplicationSchema as (input: object) => object)({
-    url: "/industries",
-    name: "OnDial AI Voice Agents for Every Industry",
-    description: META_DESCRIPTION,
-    featureList: [
-      "Industry-specific AI voice workflows",
-      "Inbound and outbound call automation",
-      "Appointment scheduling and lead qualification",
-      "CRM integration and call analytics",
-      "100+ language support",
-      "Enterprise security and compliance",
-    ],
-  }),
-  (buildBreadcrumbSchema as (items: { name: string; url: string }[], opts?: { anchorUrl?: string }) => object)(
-    [{ name: "Industries", url: "/industries" }],
-    { anchorUrl: "/industries" },
-  ),
-];
-
 const industriesHubFaqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -90,7 +70,7 @@ const industriesHubFaqSchema = {
 export default function IndustriesHubPage() {
   return (
     <>
-      <StructuredData data={[...industriesHubSchemas, industriesHubFaqSchema]} />
+      <StructuredData data={[...INDUSTRIES_HUB_PAGE_SCHEMAS, industriesHubFaqSchema]} />
       <main className="flex flex-1 flex-col">
         <BlogPageShell>
           <IndustriesHubHeroSection />

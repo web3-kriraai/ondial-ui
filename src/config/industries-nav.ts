@@ -1,7 +1,7 @@
 import { DEFAULT_INDUSTRIES } from "@/lib/services-data";
 
 /** Shorter labels for the navbar dropdown (matches marketing copy). */
-const INDUSTRY_NAV_LABELS: Record<string, string> = {
+export const INDUSTRY_NAV_LABELS: Record<string, string> = {
   "ai-voice-agents-healthcare-medical": "Healthcare",
   "ai-voice-agents-insurance": "Insurance",
   "ai-voice-agents-finance-banking": "Finance & Banking",

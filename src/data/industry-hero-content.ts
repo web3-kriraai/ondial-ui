@@ -743,7 +743,7 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
       },
       {
         title: "Lab Results Notifications",
-        description: "Deliver test results quickly and securely. Patients receive clear voice notifications along with next-step instructions.",
+        description: "Deliver test results quickly and securely, with clear voice notifications and next-step instructions for patients.",
         icon: "Bell"
       },
       {
@@ -771,7 +771,8 @@ const INDUSTRY_PAGE_CONTENT: Record<string, IndustryPageContent> = {
     ctaHeadline: "Hear your AI agent handle a patient call",
     ctaSubheadline: "Free 14-day trial. No credit card. HIPAA-friendly setup in under 30 minutes.",
     serviceHeadline: "Core Healthcare & Medical AI Voice Services",
-    serviceSubheadline: "Transform healthcare operations with AI-powered voice solutions.",
+    serviceSubheadline:
+      "AI-powered voice services from OnDial that automate patient communication across healthcare and medical organizations.",
     useCasesTitle: "Why AI Voice Agents in Healthcare & Medical Industry ?",
   },
 
@@ -4283,7 +4284,8 @@ function buildFallbackContent(industryName: string): IndustryPageContent {
     ctaHeadline: `Hear your AI agent handle a ${industryName.toLowerCase()} call`,
     ctaSubheadline: "Free 14-day trial. No credit card. Live in under 30 minutes.",
     serviceHeadline: "Core Healthcare & Medical AI Voice Services",
-    serviceSubheadline: "Transform healthcare operations with AI-powered voice solutions.",
+    serviceSubheadline:
+      "AI-powered voice services from OnDial that automate patient communication across healthcare and medical organizations.",
     useCasesTitle: "Why AI Voice Agents in Healthcare & Medical Industry ?",
   };
 }

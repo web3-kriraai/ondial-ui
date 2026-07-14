@@ -5,6 +5,7 @@ import { IndustryHeroHeader } from "@/components/marketing/industry-hero-header"
 // import { AudioDemoPlayer } from "@/components/marketing/audio-demo-player";
 import { IndustryPageSections } from "@/components/marketing/industry-page-sections";
 import { DemoSyncProvider } from "@/components/providers/demo-sync-context";
+import { INDUSTRY_NAV_LABELS } from "@/config/industries-nav";
 import {
   getAllIndustrySlugs,
   getIndustryBySlug,
@@ -13,7 +14,7 @@ import {
 } from "@/data/industry-hero-content";
 import { INDUSTRY_SEO_METADATA } from "@/lib/services-data";
 import StructuredData from "@/components/StructuredData";
-import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo/schemaBuilders";
+import { buildIndustryPageSchemas } from "@/lib/seo/industryPageSchemas";
 import { getSiteFaqSection, hasSiteFaqPage } from "@/data/site-faqs";
 
 type Props = {
@@ -62,29 +63,26 @@ export default async function IndustryPage({ params }: Props) {
   const industry = getIndustryBySlug(slug);
   if (!industry) notFound();
 
-  const hero        = getIndustryHeroContent(industry);
+  const hero = getIndustryHeroContent(industry);
   const pageContent = getIndustryPageContent(industry.slug, industry.name);
 
   const industryName = industry.name;
+  const breadcrumbName = INDUSTRY_NAV_LABELS[slug] ?? industryName;
   const seo = INDUSTRY_SEO_METADATA[slug];
   const title = seo?.title ?? `${industryName} AI Voice Automation | OnDial`;
-  const description = seo?.description ?? `Discover how OnDial's AI voice automation can transform your ${industryName.toLowerCase()} operations.`;
+  const description =
+    seo?.description ??
+    `Discover how OnDial's AI voice automation can transform your ${industryName.toLowerCase()} operations.`;
 
-  const industrySchemas = [
-    buildServiceSchema({
-      url: `/industries/${slug}`,
-      name: title,
-      description: description,
-      serviceType: `AI Voice Automation for ${industryName}`,
-    }),
-    (buildBreadcrumbSchema as any)(
-      [
-        { name: "Industries", url: "/industries" },
-        { name: industryName, url: `/industries/${slug}` },
-      ],
-      { anchorUrl: `/industries/${slug}` }
-    ),
-  ];
+  const industrySchemas = buildIndustryPageSchemas({
+    slug,
+    breadcrumbName,
+    title,
+    description,
+    serviceListName: pageContent.serviceHeadline,
+    serviceListDescription: pageContent.serviceSubheadline,
+    services: pageContent.services,
+  });
 
   const industryFaq = hasSiteFaqPage(slug) ? getSiteFaqSection(slug) : getSiteFaqSection("home");
   const industryFaqSchema = {
