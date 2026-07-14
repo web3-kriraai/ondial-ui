@@ -16,18 +16,18 @@ import {
 } from "@/config/marketing-layout";
 import { fetchAllBlogSummaries, mapBlogSummaries } from "@/lib/db";
 import {
-  buildBlogListSchema,
-  buildBreadcrumbSchema,
-} from "@/lib/seo/schemaBuilders";
+  BLOG_PAGE_DESCRIPTION,
+  BLOG_PAGE_TITLE,
+  buildBlogPageSchemas,
+} from "@/lib/seo/blogPageSchemas";
 
 import { DASHBOARD_SIGNUP_URL } from "@/config/urls";
 
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: { absolute: "Best AI Voice Agent Automation Blogs & Insights | OnDial" },
-  description:
-    "Stay updated with OnDial's blog on AI voice agents, automation, and customer experience. Learn strategies, trends, and tips to grow your business smarter.",
+  title: { absolute: BLOG_PAGE_TITLE },
+  description: BLOG_PAGE_DESCRIPTION,
   alternates: {
     canonical: "https://www.ondial.ai/blog",
     types: { "application/rss+xml": "https://www.ondial.ai/feed.xml" },
@@ -44,9 +44,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Best AI Voice Agent Automation Blogs & Insights | OnDial",
-    description:
-      "Stay updated with OnDial's blog on AI voice agents, automation, and customer experience. Learn strategies, trends, and tips to grow your business smarter.",
+    title: BLOG_PAGE_TITLE,
+    description: BLOG_PAGE_DESCRIPTION,
     url: "https://www.ondial.ai/blog",
     siteName: "OnDial",
     images: [{ url: "https://www.ondial.ai/img/logo/og.png", width: 1200, height: 630, alt: "OnDial Blog" }],
@@ -55,9 +54,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Best AI Voice Agent Automation Blogs & Insights | OnDial",
-    description:
-      "Stay updated with OnDial's blog on AI voice agents, automation, and customer experience. Learn strategies, trends, and tips to grow your business smarter.",
+    title: BLOG_PAGE_TITLE,
+    description: BLOG_PAGE_DESCRIPTION,
     images: ["https://www.ondial.ai/img/logo/og.png"],
     creator: "@ondialai",
   },
@@ -102,28 +100,13 @@ const BLOG_PAGE_FAQS = {
 export default async function BlogIndexPage() {
   const posts = await getBlogPosts();
 
-  const blogListSchemas = [
-    (buildBlogListSchema as any)({
-      url: '/blog',
-      posts: posts.map((p) => ({
-        title: p.title,
-        slug: p.id,
-        publishDate: p.date,
-        image: p.image,
-        author: p.author.name,
-      })),
-      description:
-        "Stay updated with OnDial's blog on AI voice agents, automation, and customer experience.",
-    }),
-    (buildBreadcrumbSchema as any)(
-      [{ name: 'Blog', url: '/blog' }],
-      { anchorUrl: '/blog' }
-    ),
-  ];
+  const blogPageSchemas = buildBlogPageSchemas(
+    posts.map((p) => ({ title: p.title, slug: p.id })),
+  );
 
   return (
     <BlogPageShell>
-      <StructuredData data={blogListSchemas} />
+      <StructuredData data={blogPageSchemas} />
       <div className="mx-auto flex w-full min-w-0 max-w-3xl flex-col gap-8 px-4 pt-6 pb-12 sm:gap-10 sm:px-6 sm:pt-8 sm:pb-16 lg:max-w-4xl">
         <BlogPageHero
           title={
