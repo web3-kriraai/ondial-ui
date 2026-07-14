@@ -228,6 +228,22 @@ export function InlineRichTextEditor({
     immediatelyRender: false,
   });
 
+  // Keep TipTap in sync when parent state changes (e.g. "Apply to form" import).
+  useEffect(() => {
+    if (!editor) return;
+
+    const next = content || "";
+    const current = editor.isEmpty ? "" : editor.getHTML();
+    if (next === current) return;
+
+    // Plain-text import vs TipTap-normalized HTML: skip if the visible text matches.
+    const nextPlain = next.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    const currentPlain = current.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    if (nextPlain === currentPlain && (next === "" || current !== "")) return;
+
+    editor.commands.setContent(next, { emitUpdate: false });
+  }, [content, editor]);
+
   if (!editor) {
     return (
       <div

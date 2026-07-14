@@ -73,7 +73,29 @@ title: Second Title
 description: Second desc.
 `;
     const result = parseCountryPageImport(text);
-    assert.equal(result.data.hero?.title, "Second Title");
+    assert.equal(result.data.hero?.title, "<p>Second Title</p>");
     assert.ok(result.warnings.some((w) => w.includes("Duplicate")));
+  });
+
+  it("parses HERO_BULLETS with or without leading dashes", () => {
+    const text = `[HERO]
+title: Enterprise AI Voice Agent Solutions for Businesses in Argentina
+description: OnDial automates inbound and outbound calls in Argentina.
+
+[HERO_BULLETS]
+Native Rioplatense Spanish :: Calibrated for local accents and voseo syntax.
+Regulatory Alignment :: Architected to support Ley 25,326 and national Do Not Call lists.
+- 24/7 Scalability :: Offset operational cost volatility with constant availability.
+`;
+    const result = parseCountryPageImport(text);
+    assert.equal(result.ok, true);
+    assert.equal(result.data.hero?.bullets?.length, 3);
+    assert.equal(result.data.hero?.bullets?.[0]?.title, "<p>Native Rioplatense Spanish</p>");
+    assert.ok(result.data.hero?.bullets?.[0]?.description?.includes("Calibrated for local accents"));
+    assert.equal(result.data.hero?.bullets?.[2]?.title, "<p>24/7 Scalability</p>");
+    assert.ok(result.data.hero?.title?.includes("<p>"));
+    assert.ok(result.data.hero?.description?.includes("<p>"));
+    assert.ok(result.data.hero?.description?.includes("OnDial"));
+    assert.ok(!result.warnings.some((w) => w.includes("HERO_BULLETS")));
   });
 });

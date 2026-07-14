@@ -37,7 +37,7 @@ function parseTitleDescription(line: string): { title: string; description: stri
   const title = line.slice(0, idx).trim();
   const description = line.slice(idx + 4).trim();
   if (!title || !description) return null;
-  return { title, description: importTextToHtml(description) };
+  return { title: importTextToHtml(title), description: importTextToHtml(description) };
 }
 
 function parseCta(value: string): { label: string; href: string } | null {
@@ -113,19 +113,25 @@ function parseTitledBullets(
   return items;
 }
 
+/**
+ * Accepts both template style (`- Title :: Description`) and bare lines
+ * (`Title :: Description`) used by country content authors.
+ */
 function parseHeroBullets(lines: string[], warnings: string[]): TitledBullet[] {
   const items: TitledBullet[] = [];
   for (const line of lines) {
     const trimmed = line.trim();
     if (!trimmed) continue;
+
     const bullet = trimmed.match(BULLET_LINE_RE);
-    if (!bullet) {
-      warnings.push(`HERO_BULLETS: skipped malformed line "${trimmed.slice(0, 60)}…"`);
+    const payload = bullet ? bullet[1].trim() : trimmed;
+    const parsed = parseTitleDescription(payload);
+    if (parsed) {
+      items.push(parsed);
       continue;
     }
-    const parsed = parseTitleDescription(bullet[1]);
-    if (parsed) items.push(parsed);
-    else warnings.push(`HERO_BULLETS: skipped malformed bullet "${trimmed.slice(0, 60)}…"`);
+
+    warnings.push(`HERO_BULLETS: skipped malformed line "${trimmed.slice(0, 60)}…"`);
   }
   return items;
 }
@@ -144,18 +150,20 @@ function parseIndustrySolutions(
 
     const kv = parseKeyValue(trimmed);
     if (kv) {
-      if (kv.key === "title") result.title = kv.value;
+      if (kv.key === "title") result.title = importTextToHtml(kv.value);
       else if (kv.key === "intro") result.intro = importTextToHtml(kv.value);
       else if (kv.key === "industry") {
         pendingUseCasesIndustry = null;
         const parsed = parseTitleDescription(kv.value);
         if (parsed) {
+          // Map key must be the plain industry name from the import line (for industry_use_cases lookups).
+          const plainName = kv.value.slice(0, kv.value.indexOf(" :: ")).trim();
           const item: CountryIndustryItem = {
             name: parsed.title,
             description: parsed.description,
             useCases: [],
           };
-          industryMap.set(parsed.title, item);
+          industryMap.set(plainName, item);
           result.industries.push(item);
         } else {
           warnings.push(`INDUSTRY_SOLUTIONS: skipped malformed industry "${kv.value.slice(0, 60)}…"`);
@@ -172,7 +180,7 @@ function parseIndustrySolutions(
     const indented = line.match(INDENTED_BULLET_RE);
     if (indented && pendingUseCasesIndustry) {
       const industry = industryMap.get(pendingUseCasesIndustry);
-      if (industry) industry.useCases.push(indented[1].trim());
+      if (industry) industry.useCases.push(importTextToHtml(indented[1].trim()));
     }
   }
 
@@ -189,11 +197,11 @@ function parseIntegrations(lines: string[], warnings: string[]): CountryIntegrat
 
     const kv = parseKeyValue(trimmed);
     if (kv) {
-      if (kv.key === "title") result.title = kv.value;
+      if (kv.key === "title") result.title = importTextToHtml(kv.value);
       else if (kv.key === "intro") result.intro = importTextToHtml(kv.value);
       else if (kv.key === "note") result.note = importTextToHtml(kv.value);
       else if (kv.key === "group") {
-        currentGroup = { label: kv.value, items: [] };
+        currentGroup = { label: importTextToHtml(kv.value), items: [] };
         result.groups.push(currentGroup);
       }
       continue;
@@ -201,7 +209,7 @@ function parseIntegrations(lines: string[], warnings: string[]): CountryIntegrat
 
     const indented = line.match(INDENTED_BULLET_RE);
     if (indented) {
-      if (currentGroup) currentGroup.items.push(indented[1].trim());
+      if (currentGroup) currentGroup.items.push(importTextToHtml(indented[1].trim()));
       else warnings.push(`INTEGRATIONS: list item without preceding group: "${indented[1].trim()}"`);
     }
   }
@@ -225,7 +233,10 @@ function parseFaqs(lines: string[], warnings: string[]): CountryFaqItem[] {
       pendingQuestion = kv.value;
     } else if (kv.key === "a") {
       if (pendingQuestion) {
-        faqs.push({ question: pendingQuestion, answer: importTextToHtml(kv.value) });
+        faqs.push({
+          question: importTextToHtml(pendingQuestion),
+          answer: importTextToHtml(kv.value),
+        });
         pendingQuestion = null;
       } else {
         warnings.push(`FAQS: answer without question "${kv.value.slice(0, 60)}…"`);
@@ -251,7 +262,7 @@ function parseBulletSection(
     if (!trimmed) continue;
     const kv = parseKeyValue(trimmed);
     if (!kv) continue;
-    if (kv.key === "title") section.title = kv.value;
+    if (kv.key === "title") section.title = importTextToHtml(kv.value);
     else if (kv.key === "intro") section.intro = importTextToHtml(kv.value);
     else if (kv.key === "item") {
       const parsed = parseTitleDescription(kv.value);
@@ -269,7 +280,7 @@ function parseLanguageSupport(lines: string[], warnings: string[]): CountryLangu
     if (!trimmed) continue;
     const kv = parseKeyValue(trimmed);
     if (!kv) continue;
-    if (kv.key === "title") section.title = kv.value;
+    if (kv.key === "title") section.title = importTextToHtml(kv.value);
     else if (kv.key === "intro") section.intro = importTextToHtml(kv.value);
     else if (kv.key === "note") section.note = importTextToHtml(kv.value);
     else if (kv.key === "language") {
@@ -288,7 +299,7 @@ function parseOverview(lines: string[]): CountryOverviewContent {
     if (!trimmed) continue;
     const kv = parseKeyValue(trimmed);
     if (!kv) continue;
-    if (kv.key === "title") overview.title = kv.value;
+    if (kv.key === "title") overview.title = importTextToHtml(kv.value);
     else if (kv.key === "paragraph") overview.paragraphs.push(importTextToHtml(kv.value));
   }
   return overview;
@@ -301,8 +312,8 @@ function parseHero(lines: string[], bulletLines: string[], warnings: string[]): 
     if (!trimmed) continue;
     const kv = parseKeyValue(trimmed);
     if (!kv) continue;
-    if (kv.key === "title") hero.title = kv.value;
-    else if (kv.key === "description") hero.description = kv.value;
+    if (kv.key === "title") hero.title = importTextToHtml(kv.value);
+    else if (kv.key === "description") hero.description = importTextToHtml(kv.value);
     else if (kv.key === "primary_cta") {
       const cta = parseCta(kv.value);
       if (cta) hero.primaryCta = cta;
@@ -324,7 +335,7 @@ function parseComparisons(lines: string[], warnings: string[]): CountryCompariso
     if (!trimmed) continue;
     const kv = parseKeyValue(trimmed);
     if (!kv) continue;
-    if (kv.key === "title") comparisons.title = kv.value;
+    if (kv.key === "title") comparisons.title = importTextToHtml(kv.value);
     else if (kv.key === "item") {
       const parsed = parseTitleDescription(kv.value);
       if (parsed) comparisons.items.push(parsed);
@@ -359,10 +370,17 @@ function richTextFieldsFromJson(obj: unknown): unknown {
   const record = obj as Record<string, unknown>;
   const out: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(record)) {
-    if (key === "description" && typeof value === "string") {
+    if (
+      (key === "description" ||
+        key === "intro" ||
+        key === "note" ||
+        key === "answer" ||
+        key === "title" ||
+        key === "name" ||
+        key === "question") &&
+      typeof value === "string"
+    ) {
       out[key] = value.startsWith("<") ? value : importTextToHtml(value);
-    } else if (key === "intro" || key === "note" || key === "answer") {
-      out[key] = typeof value === "string" ? (value.startsWith("<") ? value : importTextToHtml(value)) : value;
     } else if (key === "paragraphs" && Array.isArray(value)) {
       out[key] = value.map((p) =>
         typeof p === "string" ? (p.startsWith("<") ? p : importTextToHtml(p)) : p,
@@ -389,18 +407,9 @@ function tryParseJsonImport(text: string): Partial<CountryPageFormState> | null 
     if (raw.status) data.status = raw.status;
 
     if (raw.hero) {
-      const hero = richTextFieldsFromJson(raw.hero) as CountryHeroContent;
       data.hero = {
         ...EMPTY_HERO,
-        ...hero,
-        description: raw.hero.description,
-        bullets: (hero.bullets ?? []).map((b) => ({
-          title: b.title,
-          description:
-            typeof b.description === "string" && !b.description.startsWith("<")
-              ? importTextToHtml(b.description)
-              : b.description,
-        })),
+        ...(richTextFieldsFromJson(raw.hero) as CountryHeroContent),
       };
     }
 

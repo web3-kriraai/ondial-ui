@@ -16,7 +16,8 @@ primary_cta: Book Demo | /contact
 secondary_cta: Talk to an Expert | /contact
 
 [HERO_BULLETS]
-- Title :: Description
+Title :: Description
+- Or with a leading dash :: Also accepted
 
 [OVERVIEW]
 title: 
