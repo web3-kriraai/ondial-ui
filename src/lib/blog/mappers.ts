@@ -35,6 +35,14 @@ function formatPublishDate(value: string | null | undefined): string {
   }).format(date);
 }
 
+/** Schema.org datePublished / dateModified as YYYY-MM-DD. */
+function toSchemaDate(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toISOString().slice(0, 10);
+}
+
 function countWordsInDocument(document: Document | null | undefined): number {
   if (!document?.content?.length) return 0;
 
@@ -117,6 +125,9 @@ export function mapBlogDetail(blog: BlogRecordDetail): BlogPostDetail | null {
   const summary = mapBlogSummary(blog);
   if (!summary) return null;
 
+  const datePublished = toSchemaDate(blog.publishDate);
+  const dateModified = toSchemaDate(blog.updatedAt) || datePublished;
+
   return {
     ...summary,
     readTime: estimateReadTimeFromRichText(blog.description),
@@ -124,6 +135,8 @@ export function mapBlogDetail(blog: BlogRecordDetail): BlogPostDetail | null {
     authorDescription: blog.author?.authorDescription?.trim() || null,
     body: blog.description,
     faqs: mapFaqs(blog.faqs),
+    datePublished,
+    dateModified,
   };
 }
 

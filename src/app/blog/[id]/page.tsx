@@ -11,10 +11,7 @@ import { BlogFaqSection } from "@/components/marketing/blog-faq-section";
 import { BlogPostHeader } from "@/components/marketing/blog-post-header";
 import { BlogRichText } from "@/components/marketing/blog-rich-text";
 import { fetchBlogBySlug, fetchAllBlogSummaries, mapBlogDetail, mapBlogSummaries } from "@/lib/db";
-import {
-  buildBlogPostingSchema,
-  buildBreadcrumbSchema,
-} from "@/lib/seo/schemaBuilders";
+import { buildBlogPostPageSchemas } from "@/lib/seo/blogPostPageSchemas";
 import { getSiteUrl } from "@/lib/share-links";
 import { DASHBOARD_SIGNUP_URL } from "@/config/urls";
 
@@ -113,26 +110,7 @@ export default async function BlogPostPage({ params }: Props) {
       ? post.imageWidth / post.imageHeight
       : 16 / 9;
 
-  const postSchemas = [
-    (buildBlogPostingSchema as any)({
-      title: post.title,
-      slug: post.slug,
-      excerpt: post.excerpt,
-      author: post.author.name,
-      authorSlug: post.author.slug,
-      date: post.date,
-      image: post.image,
-      metaDescription: post.metaDescription,
-      updatedAt: post.date,
-    }),
-    (buildBreadcrumbSchema as any)(
-      [
-        { name: "Blog", url: "/blog" },
-        { name: post.title, url: `/blog/${post.slug}` },
-      ],
-      { anchorUrl: `/blog/${post.slug}` }
-    ),
-  ];
+  const postSchemas = buildBlogPostPageSchemas(post);
 
   return (
     <BlogPageShell>

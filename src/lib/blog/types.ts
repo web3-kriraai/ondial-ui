@@ -57,6 +57,8 @@ export type BlogRecordSummary = {
 export type BlogRecordDetail = BlogRecordSummary & {
   description: RichTextDocument | null;
   faqs: BlogFaqRecord | null;
+  /** Raw ISO timestamptz from posts.updated_at */
+  updatedAt: string | null;
 };
 
 export type BlogFaqItem = {
@@ -94,4 +96,8 @@ export type BlogPostDetail = BlogPostSummary & {
   authorDescription: string | null;
   body: RichTextDocument | null;
   faqs: BlogFaqSection | null;
+  /** Schema-ready date (YYYY-MM-DD) from publish_date */
+  datePublished: string | null;
+  /** Schema-ready date (YYYY-MM-DD) from updated_at / publish_date */
+  dateModified: string | null;
 };

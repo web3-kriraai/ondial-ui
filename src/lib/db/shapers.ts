@@ -68,5 +68,6 @@ export function shapeToDetail(row: PostWithDetail): BlogRecordDetail {
     ...summary,
     description: row.body ? (row.body as RichTextDocument) : null,
     faqs: shapeFaqSection(row.faq_sections),
+    updatedAt: row.updated_at ?? null,
   };
 }
