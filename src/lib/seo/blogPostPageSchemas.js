@@ -1,5 +1,6 @@
 /**
- * Blog post detail JSON-LD (WebPage + ImageObject + FAQPage).
+ * Blog post detail JSON-LD.
+ * Keeps WebPage + ImageObject + FAQPage and restores BlogPosting + BreadcrumbList.
  * All fields derive from the mapped post / DB — no hardcoded article copy.
  */
 
@@ -38,13 +39,36 @@ export function buildBlogPostPageSchemas(post) {
   const imageUrl = toAbsoluteImageUrl(post.image);
   const imageWidth = post.imageWidth || 1200;
   const imageHeight = post.imageHeight || 630;
+  const datePublished = post.datePublished || post.date || undefined;
+  const dateModified = post.dateModified || post.datePublished || post.date || undefined;
 
-  const author = stripNullish({
+  const authorPerson = stripNullish({
     '@type': 'Person',
     name: post.author?.name || 'OnDial Team',
     url: post.author?.slug ? absoluteUrl(`/blog/author/${post.author.slug}`) : undefined,
     jobTitle: post.authorDesignation || undefined,
   });
+
+  const breadcrumbListElement = [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: `${SITE_URL}/`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Blog',
+      item: absoluteUrl('/blog'),
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: breadcrumbName,
+      item: url,
+    },
+  ];
 
   const webPageSchema = stripNullish({
     '@context': 'https://schema.org',
@@ -55,34 +79,15 @@ export function buildBlogPostPageSchemas(post) {
     description: pageDescription,
     inLanguage: 'en-US',
     isPartOf: { '@id': `${SITE_URL}/#website` },
-    datePublished: post.datePublished || undefined,
-    dateModified: post.dateModified || post.datePublished || undefined,
-    author,
+    datePublished,
+    dateModified,
+    author: authorPerson,
     publisher: { '@id': `${SITE_URL}/#organization` },
     primaryImageOfPage: { '@id': primaryImageId },
     image: { '@id': primaryImageId },
     breadcrumb: {
       '@type': 'BreadcrumbList',
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: `${SITE_URL}/`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Blog',
-          item: absoluteUrl('/blog'),
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: breadcrumbName,
-          item: url,
-        },
-      ],
+      itemListElement: breadcrumbListElement,
     },
   });
 
@@ -95,6 +100,31 @@ export function buildBlogPostPageSchemas(post) {
     width: imageWidth,
     height: imageHeight,
     caption: pageName,
+  };
+
+  // Restored: standalone BlogPosting (previous detail-page schema).
+  const blogPostingSchema = stripNullish({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${url}#article`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${url}#webpage` },
+    headline: String(post.title || pageName).slice(0, 110),
+    description: pageDescription,
+    image: [imageUrl],
+    datePublished,
+    dateModified,
+    inLanguage: 'en-US',
+    author: authorPerson,
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    articleSection: post.category || undefined,
+  });
+
+  // Restored: standalone BreadcrumbList (previous detail-page schema).
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    '@id': `${url}#breadcrumb`,
+    itemListElement: breadcrumbListElement,
   };
 
   const faqItems = post.faqs?.items?.filter((item) => item?.question && item?.answer) ?? [];
@@ -116,5 +146,11 @@ export function buildBlogPostPageSchemas(post) {
         }
       : null;
 
-  return [webPageSchema, imageObjectSchema, faqPageSchema].filter(Boolean);
+  return [
+    webPageSchema,
+    imageObjectSchema,
+    blogPostingSchema,
+    breadcrumbSchema,
+    faqPageSchema,
+  ].filter(Boolean);
 }
