@@ -15,7 +15,7 @@ import {
   blogListingInnerClass,
 } from "@/config/marketing-layout";
 import { fetchAllBlogSummaries, mapBlogSummaries } from "@/lib/db";
-import { indexablePageRobots } from "@/lib/seo/siteConfig";
+import { indexablePageRobots } from "@/lib/seo/robotsMetadata";
 import {
   BLOG_PAGE_DESCRIPTION,
   BLOG_PAGE_TITLE,

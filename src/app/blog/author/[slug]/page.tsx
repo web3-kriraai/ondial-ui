@@ -13,7 +13,7 @@ import {
 import { fetchBlogsByAuthor, mapBlogSummaries } from "@/lib/db";
 import StructuredData from "@/components/StructuredData";
 import { buildProfilePageSchema, buildBreadcrumbSchema } from "@/lib/seo/schemaBuilders";
-import { indexablePageRobots } from "@/lib/seo/siteConfig";
+import { indexablePageRobots } from "@/lib/seo/robotsMetadata";
 
 type Props = {
   params: Promise<{ slug: string }>;

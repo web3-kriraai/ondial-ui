@@ -12,7 +12,7 @@ import { BlogPostHeader } from "@/components/marketing/blog-post-header";
 import { BlogRichText } from "@/components/marketing/blog-rich-text";
 import { fetchBlogBySlug, fetchAllBlogSummaries, mapBlogDetail, mapBlogSummaries } from "@/lib/db";
 import { buildBlogPostPageSchemas } from "@/lib/seo/blogPostPageSchemas";
-import { indexablePageRobots } from "@/lib/seo/siteConfig";
+import { indexablePageRobots } from "@/lib/seo/robotsMetadata";
 import { getSiteUrl } from "@/lib/share-links";
 import { DASHBOARD_SIGNUP_URL } from "@/config/urls";
 

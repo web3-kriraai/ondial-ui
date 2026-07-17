@@ -7,7 +7,7 @@ import {
   buildLocalBusinessSchema,
   buildBreadcrumbSchema,
 } from '@/lib/seo/schemaBuilders';
-import { indexablePageRobots } from '@/lib/seo/siteConfig';
+import { indexablePageRobots } from '@/lib/seo/robotsMetadata';
 
 export const revalidate = 3600;
 

@@ -17,7 +17,7 @@ import {
 import StructuredData from "@/components/StructuredData";
 import { fetchCountryPageBySlug } from "@/lib/db";
 import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/seo/schemaBuilders";
-import { indexablePageRobots } from "@/lib/seo/siteConfig";
+import { indexablePageRobots } from "@/lib/seo/robotsMetadata";
 import { stripHtml } from "@/lib/strip-html";
 
 type Props = {

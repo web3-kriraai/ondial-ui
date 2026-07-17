@@ -28,35 +28,6 @@ export function isSeoIndexable() {
   }
 }
 
-/**
- * Meta robots for public pages. Always noindex/nofollow off production
- * so page-level metadata cannot override staging protection.
- */
-export function indexablePageRobots() {
-  if (!isSeoIndexable()) {
-    return {
-      index: false,
-      follow: false,
-      googleBot: {
-        index: false,
-        follow: false,
-      },
-    };
-  }
-
-  return {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  };
-}
-
 export const ORGANIZATION_DESCRIPTION =
   'OnDial provides enterprise-grade AI Voice Agents for inbound and outbound call automation, multilingual customer support, lead qualification, appointment scheduling, and business communication automation.';
 

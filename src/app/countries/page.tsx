@@ -9,7 +9,7 @@ import { TextReveal } from "@/components/ui/text-reveal";
 import { marketingEyebrowClass, marketingSectionContainerClass } from "@/config/marketing-layout";
 import { fetchAllCountryPageSummaries, type CountryPageSummary } from "@/lib/db";
 import { buildBreadcrumbSchema, buildWebPageSchema } from "@/lib/seo/schemaBuilders";
-import { indexablePageRobots } from "@/lib/seo/siteConfig";
+import { indexablePageRobots } from "@/lib/seo/robotsMetadata";
 
 export const revalidate = 300;
 

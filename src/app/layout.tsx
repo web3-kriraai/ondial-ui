@@ -5,7 +5,8 @@ import { AppLayoutShell } from "@/components/layout/app-layout-shell";
 import { AppProviders } from "@/components/providers/app-providers";
 import StructuredData from "@/components/StructuredData";
 import { organizationSchema } from "@/lib/seo/organizationSchema";
-import { isSeoIndexable, indexablePageRobots } from "@/lib/seo/siteConfig";
+import { indexablePageRobots } from "@/lib/seo/robotsMetadata";
+import { isSeoIndexable } from "@/lib/seo/siteConfig";
 import { websiteSchema } from "@/lib/seo/websiteSchema";
 import { softwareApplicationSchema } from "@/lib/seo/softwareApplicationSchema";
 
