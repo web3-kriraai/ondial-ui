@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 
+import { LoginEngagementModal } from "@/components/engagement/login-engagement-modal";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteNavbar } from "@/components/layout/site-navbar";
 import { ShellScrollProvider } from "@/components/layout/shell-scroll-context";
@@ -118,6 +119,7 @@ export function AppLayoutShell({ children, initialPathname }: AppLayoutShellProp
           {children}
         </div>
       </SiteShell>
+      <LoginEngagementModal scrollerRef={shellScrollRef} enabled={!authSplit} />
     </ShellScrollProvider>
   );
 }
