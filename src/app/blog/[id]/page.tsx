@@ -12,6 +12,7 @@ import { BlogPostHeader } from "@/components/marketing/blog-post-header";
 import { BlogRichText } from "@/components/marketing/blog-rich-text";
 import { fetchBlogBySlug, fetchAllBlogSummaries, mapBlogDetail, mapBlogSummaries } from "@/lib/db";
 import { buildBlogPostPageSchemas } from "@/lib/seo/blogPostPageSchemas";
+import { indexablePageRobots } from "@/lib/seo/siteConfig";
 import { getSiteUrl } from "@/lib/share-links";
 import { DASHBOARD_SIGNUP_URL } from "@/config/urls";
 
@@ -46,17 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         canonical: canonicalUrl,
         types: { "application/rss+xml": "https://www.ondial.ai/feed.xml" },
       },
-      robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          "max-video-preview": -1,
-          "max-image-preview": "large",
-          "max-snippet": -1,
-        },
-      },
+      robots: indexablePageRobots(),
       openGraph: {
         title,
         description,

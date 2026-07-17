@@ -1,5 +1,10 @@
 import type { NextConfig } from "next";
 
+/** Staging (test.ondial.ai) must never be indexed — production stays crawlable. */
+const isTestHost = /test\.ondial\.ai/i.test(
+  process.env.NEXT_PUBLIC_APP_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "",
+);
+
 const nextConfig: NextConfig = {
   /**
    * Force metadata (incl. robots) into <head> before HTML is sent.
@@ -7,6 +12,15 @@ const nextConfig: NextConfig = {
    * SEO crawlers see meta robots outside <head> due to streaming metadata.
    */
   htmlLimitedBots: /.*/,
+  async headers() {
+    if (!isTestHost) return [];
+    return [
+      {
+        source: "/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ];
+  },
   /**
    * Hides the floating route dev indicator. It uses pointer capture and can throw
    * `releasePointerCapture` in the console when navigating quickly in dev (Next devtools bundle).

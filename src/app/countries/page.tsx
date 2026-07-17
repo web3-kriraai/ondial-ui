@@ -9,6 +9,7 @@ import { TextReveal } from "@/components/ui/text-reveal";
 import { marketingEyebrowClass, marketingSectionContainerClass } from "@/config/marketing-layout";
 import { fetchAllCountryPageSummaries, type CountryPageSummary } from "@/lib/db";
 import { buildBreadcrumbSchema, buildWebPageSchema } from "@/lib/seo/schemaBuilders";
+import { indexablePageRobots } from "@/lib/seo/siteConfig";
 
 export const revalidate = 300;
 
@@ -17,17 +18,7 @@ export const metadata: Metadata = {
   description:
     "Explore OnDial's enterprise AI voice agent solutions tailored to the regulatory, language, and industry needs of each country we serve.",
   alternates: { canonical: "https://www.ondial.ai/countries" },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  robots: indexablePageRobots(),
   openGraph: {
     title: "AI Voice Agent Solutions by Country | OnDial",
     description:

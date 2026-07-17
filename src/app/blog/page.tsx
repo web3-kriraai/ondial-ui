@@ -15,6 +15,7 @@ import {
   blogListingInnerClass,
 } from "@/config/marketing-layout";
 import { fetchAllBlogSummaries, mapBlogSummaries } from "@/lib/db";
+import { indexablePageRobots } from "@/lib/seo/siteConfig";
 import {
   BLOG_PAGE_DESCRIPTION,
   BLOG_PAGE_TITLE,
@@ -32,17 +33,7 @@ export const metadata: Metadata = {
     canonical: "https://www.ondial.ai/blog",
     types: { "application/rss+xml": "https://www.ondial.ai/feed.xml" },
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  robots: indexablePageRobots(),
   openGraph: {
     title: BLOG_PAGE_TITLE,
     description: BLOG_PAGE_DESCRIPTION,

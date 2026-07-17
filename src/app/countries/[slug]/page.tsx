@@ -17,6 +17,7 @@ import {
 import StructuredData from "@/components/StructuredData";
 import { fetchCountryPageBySlug } from "@/lib/db";
 import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/seo/schemaBuilders";
+import { indexablePageRobots } from "@/lib/seo/siteConfig";
 import { stripHtml } from "@/lib/strip-html";
 
 type Props = {
@@ -42,17 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       alternates: { canonical: canonicalUrl },
-      robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          "max-video-preview": -1,
-          "max-image-preview": "large",
-          "max-snippet": -1,
-        },
-      },
+      robots: indexablePageRobots(),
       openGraph: {
         title,
         description,

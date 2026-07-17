@@ -13,6 +13,7 @@ import {
 import { fetchBlogsByAuthor, mapBlogSummaries } from "@/lib/db";
 import StructuredData from "@/components/StructuredData";
 import { buildProfilePageSchema, buildBreadcrumbSchema } from "@/lib/seo/schemaBuilders";
+import { indexablePageRobots } from "@/lib/seo/siteConfig";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -35,17 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical: `https://www.ondial.ai/blog/author/${slug}`,
       },
-      robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          "max-video-preview": -1,
-          "max-image-preview": "large",
-          "max-snippet": -1,
-        },
-      },
+      robots: indexablePageRobots(),
     };
   } catch {
     return {
@@ -54,17 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical: `https://www.ondial.ai/blog/author/${slug}`,
       },
-      robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          "max-video-preview": -1,
-          "max-image-preview": "large",
-          "max-snippet": -1,
-        },
-      },
+      robots: indexablePageRobots(),
     };
   }
 }

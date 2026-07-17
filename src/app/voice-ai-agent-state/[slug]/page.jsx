@@ -7,6 +7,7 @@ import {
   buildLocalBusinessSchema,
   buildBreadcrumbSchema,
 } from '@/lib/seo/schemaBuilders';
+import { indexablePageRobots } from '@/lib/seo/siteConfig';
 
 export const revalidate = 3600;
 
@@ -39,17 +40,7 @@ export async function generateMetadata({ params }) {
       title: metaData.title,
       description: metaData.description,
     },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
+    robots: indexablePageRobots(),
   };
 }
 

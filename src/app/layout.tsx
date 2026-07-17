@@ -5,6 +5,7 @@ import { AppLayoutShell } from "@/components/layout/app-layout-shell";
 import { AppProviders } from "@/components/providers/app-providers";
 import StructuredData from "@/components/StructuredData";
 import { organizationSchema } from "@/lib/seo/organizationSchema";
+import { isSeoIndexable, indexablePageRobots } from "@/lib/seo/siteConfig";
 import { websiteSchema } from "@/lib/seo/websiteSchema";
 import { softwareApplicationSchema } from "@/lib/seo/softwareApplicationSchema";
 
@@ -67,21 +68,14 @@ export const metadata: Metadata = {
     icon: "/fav.svg",
     apple: "/fav.svg",
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  verification: {
-    google: "google17567a3d804df7df",
-  },
+  robots: indexablePageRobots(),
+  verification: isSeoIndexable()
+    ? {
+        google: "google17567a3d804df7df",
+      }
+    : undefined,
 };
+
 
 export const viewport: Viewport = {
   width: "device-width",
