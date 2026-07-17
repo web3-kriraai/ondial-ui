@@ -29,7 +29,7 @@ export type ServicesIndustry = {
 };
 
 export const SERVICES_HERO = {
-  tag: "AI voice call automation",
+  tag: "The Intelligence Behind Every Call",
   titleLead: "OnDial",
   titleAccent: "Best AI call assistant",
   description:
@@ -494,7 +494,7 @@ export const SERVICES_INDUSTRIES: readonly ServicesIndustry[] = [
 ] as const;
 
 export const SERVICES_HOW_IT_WORKS = {
-  eyebrow: "How OnDial works",
+  eyebrow: "How AI Voice Automation Works",
   title: "How OnDial Works",
   description:
     "Many businesses wonder how AI voice call automation actually fits into their operations. OnDial makes it simple:",
