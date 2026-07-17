@@ -400,32 +400,32 @@ export const FEATURES_HUB_CATEGORIES: readonly FeaturesHubCategory[] = [
   },
   {
     id: "voice-technology",
-    eyebrow: "Voice technology",
+    eyebrow: "AI Voice Intelligence",
     title: "Voice Technology Features",
     items: voiceItems,
   },
   {
     id: "call-management",
-    eyebrow: "Call management",
+    eyebrow: "Smart Call Operations",
     title: "Call Management Features",
     items: callManagementItems,
   },
   {
     id: "sales-automation",
-    eyebrow: "Sales automation",
+    eyebrow: "AI Sales Acceleration",
     title: "Sales Automation Features",
     items: salesItems,
   },
   {
     id: "customer-support",
-    eyebrow: "Customer support",
+    eyebrow: "Intelligent Customer Support",
     title: "Customer Support Features",
     items: supportItems,
   },
 ] as const;
 
 export const FEATURES_HUB_INTEGRATIONS = {
-  eyebrow: "Integrations",
+  eyebrow: "Enterprise Integrations",
   title: "Integrations",
   description:
     "OnDial connects to the tools businesses already run. A REST API and webhooks cover anything not listed. Every integration removes manual data entry—when OnDial books an appointment, qualifies a lead, or resolves a ticket, the outcome syncs back automatically.",
@@ -490,7 +490,7 @@ export const FEATURES_HUB_INTEGRATIONS = {
 } as const;
 
 export const FEATURES_HUB_SECURITY = {
-  eyebrow: "Enterprise security",
+  eyebrow: "Secure AI Platform",
   title: "Enterprise Security, Compliance, and Reliability",
   description:
     "Role-based permissions (RBAC), audit logs, encryption in transit and at rest, API and webhook access, and customer verification before sharing sensitive information. Enterprise-grade infrastructure supporting thousands of simultaneous conversations, elastic scaling for demand spikes, 24/7/365 uptime design, and private or dedicated deployment options for strict data residency requirements.",
@@ -548,7 +548,7 @@ export const FEATURES_HUB_SECURITY = {
 } as const;
 
 export const FEATURES_HUB_ANALYTICS = {
-  eyebrow: "Analytics",
+  eyebrow: "Conversation Intelligence",
   title: "Analytics and Reporting",
   items: [
     {
@@ -611,7 +611,7 @@ export const FEATURES_HUB_ANALYTICS = {
 } as const;
 
 export const FEATURES_HUB_AUTOMATION = {
-  eyebrow: "Automation",
+  eyebrow: "AI Workflow Automation",
   title: "Automation and Workflows",
   items: [
     {
@@ -660,7 +660,7 @@ export const FEATURES_HUB_AUTOMATION = {
 } as const;
 
 export const FEATURES_HUB_INDUSTRIES = {
-  eyebrow: "Industries",
+  eyebrow: "Industry AI Solutions",
   title: "Industries OnDial Serves",
   description:
     "The same feature set adapts to 20+ industries through pre-built conversation templates.",
@@ -729,7 +729,7 @@ export const FEATURES_HUB_HOW_IT_WORKS = {
 } as const;
 
 export const FEATURES_HUB_PRICING = {
-  eyebrow: "Pricing",
+  eyebrow: "Transparent Pricing",
   title: "Pricing",
   description:
     "Usage-based, per-minute pricing. Every plan includes the full feature set. Concurrent channels and phone numbers are billed separately.",

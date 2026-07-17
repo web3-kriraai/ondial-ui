@@ -38,7 +38,7 @@ export const INDUSTRIES_HUB_HERO = {
 } as const;
 
 export const INDUSTRIES_HUB_TRUSTED = {
-  eyebrow: "Trusted by",
+  eyebrow: "Customer Trust",
   title: "Trusted by growing businesses across industries worldwide.",
   stats: [
     {
@@ -92,7 +92,7 @@ export const INDUSTRIES_HUB_INTRO = {
 } as const;
 
 export const INDUSTRIES_HUB_SOLUTIONS = {
-  eyebrow: "Industry solutions",
+  eyebrow: "Industry Specific AI Voice",
   title: "Industry Solutions",
 } as const;
 
@@ -319,7 +319,7 @@ export const INDUSTRIES_HUB_WHY_WORK = {
 } as const;
 
 export const INDUSTRIES_HUB_CHALLENGES = {
-  eyebrow: "Common challenges",
+  eyebrow: "Business Communication Challenges",
   title: "Common Business Challenges",
   description:
     "The problems that cost you revenue show up across every sector. OnDial solves them the same way, on every call.",
@@ -537,14 +537,14 @@ export const INDUSTRIES_HUB_ADAPTATION = {
 } as const;
 
 export const INDUSTRIES_HUB_SECURITY = {
-  eyebrow: "Enterprise security",
+  eyebrow: "Secure AI Voice Platform",
   title: "Enterprise Security and Compliance",
   description:
     "Security is built into every layer. Data is encrypted in transit and at rest. Role-based access controls limit who can view and manage information. Integrations run through secure APIs. OnDial aligns with recognized compliance standards for handling sensitive data, and detailed audit logs record system activity for accountability. Enterprise-grade reliability keeps your voice operations running consistently at scale.",
 } as const;
 
 export const INDUSTRIES_HUB_STORIES = {
-  eyebrow: "Customer success",
+  eyebrow: "Real Customer Results",
   title: "Customer Success Stories",
   description: "These outcomes are representative of what businesses commonly achieve.",
   stories: [
@@ -650,7 +650,7 @@ export const INDUSTRIES_HUB_FAQ = {
 } as const;
 
 export const INDUSTRIES_HUB_RESOURCES = {
-  eyebrow: "Related resources",
+  eyebrow: "Explore OnDial",
   title: "Related Resources",
   links: [
     { label: "Services", href: "/services" },

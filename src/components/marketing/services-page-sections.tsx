@@ -430,7 +430,7 @@ export function ServicesIndustriesSection() {
         <div className={pageHeaderShellClass}>
           <div className={styles.industriesIntro}>
             <SectionHeader
-              eyebrow="Industries we serve"
+              eyebrow="AI Voice Solutions by Industry"
               title="Industries We Serve"
               description="Every industry has unique communication needs. Browse sectors below to see how OnDial delivers purpose-built AI call automation at scale."
               titleId="services-industries-title"

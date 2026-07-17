@@ -63,7 +63,7 @@ export const MULTILINGUAL_HUB_HERO = {
 } as const;
 
 export const MULTILINGUAL_HUB_QUICK_ANSWERS = {
-  eyebrow: "Quick answer box",
+  eyebrow: "AI Voice Overview",
   title: "Quick Answer Box",
   items: [
     {
@@ -114,7 +114,7 @@ export const MULTILINGUAL_HUB_SOLUTION = {
 } as const;
 
 export const MULTILINGUAL_HUB_LANGUAGES = {
-  eyebrow: "Supported languages",
+  eyebrow: "Global Language Support",
   title: "Supported Languages",
   description:
     "The platform processes over 100 languages, scaling from major international dialects to deep regional coverage.",
@@ -188,7 +188,7 @@ export const MULTILINGUAL_HUB_LANGUAGES = {
 } as const;
 
 export const MULTILINGUAL_HUB_INDUSTRY_USE_CASES = {
-  eyebrow: "Industry use cases",
+  eyebrow: "Industry AI Solutions",
   title: "Industry Use Cases",
   description: "Voice automation adapts to specialized workflows across various business sectors.",
   rows: [
@@ -292,7 +292,7 @@ export const MULTILINGUAL_HUB_INDUSTRY_USE_CASES = {
 } as const;
 
 export const MULTILINGUAL_HUB_FEATURES = {
-  eyebrow: "Feature breakdown",
+  eyebrow: "AI Voice Capabilities",
   title: "Feature Breakdown",
   items: [
     {
@@ -362,7 +362,7 @@ export const MULTILINGUAL_HUB_FEATURES = {
 } as const;
 
 export const MULTILINGUAL_HUB_HOW_IT_WORKS = {
-  eyebrow: "How it works",
+  eyebrow: "AI Voice Agent Workflow",
   title: "How It Works",
   steps: [
     {
@@ -418,7 +418,7 @@ export const MULTILINGUAL_HUB_HOW_IT_WORKS = {
 } as const;
 
 export const MULTILINGUAL_HUB_BENEFITS = {
-  eyebrow: "Enterprise benefits",
+  eyebrow: "Enterprise AI Advantages",
   title: "Enterprise Benefits",
   items: [
     {
@@ -485,7 +485,7 @@ export const MULTILINGUAL_HUB_IVR_COMPARISON = {
 } as const;
 
 export const MULTILINGUAL_HUB_ALTERNATIVE_COMPARISONS = {
-  eyebrow: "Alternative comparisons",
+  eyebrow: "Compare AI Voice Solutions",
   title: "Alternative Comparisons",
   items: [
     {
@@ -513,7 +513,7 @@ export const MULTILINGUAL_HUB_ALTERNATIVE_COMPARISONS = {
 } as const;
 
 export const MULTILINGUAL_HUB_SECURITY = {
-  eyebrow: "Security & compliance",
+  eyebrow: "Enterprise AI Security",
   title: "Security & Compliance",
   description:
     "Enterprise deployments are built with access controls and encryption in place to protect sensitive caller data. Audit logs and data-retention protocols align with standard corporate governance requirements. The platform strictly adheres to verified industry frameworks, holding certifications for HIPAA (healthcare data privacy), GDPR (European data protection), PCI DSS (payment card security), SOC 2 (service organization controls), and ISO standards.",
@@ -521,7 +521,7 @@ export const MULTILINGUAL_HUB_SECURITY = {
 } as const;
 
 export const MULTILINGUAL_HUB_INTEGRATIONS = {
-  eyebrow: "Integrations",
+  eyebrow: "AI Platform Integrations",
   title: "Integrations",
   description: "The platform connects to your existing software stack to ensure data continuity.",
   items: [
@@ -564,7 +564,7 @@ export const MULTILINGUAL_HUB_INTEGRATIONS = {
 } as const;
 
 export const MULTILINGUAL_HUB_STORY = {
-  eyebrow: "Customer success",
+  eyebrow: "Proven Customer Results",
   title: "Customer Success Stories",
   disclaimer: "Illustrative example — not a verified OnDial customer result",
   body: `Consider a regional logistics provider managing high-volume delivery queries. A customer calls and speaks in Hinglish: "Sir, mera order kab tak deliver ho jayega?" (Sir, by when will my order be delivered?). The platform's Adaptive Language Intelligence processes the English and Hindi words blended together in that single sentence. It instantly queries the logistics database via API, retrieves the tracking status, and responds naturally in the same mixed dialect. The interaction logs securely into Salesforce, completing the request in seconds while saving human agents from repetitive status-check calls.`,
@@ -656,7 +656,7 @@ export const MULTILINGUAL_HUB_FAQ = {
 } as const;
 
 export const MULTILINGUAL_HUB_DEPLOYMENT = {
-  eyebrow: "Deployment framework",
+  eyebrow: "Enterprise Deployment",
   title: "Deployment Framework",
   definition: {
     label: "Definition",
