@@ -1,103 +1,137 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import * as THREE from "three";
+import type {
+  BufferGeometry,
+  Group,
+  Material,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  PlaneGeometry,
+  Scene,
+  Texture,
+  WebGLRenderer,
+} from "three";
 
-import { HOME_CAROUSEL_SLIDES } from "@/config/home-carousel";
+import {
+  ENGAGEMENT_GRID_IMAGES,
+  getCachedEngagementImage,
+  getEngagementImage,
+} from "@/components/engagement/perspective-texture-cache";
 import { cn } from "@/lib/utils";
 
-const DEFAULT_IMAGES = HOME_CAROUSEL_SLIDES.map((slide) => slide.image);
-
-const TUNNEL_WIDTH = 24;
-const TUNNEL_HEIGHT = 16;
-const SEGMENT_DEPTH = 6;
-const SEGMENT_COUNT = 16;
-const FLOOR_COLUMNS = 6;
-const WALL_ROWS = 4;
+// Portrait grid cells: every floor/wall slot is taller than it is wide.
+const TUNNEL_WIDTH = 22;
+const TUNNEL_HEIGHT = 20;
+const SEGMENT_DEPTH = 3.6;
+const SEGMENT_COUNT = 18;
+const FLOOR_COLUMNS = 8; // cell width 2.75 < depth 3.6 → vertical floor tiles
+const WALL_ROWS = 4; // cell height 5.0 > depth 3.6 → vertical wall tiles
 const CAMERA_SPEED = 1.8;
 const POINTER_SMOOTHING = 5.5;
-/** Soft ease for texture reveal (~0.7–0.9s). */
 const IMAGE_FADE_SMOOTHING = 2.4;
-const IMAGE_LOAD_STAGGER_MS = 45;
+const IMAGE_LOAD_STAGGER_MS = 40;
 const IMAGE_OPACITY = 0.94;
-const TILE_INSET = 0.9;
+/** Hairline gap so grid lines stay visible while images still fill the cell. */
+const TILE_INSET = 0.14;
+const MOBILE_MEDIA = "(max-width: 767px)";
 
 type TileRecord = {
-  geometry: THREE.PlaneGeometry;
+  geometry: PlaneGeometry;
   aspect: number;
+  /** Default PlaneGeometry UVs — cover crops must always start from these. */
+  baseUv: Float32Array;
 };
 
 type PerspectiveMediaGridProps = {
   className?: string;
   images?: readonly string[];
+  /** When false, the WebGL loop pauses but the scene/textures stay warm. */
   active?: boolean;
   reduceMotion?: boolean;
   "aria-label"?: string;
 };
 
+type ThreeModule = typeof import("three");
+
+function resolvePixelRatio(): number {
+  if (typeof window === "undefined") return 1;
+  const isMobile = window.matchMedia(MOBILE_MEDIA).matches;
+  return Math.min(window.devicePixelRatio || 1, isMobile ? 1.15 : 1.5);
+}
+
 /**
- * A bounded, reusable version of the Delphi perspective media tunnel.
- * It observes its own container, so it works in cards, dialogs, and page heroes.
+ * Bounded Delphi-style media tunnel.
+ * Builds once, pauses/resumes with `active`, and reuses cached image decodes.
  */
 export function PerspectiveMediaGrid({
   className,
-  images = DEFAULT_IMAGES,
+  images = ENGAGEMENT_GRID_IMAGES,
   active = true,
   reduceMotion = false,
   "aria-label": ariaLabel = "OnDial customer experience gallery",
 }: PerspectiveMediaGridProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const activeRef = useRef(active);
+  const reduceMotionRef = useRef(reduceMotion);
+  const startLoopRef = useRef<(() => void) | null>(null);
+  const stopLoopRef = useRef<(() => void) | null>(null);
 
+  activeRef.current = active;
+  reduceMotionRef.current = reduceMotion;
+
+  // Build the scene once for this component lifetime.
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
-    if (!container || !canvas || !active) return;
+    if (!container || !canvas) return;
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff);
-    scene.fog = new THREE.FogExp2(0xffffff, 0.018);
-
-    const camera = new THREE.PerspectiveCamera(68, 1, 0.1, 180);
-    camera.position.set(0, 0, 0.8);
-
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      alpha: false,
-      powerPreference: "high-performance",
-    });
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
-
-    const segmentGroups: THREE.Group[] = [];
-    const textures: THREE.Texture[] = [];
-    const geometries: THREE.BufferGeometry[] = [];
-    const materials: THREE.Material[] = [];
-    const imageMaterials: THREE.MeshBasicMaterial[] = [];
-    const imageLoadTimers: number[] = [];
-    const materialTiles = new Map<THREE.MeshBasicMaterial, TileRecord[]>();
-    const fadingMaterials = new Set<THREE.MeshBasicMaterial>();
-    const occupiedLanesBySegment: Array<Set<string>> = [];
     let disposed = false;
     let animationFrame = 0;
     let previousTime = performance.now();
     let pointerX = 0;
     let pointerY = 0;
+    let running = false;
+
+    let THREE: ThreeModule | null = null;
+    let scene: Scene | null = null;
+    let camera: PerspectiveCamera | null = null;
+    let renderer: WebGLRenderer | null = null;
+
+    const segmentGroups: Group[] = [];
+    const textures: Texture[] = [];
+    const geometries: BufferGeometry[] = [];
+    const materials: Material[] = [];
+    const imageMaterials: MeshBasicMaterial[] = [];
+    const imageLoadTimers: number[] = [];
+    const materialTiles = new Map<MeshBasicMaterial, TileRecord[]>();
+    const fadingMaterials = new Set<MeshBasicMaterial>();
+    const occupiedLanesBySegment: Array<Set<string>> = [];
+
+    const stopLoop = () => {
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      }
+      running = false;
+    };
 
     const resize = () => {
+      if (!renderer || !camera || !scene) return;
       const { width, height } = container.getBoundingClientRect();
       if (width <= 0 || height <= 0) return;
+      renderer.setPixelRatio(resolvePixelRatio());
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
+      if (!running) {
+        renderer.render(scene, camera);
+      }
     };
 
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(container);
-    resize();
-
     const handlePointerMove = (event: PointerEvent) => {
+      if (!activeRef.current) return;
       const bounds = container.getBoundingClientRect();
       pointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
       pointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
@@ -106,46 +140,56 @@ export function PerspectiveMediaGrid({
       pointerX = 0;
       pointerY = 0;
     };
-    container.addEventListener("pointermove", handlePointerMove, { passive: true });
-    container.addEventListener("pointerleave", resetPointer);
 
-    const trackGeometry = <T extends THREE.BufferGeometry>(geometry: T): T => {
+    const trackGeometry = <T extends BufferGeometry>(geometry: T): T => {
       geometries.push(geometry);
       return geometry;
     };
-    const trackMaterial = <T extends THREE.Material>(material: T): T => {
+    const trackMaterial = <T extends Material>(material: T): T => {
       materials.push(material);
       return material;
     };
 
     const addTile = (
-      group: THREE.Group,
-      position: THREE.Vector3,
-      rotation: THREE.Euler,
+      group: Group,
+      position: InstanceType<ThreeModule["Vector3"]>,
+      rotation: InstanceType<ThreeModule["Euler"]>,
       width: number,
       height: number,
-      material: THREE.MeshBasicMaterial,
+      material: MeshBasicMaterial,
     ) => {
-      const tileWidth = Math.max(0.4, width - TILE_INSET);
-      const tileHeight = Math.max(0.4, height - TILE_INSET);
-      const geometry = trackGeometry(
-        new THREE.PlaneGeometry(tileWidth, tileHeight),
-      );
+      if (!THREE) return;
+      // Fill nearly the full cell — only a hairline inset for grid-line separation.
+      const tileWidth = Math.max(0.35, width - TILE_INSET);
+      const tileHeight = Math.max(0.35, height - TILE_INSET);
+      const geometry = trackGeometry(new THREE.PlaneGeometry(tileWidth, tileHeight));
       const mesh = new THREE.Mesh(geometry, material);
       mesh.position.copy(position);
       mesh.rotation.copy(rotation);
       group.add(mesh);
+
+      const uvAttr = geometry.getAttribute("uv");
+      const baseUv = new Float32Array(uvAttr.array.length);
+      baseUv.set(uvAttr.array as ArrayLike<number>);
+
       const records = materialTiles.get(material) ?? [];
-      records.push({ geometry, aspect: tileWidth / tileHeight });
+      records.push({
+        geometry,
+        aspect: tileWidth / tileHeight,
+        baseUv,
+      });
       materialTiles.set(material, records);
     };
 
     const applyCoverUvs = (
-      geometry: THREE.PlaneGeometry,
+      geometry: PlaneGeometry,
       planeAspect: number,
       imageAspect: number,
+      baseUv: Float32Array,
     ) => {
       const uv = geometry.getAttribute("uv");
+
+      // object-fit: cover — fill the plane, crop overflow on the longer image side.
       let scaleU = 1;
       let scaleV = 1;
       let offsetU = 0;
@@ -154,22 +198,21 @@ export function PerspectiveMediaGrid({
       if (imageAspect > planeAspect) {
         scaleU = planeAspect / imageAspect;
         offsetU = (1 - scaleU) / 2;
-      } else {
+      } else if (imageAspect < planeAspect) {
         scaleV = imageAspect / planeAspect;
         offsetV = (1 - scaleV) / 2;
       }
 
       for (let index = 0; index < uv.count; index += 1) {
-        uv.setXY(
-          index,
-          offsetU + uv.getX(index) * scaleU,
-          offsetV + uv.getY(index) * scaleV,
-        );
+        const baseU = baseUv[index * 2] ?? 0;
+        const baseV = baseUv[index * 2 + 1] ?? 0;
+        uv.setXY(index, offsetU + baseU * scaleU, offsetV + baseV * scaleV);
       }
       uv.needsUpdate = true;
     };
 
     const buildSegment = (index: number) => {
+      if (!THREE || !scene) return;
       const group = new THREE.Group();
       group.position.z = -index * SEGMENT_DEPTH;
 
@@ -208,16 +251,23 @@ export function PerspectiveMediaGrid({
         }),
       );
       group.add(new THREE.LineSegments(lineGeometry, lineMaterial));
-
       scene.add(group);
       segmentGroups.push(group);
     };
 
     const render = (time: number) => {
+      if (disposed || !renderer || !scene || !camera) return;
+
+      if (!activeRef.current) {
+        running = false;
+        animationFrame = 0;
+        return;
+      }
+
       const delta = Math.min((time - previousTime) / 1000, 0.05);
       previousTime = time;
 
-      if (!reduceMotion) {
+      if (!reduceMotionRef.current) {
         const pointerSmoothing = 1 - Math.exp(-POINTER_SMOOTHING * delta);
         const imageSmoothing = 1 - Math.exp(-IMAGE_FADE_SMOOTHING * delta);
         camera.position.z -= delta * CAMERA_SPEED;
@@ -246,38 +296,38 @@ export function PerspectiveMediaGrid({
       }
 
       renderer.render(scene, camera);
-      if (!reduceMotion) {
+
+      if (activeRef.current && !reduceMotionRef.current) {
         animationFrame = window.requestAnimationFrame(render);
+      } else {
+        running = false;
+        animationFrame = 0;
       }
     };
 
-    const loadScene = () => {
-      // 1) Empty perspective grid first — visible immediately.
-      for (let index = 0; index < SEGMENT_COUNT; index += 1) {
-        buildSegment(index);
+    const startLoop = () => {
+      if (disposed || running || !renderer || !scene || !camera) return;
+      if (!activeRef.current) {
+        renderer.render(scene, camera);
+        return;
       }
-      renderer.render(scene, camera);
-      if (!reduceMotion) {
-        animationFrame = window.requestAnimationFrame(render);
+      running = true;
+      previousTime = performance.now();
+      if (reduceMotionRef.current) {
+        renderer.render(scene, camera);
+        running = false;
+        return;
       }
+      animationFrame = window.requestAnimationFrame(render);
+    };
 
-      // 2) Invisible image planes, then textures fade in as they arrive.
-      const loader = new THREE.TextureLoader();
-      const textureMaterials = images.map(() =>
-        trackMaterial(
-          new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: 0,
-            depthWrite: false,
-          }),
-        ),
-      );
+    startLoopRef.current = startLoop;
+    stopLoopRef.current = stopLoop;
 
-      imageMaterials.push(...textureMaterials);
+    const attachImagePlanes = () => {
+      const three = THREE;
+      if (!three) return;
 
-      // Attach image planes after the wireframe is already on screen.
       for (let index = 0; index < SEGMENT_COUNT; index += 1) {
         const group = segmentGroups[index];
         if (!group) continue;
@@ -295,7 +345,7 @@ export function PerspectiveMediaGrid({
 
         const addSurfaceTile = (
           surface: number,
-          material: THREE.MeshBasicMaterial,
+          material: MeshBasicMaterial,
           slotSeed: number,
         ) => {
           const normalizedSurface = surface % 4;
@@ -313,12 +363,12 @@ export function PerspectiveMediaGrid({
             case 0:
               addTile(
                 group,
-                new THREE.Vector3(
+                new three.Vector3(
                   -halfWidth + slot * columnWidth + columnWidth / 2,
                   -halfHeight,
                   depthCenter,
                 ),
-                new THREE.Euler(-Math.PI / 2, 0, 0),
+                new three.Euler(-Math.PI / 2, 0, 0),
                 columnWidth,
                 SEGMENT_DEPTH,
                 material,
@@ -327,12 +377,12 @@ export function PerspectiveMediaGrid({
             case 1:
               addTile(
                 group,
-                new THREE.Vector3(
+                new three.Vector3(
                   -halfWidth + slot * columnWidth + columnWidth / 2,
                   halfHeight,
                   depthCenter,
                 ),
-                new THREE.Euler(Math.PI / 2, 0, 0),
+                new three.Euler(Math.PI / 2, 0, 0),
                 columnWidth,
                 SEGMENT_DEPTH,
                 material,
@@ -341,12 +391,12 @@ export function PerspectiveMediaGrid({
             case 2:
               addTile(
                 group,
-                new THREE.Vector3(
+                new three.Vector3(
                   -halfWidth,
                   -halfHeight + slot * rowHeight + rowHeight / 2,
                   depthCenter,
                 ),
-                new THREE.Euler(0, Math.PI / 2, 0),
+                new three.Euler(0, Math.PI / 2, 0),
                 SEGMENT_DEPTH,
                 rowHeight,
                 material,
@@ -355,12 +405,12 @@ export function PerspectiveMediaGrid({
             default:
               addTile(
                 group,
-                new THREE.Vector3(
+                new three.Vector3(
                   halfWidth,
                   -halfHeight + slot * rowHeight + rowHeight / 2,
                   depthCenter,
                 ),
-                new THREE.Euler(0, -Math.PI / 2, 0),
+                new three.Euler(0, -Math.PI / 2, 0),
                 SEGMENT_DEPTH,
                 rowHeight,
                 material,
@@ -375,73 +425,162 @@ export function PerspectiveMediaGrid({
         }
         occupiedLanesBySegment[index] = occupiedLanes;
       }
+    };
 
+    const applyImageToMaterial = (
+      material: MeshBasicMaterial,
+      image: HTMLImageElement,
+    ) => {
+      const three = THREE;
+      if (!three || !renderer || disposed) return;
+      const texture = new three.Texture(image);
+      texture.colorSpace = three.SRGBColorSpace;
+      texture.minFilter = three.LinearMipmapLinearFilter;
+      texture.magFilter = three.LinearFilter;
+      texture.generateMipmaps = true;
+      texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
+      texture.needsUpdate = true;
+      textures.push(texture);
+
+      material.map = texture;
+      material.needsUpdate = true;
+
+      const imageAspect =
+        image.naturalWidth && image.naturalHeight
+          ? image.naturalWidth / image.naturalHeight
+          : 1;
+      for (const tile of materialTiles.get(material) ?? []) {
+        applyCoverUvs(tile.geometry, tile.aspect, imageAspect, tile.baseUv);
+      }
+
+      if (reduceMotionRef.current) {
+        material.opacity = IMAGE_OPACITY;
+        if (scene && camera) renderer.render(scene, camera);
+      } else {
+        fadingMaterials.add(material);
+        if (activeRef.current) startLoop();
+      }
+    };
+
+    const loadTextures = () => {
       images.forEach((src, index) => {
+        const material = imageMaterials[index];
+        if (!material) return;
+
+        const cached = getCachedEngagementImage(src);
+        if (cached) {
+          applyImageToMaterial(material, cached);
+          return;
+        }
+
         const timer = window.setTimeout(() => {
-          loader.load(
-            src,
-            (texture) => {
-              if (disposed) {
-                texture.dispose();
-                return;
-              }
-              texture.colorSpace = THREE.SRGBColorSpace;
-              texture.minFilter = THREE.LinearMipmapLinearFilter;
-              texture.magFilter = THREE.LinearFilter;
-              texture.generateMipmaps = true;
-              texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
-              textures.push(texture);
-              const material = textureMaterials[index];
-              material.map = texture;
-              material.needsUpdate = true;
-
-              const source = texture.image as { width?: number; height?: number };
-              const imageAspect =
-                source.width && source.height ? source.width / source.height : 1;
-              for (const tile of materialTiles.get(material) ?? []) {
-                applyCoverUvs(tile.geometry, tile.aspect, imageAspect);
-              }
-
-              if (reduceMotion) {
-                material.opacity = IMAGE_OPACITY;
-                renderer.render(scene, camera);
-              } else {
-                fadingMaterials.add(material);
-              }
-            },
-            undefined,
-            () => {
-              // Leave the tile invisible if a texture fails.
-            },
-          );
+          void getEngagementImage(src).then((image) => {
+            if (!image || disposed) return;
+            applyImageToMaterial(material, image);
+          });
         }, index * IMAGE_LOAD_STAGGER_MS);
         imageLoadTimers.push(timer);
       });
     };
 
-    loadScene();
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(container);
+    container.addEventListener("pointermove", handlePointerMove, { passive: true });
+    container.addEventListener("pointerleave", resetPointer);
+
+    const visibilityHandler = () => {
+      if (document.hidden) {
+        stopLoop();
+        return;
+      }
+      if (activeRef.current) startLoop();
+    };
+    document.addEventListener("visibilitychange", visibilityHandler);
+
+    void import("three").then((mod) => {
+      if (disposed) return;
+      THREE = mod;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xffffff);
+      scene.fog = new THREE.FogExp2(0xffffff, 0.018);
+
+      camera = new THREE.PerspectiveCamera(68, 1, 0.1, 180);
+      camera.position.set(0, 0, 0.8);
+
+      const isMobile = window.matchMedia(MOBILE_MEDIA).matches;
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: !isMobile,
+        alpha: false,
+        powerPreference: "high-performance",
+      });
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.setPixelRatio(resolvePixelRatio());
+
+      for (let index = 0; index < SEGMENT_COUNT; index += 1) {
+        buildSegment(index);
+      }
+      resize();
+      renderer.render(scene, camera);
+
+      const textureMaterials = images.map(() =>
+        trackMaterial(
+          new mod.MeshBasicMaterial({
+            color: 0xffffff,
+            side: mod.DoubleSide,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false,
+          }),
+        ),
+      );
+      imageMaterials.push(...textureMaterials);
+      attachImagePlanes();
+      loadTextures();
+
+      if (activeRef.current) startLoop();
+    });
 
     return () => {
       disposed = true;
-      window.cancelAnimationFrame(animationFrame);
-      for (const timer of imageLoadTimers) window.clearTimeout(timer);
+      stopLoop();
+      startLoopRef.current = null;
+      stopLoopRef.current = null;
       resizeObserver.disconnect();
       container.removeEventListener("pointermove", handlePointerMove);
       container.removeEventListener("pointerleave", resetPointer);
+      document.removeEventListener("visibilitychange", visibilityHandler);
+      for (const timer of imageLoadTimers) window.clearTimeout(timer);
       for (const geometry of geometries) geometry.dispose();
       for (const material of materials) material.dispose();
       for (const texture of textures) texture.dispose();
-      scene.clear();
-      renderer.dispose();
+      scene?.clear();
+      renderer?.dispose();
     };
-  }, [active, images, reduceMotion]);
+    // Scene is built once; `active` / `reduceMotion` are read via refs.
+  }, [images]);
+
+  // Pause / resume without tearing down GPU state.
+  useEffect(() => {
+    if (active) {
+      startLoopRef.current?.();
+      return;
+    }
+    stopLoopRef.current?.();
+  }, [active]);
 
   return (
     <div
       ref={containerRef}
       role="img"
       aria-label={ariaLabel}
-      className={cn("relative isolate size-full overflow-hidden bg-white", className)}
+      className={cn(
+        "relative isolate size-full overflow-hidden bg-white",
+        !active && "pointer-events-none",
+        className,
+      )}
+      aria-hidden={!active}
     >
       <canvas ref={canvasRef} className="block size-full" />
       <div
@@ -450,4 +589,14 @@ export function PerspectiveMediaGrid({
       />
     </div>
   );
+}
+
+/** Preload Three.js + engagement images during the modal delay window. */
+export function preloadPerspectiveMediaGrid(): Promise<void> {
+  return Promise.all([
+    import("three"),
+    import("@/components/engagement/perspective-texture-cache").then((mod) =>
+      mod.preloadEngagementImages(),
+    ),
+  ]).then(() => undefined);
 }
