@@ -2,17 +2,59 @@
 
 import { Building2, ChevronLeft, Clock, Sparkles } from "lucide-react";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import { BlogArticleMotion } from "@/components/marketing/blog-article-motion";
 import { proseClassName } from "@/components/marketing/blog-rich-text";
 import { CaseStudyGridCard } from "@/components/marketing/case-study-shared";
-import type { CaseStudyItem, CaseStudyRichDetail } from "@/data/case-study-page-content";
+import type {
+  CaseStudyItem,
+  CaseStudyRichDetail,
+  CaseStudyTextLink,
+} from "@/data/case-study-page-content";
 import { cn } from "@/lib/utils";
 
 type CaseStudyDetailPageContentProps = {
   item: CaseStudyItem;
   related: CaseStudyItem[];
 };
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function LinkedText({
+  text,
+  links = [],
+  className = "font-medium text-[#534AB7] underline-offset-2 hover:underline",
+}: {
+  text: string;
+  links?: CaseStudyTextLink[];
+  className?: string;
+}): ReactNode {
+  if (!text) return null;
+  if (!links.length) return text;
+
+  const unique = links.filter(
+    (link, index, arr) =>
+      link?.text && link?.href && arr.findIndex((item) => item.text === link.text) === index,
+  );
+  if (!unique.length) return text;
+
+  const pattern = new RegExp(`(${unique.map((link) => escapeRegExp(link.text)).join("|")})`, "g");
+  const hrefByText = Object.fromEntries(unique.map((link) => [link.text, link.href]));
+  const parts = String(text).split(pattern);
+
+  return parts.map((part, index) => {
+    const href = hrefByText[part];
+    if (!href) return <span key={index}>{part}</span>;
+    return (
+      <Link key={index} href={href} className={className}>
+        {part}
+      </Link>
+    );
+  });
+}
 
 function CaseStudyPostHeader({ item }: { item: CaseStudyItem }) {
   const readMinutes = item.richDetail?.readMinutes ?? 3;
@@ -105,11 +147,19 @@ function CaseStudyMetricsBanner({ item }: { item: CaseStudyItem }) {
   );
 }
 
-function ProseParagraphs({ paragraphs }: { paragraphs: string[] }) {
+function ProseParagraphs({
+  paragraphs,
+  links = [],
+}: {
+  paragraphs: string[];
+  links?: CaseStudyTextLink[];
+}) {
   return (
     <>
       {paragraphs.map((paragraph) => (
-        <p key={paragraph.slice(0, 56)}>{paragraph}</p>
+        <p key={paragraph.slice(0, 56)}>
+          <LinkedText text={paragraph} links={links} />
+        </p>
       ))}
     </>
   );
@@ -122,12 +172,20 @@ function CaseStudyRichProse({
   item: CaseStudyItem;
   detail: CaseStudyRichDetail;
 }) {
+  const links = detail.contentLinks ?? [];
+
   return (
     <div className={proseClassName}>
-      {detail.subtitle ? <p>{detail.subtitle}</p> : null}
+      {detail.subtitle ? (
+        <p>
+          <LinkedText text={detail.subtitle} links={links} />
+        </p>
+      ) : null}
 
       {detail.metaDescription ? (
-        <p className="text-muted-foreground">{detail.metaDescription}</p>
+        <p className="text-muted-foreground">
+          <LinkedText text={detail.metaDescription} links={links} />
+        </p>
       ) : null}
 
       {(detail.domain || detail.scale) && (
@@ -145,31 +203,37 @@ function CaseStudyRichProse({
         </>
       )}
 
-      <h2>Overview</h2>
-      <ProseParagraphs paragraphs={detail.overviewParagraphs} />
+      <h2 id="overview">Overview</h2>
+      <ProseParagraphs paragraphs={detail.overviewParagraphs} links={links} />
 
-      <h2>Industry context</h2>
-      <ProseParagraphs paragraphs={detail.industryContext} />
+      <h2 id="industry-context">Industry context</h2>
+      <ProseParagraphs paragraphs={detail.industryContext} links={links} />
 
-      <h2>The problem</h2>
-      <ProseParagraphs paragraphs={detail.problemParagraphs} />
+      <h2 id="the-problem">The problem</h2>
+      <ProseParagraphs paragraphs={detail.problemParagraphs} links={links} />
 
-      <h2>The solution</h2>
-      <ProseParagraphs paragraphs={detail.solutionParagraphs} />
+      <h2 id="the-solution">The solution</h2>
+      <ProseParagraphs paragraphs={detail.solutionParagraphs} links={links} />
 
       <h3>How it works</h3>
       <ol>
         {detail.howItWorksSteps.map((step) => (
-          <li key={step}>{step}</li>
+          <li key={step}>
+            <LinkedText text={step} links={links} />
+          </li>
         ))}
       </ol>
 
-      <h2>Technical deep dive</h2>
-      {detail.technicalIntro ? <p>{detail.technicalIntro}</p> : null}
+      <h2 id="technical-deep-dive">Technical deep dive</h2>
+      {detail.technicalIntro ? (
+        <p>
+          <LinkedText text={detail.technicalIntro} links={links} />
+        </p>
+      ) : null}
       {detail.technicalSections.map((section) => (
         <div key={section.title}>
           <h3>{section.title}</h3>
-          <ProseParagraphs paragraphs={section.paragraphs} />
+          <ProseParagraphs paragraphs={section.paragraphs} links={links} />
         </div>
       ))}
 
@@ -182,7 +246,7 @@ function CaseStudyRichProse({
         ))}
       </ul>
 
-      <h2>Results</h2>
+      <h2 id="results">Results</h2>
       <div className="not-prose overflow-x-auto rounded-xl border border-border/50">
         <table className="w-full min-w-[520px] text-left text-sm">
           <thead>
@@ -206,11 +270,15 @@ function CaseStudyRichProse({
 
       <ul>
         {detail.resultHighlights.map((highlight) => (
-          <li key={highlight.slice(0, 56)}>{highlight}</li>
+          <li key={highlight.slice(0, 56)}>
+            <LinkedText text={highlight} links={links} />
+          </li>
         ))}
       </ul>
 
-      <p>{detail.resultsClosing}</p>
+      <p>
+        <LinkedText text={detail.resultsClosing} links={links} />
+      </p>
 
       <h2>How we worked</h2>
       {detail.workflowSteps.map((step) => (
@@ -218,7 +286,9 @@ function CaseStudyRichProse({
           <h3>
             Step {step.step}: {step.title}
           </h3>
-          <p>{step.description}</p>
+          <p>
+            <LinkedText text={step.description} links={links} />
+          </p>
         </div>
       ))}
 
@@ -226,7 +296,7 @@ function CaseStudyRichProse({
       {detail.whatsNext.map((block) => (
         <div key={block.title}>
           <h3>{block.title}</h3>
-          <ProseParagraphs paragraphs={block.paragraphs} />
+          <ProseParagraphs paragraphs={block.paragraphs} links={links} />
         </div>
       ))}
 

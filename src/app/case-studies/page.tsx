@@ -6,16 +6,21 @@ import { CaseStudyHeroSection } from "@/components/marketing/case-study-hero-sec
 import { CaseStudyQuoteSection } from "@/components/marketing/case-study-quote-section";
 import { CaseStudyStoriesSection } from "@/components/marketing/case-study-stories-section";
 import { CaseStudyTickerSection } from "@/components/marketing/case-study-ticker-section";
+import StructuredData from "@/components/StructuredData";
+import {
+  buildCaseStudiesHubSchemas,
+  CASE_STUDIES_HUB_META,
+} from "@/lib/seo/caseStudyPageSchemas";
+
+const { title: META_TITLE, description: META_DESCRIPTION } = CASE_STUDIES_HUB_META;
 
 export const metadata: Metadata = {
-  title: { absolute: "AI Voice Agent Case Studies & Success Stories | OnDial" },
-  description:
-    "Real businesses, real conversations, real growth - see how teams automate calls and scale support with OnDial AI voice agents.",
+  title: { absolute: META_TITLE },
+  description: META_DESCRIPTION,
   alternates: { canonical: "https://www.ondial.ai/case-studies" },
   openGraph: {
-    title: "AI Voice Agent Case Studies & Success Stories | OnDial",
-    description:
-      "Real businesses, real conversations, real growth - see how teams automate calls and scale support with OnDial AI voice agents.",
+    title: META_TITLE,
+    description: META_DESCRIPTION,
     url: "https://www.ondial.ai/case-studies",
     siteName: "OnDial",
     images: [{ url: "https://www.ondial.ai/img/logo/og.png", width: 1200, height: 630, alt: "OnDial Case Studies" }],
@@ -24,9 +29,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Voice Agent Case Studies & Success Stories | OnDial",
-    description:
-      "Real businesses, real conversations, real growth - see how teams automate calls and scale support with OnDial AI voice agents.",
+    title: META_TITLE,
+    description: META_DESCRIPTION,
     images: ["https://www.ondial.ai/img/logo/og.png"],
     creator: "@ondialai",
   },
@@ -34,14 +38,17 @@ export const metadata: Metadata = {
 
 export default function CaseStudiesPage() {
   return (
-    <MarketingDottedPageShell>
-      <main className="flex flex-1 flex-col">
-        <CaseStudyHeroSection />
-        <CaseStudyTickerSection />
-        <CaseStudyQuoteSection />
-        <CaseStudyStoriesSection />
-        <CaseStudyCtaSection />
-      </main>
-    </MarketingDottedPageShell>
+    <>
+      <StructuredData data={buildCaseStudiesHubSchemas()} />
+      <MarketingDottedPageShell>
+        <main className="flex flex-1 flex-col">
+          <CaseStudyHeroSection />
+          <CaseStudyTickerSection />
+          <CaseStudyQuoteSection />
+          <CaseStudyStoriesSection />
+          <CaseStudyCtaSection />
+        </main>
+      </MarketingDottedPageShell>
+    </>
   );
 }
