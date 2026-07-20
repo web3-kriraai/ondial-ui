@@ -52,7 +52,7 @@ export const ringgAlternativePageData = {
   },
 
   hero: {
-    badge: 'Best Ringg AI Alternative',
+    badge: 'OnDial vs Ringg AI',
     title: 'Best Ringg AI Alternative',
     subtitle:
       'OnDial matches Ringg AI on AI voice agents, multilingual calling, and CRM sync - then adds a free trial, 100+ languages, and documented HIPAA, GDPR, and PCI DSS compliance.',
@@ -101,7 +101,7 @@ export const ringgAlternativePageData = {
   },
 
   ringgFeatures: {
-    badge: 'Key Features of Ringg AI',
+    badge: 'Competitor Capabilities',
     title: 'What Ringg AI offers today',
     subtitle:
       'Ringg AI offers a focused set of features built around high volume outbound and inbound calling.',
@@ -244,7 +244,7 @@ export const ringgAlternativePageData = {
   },
 
   whyOnDial: {
-    badge: 'Why OnDial is the Best Ringg AI Alternative',
+    badge: 'Why Choose OnDial',
     title: 'Why OnDial is the best Ringg AI alternative',
     intro:
       'OnDial removes the friction that pushes Ringg AI users elsewhere - free trial access, 100+ languages, and a documented compliance stack.',
@@ -296,7 +296,7 @@ export const ringgAlternativePageData = {
   },
 
   ondialFeatures: {
-    badge: 'Key Features of OnDial',
+    badge: 'Platform Capabilities',
     title: 'Key Features of OnDial',
     subtitle:
       'OnDial packs a complete voice automation toolkit into one platform you can start using today.',
@@ -455,7 +455,7 @@ export const ringgAlternativePageData = {
   },
 
   industriesUsingOnDial: {
-    badge: 'Industries Using OnDial',
+    badge: 'Industry Coverage',
     title: 'Industries Using OnDial',
     subtitle:
       'OnDial powers AI voice automation across more than 20 industries, with deep playbooks for the sectors below.',
@@ -506,7 +506,7 @@ export const ringgAlternativePageData = {
   },
 
   migration: {
-    badge: 'Migration from Ringg AI to OnDial',
+    badge: 'Easy Migration',
     title: 'Migration from Ringg AI to OnDial',
     subtitle:
       'Switching platforms feels risky, but OnDial is built to make the move from Ringg AI smooth and low stress.',
@@ -543,7 +543,7 @@ export const ringgAlternativePageData = {
   },
 
   switchBenefits: {
-    badge: 'Benefits of Switching',
+    badge: 'What You Gain',
     title: 'Benefits of Switching to OnDial',
     subtitle: 'Here is what your business gains the moment you move from Ringg AI to OnDial.',
     benefits: [
@@ -586,7 +586,7 @@ export const ringgAlternativePageData = {
   },
 
   successStories: {
-    badge: 'Customer Success Stories',
+    badge: 'Proven Results',
     title: 'Customer Success Stories',
     intro:
       'Here is how businesses put OnDial to work and the kinds of outcomes they pursue.',

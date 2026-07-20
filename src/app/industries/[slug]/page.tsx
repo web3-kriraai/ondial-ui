@@ -13,6 +13,7 @@ import {
   getIndustryPageContent,
 } from "@/data/industry-hero-content";
 import { INDUSTRY_SEO_METADATA } from "@/lib/services-data";
+import { getSeoMetaH1Override } from "@/data/seo-meta-h1-overrides";
 import StructuredData from "@/components/StructuredData";
 import { buildIndustryPageSchemas } from "@/lib/seo/industryPageSchemas";
 import { getSiteFaqSection, hasSiteFaqPage } from "@/data/site-faqs";
@@ -30,9 +31,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const industry = getIndustryBySlug(slug);
   if (!industry) return { title: "Industry", robots: { index: false } };
 
+  const override = getSeoMetaH1Override(slug);
   const seo = INDUSTRY_SEO_METADATA[slug];
-  const title = seo?.title ?? industry.name;
-  const description = seo?.description ?? industry.description;
+  const title = override?.title ?? seo?.title ?? industry.name;
+  const description = override?.description ?? seo?.description ?? industry.description;
   const url = `https://www.ondial.ai/industries/${slug}`;
 
   return {

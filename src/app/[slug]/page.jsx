@@ -21,6 +21,7 @@ import {
   buildBreadcrumbSchema,
 } from '@/lib/seo/schemaBuilders';
 import { indexablePageRobots } from '@/lib/seo/robotsMetadata';
+import { getSeoMetaH1Override } from '@/data/seo-meta-h1-overrides';
 
 export const revalidate = 3600;
 
@@ -127,7 +128,9 @@ async function resolvePage(slug) {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const page = await resolvePage(slug);
+  const normalized = normalizePublicSlug(slug);
+  const page = await resolvePage(normalized);
+  const override = getSeoMetaH1Override(normalized);
 
   const defaultMeta = {
     title: 'Voice AI Agents | OnDial - Advanced AI Voice Technology',
@@ -136,23 +139,25 @@ export async function generateMetadata({ params }) {
   };
 
   const metaData = page?.data?.metaData || defaultMeta;
+  const title = override?.title || metaData.title;
+  const description = override?.description || metaData.description;
 
   return {
-    title: metaData.title,
-    description: metaData.description,
+    title,
+    description,
     alternates: {
-      canonical: metaData.canonical || `https://www.ondial.ai/${slug}`,
+      canonical: metaData.canonical || `https://www.ondial.ai/${normalized}`,
     },
     openGraph: {
-      title: metaData.title,
-      description: metaData.description,
+      title,
+      description,
       type: 'website',
       siteName: 'OnDial',
     },
     twitter: {
       card: 'summary_large_image',
-      title: metaData.title,
-      description: metaData.description,
+      title,
+      description,
     },
     robots: indexablePageRobots(),
   };
@@ -167,10 +172,13 @@ function JsonVoiceAIAgentPage({ data, slug }) {
     }
   }
 
+  const override = getSeoMetaH1Override(slug);
+  const heroTitle = override?.h1 || data.heroData.title;
+
   return (
     <div className="min-h-screen">
       <SubServiceHeroSection
-        title={data.heroData.title}
+        title={heroTitle}
         subtitle={data.heroData.subtitle}
         description={data.heroData.description}
         primaryButtonText={data.heroData.primaryButtonText}

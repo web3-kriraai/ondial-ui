@@ -8,6 +8,7 @@ import HowOnDialWorks from '@/components/HowOnDialWorks';
 import WhyChooseSection from '@/components/WhyChooseSection';
 import StateVoiceAIBenefitsGrid from '@/components/StateVoiceAIBenefitsGrid';
 import StateVoiceAIBusinessBenefits from '@/components/StateVoiceAIBusinessBenefits';
+import { getSeoMetaH1Override } from '@/data/seo-meta-h1-overrides';
 
 /**
  * CMS / regional voice landing (Contentful). Payload from getVoiceAIAgentStatePagePayload.
@@ -17,11 +18,14 @@ export default function VoiceAIAgentStateLanding({ data }) {
 
   const { stateLabel } = data;
   const highlight = stateLabel;
+  const slug = data.heroData?.slug || data.heroData?.urlSlug || '';
+  const override = getSeoMetaH1Override(slug);
+  const heroTitle = override?.h1 || data.heroData.title;
 
   return (
     <div className="min-h-screen">
       <SubServiceHeroSection
-        title={data.heroData.title}
+        title={heroTitle}
         subtitle={data.heroData.subtitle}
         description={data.heroData.description}
         primaryButtonText={data.heroData.primaryButtonText}

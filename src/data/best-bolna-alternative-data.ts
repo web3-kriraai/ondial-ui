@@ -39,7 +39,7 @@ export const bolnaAlternativePageData = {
   },
 
   hero: {
-    badge: 'Best Bolna Alternative',
+    badge: 'OnDial vs Bolna',
     title: 'Best Bolna Alternative',
     subtitle:
       'OnDial matches Bolna on AI voice agents, bulk calling, and multilingual support - then adds native CRM sync, 100+ languages, documented HIPAA and GDPR compliance, and transparent all-in pricing.',
@@ -88,7 +88,7 @@ export const bolnaAlternativePageData = {
   },
 
   competitorFeatures: {
-    badge: 'Key Features of Bolna',
+    badge: 'Competitor Capabilities',
     title: 'What Bolna offers today',
     subtitle:
       'Bolna lists a focused set of features on their official site aimed at technical teams building voice agents for Indian use cases.',
@@ -239,7 +239,7 @@ export const bolnaAlternativePageData = {
   },
 
   whyOnDial: {
-    badge: 'Why OnDial is the Best Bolna Alternative',
+    badge: 'Why Choose OnDial',
     title: 'Why OnDial is the best Bolna alternative',
     intro:
       'OnDial is built to do everything Bolna does, and then go further - native CRM sync, advanced analytics, sub 200 millisecond latency, and compliance badges that hold up under procurement review.',
@@ -291,7 +291,7 @@ export const bolnaAlternativePageData = {
   },
 
   ondialFeatures: {
-    badge: 'Key Features of OnDial',
+    badge: 'Platform Capabilities',
     title: 'Key Features of OnDial',
     subtitle:
       'OnDial brings every capability a business needs to run voice AI at scale, with each feature built around a real outcome rather than a checkbox.',
@@ -450,7 +450,7 @@ export const bolnaAlternativePageData = {
   },
 
   industriesUsingOnDial: {
-    badge: 'Industries Using OnDial',
+    badge: 'Industry Coverage',
     title: 'Industries Using OnDial',
     subtitle:
       'OnDial is the established choice for businesses that need voice AI with compliance, scale, and CRM sync built in. The platform ships ready to deploy templates across these industries.',
@@ -501,7 +501,7 @@ export const bolnaAlternativePageData = {
   },
 
   migration: {
-    badge: 'Migration from Bolna to OnDial',
+    badge: 'Easy Migration',
     title: 'Migration from Bolna to OnDial',
     subtitle:
       'Switching voice AI platforms feels risky, but OnDial has built the migration path to remove that risk. Templates, CRM sync, and onboarding support make the move straightforward.',
@@ -538,7 +538,7 @@ export const bolnaAlternativePageData = {
   },
 
   switchBenefits: {
-    badge: 'Benefits of Switching',
+    badge: 'What You Gain',
     title: 'Benefits of Switching to OnDial',
     subtitle: 'Switching to OnDial changes the math on voice AI. Cost per call drops, customer experience improves, and teams scale without growing headcount.',
     benefits: [
@@ -581,7 +581,7 @@ export const bolnaAlternativePageData = {
   },
 
   successStories: {
-    badge: 'Customer Success Stories',
+    badge: 'Proven Results',
     title: 'Customer Success Stories',
     intro:
       'OnDial works with 500 plus businesses across healthcare, finance, insurance, real estate, and ecommerce.',

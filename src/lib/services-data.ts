@@ -254,9 +254,9 @@ export const INDUSTRY_SEO_METADATA: Record<string, { title: string; description:
       "Transform customer support in finance & banking with OnDial's AI Voice Agent. Automate queries, boost security, and deliver seamless, 24/7 client experiences.",
   },
   "ai-voice-agents-real-estate": {
-    title: "AI Voice Agent for Real Estate Services | OnDial",
+    title: "AI Voice Agents for Real Estate Lead Qualification & Sales",
     description:
-      "AI voice agents for real estate automate lead qualification, property inquiries, and tour booking 24/7 to boost conversions, save time, and never miss a lead.",
+      "Convert more property inquiries with OnDial's AI Voice Agents. Automate lead qualification, follow-ups, customer support, and appointment booking.",
   },
   "ai-voice-agents-retail-e-commerce": {
     title: "AI Voice Agent for Retail & E-commerce Services | OnDial",
@@ -319,9 +319,9 @@ export const INDUSTRY_SEO_METADATA: Record<string, { title: string; description:
       "Enhance customer support and operational efficiency with OnDial's AI Voice Agent for Utilities Services. Automate queries, billing, and real-time assistance.",
   },
   "ai-voice-agents-non-profit-organizations": {
-    title: "Best AI Voice Agent for Non-Profit Organizations Services",
+    title: "AI Calling Agents for Non-Profit Organizations | OnDial",
     description:
-      "Boost efficiency and donor engagement with OnDial's AI Voice Agent for Non-Profit Organizations Services. Automate calls, support, and outreach seamlessly.",
+      "Empower your non-profit with OnDial's AI Voice Agents. Automate donor outreach, volunteer coordination, event reminders, and supporter engagement 24/7.",
   },
   "ai-voice-agents-transportation-logistics": {
     title: "AI Voice Agent for Transportation & Logistics Services",
@@ -334,9 +334,9 @@ export const INDUSTRY_SEO_METADATA: Record<string, { title: string; description:
       "Boost efficiency and streamline operations with OnDial's AI Voice Agent for Manufacturing Services, transforming production and factory communication.",
   },
   "ai-voice-agents-construction": {
-    title: "Best AI Voice Agent for Construction Services | OnDial",
+    title: "AI Voice Agents for Construction Companies | OnDial",
     description:
-      "Boost efficiency with OnDial's AI Voice Agent for Construction Services. Automate site coordination, reporting, and team communication seamlessly.",
+      "Automate project inquiries, lead qualification, site visit scheduling, and customer support with OnDial's AI Voice Agents for construction companies.",
   },
   "ai-voice-agents-agriculture": {
     title: "Best AI Voice Agent for Agriculture Services | OnDial",

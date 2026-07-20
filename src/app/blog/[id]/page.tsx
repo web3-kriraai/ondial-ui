@@ -15,6 +15,7 @@ import { buildBlogPostPageSchemas } from "@/lib/seo/blogPostPageSchemas";
 import { indexablePageRobots } from "@/lib/seo/robotsMetadata";
 import { getSiteUrl } from "@/lib/share-links";
 import { DASHBOARD_SIGNUP_URL } from "@/config/urls";
+import { getSeoMetaH1Override } from "@/data/seo-meta-h1-overrides";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -33,8 +34,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       return { title: "Blog Post", robots: { index: false } };
     }
 
-    const title = post.metaTitle || post.title;
-    const description = post.metaDescription || post.excerpt || "";
+    const override = getSeoMetaH1Override(id);
+    const title = override?.title || post.metaTitle || post.title;
+    const description = override?.description || post.metaDescription || post.excerpt || "";
     const ogImage = post.image
       ? [{ url: post.image, width: 1200, height: 630, alt: title }]
       : [{ url: "https://www.ondial.ai/img/logo/og.png", width: 1200, height: 630, alt: title }];

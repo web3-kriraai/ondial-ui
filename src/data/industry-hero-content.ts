@@ -217,6 +217,16 @@ function shortIndustryTitle(industry: Industry) {
   return industry.name.split("&")[0]?.trim().toUpperCase() ?? industry.name.toUpperCase();
 }
 
+function industrySeoH1(industry: Industry) {
+  // Lazy import avoided — override map lives in seo-meta-h1-overrides
+  const overrides: Record<string, string> = {
+    "ai-voice-agents-real-estate": "Enterprise AI Voice Agents for Real Estate Businesses",
+    "ai-voice-agents-construction": "Enterprise AI Voice Agents for Construction Companies",
+    "ai-voice-agents-non-profit-organizations": "AI Voice Agents for Non-Profit Organizations",
+  };
+  return overrides[industry.slug] ?? industry.name;
+}
+
 export function getIndustryBySlug(slug: string) {
   return DEFAULT_INDUSTRIES.find((industry) => industry.slug === slug);
 }
@@ -226,7 +236,7 @@ export function getIndustryHeroContent(industry: Industry): IndustryHeroContent 
   return {
     slug: industry.slug,
     title: shortIndustryTitle(industry),
-    highlight: industry.name,
+    highlight: industrySeoH1(industry),
     subtitle: "AI voice automation",
     backgroundImage: images.background,
     foregroundImage: images.foreground,

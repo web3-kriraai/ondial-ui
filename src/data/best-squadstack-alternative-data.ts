@@ -39,7 +39,7 @@ export const squadstackAlternativePageData = {
   },
 
   hero: {
-    badge: 'Best Squadstack Alternative',
+    badge: 'OnDial vs Squadstack',
     title: 'Best Squadstack Alternative',
     subtitle:
       'OnDial matches Squadstack on AI voice agents, lead qualification, and omnichannel engagement - then adds 100+ languages, no-code setup, sub 200ms latency, and documented HIPAA, GDPR, and PCI DSS compliance.',
@@ -88,7 +88,7 @@ export const squadstackAlternativePageData = {
   },
 
   competitorFeatures: {
-    badge: 'Key Features of Squadstack',
+    badge: 'Competitor Capabilities',
     title: 'What Squadstack offers today',
     subtitle:
       'Here are the core features Squadstack promotes on their official website.',
@@ -236,7 +236,7 @@ export const squadstackAlternativePageData = {
   },
 
   whyOnDial: {
-    badge: 'Why OnDial is the Best Squadstack Alternative',
+    badge: 'Why Choose OnDial',
     title: 'Why OnDial is the best Squadstack alternative',
     intro:
       'OnDial covers everything Squadstack offers, then extends it for global teams with 100+ languages, no-code setup, and a documented compliance stack.',
@@ -288,7 +288,7 @@ export const squadstackAlternativePageData = {
   },
 
   ondialFeatures: {
-    badge: 'Key Features of OnDial',
+    badge: 'Platform Capabilities',
     title: 'Key Features of OnDial',
     subtitle:
       'Here are the OnDial features that make it the strongest Squadstack competitor in 2026.',
@@ -447,7 +447,7 @@ export const squadstackAlternativePageData = {
   },
 
   industriesUsingOnDial: {
-    badge: 'Industries Using OnDial',
+    badge: 'Industry Coverage',
     title: 'Industries Using OnDial',
     subtitle:
       'OnDial is the established choice across these industries, with documented capabilities on ondial.ai.',
@@ -498,7 +498,7 @@ export const squadstackAlternativePageData = {
   },
 
   migration: {
-    badge: 'Migration from Squadstack to OnDial',
+    badge: 'Easy Migration',
     title: 'Migration from Squadstack to OnDial',
     subtitle:
       'Switching platforms feels risky, but OnDial makes the move straightforward, fast, and low friction from day one.',
@@ -535,7 +535,7 @@ export const squadstackAlternativePageData = {
   },
 
   switchBenefits: {
-    badge: 'Benefits of Switching',
+    badge: 'What You Gain',
     title: 'Benefits of Switching to OnDial',
     subtitle: 'Switching to OnDial delivers measurable outcomes from day one across cost, experience, and scale.',
     benefits: [
@@ -578,7 +578,7 @@ export const squadstackAlternativePageData = {
   },
 
   successStories: {
-    badge: 'Customer Success Stories',
+    badge: 'Proven Results',
     title: 'Customer Success Stories',
     intro:
       'Real teams choose OnDial to replace manual call workflows and AI voice platforms that could not keep up with global scale.',

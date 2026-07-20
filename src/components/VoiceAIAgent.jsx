@@ -86,11 +86,11 @@ const VoiceAIAgent = ({ data }) => {
                   <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2 animate-pulse"></span>
                   AI-Powered Voice Technology
                 </div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl leading-tight">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl leading-tight">
                   <span className="bg-gradient-to-r from-gray-900 via-indigo-800 to-purple-800 bg-clip-text text-transparent">
                     {heroData.title}
                   </span>
-                </h1>
+                </h2>
                 <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
                   {heroData.description}
                 </p>
