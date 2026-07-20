@@ -43,7 +43,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const canonicalUrl = `https://www.ondial.ai/blog/${id}`;
 
     return {
-      title,
+      title: /(?:\|\s*)?OnDial\s*$/i.test(title) || title.includes('| OnDial')
+        ? { absolute: title }
+        : title,
       description,
       alternates: {
         canonical: canonicalUrl,

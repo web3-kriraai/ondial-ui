@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 const GRID_PATTERN_BG =
@@ -12,6 +13,27 @@ const COMPLIANCE_HEADING = {
   description:
     'Calling agents handle sensitive conversations-compliance is a top objection, especially in healthcare and finance. This dedicated trust strip shows how your product meets the standards buyers ask about first.',
 };
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function LinkedDescription({ text, links = [] }) {
+  if (!links.length) return text;
+  const unique = links.filter((link, index, arr) => link?.text && link?.href && arr.findIndex((l) => l.text === link.text) === index);
+  if (!unique.length) return text;
+  const pattern = new RegExp(`(${unique.map((link) => escapeRegExp(link.text)).join('|')})`, 'g');
+  const hrefByText = Object.fromEntries(unique.map((link) => [link.text, link.href]));
+  return String(text).split(pattern).map((part, index) => {
+    const href = hrefByText[part];
+    if (!href) return <span key={index}>{part}</span>;
+    return (
+      <Link key={index} href={href} className="font-medium text-indigo-600 underline-offset-2 hover:underline">
+        {part}
+      </Link>
+    );
+  });
+}
 
 const COMPLIANCE_BADGES = [
   {
@@ -56,7 +78,13 @@ function resolveBadgeLogoSrc(logo) {
 const FOOTNOTE =
   'AI-specific controls for voice transcripts, call recordings, and agent workflows-so regulated teams can deploy with confidence.';
 
-export default function ComplianceTrustSection({ unifiedGrid = false }) {
+export default function ComplianceTrustSection({
+  unifiedGrid = false,
+  description,
+  descriptionLinks = [],
+}) {
+  const headingDescription = description || COMPLIANCE_HEADING.description;
+
   return (
     <section
       id="compliance"
@@ -97,7 +125,7 @@ export default function ComplianceTrustSection({ unifiedGrid = false }) {
             {COMPLIANCE_HEADING.title}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {COMPLIANCE_HEADING.description}
+            <LinkedDescription text={headingDescription} links={descriptionLinks} />
           </p>
         </header>
 

@@ -32,10 +32,18 @@ import {
 export const koreAIAlternativePageData = {
   competitor: { name: 'Kore AI' },
 
-  meta: {
-    title: "Best Kore AI Alternative | OnDial's AI Voice Agents",
+  complianceTrust: {
     description:
-      'Looking for the best Kore AI alternative? OnDial offers transparent per-minute pricing, voice-first agents, 100+ languages, and go-live in days. Compare now.',
+      'Calling agents handle sensitive conversations. Compliance is a top objection, especially in healthcare and AI Voice Agents for Finance & Banking.',
+    descriptionLinks: [
+      { text: 'AI Voice Agents for Finance & Banking', href: '/industries/ai-voice-agents-finance-banking' },
+    ],
+  },
+
+  meta: {
+    title: "Kore AI Alternative for Voice AI Agents | OnDial",
+    description:
+      "Explore OnDial, the top Kore AI alternative with clear per-minute pricing, faster voice AI deployment, and sub-200ms latency. Start your free 14-day trial now.",
     canonical: '/best-kore-ai-alternative',
   },
 
@@ -279,7 +287,10 @@ export const koreAIAlternativePageData = {
         title: 'Faster Deployment',
         summary: 'Prebuilt templates for 8+ industries - live in days, not 2-4 month cycles.',
         description:
-          'OnDial gets teams live in days using prebuilt templates for healthcare, finance, education, real estate, ecommerce, logistics, insurance, and recruitment. Connect a phone number, pick a template, and the agent is ready to take calls. Kore AI deployments commonly stretch two to four months, with voice projects often taking longer.',
+          'OnDial gets teams live in days using prebuilt templates for AI Voice Agents for Healthcare, finance, education, real estate, ecommerce, logistics, insurance, and recruitment. Connect a phone number, pick a template, and the agent is ready to take calls. Kore AI deployments commonly stretch two to four months, with voice projects often taking longer.',
+        descriptionLinks: [
+          { text: 'AI Voice Agents for Healthcare', href: '/industries/ai-voice-agents-healthcare-medical' },
+        ],
       },
       {
         icon: Mic,
@@ -316,7 +327,10 @@ export const koreAIAlternativePageData = {
     badge: 'Platform Capabilities',
     title: 'Key Features of OnDial',
     subtitle:
-      'OnDial brings every capability a business needs to run voice AI at scale, with each feature built around a real outcome rather than a checkbox.',
+      'OnDial brings every capability a business needs to run voice AI at scale. Explore all AI Voice Agent Features built around real business outcomes rather than simple feature checklists.',
+    subtitleLinks: [
+      { text: 'AI Voice Agent Features', href: '/features' },
+    ],
     categories: [
       { id: 'core', label: 'Core Platform' },
       { id: 'inbound', label: 'Inbound' },
@@ -620,7 +634,10 @@ export const koreAIAlternativePageData = {
       {
         title: 'Mid-market insurance carrier',
         description:
-          'A mid market insurance carrier uses OnDial for policy renewal outreach and claims intake across 8 lines of business. Compliance transcripts and audit logs support regulatory reporting on every call.',
+          'A mid market insurance carrier uses AI Voice Agents for Insurance for policy renewal outreach and claims intake across 8 lines of business. Compliance transcripts and audit logs support regulatory reporting on every call.',
+        descriptionLinks: [
+          { text: 'AI Voice Agents for Insurance', href: '/industries/ai-voice-agents-insurance' },
+        ],
       },
       {
         title: 'National real estate franchise',

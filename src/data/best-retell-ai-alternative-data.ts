@@ -32,9 +32,9 @@ export const retellAIAlternativePageData = {
   competitor: { name: 'Retell AI' },
 
   meta: {
-    title: "Best Retell AI Alternative | OnDial's AI Voice Agents",
+    title: "Retell AI Alternative: OnDial No-Code Voice AI, Flat Rates",
     description:
-      'Looking for the best Retell AI alternative? OnDial offers flat predictable pricing, no-code setup, 100+ languages, and dedicated support on every plan. Compare now.',
+      "OnDial is a leading Retell AI alternative with flat pricing from $0.055/min, no-code setup, 100+ languages, and 24/7 dedicated support. Start a free trial now.",
     canonical: '/best-retell-ai-alternative',
   },
 
@@ -195,7 +195,10 @@ export const retellAIAlternativePageData = {
     subtitle:
       'This table compares OnDial and Retell AI on the points where Retell shows a documented gap, partial support, or undisclosed status.',
     closing:
-      'The comparison shows that OnDial covers every category where Retell AI is partial, USD-only, or absent - with flat pricing, no-code setup, and dedicated support without enterprise gating on the basics.',
+      'The comparison shows that OnDial covers every category where Retell AI is partial, USD-only, or absent, including dedicated AI Voice Agents for Real Estate, with flat pricing, no-code setup, and dedicated support without enterprise gating on the basics.',
+    closingLinks: [
+      { text: 'AI Voice Agents for Real Estate', href: '/industries/ai-voice-agents-real-estate' },
+    ],
     rows: [
       {
         feature: 'No Code Setup',
@@ -268,14 +271,20 @@ export const retellAIAlternativePageData = {
         title: 'Better Call Automation',
         summary: 'Inbound, outbound, and 24/7 coverage without assembling your own stack.',
         description:
-          'OnDial handles inbound and outbound calls from a single AI agent that runs 24/7. Natural voice agents, analytics, and integrations ship together so teams do not assemble LLM, voice, and telephony as separate products. Retell AI voice quality is strong, but the stack is closer to infrastructure. OnDial’s automation covers appointment booking, lead qualification, reminders, surveys, and support tier one through prebuilt industry templates.',
+          'OnDial handles inbound and outbound calls from a single AI agent that runs 24/7. Natural voice agents, analytics, and integrations ship together so teams do not assemble LLM, voice, and telephony as separate products. Retell AI voice quality is strong, but the stack is closer to infrastructure. OnDial’s automation covers appointment booking, lead qualification, reminders, surveys, and support tier one through AI Voice Agents for Healthcare and other prebuilt industry templates.',
+        descriptionLinks: [
+          { text: 'AI Voice Agents for Healthcare', href: '/industries/ai-voice-agents-healthcare-medical' },
+        ],
       },
       {
         icon: Rocket,
         title: 'Faster Deployment',
         summary: 'No-code setup - live in under 30 minutes without an engineering project.',
         description:
-          'OnDial gets teams live in under 30 minutes using prebuilt templates for healthcare, finance, education, real estate, ecommerce, logistics, insurance, automotive, and recruitment. Connect a phone number, pick a template, and the agent is ready. Retell AI setup feels built for engineers - ops teams often cannot change flows without development work.',
+          'OnDial gets teams live in under 30 minutes using prebuilt templates for healthcare, finance, AI Voice Agents for Education, real estate, ecommerce, logistics, insurance, automotive, and recruitment. Connect a phone number, pick a template, and the agent is ready. Retell AI setup feels built for engineers - ops teams often cannot change flows without development work.',
+        descriptionLinks: [
+          { text: 'AI Voice Agents for Education', href: '/industries/ai-voice-agents-education' },
+        ],
       },
       {
         icon: Mic,
@@ -312,7 +321,10 @@ export const retellAIAlternativePageData = {
     badge: 'Platform Capabilities',
     title: 'Key Features of OnDial',
     subtitle:
-      'OnDial brings every capability a business needs to run voice AI at scale, with each feature built around a real outcome rather than a checkbox.',
+      'OnDial brings every capability businesses need to run voice AI at scale. Explore our complete AI Voice Agent Features to see how automation, analytics, integrations, and enterprise security work together in a single platform.',
+    subtitleLinks: [
+      { text: 'AI Voice Agent Features', href: '/features' },
+    ],
     categories: [
       { id: 'core', label: 'Core Platform' },
       { id: 'inbound', label: 'Inbound' },

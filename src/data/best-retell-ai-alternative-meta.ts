@@ -1,7 +1,7 @@
 /** SEO metadata only — no Lucide icons (safe for server components). */
 export const retellAIAlternativeMeta = {
-  title: "Best Retell AI Alternative | OnDial's AI Voice Agents",
+  title: "Retell AI Alternative: OnDial No-Code Voice AI, Flat Rates",
   description:
-    'Looking for the best Retell AI alternative? OnDial offers flat predictable pricing, no-code setup, 100+ languages, and dedicated support on every plan. Compare now.',
+    'OnDial is a leading Retell AI alternative with flat pricing from $0.055/min, no-code setup, 100+ languages, and 24/7 dedicated support. Start a free trial now.',
   canonical: '/best-retell-ai-alternative',
 };

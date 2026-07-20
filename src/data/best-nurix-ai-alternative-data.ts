@@ -34,9 +34,9 @@ export const nurixAIAlternativePageData = {
   competitor: { name: 'Nurix AI' },
 
   meta: {
-    title: "Best Nurix AI Alternative | OnDial's AI Voice Agents",
+    title: "Nurix AI Alternative for Teams That Want Clear Pricing",
     description:
-      'Looking for the best Nurix AI alternative? OnDial offers clear per-minute pricing, a free trial, 100+ languages, and listed HIPAA and GDPR compliance. Compare now.',
+      "Compare OnDial vs Nurix AI: transparent per-minute pricing, free trial, 100+ languages, and listed HIPAA/GDPR compliance. Start your free trial and go live today.",
     canonical: '/best-nurix-ai-alternative',
   },
 
@@ -213,7 +213,11 @@ export const nurixAIAlternativePageData = {
         competitorNote: 'best for mid to large enterprise',
       },
       {
-        feature: 'Indian Language Support (Hindi, Gujarati, Tamil and more)',
+        feature:
+          "Support for Hindi, Gujarati, Tamil, and many other languages is powered by OnDial's Multilingual AI Voice Agent, enabling businesses to deliver natural customer conversations across global markets.",
+        featureLinks: [
+          { text: 'Multilingual AI Voice Agent', href: '/multilingual-ai-voice-agent' },
+        ],
         ondial: 'yes',
         competitor: 'not-stated',
       },
@@ -249,7 +253,10 @@ export const nurixAIAlternativePageData = {
         title: 'Better Call Automation',
         summary: 'Inbound and outbound around the clock with CRM logging - no sales cycle to start.',
         description:
-          'OnDial handles inbound and outbound calls around the clock with one AI agent. It answers instantly, speaks like a human, and logs every call to your CRM automatically, so reps stop copying notes into spreadsheets. Nurix automates calls too, but its setup leans on guided onboarding rather than instant self service. OnDial lets you turn on automation without waiting for a sales cycle.',
+          'OnDial handles inbound and outbound calls around the clock with one AI agent. It answers instantly, speaks like a human, and logs every call to your CRM automatically, making it an ideal solution for businesses adopting AI Voice Agents for Call Centers & BPO to automate high-volume customer conversations at scale. Nurix automates calls too, but its setup leans on guided onboarding rather than instant self service. OnDial lets you turn on automation without waiting for a sales cycle.',
+        descriptionLinks: [
+          { text: 'AI Voice Agents for Call Centers & BPO', href: '/industries/ai-voice-agents-call-centers-bpo' },
+        ],
       },
       {
         icon: Rocket,
@@ -277,7 +284,11 @@ export const nurixAIAlternativePageData = {
         title: 'Enterprise-Grade Security',
         summary: 'HIPAA, GDPR, PCI DSS, SOC 2 & ISO listed openly on the site.',
         description:
-          'OnDial meets the compliance standards buyers ask about first, with HIPAA, GDPR, PCI DSS, SOC 2, and ISO listed openly on the site. It adds AI specific controls for voice transcripts, call recordings, and agent workflows, so regulated teams can deploy with confidence. Nurix states it has enterprise grade security, but it does not publicly list its specific certifications on the homepage. OnDial names them, which removes guesswork for healthcare and finance teams.',
+          'OnDial meets the compliance standards buyers ask about first, with HIPAA, GDPR, PCI DSS, SOC 2, and ISO listed openly on the site, making it a trusted choice for organizations using AI Voice Agents for Finance & Banking where security and regulatory compliance are essential. It adds AI specific controls for voice transcripts, call recordings, and agent workflows, so regulated teams can deploy with confidence. Nurix states it has enterprise grade security, but it does not publicly list its specific certifications on the homepage. OnDial names them, which removes guesswork for healthcare and finance teams deploying AI Voice Agents for Healthcare in regulated environments where compliance and patient data security are critical.',
+        descriptionLinks: [
+          { text: 'AI Voice Agents for Finance & Banking', href: '/industries/ai-voice-agents-finance-banking' },
+          { text: 'AI Voice Agents for Healthcare', href: '/industries/ai-voice-agents-healthcare-medical' },
+        ],
       },
       {
         icon: DollarSign,

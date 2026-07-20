@@ -24,7 +24,7 @@ export async function generateMetadata({ params }) {
   const metaData = data?.metaData || defaultMeta;
 
   return {
-    title: metaData.title,
+    title: { absolute: metaData.title },
     description: metaData.description,
     alternates: {
       canonical: metaData.canonical || `https://www.ondial.ai/voice-ai-agent-state/${slug}`,

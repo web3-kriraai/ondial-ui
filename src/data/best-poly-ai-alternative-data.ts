@@ -32,9 +32,9 @@ export const polyAiAlternativePageData = {
   competitor: { name: 'PolyAI' },
 
   meta: {
-    title: "Best PolyAI Alternative | OnDial's AI Voice Agents",
+    title: "PolyAI Alternative: OnDial Vs PolyAI Pricing & Features",
     description:
-      'Looking for the best PolyAI alternative? OnDial offers transparent per-minute pricing, a free trial, same-day setup, and every core PolyAI capability. Compare now.',
+      "Compare OnDial vs PolyAI: transparent per-minute pricing, a free 14-day trial, same-day setup, and self-serve dashboard control. Start your free trial now.",
     canonical: '/best-poly-ai-alternative',
   },
 
@@ -149,7 +149,10 @@ export const polyAiAlternativePageData = {
     badge: 'Why Businesses Look for a PolyAI Alternative',
     title: 'Where PolyAI falls short for growing teams',
     subtitle:
-      'PolyAI has a strong enterprise voice engine and recognizable logos in banking, hospitality, and utilities. The same buyers start searching for alternatives to PolyAI when they cannot see pricing upfront, cannot trial without a sales call, need dedicated templates for real estate or recruitment, or find that scaling means renegotiating a managed contract after a 4-6 week rollout.',
+      'PolyAI has a strong enterprise voice engine and recognizable logos in banking, hospitality, and utilities, making it popular with large contact centers, but businesses deploying AI Voice Agents for Call Centers & BPO increasingly look for platforms that offer transparent pricing, self-serve deployment, and faster implementation. The same buyers start searching for alternatives to PolyAI when they cannot see pricing upfront, cannot trial without a sales call, need dedicated templates for real estate or recruitment, or find that scaling means renegotiating a managed contract after a 4-6 week rollout.',
+    subtitleLinks: [
+      { text: 'AI Voice Agents for Call Centers & BPO', href: '/industries/ai-voice-agents-call-centers-bpo' },
+    ],
     reasons: [
       {
         icon: DollarSign,
@@ -271,7 +274,10 @@ export const polyAiAlternativePageData = {
         title: 'Faster Deployment',
         summary: 'Same-day setup vs PolyAI’s typical 4-6 week POC-to-live path.',
         description:
-          'OnDial gets teams live in under 30 minutes using prebuilt templates for healthcare, finance, education, real estate, ecommerce, logistics, insurance, and recruitment. Connect a phone number, pick a template, and the agent is ready. PolyAI’s managed setup commonly takes four to six weeks from proof of concept to live, which is too slow for teams that need to prove value this week.',
+          'OnDial gets teams live in under 30 minutes using prebuilt templates for healthcare, AI Voice Agents for Banking & Finance, education, real estate, ecommerce, logistics, insurance, and recruitment. Connect a phone number, pick a template, and the agent is ready. PolyAI’s managed setup commonly takes four to six weeks from proof of concept to live, which is too slow for teams that need to prove value this week.',
+        descriptionLinks: [
+          { text: 'AI Voice Agents for Banking & Finance', href: '/industries/ai-voice-agents-finance-banking' },
+        ],
       },
       {
         icon: Mic,
@@ -292,7 +298,10 @@ export const polyAiAlternativePageData = {
         title: 'Enterprise-Grade Security',
         summary: 'HIPAA, GDPR, PCI DSS, SOC 2, ISO, plus TRAI DLT & DPDP readiness.',
         description:
-          'OnDial displays HIPAA, GDPR, PCI DSS, SOC 2, and ISO compliance badges, with India-specific TRAI DLT and DPDP readiness on the enterprise page. PolyAI also covers SOC 2, HIPAA, GDPR, PCI DSS, and ISO 27001, but regional India compliance is not clearly stated publicly. OnDial gives regulated teams both the global stack and India-ready posture without a long enterprise sales cycle.',
+          'OnDial displays HIPAA, GDPR, PCI DSS, SOC 2, and ISO compliance badges, making it well suited for AI Voice Agents for Healthcare and other regulated industries that require secure, compliant voice automation. PolyAI also covers SOC 2, HIPAA, GDPR, PCI DSS, and ISO 27001, but regional India compliance is not clearly stated publicly. OnDial gives regulated teams both the global stack and India-ready posture without a long enterprise sales cycle.',
+        descriptionLinks: [
+          { text: 'AI Voice Agents for Healthcare', href: '/industries/ai-voice-agents-healthcare-medical' },
+        ],
       },
       {
         icon: DollarSign,
@@ -308,7 +317,10 @@ export const polyAiAlternativePageData = {
     badge: 'Platform Capabilities',
     title: 'Key Features of OnDial',
     subtitle:
-      'OnDial brings every capability a business needs to run voice AI at scale, with each feature built around a real outcome rather than a checkbox.',
+      'OnDial brings every capability a business needs to run voice AI at scale, with each feature built around a real outcome rather than a checkbox. Explore the complete AI Voice Agent Features to see everything included in the platform.',
+    subtitleLinks: [
+      { text: 'AI Voice Agent Features', href: '/features' },
+    ],
     categories: [
       { id: 'core', label: 'Core Platform' },
       { id: 'inbound', label: 'Inbound' },

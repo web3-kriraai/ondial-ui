@@ -32,9 +32,9 @@ export const bolnaAlternativePageData = {
   competitor: { name: 'Bolna' },
 
   meta: {
-    title: "Best Bolna Alternative | OnDial's AI Voice Agents",
+    title: "Bolna Alternative for AI Voice Agents - Try OnDial Free",
     description:
-      'Looking for the best Bolna alternative? OnDial offers native CRM sync, 100+ languages, HIPAA and GDPR compliance, and transparent all-in pricing. Compare now.',
+      "Looking for a Bolna alternative? OnDial offers native CRM sync, 100+ languages, documented HIPAA & GDPR compliance, and transparent pricing. Try it free today.",
     canonical: '/best-bolna-alternative',
   },
 
@@ -75,10 +75,13 @@ export const bolnaAlternativePageData = {
       { label: 'Platform fee', value: '$0.02/min' },
     ],
     highlights: [
-      'Voice AI Built for India - Hinglish and Tier 2/3 regional accents',
+      'Voice AI built for India focuses on Hinglish and regional accents, while a Multilingual AI Voice Agent can support global deployments across 100+ languages.',
       'Inbound and outbound calling with bulk campaigns and API triggers',
       'Bring your own LLM, STT, and TTS providers across 20+ models',
       'Serves ecommerce, EdTech, HealthTech, BFSI, hospitality & recruitment',
+    ],
+    highlightLinks: [
+      { text: 'Multilingual AI Voice Agent', href: '/multilingual-ai-voice-agent' },
     ],
     paragraphs: [
       'Bolna is a voice AI platform built for Indian languages and Indian telephony. The company, legally Whismurwave Inc., graduated from Y Combinator in the F25 batch and raised a $6.3 million seed round led by General Catalyst in January 2026. Their homepage positions them as Voice AI Built for India, with deep specialization in Hinglish and regional Indian accents across Tier 2 and Tier 3 cities.',
@@ -250,7 +253,10 @@ export const bolnaAlternativePageData = {
         title: 'Better Call Automation',
         summary: 'Thousands of simultaneous conversations without a plan upgrade.',
         description:
-          'OnDial handles inbound and outbound calls from a single AI agent that runs 24/7. The platform supports thousands of simultaneous conversations with elastic infrastructure, so peak hour spikes do not require a plan upgrade. Bolna caps default concurrency at 10 calls. OnDial’s automation covers appointment booking, lead qualification, reminders, surveys, and support tier one, all configurable through prebuilt industry templates without engineering work.',
+          'OnDial handles inbound and outbound calls from a single AI Voice Agent for Call Centers & BPO that runs 24/7. The platform supports thousands of simultaneous conversations with elastic infrastructure, so peak hour spikes do not require a plan upgrade. Bolna caps default concurrency at 10 calls. OnDial’s automation covers appointment booking, lead qualification, reminders, surveys, and support tier one, all configurable through prebuilt industry templates without engineering work.',
+        descriptionLinks: [
+          { text: 'AI Voice Agent for Call Centers & BPO', href: '/industries/ai-voice-agents-call-centers-bpo' },
+        ],
       },
       {
         icon: Rocket,
@@ -278,7 +284,11 @@ export const bolnaAlternativePageData = {
         title: 'Enterprise-Grade Security',
         summary: 'HIPAA, GDPR, PCI DSS, SOC 2, ISO, TRAI DLT & DPDP readiness documented.',
         description:
-          'OnDial displays HIPAA, GDPR, PCI DSS, SOC 2, and ISO compliance badges on its homepage, with India specific TRAI DLT and DPDP readiness on the enterprise page. Bolna does not publicly list HIPAA, GDPR, SOC 2, ISO 27001, or PCI DSS certifications. Bolna’s on premise option helps with data sovereignty, but the absence of named compliance certifications is a blocker for regulated procurement teams in healthcare, banking, and insurance.',
+          'OnDial displays HIPAA, GDPR, PCI DSS, SOC 2, and ISO compliance badges on its homepage, with India specific TRAI DLT and DPDP readiness on the enterprise page. Bolna does not publicly list HIPAA, GDPR, SOC 2, ISO 27001, or PCI DSS certifications. Bolna’s on premise option helps with data sovereignty, but the absence of named compliance certifications is a blocker for regulated procurement teams in Healthcare, Banking & Finance, and insurance.',
+        descriptionLinks: [
+          { text: 'Healthcare', href: '/industries/ai-voice-agents-healthcare-medical' },
+          { text: 'Banking & Finance', href: '/industries/ai-voice-agents-finance-banking' },
+        ],
       },
       {
         icon: DollarSign,
@@ -294,7 +304,10 @@ export const bolnaAlternativePageData = {
     badge: 'Platform Capabilities',
     title: 'Key Features of OnDial',
     subtitle:
-      'OnDial brings every capability a business needs to run voice AI at scale, with each feature built around a real outcome rather than a checkbox.',
+      'OnDial brings every capability a business needs to run voice AI at scale. Explore the complete AI Voice Agent Features to see how each capability is built around measurable business outcomes rather than a simple checklist.',
+    subtitleLinks: [
+      { text: 'AI Voice Agent Features', href: '/features' },
+    ],
     categories: [
       { id: 'core', label: 'Core Platform' },
       { id: 'inbound', label: 'Inbound' },

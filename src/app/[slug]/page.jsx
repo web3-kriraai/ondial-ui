@@ -143,7 +143,7 @@ export async function generateMetadata({ params }) {
   const description = override?.description || metaData.description;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical: metaData.canonical || `https://www.ondial.ai/${normalized}`,

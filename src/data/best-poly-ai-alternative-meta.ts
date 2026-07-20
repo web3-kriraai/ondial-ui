@@ -1,7 +1,7 @@
 /** SEO metadata only — no Lucide icons (safe for server components). */
 export const polyAiAlternativeMeta = {
-  title: "Best PolyAI Alternative | OnDial's AI Voice Agents",
+  title: "PolyAI Alternative: OnDial Vs PolyAI Pricing & Features",
   description:
-    'Looking for the best PolyAI alternative? OnDial offers transparent per-minute pricing, a free trial, same-day setup, and every core PolyAI capability. Compare now.',
+    'Compare OnDial vs PolyAI: transparent per-minute pricing, a free 14-day trial, same-day setup, and self-serve dashboard control. Start your free trial now.',
   canonical: '/best-poly-ai-alternative',
 };

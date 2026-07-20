@@ -31,10 +31,18 @@ import {
 export const squadstackAlternativePageData = {
   competitor: { name: 'Squadstack' },
 
-  meta: {
-    title: "Best Squadstack Alternative | Best OnDial's AI Voice Agents",
+  complianceTrust: {
     description:
-      'Looking for the best Squadstack alternative? OnDial offers 100+ languages, no-code setup, sub 200ms latency, HIPAA and GDPR compliance, and a free trial. Compare now.',
+      'Calling agents handle sensitive conversations, making compliance essential for organizations using AI Voice Agents for Banking & Finance as well as healthcare.',
+    descriptionLinks: [
+      { text: 'AI Voice Agents for Banking & Finance', href: '/industries/ai-voice-agents-finance-banking' },
+    ],
+  },
+
+  meta: {
+    title: "OnDial vs Squadstack Alternative for Enterprise Voice AI",
+    description:
+      "Compare OnDial vs Squadstack: 100+ languages, no-code setup, sub-200ms latency, and documented HIPAA, GDPR & PCI DSS compliance. Start your free trial today.",
     canonical: '/best-squadstack-alternative',
   },
 
@@ -149,7 +157,10 @@ export const squadstackAlternativePageData = {
     badge: 'Why Businesses Look for a Squadstack Alternative',
     title: 'Where Squadstack falls short for growing teams',
     subtitle:
-      'Squadstack has built a real user base among Indian consumer brands in BFSI, EdTech, and logistics. The same users start searching for alternatives when their growth pushes them outside India, into new verticals like healthcare or recruitment, or into workflows that need fast self serve setup. Reviews on G2 and Capterra surface recurring complaints around pricing transparency, system reliability flags that affect compliance, and limited customization beyond Indian sales scripts.',
+      'Squadstack has built a real user base among consumer brands in BFSI, EdTech, and logistics, while businesses running modern AI Voice Agents for Call Centers & BPO increasingly look for platforms with broader automation and global scalability. The same users start searching for alternatives when their growth pushes them outside India, into new verticals like healthcare or recruitment, or into workflows that need fast self serve setup. Reviews on G2 and Capterra surface recurring complaints around pricing transparency, system reliability flags that affect compliance, and limited customization beyond Indian sales scripts.',
+    subtitleLinks: [
+      { text: 'AI Voice Agents for Call Centers & BPO', href: '/industries/ai-voice-agents-call-centers-bpo' },
+    ],
     reasons: [
       {
         icon: DollarSign,
@@ -275,7 +286,10 @@ export const squadstackAlternativePageData = {
         title: 'Enterprise-Grade Security',
         summary: 'HIPAA, GDPR, PCI DSS, SOC 2 & ISO - wider compliance footprint than Squadstack.',
         description:
-          'OnDial meets HIPAA, GDPR, PCI DSS, SOC 2, and ISO standards, with AI specific controls for voice transcripts, call recordings, and agent workflows. Squadstack is ISO 27001, ISO 27701, SOC 2 Type II, DPDP, and TRAI compliant, strong for India but does not cover HIPAA, GDPR, or PCI DSS publicly. Regulated teams in healthcare, banking, and ecommerce get a wider compliance footprint with OnDial.',
+          'OnDial meets HIPAA, GDPR, PCI DSS, SOC 2, and ISO standards, with AI specific controls for voice transcripts, call recordings, and agent workflows. Squadstack is ISO 27001, ISO 27701, SOC 2 Type II, DPDP, and TRAI compliant, strong for India but does not cover HIPAA, GDPR, or PCI DSS publicly. Regulated teams using AI Voice Agents for Healthcare, banking, and ecommerce benefit from OnDial\'s broader compliance footprint, including HIPAA, GDPR, and PCI DSS.',
+        descriptionLinks: [
+          { text: 'AI Voice Agents for Healthcare', href: '/industries/ai-voice-agents-healthcare-medical' },
+        ],
       },
       {
         icon: DollarSign,
@@ -303,7 +317,10 @@ export const squadstackAlternativePageData = {
         icon: 'Bot',
         category: 'core',
         title: 'AI Voice Agents',
-        summary: 'Instant answers in natural voices across 100+ languages with CRM logging.',
+        summary: 'Instant answers in natural voices across 100+ languages with CRM logging. Explore the complete AI Voice Agent Features available across the OnDial platform.',
+        summaryLinks: [
+          { text: 'AI Voice Agent Features', href: '/features' },
+        ],
         description:
           'OnDial AI Voice Agents answer calls instantly, speak in natural human like voices, and handle two way conversations across 100+ languages. They switch languages mid call, remember past interactions, and log every outcome to your CRM without manual work. Your team gets back hours every week while customers reach a real voice in under 200ms.',
       },
@@ -506,7 +523,10 @@ export const squadstackAlternativePageData = {
       {
         icon: ArrowRightLeft,
         title: 'How Easy is the Transition?',
-        summary: 'Launch your first AI voice agent in minutes - no forward deployed engineering team.',
+        summary: 'Launch your first AI voice agent in minutes with OnDial\'s end-to-end AI Voice Agent Services, from deployment to optimization.',
+        summaryLinks: [
+          { text: 'AI Voice Agent Services', href: '/services' },
+        ],
         description:
           'OnDial’s no code onboarding means your team can launch the first AI voice agent in minutes, not weeks. The platform connects to your existing CRM, calendar, and dialer through plug and play integrations. You do not need a forward deployed engineering team to go live, and most teams run their first test call the same day they sign up.',
       },

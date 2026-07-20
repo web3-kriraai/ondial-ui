@@ -1,7 +1,7 @@
 /** SEO metadata only — no Lucide icons (safe for server components). */
 export const nurixAIAlternativeMeta = {
-  title: "Best Nurix AI Alternative | OnDial's AI Voice Agents",
+  title: "Nurix AI Alternative for Teams That Want Clear Pricing",
   description:
-    'Looking for the best Nurix AI alternative? OnDial offers clear per-minute pricing, a free trial, 100+ languages, and listed HIPAA and GDPR compliance. Compare now.',
+    'Compare OnDial vs Nurix AI: transparent per-minute pricing, free trial, 100+ languages, and listed HIPAA/GDPR compliance. Start your free trial and go live today.',
   canonical: '/best-nurix-ai-alternative',
 };

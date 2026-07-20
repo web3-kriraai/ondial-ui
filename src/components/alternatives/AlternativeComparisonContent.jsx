@@ -17,8 +17,55 @@ import {
 import FAQSection from '@/components/FAQSection';
 import CTASection from '@/components/CTASection';
 import ComplianceTrustSection from '@/components/ComplianceTrustSection';
+
 const GRID_PATTERN_BG =
   "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23500CFD' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")";
+
+const INDUSTRY_PAGE_LINKS = {
+  Healthcare: '/industries/ai-voice-agents-healthcare-medical',
+  Insurance: '/industries/ai-voice-agents-insurance',
+  'Real Estate': '/industries/ai-voice-agents-real-estate',
+  Education: '/industries/ai-voice-agents-education',
+  'E-commerce': '/industries/ai-voice-agents-retail-e-commerce',
+  'Banking & Finance': '/industries/ai-voice-agents-finance-banking',
+  Finance: '/industries/ai-voice-agents-finance-banking',
+};
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function LinkedText({ text, links = [], className = 'font-medium text-indigo-600 underline-offset-2 hover:underline' }) {
+  if (!text) return null;
+  if (!links.length) return text;
+
+  const unique = links.filter((link, index, arr) => link?.text && link?.href && arr.findIndex((l) => l.text === link.text) === index);
+  if (!unique.length) return text;
+
+  const pattern = new RegExp(`(${unique.map((link) => escapeRegExp(link.text)).join('|')})`, 'g');
+  const hrefByText = Object.fromEntries(unique.map((link) => [link.text, link.href]));
+  const parts = String(text).split(pattern);
+
+  return parts.map((part, index) => {
+    const href = hrefByText[part];
+    if (!href) return <span key={index}>{part}</span>;
+    return (
+      <Link key={index} href={href} className={className}>
+        {part}
+      </Link>
+    );
+  });
+}
+
+function IndustryTitle({ title }) {
+  const href = INDUSTRY_PAGE_LINKS[title];
+  if (!href) return title;
+  return (
+    <Link href={href} className="font-medium text-indigo-700 underline-offset-2 hover:underline">
+      {title}
+    </Link>
+  );
+}
 
 function getPageSections(competitorName) {
   return [
@@ -44,13 +91,15 @@ function SectionBadge({ children }) {
   );
 }
 
-function SectionHeader({ badge, title, subtitle, centered = true }) {
+function SectionHeader({ badge, title, subtitle, subtitleLinks, centered = true }) {
   return (
     <div className={centered ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl'}>
       {badge && <SectionBadge>{badge}</SectionBadge>}
       <h2 className="section-heading text-gray-900">{title}</h2>
       {subtitle && (
-        <p className="mt-4 text-base leading-relaxed text-gray-600 sm:text-lg">{subtitle}</p>
+        <p className="mt-4 text-base leading-relaxed text-gray-600 sm:text-lg">
+          <LinkedText text={subtitle} links={subtitleLinks} />
+        </p>
       )}
     </div>
   );
@@ -222,7 +271,12 @@ function WhatIsCompetitorSection({ data }) {
                 {whatIsCompetitor.highlights.map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-gray-700 sm:text-base">
                     <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                    {item}
+                    <span>
+                      <LinkedText
+                        text={typeof item === 'string' ? item : item.text}
+                        links={typeof item === 'string' ? whatIsCompetitor.highlightLinks : item.links}
+                      />
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -293,6 +347,7 @@ function PainPointsSection({ data }) {
           badge={whyLookForAlternative.badge}
           title={whyLookForAlternative.title}
           subtitle={whyLookForAlternative.painPointsSubtitle ?? whyLookForAlternative.subtitle}
+          subtitleLinks={whyLookForAlternative.subtitleLinks}
         />
 
         <div className="mt-12 grid gap-4 lg:grid-cols-2">
@@ -322,7 +377,9 @@ function PainPointsSection({ data }) {
                     <summary className="cursor-pointer text-xs font-medium text-gray-500 hover:text-gray-700">
                       Full context
                     </summary>
-                    <p className="mt-2 text-sm leading-relaxed text-gray-600">{reason.description}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                      <LinkedText text={reason.description} links={reason.descriptionLinks} />
+                    </p>
                   </details>
                 </div>
               </motion.div>
@@ -331,7 +388,7 @@ function PainPointsSection({ data }) {
         </div>
 
         <p className="mx-auto mt-8 max-w-3xl text-center text-sm text-gray-500">
-          {whyLookForAlternative.subtitle}
+          <LinkedText text={whyLookForAlternative.subtitle} links={whyLookForAlternative.subtitleLinks} />
         </p>
       </div>
     </section>
@@ -414,7 +471,9 @@ function ComparisonSection({ data, competitorName }) {
               key={index}
               className={`grid grid-cols-3 text-sm ${index < comparison.rows.length - 1 ? 'border-b border-gray-100' : ''}`}
             >
-              <div className="px-6 py-4 font-medium text-gray-900">{row.feature}</div>
+              <div className="px-6 py-4 font-medium text-gray-900">
+                <LinkedText text={row.feature} links={row.featureLinks} />
+              </div>
               <div className="border-l border-gray-100 bg-indigo-50/20 px-6 py-4">
                 <ComparisonCell status={row.ondial} />
               </div>
@@ -429,7 +488,9 @@ function ComparisonSection({ data, competitorName }) {
         <div className="mt-8 space-y-3 md:hidden">
           {comparison.rows.map((row, index) => (
             <div key={index} className="rounded-xl border border-gray-200 bg-white p-4">
-              <p className="mb-3 font-medium text-gray-900">{row.feature}</p>
+              <p className="mb-3 font-medium text-gray-900">
+                <LinkedText text={row.feature} links={row.featureLinks} />
+              </p>
               <div className="flex flex-wrap gap-2">
                 <ComparisonCell status={row.ondial} />
                 <ComparisonCell status={getCompetitorStatus(row)} note={row.competitorNote ?? row.ringgNote} />
@@ -439,7 +500,7 @@ function ComparisonSection({ data, competitorName }) {
         </div>
 
         <p className="mx-auto mt-8 max-w-2xl text-center text-sm font-medium text-indigo-900">
-          {comparison.closing}
+          <LinkedText text={comparison.closing} links={comparison.closingLinks} />
         </p>
       </div>
     </section>
@@ -452,7 +513,7 @@ function WhyOnDialSection({ data }) {
   return (
     <section id="why-ondial" className="bg-white py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeader badge={whyOnDial.badge} title={whyOnDial.title} subtitle={whyOnDial.intro} />
+        <SectionHeader badge={whyOnDial.badge} title={whyOnDial.title} subtitle={whyOnDial.intro} subtitleLinks={whyOnDial.introLinks} />
 
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           {whyOnDial.highlightPills.map((pill) => (
@@ -488,7 +549,9 @@ function WhyOnDialSection({ data }) {
                   </div>
                 </div>
                 <div className="flex-1 border-t border-gray-100 pt-4 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-6">
-                  <p className="text-sm leading-relaxed text-gray-600">{feature.description}</p>
+                  <p className="text-sm leading-relaxed text-gray-600">
+                    <LinkedText text={feature.description} links={feature.descriptionLinks} />
+                  </p>
                 </div>
               </motion.div>
             );
@@ -512,6 +575,7 @@ function OnDialFeaturesTabs({ data }) {
           badge={ondialFeatures.badge}
           title={ondialFeatures.title}
           subtitle={ondialFeatures.subtitle}
+          subtitleLinks={ondialFeatures.subtitleLinks}
         />
 
         <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -543,10 +607,14 @@ function OnDialFeaturesTabs({ data }) {
                 className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm"
               >
                 <h3 className="font-semibold text-gray-900">{feature.title}</h3>
-                <p className="mt-2 text-sm font-medium text-indigo-700">{feature.summary}</p>
+                <p className="mt-2 text-sm font-medium text-indigo-700">
+                  <LinkedText text={feature.summary} links={feature.summaryLinks} />
+                </p>
                 <details className="mt-3">
                   <summary className="cursor-pointer text-xs font-medium text-gray-500">Learn more</summary>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-600">{feature.description}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                    <LinkedText text={feature.description} links={feature.descriptionLinks} />
+                  </p>
                 </details>
               </motion.div>
             ))}
@@ -608,7 +676,9 @@ function IndustriesHubSection({ data, competitorName }) {
                     }`}
                   >
                     <Icon className={`h-4 w-4 ${activeIndustry === index ? 'text-indigo-600' : 'text-gray-400'}`} />
-                    <span className="text-sm font-medium text-gray-900">{industry.title}</span>
+                    <span className="text-sm font-medium text-gray-900">
+                      <IndustryTitle title={industry.title} />
+                    </span>
                   </button>
                 );
               })}
@@ -620,7 +690,9 @@ function IndustriesHubSection({ data, competitorName }) {
                   <ActiveIcon className="h-5 w-5 text-indigo-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">{active.title}</h3>
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    <IndustryTitle title={active.title} />
+                  </h3>
                   <p className="text-sm text-gray-600">{active.summary}</p>
                 </div>
               </div>
@@ -660,7 +732,9 @@ function IndustriesHubSection({ data, competitorName }) {
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100">
                     <Icon className="h-5 w-5 text-indigo-600" />
                   </div>
-                  <h3 className="font-semibold text-gray-900">{industry.title}</h3>
+                  <h3 className="font-semibold text-gray-900">
+                    <IndustryTitle title={industry.title} />
+                  </h3>
                   <p className="mt-2 text-sm leading-relaxed text-gray-600">{industry.description}</p>
                 </div>
               );
@@ -700,10 +774,14 @@ function MigrationTimeline({ data }) {
                   <div className="flex-1 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                     <div className="mb-1 text-xs font-semibold text-indigo-600">Step {index + 1}</div>
                     <h3 className="font-semibold text-gray-900">{step.title}</h3>
-                    <p className="mt-2 text-sm font-medium text-gray-700">{step.summary}</p>
+                    <p className="mt-2 text-sm font-medium text-gray-700">
+                      <LinkedText text={step.summary} links={step.summaryLinks} />
+                    </p>
                     <details className="mt-3">
                       <summary className="cursor-pointer text-xs font-medium text-gray-500">Details</summary>
-                      <p className="mt-2 text-sm leading-relaxed text-gray-600">{step.description}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                        <LinkedText text={step.description} links={step.descriptionLinks} />
+                      </p>
                     </details>
                   </div>
                 </motion.div>
@@ -779,7 +857,9 @@ function SuccessStoriesSection({ data }) {
               </div>
               <Building2 className="mb-3 h-5 w-5 text-indigo-500" />
               <h3 className="font-semibold text-gray-900">{example.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600">{example.description}</p>
+              <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                <LinkedText text={example.description} links={example.descriptionLinks} />
+              </p>
             </div>
           ))}
         </div>
@@ -823,7 +903,10 @@ export default function AlternativeComparisonContent({ data }) {
       <ComparisonSection data={data} competitorName={competitorName} />
       <WhyOnDialSection data={data} />
       <OnDialFeaturesTabs data={data} />
-      <ComplianceTrustSection />
+      <ComplianceTrustSection
+        description={data.complianceTrust?.description}
+        descriptionLinks={data.complianceTrust?.descriptionLinks}
+      />
       <IndustriesHubSection data={data} competitorName={competitorName} />
       <MigrationTimeline data={data} />
       <SwitchBenefitsSection data={data} />
