@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { HomeBelowHeroShell } from "@/components/layout/home-below-hero-shell";
 import { HomeCapabilitiesSection } from "@/components/marketing/home-capabilities-section";
 import { HomeFeaturesSection } from "@/components/marketing/home-features-section";
+import { HomeGlobalReachStatsSection } from "@/components/marketing/home-global-reach-stats-section";
 import { HomeProblemSection } from "@/components/marketing/home-problem-section";
 import { ComplianceTrustSection } from "@/components/marketing/compliance-trust-section";
 import { HomeFaqSection } from "@/components/marketing/home-faq-section";
@@ -70,15 +72,18 @@ export default function HomePage() {
       <StructuredData data={[homePageSchema, homeFaqSchema, ...HOME_PAGE_SCHEMAS]} />
       <main className="flex flex-1 flex-col">
         <ShowcaseSection />
-        {/* <SocialProofLogosSection /> */}
-        <HomeProblemSection />
-        <HomeFeaturesSection />
-        <HomeCapabilitiesSection />
-        <ComplianceTrustSection />
-        <IntegrationsSection />
-        <SupportedLanguagesSection />
-        <HomeTestimonialsSection />
-        <HomeFaqSection />
+        <HomeGlobalReachStatsSection />
+        <HomeBelowHeroShell>
+          {/* <SocialProofLogosSection /> */}
+          <HomeProblemSection />
+          <HomeFeaturesSection />
+          <HomeCapabilitiesSection />
+          <ComplianceTrustSection />
+          <IntegrationsSection />
+          <SupportedLanguagesSection />
+          <HomeTestimonialsSection />
+          <HomeFaqSection />
+        </HomeBelowHeroShell>
       </main>
     </>
   );
