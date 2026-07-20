@@ -46,7 +46,7 @@ export const SERVICES_HERO = {
 } as const;
 
 export const SERVICES_WHY_CHOOSE = {
-  eyebrow: "Why choose OnDial",
+  eyebrow: "The intelligence behind every call",
   title: "Why Choose OnDial?",
   description:
     "Purpose-built AI voice automation with industry templates, enterprise compliance, and integrations that go live in minutes - not months.",

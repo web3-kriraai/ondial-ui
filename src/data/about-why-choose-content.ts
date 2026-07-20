@@ -16,7 +16,7 @@ export type WhyChooseFeature = {
 
 export const ABOUT_WHY_CHOOSE_HEADING = {
   eyebrow: "Why Businesses Trust OnDial",
-  titleLead: "Why Businesses Trust",
+  titleLead: "Why Businesses Choose",
   titleAccent: "OnDial",
   description:
     "Join thousands of businesses worldwide who have transformed their customer experience with OnDial's AI-powered voice solutions.",
