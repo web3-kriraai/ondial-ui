@@ -80,10 +80,6 @@ const INDUSTRIES_ITEM_LIST = [
     href: '/industries/ai-voice-agents-government',
   },
   {
-    name: 'AI Voice Agents for Home Services',
-    href: '/industries/ai-voice-agents-construction',
-  },
-  {
     name: 'AI Voice Agents for Legal',
     href: '/industries/ai-voice-agents-legal',
   },

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Plus, Loader2, Trash2, User, CheckCircle2, AlertCircle } from "lucide-react";
+import { Plus, Loader2, Trash2, Pencil, User, CheckCircle2, AlertCircle, Save } from "lucide-react";
 import type { AuthorRow } from "@/lib/db/types";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { SEO_FETCH_INIT } from "@/lib/admin/seo-fetch";
@@ -13,24 +13,39 @@ const LABEL = "block text-xs font-semibold uppercase tracking-wide text-gray-500
 
 type Toast = { type: "success" | "error"; message: string };
 
+type AuthorForm = {
+  name: string;
+  slug: string;
+  designation: string;
+  description: string;
+  avatar_url: string;
+};
+
+const EMPTY_FORM: AuthorForm = {
+  name: "",
+  slug: "",
+  designation: "",
+  description: "",
+  avatar_url: "",
+};
+
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
 export default function SeoAuthorsPage() {
   const [authors, setAuthors] = useState<AuthorRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
   const [showForm, setShowForm] = useState(false);
-
-  const [form, setForm] = useState({
-    name: "",
-    slug: "",
-    designation: "",
-    description: "",
-    avatar_url: "",
-  });
-
-  function slugify(text: string) {
-    return text.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
-  }
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState<AuthorForm>(EMPTY_FORM);
 
   function showToastMsg(type: "success" | "error", message: string) {
     setToast({ type, message });
@@ -53,31 +68,68 @@ export default function SeoAuthorsPage() {
     }
   }, []);
 
-  useEffect(() => { fetchAuthors(); }, [fetchAuthors]);
+  useEffect(() => {
+    fetchAuthors();
+  }, [fetchAuthors]);
 
-  async function handleCreate(e: React.FormEvent) {
+  function resetForm() {
+    setForm(EMPTY_FORM);
+    setEditingId(null);
+    setShowForm(false);
+  }
+
+  function openCreateForm() {
+    setEditingId(null);
+    setForm(EMPTY_FORM);
+    setShowForm(true);
+  }
+
+  function openEditForm(author: AuthorRow) {
+    setEditingId(author.id);
+    setForm({
+      name: author.name ?? "",
+      slug: author.slug ?? "",
+      designation: author.designation ?? "",
+      description: author.description ?? "",
+      avatar_url: author.avatar_url ?? "",
+    });
+    setShowForm(true);
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
+
+    const payload = {
+      ...form,
+      slug: (form.slug || slugify(form.name)).trim().toLowerCase(),
+      designation: form.designation || null,
+      description: form.description || null,
+      avatar_url: form.avatar_url || null,
+    };
+
     try {
-      const res = await fetch("/api/admin/authors", {
-        method: "POST",
-        ...SEO_FETCH_INIT,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          slug: form.slug || slugify(form.name),
-          designation: form.designation || null,
-          description: form.description || null,
-          avatar_url: form.avatar_url || null,
-        }),
-      });
+      const res = editingId
+        ? await fetch(`/api/admin/authors?id=${editingId}`, {
+            method: "PATCH",
+            ...SEO_FETCH_INIT,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          })
+        : await fetch("/api/admin/authors", {
+            method: "POST",
+            ...SEO_FETCH_INIT,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
       if (!res.ok) {
-        const err = await res.json() as { error?: string };
+        const err = (await res.json()) as { error?: string };
         throw new Error(err.error ?? "Failed");
       }
-      showToastMsg("success", "Author created!");
-      setForm({ name: "", slug: "", designation: "", description: "", avatar_url: "" });
-      setShowForm(false);
+
+      showToastMsg("success", editingId ? "Author updated!" : "Author created!");
+      resetForm();
       fetchAuthors();
     } catch (err) {
       showToastMsg("error", err instanceof Error ? err.message : "Error");
@@ -94,11 +146,14 @@ export default function SeoAuthorsPage() {
     });
     if (res.ok) {
       showToastMsg("success", "Author deleted.");
+      if (editingId === id) resetForm();
       fetchAuthors();
     } else {
       showToastMsg("error", "Delete failed — author may have posts.");
     }
   }
+
+  const isEditing = Boolean(editingId);
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -108,7 +163,7 @@ export default function SeoAuthorsPage() {
           <p className="text-xs text-gray-400">{authors.length} total</p>
         </div>
         <button
-          onClick={() => setShowForm((v) => !v)}
+          onClick={() => (showForm && !isEditing ? resetForm() : openCreateForm())}
           className="flex items-center gap-1.5 rounded-lg bg-[#534AB7] px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#4338ca]"
         >
           <Plus className="size-3.5" /> New author
@@ -116,7 +171,11 @@ export default function SeoAuthorsPage() {
       </div>
 
       {toast && (
-        <div className={`absolute right-5 top-16 z-50 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium shadow-lg ${toast.type === "success" ? "bg-emerald-600 text-white" : "bg-red-600 text-white"}`}>
+        <div
+          className={`absolute right-5 top-16 z-50 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium shadow-lg ${
+            toast.type === "success" ? "bg-emerald-600 text-white" : "bg-red-600 text-white"
+          }`}
+        >
           {toast.type === "success" ? <CheckCircle2 className="size-4" /> : <AlertCircle className="size-4" />}
           {toast.message}
         </div>
@@ -124,15 +183,23 @@ export default function SeoAuthorsPage() {
 
       <div className="flex-1 overflow-y-auto p-4">
         {showForm && (
-          <form onSubmit={handleCreate} className="mb-4 rounded-xl bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
-            <h2 className="mb-4 text-sm font-semibold text-gray-900">New Author</h2>
+          <form onSubmit={handleSubmit} className="mb-4 rounded-xl bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+            <h2 className="mb-4 text-sm font-semibold text-gray-900">
+              {isEditing ? "Edit Author" : "New Author"}
+            </h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className={LABEL}>Name *</label>
                 <input
                   type="text"
                   value={form.name}
-                  onChange={(e) => setForm((p) => ({ ...p, name: e.target.value, slug: slugify(e.target.value) }))}
+                  onChange={(e) =>
+                    setForm((p) => ({
+                      ...p,
+                      name: e.target.value,
+                      slug: isEditing ? p.slug : slugify(e.target.value),
+                    }))
+                  }
                   placeholder="Jane Smith"
                   className={FIELD}
                   required
@@ -175,7 +242,7 @@ export default function SeoAuthorsPage() {
                   value={form.description}
                   onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
                   placeholder="Short bio paragraph…"
-                  rows={2}
+                  rows={3}
                   className={`${FIELD} resize-none`}
                 />
               </div>
@@ -186,12 +253,18 @@ export default function SeoAuthorsPage() {
                 disabled={saving}
                 className="flex items-center gap-1.5 rounded-lg bg-[#534AB7] px-4 py-2 text-xs font-semibold text-white hover:bg-[#4338ca] disabled:opacity-60"
               >
-                {saving ? <Loader2 className="size-3.5 animate-spin" /> : <Plus className="size-3.5" />}
-                Create author
+                {saving ? (
+                  <Loader2 className="size-3.5 animate-spin" />
+                ) : isEditing ? (
+                  <Save className="size-3.5" />
+                ) : (
+                  <Plus className="size-3.5" />
+                )}
+                {isEditing ? "Save changes" : "Create author"}
               </button>
               <button
                 type="button"
-                onClick={() => setShowForm(false)}
+                onClick={resetForm}
                 className="rounded-lg border border-gray-200 px-4 py-2 text-xs font-medium text-gray-500 hover:bg-gray-50"
               >
                 Cancel
@@ -212,7 +285,12 @@ export default function SeoAuthorsPage() {
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {authors.map((author) => (
-              <div key={author.id} className="rounded-xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+              <div
+                key={author.id}
+                className={`rounded-xl bg-white p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06)] ${
+                  editingId === author.id ? "ring-2 ring-[#534AB7]/30" : ""
+                }`}
+              >
                 <div className="flex items-start gap-3">
                   {author.avatar_url ? (
                     <div className="relative size-10 shrink-0 overflow-hidden rounded-full bg-gray-100">
@@ -230,13 +308,24 @@ export default function SeoAuthorsPage() {
                     )}
                     <p className="mt-0.5 font-mono text-xs text-gray-400">/blog/author/{author.slug}</p>
                   </div>
-                  <button
-                    onClick={() => handleDelete(author.id, author.name)}
-                    className="shrink-0 rounded p-1 text-gray-300 hover:text-red-500 transition-colors"
-                    title="Delete author"
-                  >
-                    <Trash2 className="size-3.5" />
-                  </button>
+                  <div className="flex shrink-0 items-center gap-0.5">
+                    <button
+                      type="button"
+                      onClick={() => openEditForm(author)}
+                      className="rounded p-1 text-gray-300 transition-colors hover:text-[#534AB7]"
+                      title="Edit author"
+                    >
+                      <Pencil className="size-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(author.id, author.name)}
+                      className="rounded p-1 text-gray-300 transition-colors hover:text-red-500"
+                      title="Delete author"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </div>
                 </div>
                 {author.description && (
                   <p className="mt-3 text-xs leading-relaxed text-gray-500 line-clamp-2">{author.description}</p>

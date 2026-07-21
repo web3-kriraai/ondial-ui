@@ -155,7 +155,7 @@ export default async function BlogPostPage({ params }: Props) {
                     </p>
                   </div>
                   <p className="text-[0.9rem] leading-relaxed text-muted-foreground">
-                    {post.authorDescription || `${post.author.name} is the CTO at KriraAI, driving innovation in AI-powered voice and automation solutions. He shares practical insights on conversational AI, business automation, and scalable tech strategies.`}
+                    {post.authorDescription || `${post.author.name} is the CTO at OnDial, driving innovation in AI-powered voice and automation solutions. He shares practical insights on conversational AI, business automation, and scalable tech strategies.`}
                   </p>
                   {post.author.slug && (
                     <Link

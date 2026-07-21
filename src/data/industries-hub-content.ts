@@ -16,7 +16,8 @@ export type IndustriesHubIndustry = {
   description: string;
   challenge: string;
   useCases: readonly string[];
-  href: string;
+  /** Omit when there is no dedicated industry page yet. */
+  href?: string;
   iconKey: string;
 } & Partial<HubMatteThemeFields>;
 
@@ -264,7 +265,6 @@ export const INDUSTRIES_HUB_INDUSTRIES: readonly IndustriesHubIndustry[] = [
       "OnDial books jobs, dispatches requests, and follows up with customers for home service firms.",
     challenge: "Missed calls send customers to competitors",
     useCases: ["job booking", "dispatch requests", "quote follow-up", "reminders"],
-    href: "/industries/ai-voice-agents-construction",
     iconKey: "hard-hat",
   },
   {

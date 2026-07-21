@@ -248,7 +248,7 @@ export function IndustriesHubSolutionsSection() {
         <div className={cn(styles.carouselWrap, "mt-8 sm:mt-10")}>
           <CountryCardsCarousel visibleCount={3}>
             {INDUSTRIES_HUB_INDUSTRIES.map((industry) => {
-              const theme = getMatteThemeByHref(industry.href, industry.iconKey);
+              const theme = getMatteThemeByHref(industry.href ?? "", industry.iconKey);
               return (
                 <HubMatteCard key={industry.id} theme={theme} title={industry.name}>
                   <p className={matteStyles.matteText}>{industry.description}</p>
@@ -260,9 +260,11 @@ export function IndustriesHubSolutionsSection() {
                       </span>
                     ))}
                   </div>
-                  <Link href={industry.href} prefetch className={matteStyles.matteLink}>
-                    Learn more about AI voice agents for {industry.name.toLowerCase()}.
-                  </Link>
+                  {industry.href ? (
+                    <Link href={industry.href} prefetch className={matteStyles.matteLink}>
+                      Learn more about AI voice agents for {industry.name.toLowerCase()}.
+                    </Link>
+                  ) : null}
                 </HubMatteCard>
               );
             })}

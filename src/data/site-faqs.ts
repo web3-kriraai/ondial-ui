@@ -48,6 +48,12 @@ const ABOUT_HEADING = {
     "Learn how OnDial works, what it integrates with, and how teams of every size get started.",
 } as const;
 
+const PRICING_HEADING = {
+  title: "Know What You're Getting With OnDial",
+  description:
+    "Get answers about OnDial pricing, voice AI capabilities, phone numbers, and call handling to understand your options before you choose a plan.",
+} as const;
+
 function industryHeading(name: string) {
   return {
     title: `Everything you need to know about AI voice agents for ${name}`,
@@ -165,7 +171,7 @@ const FAQ_ITEMS: Record<SiteFaqPageKey, readonly SiteFaqItem[]> = {
     {
       id: "which-languages-does-ondial-support",
       question: "Which languages does OnDial support?",
-      answer: "OnDial  supports over 20+ languages, including English, Spanish, French, Hindi, and more, making it ideal for global businesses.",
+      answer: "OnDial supports 100+ languages, including English, Spanish, French, Hindi, and more, making it ideal for global businesses.",
     },
     {
       id: "can-ondial-replace-my-call-center",
@@ -1270,8 +1276,11 @@ const INDUSTRY_NAMES: Partial<Record<SiteFaqPageKey, string>> = {
 
 export function getSiteFaqSection(pageKey: SiteFaqPageKey): SiteFaqSection {
   const items = FAQ_ITEMS[pageKey] ?? FAQ_ITEMS.home;
-  if (pageKey === "home" || pageKey === "pricing") {
+  if (pageKey === "home") {
     return { ...HOME_HEADING, items };
+  }
+  if (pageKey === "pricing") {
+    return { ...PRICING_HEADING, items };
   }
   if (pageKey === "about") {
     return { ...ABOUT_HEADING, items };
