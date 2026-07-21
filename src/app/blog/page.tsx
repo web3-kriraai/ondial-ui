@@ -27,7 +27,7 @@ import { DASHBOARD_SIGNUP_URL } from "@/config/urls";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: { absolute: BLOG_PAGE_TITLE },
+  title: BLOG_PAGE_TITLE,
   description: BLOG_PAGE_DESCRIPTION,
   alternates: {
     canonical: "https://www.ondial.ai/blog",
