@@ -52,6 +52,5 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "Googlebot", allow: "/", disallow: ["/dashboard/", "/super-admin/"] },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
-    host: SITE_URL,
   };
 }
