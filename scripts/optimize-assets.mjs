@@ -67,6 +67,8 @@ const FLAG_CODES = [
   "ae",
   "eg",
   "bd",
+  // Pricing catalog countries (from /api/packages availableCountries)
+  "my",
 ];
 
 const LOADER_SOURCES = [

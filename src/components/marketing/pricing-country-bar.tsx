@@ -7,10 +7,7 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { usePricingCountry } from "@/components/marketing/pricing-country-context";
-import {
-  PRICING_COUNTRIES,
-  type PricingCountryDefinition,
-} from "@/data/pricing-by-country";
+import type { PricingCountryDefinition } from "@/data/pricing-by-country";
 import { flagImageUrl } from "@/lib/languages-data";
 import { cn } from "@/lib/utils";
 
@@ -81,14 +78,14 @@ function useMenuPosition(open: boolean, triggerRef: React.RefObject<HTMLButtonEl
 
 function PricingCountryDropdown() {
   const listboxId = useId();
-  const { countryId, country, setCountryId } = usePricingCountry();
+  const { countryId, country, setCountryId, availableCountries, loading } = usePricingCountry();
   const prefersReducedMotion = useReducedMotion();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(() =>
-    PRICING_COUNTRIES.findIndex((entry) => entry.id === countryId),
+    availableCountries.findIndex((entry) => entry.id === countryId),
   );
   const menuPosition = useMenuPosition(open, triggerRef);
 
@@ -97,8 +94,8 @@ function PricingCountryDropdown() {
   }, []);
 
   useEffect(() => {
-    setActiveIndex(PRICING_COUNTRIES.findIndex((entry) => entry.id === countryId));
-  }, [countryId]);
+    setActiveIndex(availableCountries.findIndex((entry) => entry.id === countryId));
+  }, [countryId, availableCountries]);
 
   useEffect(() => {
     if (!open) return;
@@ -127,19 +124,19 @@ function PricingCountryDropdown() {
 
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        setActiveIndex((index) => (index + 1) % PRICING_COUNTRIES.length);
+        setActiveIndex((index) => (index + 1) % availableCountries.length);
       }
 
       if (event.key === "ArrowUp") {
         event.preventDefault();
         setActiveIndex(
-          (index) => (index - 1 + PRICING_COUNTRIES.length) % PRICING_COUNTRIES.length,
+          (index) => (index - 1 + availableCountries.length) % availableCountries.length,
         );
       }
 
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        const entry = PRICING_COUNTRIES[activeIndex];
+        const entry = availableCountries[activeIndex];
         if (entry) {
           setCountryId(entry.id);
           setOpen(false);
@@ -150,7 +147,7 @@ function PricingCountryDropdown() {
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [activeIndex, open, setCountryId]);
+  }, [activeIndex, availableCountries, open, setCountryId]);
 
   const pickCountry = (entry: PricingCountryDefinition) => {
     setCountryId(entry.id);
@@ -178,10 +175,10 @@ function PricingCountryDropdown() {
               id={listboxId}
               role="listbox"
               aria-label="Choose your country for localized pricing"
-              aria-activedescendant={`${listboxId}-${PRICING_COUNTRIES[activeIndex]?.id}`}
+              aria-activedescendant={`${listboxId}-${availableCountries[activeIndex]?.id}`}
               className="overflow-hidden rounded-2xl border border-black/10 bg-white p-1.5 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.35)]"
             >
-              {PRICING_COUNTRIES.map((entry, index) => {
+              {availableCountries.map((entry, index) => {
                 const selected = entry.id === countryId;
                 const active = index === activeIndex;
 
@@ -244,11 +241,13 @@ function PricingCountryDropdown() {
         aria-expanded={open}
         aria-controls={open ? listboxId : undefined}
         onClick={() => setOpen((value) => !value)}
+        disabled={loading && availableCountries.length === 0}
         className={cn(
           "group inline-flex h-10 min-w-[12.5rem] cursor-pointer items-center gap-2 rounded-full border border-black/10 bg-zinc-50/80 py-1.5 pr-2 pl-2.5 text-left transition-[border-color,background-color,box-shadow] duration-200 sm:min-w-[15.5rem]",
           "hover:border-black/15 hover:bg-zinc-50",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 focus-visible:ring-offset-2",
           open && "border-black/20 bg-white shadow-[0_8px_24px_-14px_rgba(0,0,0,0.28)]",
+          loading && "opacity-90",
         )}
       >
         <CountryFlag flagCode={country.flagCode} className="size-5" />

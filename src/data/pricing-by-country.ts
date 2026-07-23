@@ -10,7 +10,8 @@ import {
  * Edit this file to set per-country pricing.
  * Each entry controls plan per-minute rates, add-on prices, and calculator conversion.
  */
-export type PricingCountryId = "us" | "in" | "gb" | "ae" | "ca" | "au";
+/** Lowercase ISO2 country id (e. and.g. `us`, `in`). Live catalog may include more than the static seed list. */
+export type PricingCountryId = string;
 
 export type PricingCountryRates = {
   essential: number;
@@ -199,14 +200,19 @@ export const PRICING_COUNTRIES: readonly PricingCountryDefinition[] = [
   },
 ] as const;
 
-const PRICING_COUNTRY_MAP = new Map(PRICING_COUNTRIES.map((country) => [country.id, country]));
+const PRICING_COUNTRY_MAP = new Map(
+  PRICING_COUNTRIES.map((country) => [country.id, country as PricingCountryDefinition]),
+);
+
+const ISO2_RE = /^[a-z]{2}$/i;
 
 export function isPricingCountryId(value: string): value is PricingCountryId {
-  return PRICING_COUNTRY_MAP.has(value as PricingCountryId);
+  if (PRICING_COUNTRY_MAP.has(value)) return true;
+  return ISO2_RE.test(value);
 }
 
 export function getPricingCountry(countryId: string): PricingCountryDefinition {
-  return PRICING_COUNTRY_MAP.get(countryId as PricingCountryId) ?? PRICING_COUNTRY_MAP.get(DEFAULT_PRICING_COUNTRY_ID)!;
+  return PRICING_COUNTRY_MAP.get(countryId) ?? PRICING_COUNTRY_MAP.get(DEFAULT_PRICING_COUNTRY_ID)!;
 }
 
 export function formatCountryRatePerMinute(
@@ -245,8 +251,9 @@ export function buildPricingPlansForCountry(countryId: PricingCountryId): Pricin
   }));
 }
 
-export function getCountryCalculatorAddons(countryId: PricingCountryId) {
-  const country = getPricingCountry(countryId);
+export function getCountryCalculatorAddons(countryOrId: PricingCountryId | PricingCountryDefinition) {
+  const country =
+    typeof countryOrId === "string" ? getPricingCountry(countryOrId) : countryOrId;
   const formatAddon = (price: number) =>
     `${country.currency.symbol}${price.toLocaleString(country.currency.locale, {
       minimumFractionDigits: country.currency.monthlyFractionDigits,
@@ -283,7 +290,7 @@ export function getCountryCalculatorRateForMinutes(
 }
 
 export function computeCountryCalculatorMonthlyPrice(
-  countryId: PricingCountryId,
+  countryOrId: PricingCountryId | PricingCountryDefinition,
   {
     minutes,
     channels,
@@ -294,8 +301,9 @@ export function computeCountryCalculatorMonthlyPrice(
     numbers: number;
   },
 ): number {
-  const country = getPricingCountry(countryId);
-  const addonConfig = getCountryCalculatorAddons(countryId);
+  const country =
+    typeof countryOrId === "string" ? getPricingCountry(countryOrId) : countryOrId;
+  const addonConfig = getCountryCalculatorAddons(country);
   const { minMinutes, maxMinutes } = PRICING_MINUTES_CALCULATOR;
   const clampedMinutes = Math.min(maxMinutes, Math.max(minMinutes, minutes));
   const clampedChannels = Math.min(
@@ -361,15 +369,22 @@ export type CountryPricingView = {
   creditsFootnote: string;
 };
 
-export function buildCountryPricingView(countryId: PricingCountryId): CountryPricingView {
-  const country = getPricingCountry(countryId);
-
+export function buildCountryPricingViewFromCountry(
+  country: PricingCountryDefinition,
+): CountryPricingView {
   return {
     country,
-    plans: buildPricingPlansForCountry(countryId),
+    plans: PRICING_PLANS.map((plan) => ({
+      ...plan,
+      price: formatPlanPriceForCountry(country, plan.id),
+    })),
     addonFeatures: getCountryAddonFeatures(country),
     creditsFootnote: getCountryCreditsFootnote(country),
   };
+}
+
+export function buildCountryPricingView(countryId: PricingCountryId): CountryPricingView {
+  return buildCountryPricingViewFromCountry(getPricingCountry(countryId));
 }
 
 const LOCALE_REGION_MAP: Partial<Record<string, PricingCountryId>> = {

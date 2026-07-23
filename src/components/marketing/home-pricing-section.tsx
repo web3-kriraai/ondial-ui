@@ -37,7 +37,7 @@ const cardVariants: Variants = {
 
 export function HomePricingSection() {
   const prefersReducedMotion = useReducedMotion();
-  const { countryId, plans, addonFeatures, creditsFootnote } = usePricingCountry();
+  const { countryId, plans, addonFeatures, creditsFootnote, loading } = usePricingCountry();
   const gridRef = useRef<HTMLDivElement>(null);
   const gridInView = useInView(gridRef, { once: true, amount: 0.05, margin: "0px 0px -80px 0px" });
   const [cardsRevealed, setCardsRevealed] = useState(() => Boolean(prefersReducedMotion));
@@ -91,7 +91,10 @@ export function HomePricingSection() {
       <div className={cn(marketingSectionContainerClass, "mt-8 sm:mt-10")}>
         <motion.div
           ref={gridRef}
-          className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 xl:gap-5"
+          className={cn(
+            "grid gap-6 md:grid-cols-2 xl:grid-cols-4 xl:gap-5",
+            loading && "opacity-80 transition-opacity duration-300",
+          )}
           variants={gridVariants}
           initial="hidden"
           animate={showCards ? "visible" : "hidden"}

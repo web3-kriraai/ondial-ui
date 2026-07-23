@@ -533,10 +533,10 @@ const MemoCalculatorAddOns = memo(function CalculatorAddOns({
   onChannelsChange: (value: number) => void;
   onNumbersChange: (value: number) => void;
 }) {
-  const { countryId } = usePricingCountry();
+  const { country } = usePricingCountry();
   const { channels: channelConfig, numbers: numberConfig } = useMemo(
-    () => getCountryCalculatorAddons(countryId),
-    [countryId],
+    () => getCountryCalculatorAddons(country),
+    [country],
   );
 
   return (
@@ -748,11 +748,9 @@ export function PricingCalculatorSection() {
   const prefersReducedMotion = useReducedMotion();
   const { countryId, country } = usePricingCountry();
   const [minutes, setMinutes] = useState<number>(PRICING_MINUTES_CALCULATOR.defaultMinutes);
-  const addonDefaults = useMemo(() => getCountryCalculatorAddons(countryId), [countryId]);
+  const addonDefaults = useMemo(() => getCountryCalculatorAddons(country), [country]);
   const [channels, setChannels] = useState<number>(addonDefaults.channels.default);
   const [numbers, setNumbers] = useState<number>(addonDefaults.numbers.default);
-
-  console.log(addonDefaults, "addonDefaults");
 
   useEffect(() => {
     setChannels(addonDefaults.channels.default);
@@ -760,8 +758,8 @@ export function PricingCalculatorSection() {
   }, [countryId, addonDefaults.channels.default, addonDefaults.numbers.default]);
   const [isDragging, setIsDragging] = useState(false);
   const monthlyPrice = useMemo(
-    () => computeCountryCalculatorMonthlyPrice(countryId, { minutes, channels, numbers }),
-    [countryId, minutes, channels, numbers],
+    () => computeCountryCalculatorMonthlyPrice(country, { minutes, channels, numbers }),
+    [country, minutes, channels, numbers],
   );
 
   const staggerContainer = useMemo(
