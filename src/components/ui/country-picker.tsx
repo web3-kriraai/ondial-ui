@@ -96,15 +96,55 @@ export function CountryFlag({ iso2, className = "", alt }: CountryFlagProps) {
   );
 }
 
-export function getConfig(code: string): Country {
-  return COUNTRIES.find((c) => c.code === code) ?? COUNTRIES.find((c) => c.name === "India") ?? COUNTRIES[0];
+export function getCountryByIso2(iso2: string): Country | undefined {
+  const code = String(iso2 || "").trim().toLowerCase();
+  if (!code) return undefined;
+  return COUNTRIES.find((c) => c.iso2 === code);
+}
+
+/**
+ * Resolve country config. Prefer iso2 when dial codes collide (e.g. US/CA both +1).
+ * Without iso2, +1 defaults to United States (not Canada).
+ */
+export function getConfig(code: string, iso2?: string): Country {
+  const dial = String(code || "").trim();
+  const iso = String(iso2 || "").trim().toLowerCase();
+
+  if (iso) {
+    const byIsoAndDial = COUNTRIES.find(
+      (c) => c.iso2 === iso && (!dial || c.code === dial),
+    );
+    if (byIsoAndDial) return byIsoAndDial;
+    const byIso = getCountryByIso2(iso);
+    if (byIso) return byIso;
+  }
+
+  if (dial === "+1") {
+    return (
+      COUNTRIES.find((c) => c.iso2 === "us") ??
+      COUNTRIES.find((c) => c.code === "+1") ??
+      COUNTRIES.find((c) => c.name === "India") ??
+      COUNTRIES[0]
+    );
+  }
+
+  return (
+    COUNTRIES.find((c) => c.code === dial) ??
+    COUNTRIES.find((c) => c.name === "India") ??
+    COUNTRIES[0]
+  );
 }
 
 const DEFAULT_TRIGGER_CLASS =
   "cursor-pointer flex h-11 items-center gap-1.5 rounded-l-xl border-r border-black/8 bg-muted/20 px-3 text-sm font-semibold text-foreground focus:outline-none";
 
 interface CountryPickerProps {
+  /** Dialing code, e.g. "+1" */
   value: string;
+  /** ISO2 country id — required to distinguish US vs Canada (both +1) */
+  iso2?: string;
+  /** When set, only these ISO2 codes appear (e.g. free-trial DB countries). */
+  allowedIso2?: string[];
   onChange: (code: string, country: Country) => void;
   className?: string;
   buttonClassName?: string;
@@ -113,6 +153,8 @@ interface CountryPickerProps {
 
 export default function CountryPicker({
   value,
+  iso2,
+  allowedIso2,
   onChange,
   className = "",
   buttonClassName = "",
@@ -123,9 +165,28 @@ export default function CountryPicker({
   const ref = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
 
-  const selected = getConfig(value) ?? COUNTRIES.find((c) => c.code === "+91") ?? COUNTRIES[0];
+  const allowedSet =
+    Array.isArray(allowedIso2) && allowedIso2.length
+      ? new Set(allowedIso2.map((c) => String(c || "").trim().toLowerCase()).filter(Boolean))
+      : null;
 
-  const filtered = COUNTRIES.filter(
+  const catalog = allowedSet
+    ? COUNTRIES.filter((c) => allowedSet.has(c.iso2.toLowerCase()))
+    : COUNTRIES;
+
+  const selected =
+    getConfig(value, iso2) ??
+    catalog[0] ??
+    COUNTRIES.find((c) => c.code === "+91") ??
+    COUNTRIES[0];
+
+  // If current selection is outside allowed list, fall back to first allowed.
+  const displaySelected =
+    allowedSet && !allowedSet.has(selected.iso2.toLowerCase()) && catalog[0]
+      ? catalog[0]
+      : selected;
+
+  const filtered = catalog.filter(
     (c) =>
       c.name.toLowerCase().includes(search.toLowerCase()) ||
       c.code.includes(search) ||
@@ -150,13 +211,13 @@ export default function CountryPicker({
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
-        className={buttonClassName ? `${DEFAULT_TRIGGER_CLASS} ${buttonClassName}` : DEFAULT_TRIGGER_CLASS}
+        className={buttonClassName || DEFAULT_TRIGGER_CLASS}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={`Country code ${selected.code}`}
+        aria-label={`${displaySelected.name} ${displaySelected.code}`}
       >
-        <CountryFlag iso2={selected.iso2} className="h-3 w-4.5" />
-        <span className="tabular-nums">{selected.code}</span>
+        <CountryFlag iso2={displaySelected.iso2} className="h-3 w-4.5" alt={`${displaySelected.name} flag`} />
+        <span className="tabular-nums">{displaySelected.code}</span>
         <ChevronDown
           className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
@@ -188,28 +249,31 @@ export default function CountryPicker({
             {filtered.length === 0 ? (
               <li className="px-4 py-3 text-center text-xs text-muted-foreground">No results</li>
             ) : (
-              filtered.map((c) => (
-                <li
-                  key={`${c.name}-${c.code}`}
-                  role="option"
-                  aria-selected={c.code === value}
-                  onClick={() => {
-                    onChange(c.code, c);
-                    setOpen(false);
-                  }}
-                  className={`flex cursor-pointer items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
-                    c.code === value
-                      ? "bg-black/[0.04] font-semibold text-foreground"
-                      : "text-foreground hover:bg-black/[0.02]"
-                  }`}
-                >
-                  <CountryFlag iso2={c.iso2} className="h-3.5 w-5" alt={`${c.name} flag`} />
-                  <span className="min-w-0 flex-1 truncate">{c.name}</span>
-                  <span className={`shrink-0 text-xs font-medium tabular-nums ${c.code === value ? "text-foreground" : "text-muted-foreground"}`}>
-                    {c.code}
-                  </span>
-                </li>
-              ))
+              filtered.map((c) => {
+                const isSelected = c.iso2 === displaySelected.iso2;
+                return (
+                  <li
+                    key={`${c.iso2}-${c.code}`}
+                    role="option"
+                    aria-selected={isSelected}
+                    onClick={() => {
+                      onChange(c.code, c);
+                      setOpen(false);
+                    }}
+                    className={`flex cursor-pointer items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
+                      isSelected
+                        ? "bg-black/[0.04] font-semibold text-foreground"
+                        : "text-foreground hover:bg-black/[0.02]"
+                    }`}
+                  >
+                    <CountryFlag iso2={c.iso2} className="h-3.5 w-5" alt={`${c.name} flag`} />
+                    <span className="min-w-0 flex-1 truncate">{c.name}</span>
+                    <span className={`shrink-0 text-xs font-medium tabular-nums ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>
+                      {c.code}
+                    </span>
+                  </li>
+                );
+              })
             )}
           </ul>
         </div>

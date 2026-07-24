@@ -10,6 +10,7 @@ import { HomeTestimonialsSection } from "@/components/marketing/home-testimonial
 import { IntegrationsSection } from "@/components/marketing/integrations-section";
 // import { SocialProofLogosSection } from "@/components/marketing/social-proof-logos-section";
 import { ShowcaseSection } from "@/components/marketing/showcase-section";
+import { FreeTrialCallSection } from "@/components/marketing/free-trial-call-section";
 import { SupportedLanguagesSection } from "@/components/marketing/supported-languages-section";
 import StructuredData from "@/components/StructuredData";
 import { HOME_PAGE_SCHEMAS } from "@/lib/seo/homePageSchemas";
@@ -72,6 +73,7 @@ export default function HomePage() {
       <StructuredData data={[homePageSchema, homeFaqSchema, ...HOME_PAGE_SCHEMAS]} />
       <main className="flex flex-1 flex-col">
         <ShowcaseSection />
+        <FreeTrialCallSection />
         <HomeGlobalReachStatsSection />
         <HomeBelowHeroShell>
           {/* <SocialProofLogosSection /> */}

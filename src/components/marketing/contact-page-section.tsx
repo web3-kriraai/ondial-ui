@@ -102,6 +102,7 @@ export function ContactPageSection() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [countryCode, setCountryCode] = useState("+91");
+  const [countryIso2, setCountryIso2] = useState("in");
 
   const clearError = (field: string) => {
     if (errors[field]) {
@@ -139,7 +140,7 @@ export function ContactPageSection() {
     if (!phone) {
       newErrors.phone = "Phone number is required";
     } else {
-      const cfg = getConfig(countryCode);
+      const cfg = getConfig(countryCode, countryIso2);
       let digitsOnly = cleanPhone.replace(/\D/g, '');
       const cleanPrefix = countryCode.replace('+', '');
 
@@ -362,8 +363,10 @@ export function ContactPageSection() {
                     )}>
                       <CountryPicker
                         value={countryCode}
-                        onChange={(code) => {
+                        iso2={countryIso2}
+                        onChange={(code, country) => {
                           setCountryCode(code);
+                          setCountryIso2(country.iso2);
                           clearError("phone");
                         }}
                       />
@@ -373,7 +376,7 @@ export function ContactPageSection() {
                         type="tel"
                         required
                         autoComplete="tel"
-                        placeholder={`e.g. ${'9'.repeat(getConfig(countryCode).max)}`}
+                        placeholder={`e.g. ${'9'.repeat(getConfig(countryCode, countryIso2).max)}`}
                         className={cn(
                           fieldInputClass,
                           "rounded-r-xl! rounded-l-none! border-none! shadow-none! focus-visible:shadow-none!",

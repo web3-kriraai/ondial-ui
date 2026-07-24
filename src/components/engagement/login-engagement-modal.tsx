@@ -28,10 +28,14 @@ const PerspectiveMediaGrid = dynamic(
   { ssr: false },
 );
 
-/** First open after load, and reopen after every dismiss — strictly 30s. */
+/** First open after load when not in an active snooze. */
 const SHOW_DELAY_MS = 30_000;
 /** Start warming Three + images shortly after load, well before first open. */
 const PRELOAD_AFTER_MS = 2_000;
+
+/** "Maybe later" snooze ladder: 1 min → 5 min → 10 min (then stays at 10). */
+const SNOOZE_DELAYS_MS = [60_000, 5 * 60_000, 10 * 60_000] as const;
+const SNOOZE_STORAGE_KEY = "ondial-login-engagement-snooze-v4";
 
 const LEGACY_STORAGE_KEYS = [
   "ondial-login-engagement-snooze-v3",
@@ -45,6 +49,13 @@ type LoginEngagementModalProps = {
   enabled?: boolean;
 };
 
+type SnoozeState = {
+  /** How many times the user has dismissed via Maybe later / Escape / backdrop. */
+  step: number;
+  /** Epoch ms when the modal may show again. */
+  until: number;
+};
+
 function clearLegacyDismissKeys() {
   try {
     for (const key of LEGACY_STORAGE_KEYS) {
@@ -53,6 +64,34 @@ function clearLegacyDismissKeys() {
   } catch {
     // Ignore quota / private-mode failures.
   }
+}
+
+function readSnoozeState(): SnoozeState {
+  try {
+    const raw = window.localStorage.getItem(SNOOZE_STORAGE_KEY);
+    if (!raw) return { step: 0, until: 0 };
+    const parsed = JSON.parse(raw) as Partial<SnoozeState>;
+    return {
+      step: Math.max(0, Number(parsed.step) || 0),
+      until: Math.max(0, Number(parsed.until) || 0),
+    };
+  } catch {
+    return { step: 0, until: 0 };
+  }
+}
+
+function writeSnoozeState(state: SnoozeState) {
+  try {
+    window.localStorage.setItem(SNOOZE_STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    // Ignore quota / private-mode failures.
+  }
+}
+
+/** Next delay based on how many times they've already dismissed. */
+function resolveSnoozeDelayMs(step: number): number {
+  const index = Math.min(Math.max(0, step), SNOOZE_DELAYS_MS.length - 1);
+  return SNOOZE_DELAYS_MS[index];
 }
 
 function preloadEngagementAssets() {
@@ -73,6 +112,7 @@ export function LoginEngagementModal({
   const overflowRestoreRef = useRef<string | null>(null);
   const openTimerRef = useRef<number | null>(null);
   const preloadTimerRef = useRef<number | null>(null);
+  const snoozeStepRef = useRef(0);
 
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -99,9 +139,15 @@ export function LoginEngagementModal({
     [clearOpenTimer, enabled],
   );
 
+  /** Escalate snooze: 1m → 5m → 10m on each Maybe later / dismiss. */
   const dismissAndReschedule = useCallback(() => {
     setOpen(false);
-    scheduleOpen(SHOW_DELAY_MS);
+    const step = snoozeStepRef.current;
+    const delayMs = resolveSnoozeDelayMs(step);
+    const nextStep = step + 1;
+    snoozeStepRef.current = nextStep;
+    writeSnoozeState({ step: nextStep, until: Date.now() + delayMs });
+    scheduleOpen(delayMs);
   }, [scheduleOpen]);
 
   const closeForNavigation = useCallback(() => {
@@ -109,7 +155,7 @@ export function LoginEngagementModal({
     setOpen(false);
   }, [clearOpenTimer]);
 
-  // Mount + preload during delay + first open strictly 30s after window load.
+  // Mount + preload during delay + first open (or resume active snooze).
   useEffect(() => {
     clearLegacyDismissKeys();
 
@@ -140,7 +186,15 @@ export function LoginEngagementModal({
         if (!cancelled) preloadEngagementAssets();
       }, PRELOAD_AFTER_MS);
 
-      scheduleOpen(SHOW_DELAY_MS);
+      const snooze = readSnoozeState();
+      snoozeStepRef.current = snooze.step;
+      const remaining = snooze.until - Date.now();
+      if (remaining > 0) {
+        // Still in a "Maybe later" window — wait out the rest.
+        scheduleOpen(remaining);
+      } else {
+        scheduleOpen(SHOW_DELAY_MS);
+      }
     };
 
     if (document.readyState === "complete") {
