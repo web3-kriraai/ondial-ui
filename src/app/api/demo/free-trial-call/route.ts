@@ -1,10 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import { fetchDashboardApi } from "@/lib/api/dashboard-proxy";
+import { visitorIpProxyHeaders } from "@/lib/client-ip";
 
 /**
  * Proxy for dashboard marketing free-trial dial:
  * GET/POST {NEXT_PUBLIC_API_URL}/demo/free-trial-call
+ *
+ * Forwards the browser visitor IP (not this server's IP) so dashboard
+ * rate-limiting keys on the real user.
  */
 export async function GET(request: NextRequest) {
   const language = request.nextUrl.searchParams.get("language") ?? undefined;
@@ -13,6 +17,7 @@ export async function GET(request: NextRequest) {
     const upstream = await fetchDashboardApi("/demo/free-trial-call", {
       params: { language },
       revalidate: false,
+      headers: visitorIpProxyHeaders(request),
     });
 
     const payload = await upstream.json().catch(() => null);
@@ -49,13 +54,7 @@ export async function POST(request: NextRequest) {
       revalidate: false,
       headers: {
         "Content-Type": "application/json",
-        // Forward client IP hints so dashboard rate-limits the visitor, not the proxy.
-        "x-forwarded-for":
-          request.headers.get("x-forwarded-for") ||
-          request.headers.get("x-real-ip") ||
-          "",
-        "x-real-ip": request.headers.get("x-real-ip") || "",
-        "cf-connecting-ip": request.headers.get("cf-connecting-ip") || "",
+        ...visitorIpProxyHeaders(request),
       },
       body: JSON.stringify(body),
     });
