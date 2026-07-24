@@ -132,6 +132,18 @@ function validatePhone(
         message: "Enter a valid 10-digit Indian mobile number (starts with 6–9).",
       };
     }
+  } else if (
+    dialCode === "+1" ||
+    iso2.toUpperCase() === "US" ||
+    iso2.toUpperCase() === "CA"
+  ) {
+    // NANP: area code + exchange cannot start with 0/1
+    if (!/^[2-9]\d{2}[2-9]\d{6}$/.test(digits)) {
+      return {
+        ok: false,
+        message: `Enter a valid ${cfg.name} 10-digit number.`,
+      };
+    }
   }
 
   if (!/^\d+$/.test(digits)) {
