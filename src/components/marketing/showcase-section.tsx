@@ -15,9 +15,9 @@ function ShowcaseCtas() {
   return (
     <div className={styles.ctaRow}>
       <HeroDemoCtaButton href="/signup" label="Let's Try" />
-      <a href="#free-trial-call" className={styles.secondaryCta}>
+      {/* <a href="#free-trial-call" className={styles.secondaryCta}>
         Get a free trial call
-      </a>
+      </a> */}
     </div>
   );
 }
